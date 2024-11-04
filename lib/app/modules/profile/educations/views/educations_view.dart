@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/data/models/request/educations_request.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_dropdown.dart';
 import 'package:maritimmuda_connect/app/modules/widget/profile_card.dart';
 import 'package:maritimmuda_connect/themes.dart';
@@ -31,7 +32,6 @@ class EducationsView extends GetView<EducationsController> {
               ),
             ),
             const SizedBox(height: 16),
-            // Form widget wrapping the input fields
             Container(
               decoration: BoxDecoration(
                   color: neutral01Color,
@@ -40,6 +40,7 @@ class EducationsView extends GetView<EducationsController> {
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 13),
               child: Form(
+                key: controller.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -50,6 +51,12 @@ class EducationsView extends GetView<EducationsController> {
                     const SizedBox(height: 8),
                     CustomTextField(
                         controller: controller.institutionController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter institution name';
+                          }
+                          return null;
+                        },
                         hintText: 'Enter your Institution Name'),
                     const SizedBox(height: 16),
                     Text(
@@ -61,6 +68,12 @@ class EducationsView extends GetView<EducationsController> {
                     ),
                     CustomTextField(
                       controller: controller.majorController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter major/field study name';
+                        }
+                        return null;
+                      },
                       hintText: 'Enter your Major/Field Study',
                     ),
                     const SizedBox(
@@ -113,7 +126,29 @@ class EducationsView extends GetView<EducationsController> {
                           ),
                           color: primaryDarkBlueColor,
                           text: 'Save',
-                          onTap: controller.saveEducations,
+                          onTap: () {
+                            if (controller.validateForm()) {
+                              if (controller.isEdit.value) {
+                                EducationsRequest request = EducationsRequest(
+                                    institutionName: controller.institutionController.text,
+                                    major: controller.majorController.text,
+                                    level: controller.getLevelValue(controller.selectedLevel.value),
+                                    graduationDate: controller.formatDateRequest(controller.selectedDate.value ?? DateTime.now())
+                                );
+                                controller.updateEducations(request, controller.idCard.value);
+                                controller.isEdit.value = false;
+                                controller.idCard.value = 0;
+                              } else {
+                                EducationsRequest request = EducationsRequest(
+                                    institutionName: controller.institutionController.text,
+                                    major: controller.majorController.text,
+                                    level: controller.getLevelValue(controller.selectedLevel.value),
+                                    graduationDate: controller.formatDateRequest(controller.selectedDate.value ?? DateTime.now())
+                                );
+                                controller.createEducations(request);
+                              }
+                            }
+                          },
                         ),
                         const SizedBox(
                           width: 10,
@@ -126,35 +161,39 @@ class EducationsView extends GetView<EducationsController> {
                             color: secondaryRedColor,
                             text: 'Clear',
                             onTap: () {
+                              controller.isEdit.value = false;
                               showCustomDialog(
-                                  content: 'Are you sure you want to clear all data entered?',
-                                  onConfirm: () {
-                                    controller.clearAll();
-                                    Get.back();
-                                    customSnackbar(
-                                      'All data has been deleted successfully',
-                                    );
-                                  },
-                                  onCancel: (){
-                                    Get.back();
-                                  });
+                                content: 'Are you sure you want to clear all data entered?',
+                                onConfirm: () {
+                                  controller.clearAll();
+                                  Get.back();
+                                  customSnackbar(
+                                    'All data has been deleted successfully'
+                                  );
+                                },
+                                onCancel: () {
+                                  Get.back();
+                                },
+                              );
                             }
                         )
                       ],
                     ),
                     const SizedBox(height: 30),
                     Obx(() => Column(
-                      children: controller.educations.asMap().entries.map((entry) {
-                        int idx = entry.key;
-                        Educations exp = entry.value;
+                      children: controller.educationList.map((activity) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
                           child: ProfileCard(
-                            title: exp.institution,
-                            leftSubTitle: exp.major,
-                            rightSubTitle: exp.gradDate,
-                            onTap1: () {},
-                            onTap2: () => controller.deleteEducations(idx),
+                            title: activity.institutionName!,
+                            leftSubTitle: activity.major!,
+                            startDate: activity.graduationDate != null ? controller.formatDate(activity.graduationDate) : 'N/A',
+                            onTap1: () {
+                              controller.isEdit.value = true;
+                              controller.idCard.value = activity.id!;
+                              controller.patchField(activity);
+                            },
+                            onTap2: () => controller.deleteEducations(activity.id!),
                             onTap3: () {},
                           ),
                         );

@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 import 'app/routes/app_pages.dart';
 
+import 'package:intl/date_symbol_data_local.dart';
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -15,8 +17,10 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+void main() async {
   HttpOverrides.global = MyHttpOverrides();
+  await initializeDateFormatting('id_ID', null);
+
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,

@@ -14,20 +14,22 @@ import '../modules/auth/splash/views/splash_view.dart';
 import '../modules/catalog/all_catalog/bindings/all_catalog_binding.dart';
 import '../modules/catalog/all_catalog/views/all_catalog_view.dart';
 import '../modules/catalog/bindings/catalog_binding.dart';
+import '../modules/catalog/detail_catalog/bindings/detail_catalog_binding.dart';
+import '../modules/catalog/detail_catalog/views/detail_catalog_view.dart';
 import '../modules/catalog/sub_catalog/bindings/sub_catalog_binding.dart';
 import '../modules/catalog/sub_catalog/views/sub_catalog_view.dart';
 import '../modules/catalog/views/catalog_view.dart';
-import '../modules/catalog/detail_catalog/bindings/detail_catalog_binding.dart';
-import '../modules/catalog/detail_catalog/views/detail_catalog_view.dart';
 import '../modules/e_kta/bindings/e_kta_binding.dart';
 import '../modules/e_kta/views/e_kta_view.dart';
+import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/event/bindings/event_binding.dart';
 import '../modules/home/event/views/event_view.dart';
-import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/job/bindings/job_binding.dart';
 import '../modules/home/job/views/job_view.dart';
 import '../modules/home/member/bindings/member_binding.dart';
 import '../modules/home/member/views/member_view.dart';
+import '../modules/home/scholarship/bindings/scholarship_binding.dart';
+import '../modules/home/scholarship/views/scholarship_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/navbar/bindings/main_binding.dart';
 import '../modules/navbar/views/main_view.dart';
@@ -38,13 +40,13 @@ import '../modules/profile/educations/bindings/educations_binding.dart';
 import '../modules/profile/educations/views/educations_view.dart';
 import '../modules/profile/organizations/bindings/organizations_binding.dart';
 import '../modules/profile/organizations/views/organizations_view.dart';
+import '../modules/profile/profile_user/bindings/profile_user_binding.dart';
+import '../modules/profile/profile_user/views/profile_user_view.dart';
 import '../modules/profile/publication/bindings/publication_binding.dart';
 import '../modules/profile/publication/views/publication_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile/work_experiences/bindings/work_experiences_binding.dart';
 import '../modules/profile/work_experiences/views/work_experiences_view.dart';
-import '../modules/home/scholarship/bindings/scholarship_binding.dart';
-import '../modules/home/scholarship/views/scholarship_view.dart';
 
 part 'app_routes.dart';
 
@@ -169,6 +171,11 @@ class AppPages {
       name: _Paths.DETAIL_CATALOG,
       page: () => const DetailCatalogView(),
       binding: DetailCatalogBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_USER,
+      page: () => const ProfileUserView(),
+      binding: ProfileUserBinding(),
     ),
   ];
 }

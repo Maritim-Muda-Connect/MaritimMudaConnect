@@ -29,7 +29,7 @@ class ChartBar extends StatelessWidget {
             color: color,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Text(month, style: regulerText16.copyWith(color: neutral04Color),)

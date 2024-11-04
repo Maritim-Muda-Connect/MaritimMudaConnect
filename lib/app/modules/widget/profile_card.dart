@@ -8,7 +8,7 @@ class ProfileCard extends StatelessWidget {
     super.key,
     required this.title,
     this.rightTitle,
-    required this.leftSubTitle,
+    this.leftSubTitle,
     this.rightSubTitle,
     this.startDate,
     this.endDate,
@@ -20,7 +20,7 @@ class ProfileCard extends StatelessWidget {
 
   final String title;
   final String? rightTitle;
-  final String leftSubTitle;
+  final String? leftSubTitle;
   final String? rightSubTitle;
   final String? startDate;
   final String? endDate;

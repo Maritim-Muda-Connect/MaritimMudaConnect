@@ -47,6 +47,21 @@ class UserPreferences {
     final prefs = await _getPrefs();
     return prefs.getInt('serial_number');
   }
+  
+  Future<String?> getPlaceOfBirth() async {
+    final prefs = await _getPrefs();
+    return prefs.getString('place_of_birth');
+  }
+
+  Future<String?> getBio() async {
+    final prefs = await _getPrefs();
+    return prefs.getString('bio');
+  }
+
+  Future<String?> getCreatedAt() async {
+    final prefs = await _getPrefs();
+    return prefs.getString('created_at');
+  }
 
   Future<void> logout() async {
     final prefs = await _getPrefs();

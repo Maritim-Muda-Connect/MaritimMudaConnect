@@ -12,6 +12,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       backgroundColor: Colors.transparent,
       body: PageView(
@@ -19,7 +20,7 @@ class MainView extends StatelessWidget {
         onPageChanged: (index) {
           controller.updateIndex(index);
         },
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         children: controller.views,
       ),
       bottomNavigationBar: ClipRRect(

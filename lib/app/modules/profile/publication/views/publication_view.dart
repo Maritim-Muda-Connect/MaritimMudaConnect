@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/request/publication_request.dart';
@@ -249,32 +248,10 @@ class PublicationView extends GetView<PublicationController> {
                 ),
               ),
             ),
+            const SizedBox(height: 58),
           ],
         ),
       ),
     );
   }
 }
-
-// Obx(
-//       () => Column(
-//     children: controller.publication.asMap().entries.map((entry) {
-//       int idx = entry.key;
-//       Publication pub = entry.value;
-//       return Padding(
-//         padding: const EdgeInsets.only(bottom: 16.0),
-//         child: ProfileCard(
-//           title: pub.title,
-//           rightTitle: pub.author,
-//           leftSubTitle: pub.pubType,
-//           rightSubTitle: pub.publisher,
-//           startDate: pub.date,
-//           imageUrl: pub.titlePage,
-//           onTap1: () {},
-//           onTap2: () => controller.deletePublication(idx),
-//           onTap3: () {},
-//         ),
-//       );
-//     }).toList(),
-//   ),
-// ),

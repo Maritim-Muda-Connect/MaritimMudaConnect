@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/data/models/request/work_experiences_request.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_dialog.dart';
 import 'package:maritimmuda_connect/app/modules/widget/profile_card.dart';
 import 'package:maritimmuda_connect/themes.dart';
@@ -8,10 +9,9 @@ import '../../../widget/custom_snackbar.dart';
 import '../../../widget/custom_textfield.dart';
 import '../../../widget/profile_button.dart';
 import '../controllers/work_experiences_controller.dart';
-import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
 
 class WorkExperiencesView extends GetView<WorkExperiencesController> {
-  WorkExperiencesView({super.key});
+  const WorkExperiencesView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +41,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 13),
               child: Form(
+                key: controller.formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -48,6 +49,12 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                       const SizedBox(height: 8),
                       CustomTextField(
                         controller: controller.positionController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter position title';
+                          }
+                          return null;
+                        },
                         hintText: 'Enter your position title',
                       ),
                       const SizedBox(height: 16),
@@ -55,6 +62,12 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                       const SizedBox(height: 8),
                       CustomTextField(
                         controller: controller.institutionController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter institution name';
+                          }
+                          return null;
+                        },
                         hintText: 'Enter your institution name',
                       ),
                       const SizedBox(height: 16),
@@ -91,7 +104,29 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                             icon: Icon(Icons.save_outlined, color: neutral01Color),
                             color: primaryDarkBlueColor,
                             text: 'Save',
-                            onTap: controller.saveWorkExperience,
+                            onTap: () {
+                              if (controller.validateForm()) {
+                                if (controller.isEdit.value) {
+                                  WorkExperiencesRequest request = WorkExperiencesRequest(
+                                    positionTitle: controller.positionController.text,
+                                    companyName: controller.institutionController.text,
+                                    startDate: controller.formatDateRequest(controller.selectedStartDate.value ?? DateTime.now()),
+                                    endDate: controller.formatDateRequest(controller.selectedEndDate.value ?? DateTime.now())
+                                  );
+                                  controller.updateWorkExperience(request, controller.idCard.value);
+                                  controller.isEdit.value = false;
+                                  controller.idCard.value = 0;
+                                } else {
+                                  WorkExperiencesRequest request = WorkExperiencesRequest(
+                                    positionTitle: controller.positionController.text,
+                                    companyName: controller.institutionController.text,
+                                    startDate: controller.formatDateRequest(controller.selectedStartDate.value ?? DateTime.now()),
+                                    endDate: controller.formatDateRequest(controller.selectedEndDate.value ?? DateTime.now())
+                                  );
+                                  controller.createWorkExperience(request);
+                                }
+                              }
+                            },
                           ),
                           const SizedBox(width: 8),
                           ProfileButton(
@@ -118,18 +153,20 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                       ),
                       const SizedBox(height: 30),
                       Obx(() => Column(
-                        children: controller.workExperiences.asMap().entries.map((entry) {
-                          int idx = entry.key;
-                          WorkExperience exp = entry.value;
+                        children: controller.workExperienceLists.map((activity) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),
                             child: ProfileCard(
-                              title: exp.position,
-                              leftSubTitle: exp.institution,
-                              startDate: exp.startDate,
-                              endDate: exp.endDate,
-                              onTap1: () {}, // Edit functionality can be added here
-                              onTap2: () => controller.deleteWorkExperience(idx),
+                              title: activity.positionTitle!,
+                              leftSubTitle: activity.companyName!,
+                              startDate: activity.startDate != null ? controller.formatDate(activity.startDate) : 'N/A',
+                              endDate: activity.endDate != null ? controller.formatDate(activity.endDate) : 'N/A',
+                              onTap1: () {
+                                controller.isEdit.value = true;
+                                controller.idCard.value = activity.id!;
+                                controller.patchField(activity);
+                              },
+                              onTap2: () => controller.deleteWorkExperience(activity.id!),
                               onTap3: () {},
                             ),
                           );

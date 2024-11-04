@@ -18,15 +18,9 @@ class RegisterController extends GetxController {
   var isLoading = false.obs;
   var obscureText = true.obs;
   var selectedGender = 1.obs;
-  var selectedProvince = 1.obs;
+  var selectedProvince = 0.obs;
+  var selectedProvinceReq = 1.obs;
   var isCheckField = false.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    selectedGender.value = 1;
-    selectedProvince.value = 1;
-  }
 
   bool validateForm() {
     return formKey.currentState!.validate();
@@ -44,7 +38,12 @@ class RegisterController extends GetxController {
 
   void setSelectedProvince(String? value) {
     if (value != null) {
-      selectedProvince.value = provinceOptions.indexOf(value) + 1;
+      String? selectedKey = provinceOptions.entries
+          .firstWhere((entry) => entry.value == value)
+          .key;
+
+      selectedProvince.value = provinceOptions.values.toList().indexOf(value);
+      selectedProvinceReq.value = int.parse(selectedKey);
     }
   }
 

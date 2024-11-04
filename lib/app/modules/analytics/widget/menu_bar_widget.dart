@@ -29,7 +29,7 @@ class _MenuBarWidgetState extends State<MenuBarWidget> {
         });
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: isSelected ? primaryDarkBlueColor : neutral01Color, // Ganti warna berdasarkan status

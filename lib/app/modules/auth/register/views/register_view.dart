@@ -128,9 +128,9 @@ class RegisterView extends GetView<RegisterController> {
                         const SizedBox(height: 10),
                         Obx(
                           () => CustomDropdown(
-                            options: provinceOptions,
-                            selectedOption: provinceOptions[
-                                controller.selectedProvince.value - 1],
+                            options: provinceOptions.values.toList(),
+                            selectedOption: provinceOptions.values
+                                .toList()[controller.selectedProvince.value],
                             onSelected: (String? value) {
                               controller.setSelectedProvince(value);
                             },
@@ -224,8 +224,8 @@ class RegisterView extends GetView<RegisterController> {
                                         name: controller.nameC.text,
                                         email: controller.emailC.text,
                                         gender: controller.selectedGender.value,
-                                        provinceId:
-                                            controller.selectedProvince.value,
+                                        provinceId: controller
+                                            .selectedProvinceReq.value,
                                         password: controller.passwordC.text,
                                         passwordConfirmation:
                                             controller.confirmPassC.text,

@@ -52,10 +52,12 @@ class HomeView extends GetView<HomeController> {
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: neutral04Color.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(3, 3),
+                        color: neutral04Color.withOpacity(0.3), // Warna shadow
+                        spreadRadius: 1, // Penyebaran shadow
+                        blurRadius: 5, // Tingkat blur shadow
+                        offset:
+                            const Offset(3, 3), // Arah dan jarak shadow (x, y)
+
                       ),
                     ],
                   ),
@@ -166,8 +168,6 @@ class HomeView extends GetView<HomeController> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const ScholarshipView()));
-
-//                       Get.to(ScholarshipView());
                     },
                   ),
                 ),

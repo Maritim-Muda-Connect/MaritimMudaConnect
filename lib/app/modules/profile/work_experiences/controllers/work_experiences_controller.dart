@@ -2,48 +2,50 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
+import 'package:maritimmuda_connect/app/data/models/request/work_experiences_request.dart';
+import 'package:maritimmuda_connect/app/data/models/response/work_experiences_response.dart';
+import 'package:maritimmuda_connect/app/data/services/work_experiences_service.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
-class WorkExperience {
-  final String position;
-  final String institution;
-  final String startDate;
-  final String endDate;
-
-  WorkExperience({
-    required this.position,
-    required this.institution,
-    required this.startDate,
-    required this.endDate,
-  });
-}
-
 class WorkExperiencesController extends GetxController {
-  final positionController = TextEditingController();
-  final institutionController = TextEditingController();
-  final startDateController = TextEditingController();
-  final endDateController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController positionController = TextEditingController();
+  final TextEditingController institutionController = TextEditingController();
+  final TextEditingController startDateController = TextEditingController();
+  final TextEditingController endDateController = TextEditingController();
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
+  Rx<int?> selectedMonth = Rx<int?>(null);
+  Rx<int?> selectedYear = Rx<int?>(null);
 
-  RxList<WorkExperience> workExperiences = <WorkExperience>[].obs;
+  var isLoading = false.obs;
+  var workExperienceLists = <WorkExperiencesResponse>[].obs;
+  var isEdit = false.obs;
+  var idCard = 0.obs;
 
   String formatDate(DateTime? date) {
     return date != null ? DateFormat('MMMM yyyy').format(date) : '';
   }
 
-  Rx<int?> selectedMonth = Rx<int?>(null);
-  Rx<int?> selectedYear = Rx<int?>(null);
-
   String get formattedMonthYear {
-    if (selectedMonth.value != null && selectedYear.value != null) {
-      return DateFormat('MMMM yyyy')
-          .format(DateTime(selectedYear.value!, selectedMonth.value!));
-    } else {
-      return '';
-    }
+    return DateFormat('MMMM yyyy')
+        .format(DateTime(selectedYear.value!, selectedMonth.value!));
+  }
+
+  String formatDateRequest(DateTime date) {
+    return DateFormat('yyyy-MM').format(date);
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchWorkExperiences();
+  }
+
+  bool validateForm() {
+    return formKey.currentState!.validate();
   }
 
   Future<void> selectStartDate(BuildContext context) async {
@@ -63,6 +65,8 @@ class WorkExperiencesController extends GetxController {
         selectedMonth.value = month;
         selectedYear.value = year;
         startDateController.text = formattedMonthYear;
+        selectedStartDate.value =
+            DateTime(selectedYear.value!, selectedMonth.value!);
       },
     );
   }
@@ -84,30 +88,100 @@ class WorkExperiencesController extends GetxController {
         selectedMonth.value = month;
         selectedYear.value = year;
         endDateController.text = formattedMonthYear;
+        selectedEndDate.value =
+            DateTime(selectedYear.value!, selectedMonth.value!);
       },
     );
   }
 
+  void patchField(WorkExperiencesResponse workExperiencesData) {
+    positionController.text = workExperiencesData.positionTitle ?? '';
+    institutionController.text = workExperiencesData.companyName ?? '';
+    startDateController.text = formatDate(workExperiencesData.startDate);
+    endDateController.text = formatDate(workExperiencesData.endDate);
+    selectedStartDate.value = DateTime.parse(workExperiencesData.startDate.toString());
+    selectedEndDate.value = DateTime.parse(workExperiencesData.endDate.toString());
+  }
 
-  void saveWorkExperience() {
-    if (positionController.text.isNotEmpty &&
-        institutionController.text.isNotEmpty &&
-        startDateController.text.isNotEmpty &&
-        endDateController.text.isNotEmpty) {
-      workExperiences.add(WorkExperience(
-        position: positionController.text,
-        institution: institutionController.text,
-        startDate: startDateController.text,
-        endDate: endDateController.text,
-      ));
-      clearAll();
-      customSnackbar(
-        'Success adding work experience history!',
-      );
-    } else {
-     customSnackbar(
-        'Please fill all fields!'
-      );
+  void fetchWorkExperiences() async {
+    try {
+      isLoading.value = true;
+      var data = await WorkExperiencesService().fetchWorkExperiences();
+      workExperienceLists.assignAll(data);
+    } catch (e) {
+      print (e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void createWorkExperience(WorkExperiencesRequest request) async {
+    print(request.toJson());
+    try {
+      isLoading.value = true;
+      bool success = await WorkExperiencesService().createWorkExperience(request);
+
+      if (success) {
+        fetchWorkExperiences();
+        clearAll();
+        customSnackbar(
+          'Success Adding Work Experience!'
+        );
+      } else {
+        customSnackbar(
+          'Failed Adding Work Experience!'
+        );
+      }
+    } catch (e) {
+      print (e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void updateWorkExperience(WorkExperiencesRequest request, int id) async {
+    try {
+      isLoading.value = true;
+      bool success = await WorkExperiencesService().updateWorkExperience(request, id);
+
+      if (success) {
+        fetchWorkExperiences();
+        clearAll();
+        customSnackbar(
+            'Success Updating Work Experience!'
+        );
+      } else {
+        customSnackbar(
+            'Failed Updating Work Experience!'
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteWorkExperience(int id) async {
+    try {
+      isLoading.value = true;
+      bool success = await WorkExperiencesService().deleteWorkExperiences(id);
+
+      if (success) {
+        fetchWorkExperiences();
+        clearAll();
+        customSnackbar(
+            'Success Deleting Work Experience!'
+        );
+      } else {
+        customSnackbar(
+            'Failed Deleting Work Experience!'
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -120,19 +194,12 @@ class WorkExperiencesController extends GetxController {
     selectedEndDate.value = null;
   }
 
-  void deleteWorkExperience(int index) {
-    workExperiences.removeAt(index);
-    customSnackbar(
-      'Success deleting education history!',
-    );
-  }
-
   @override
   void onClose() {
+    super.onClose();
     positionController.dispose();
     institutionController.dispose();
     startDateController.dispose();
     endDateController.dispose();
-    super.onClose();
   }
 }

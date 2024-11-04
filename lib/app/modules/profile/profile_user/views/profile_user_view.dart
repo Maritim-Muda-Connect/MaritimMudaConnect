@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
-import 'package:maritimmuda_connect/app/data/utils/province.dart';
-import 'package:maritimmuda_connect/themes.dart';
 
-import '../../../../data/models/response/member_response.dart';
-import '../controllers/member_controller.dart';
+import '../../../../../themes.dart';
+import '../controllers/profile_user_controller.dart';
 
-class MemberDetailView extends GetView<MemberController> {
-  MemberDetailView({super.key, required this.memberList});
-  Member memberList;
+class ProfileUserView extends GetView<ProfileUserController> {
+  const ProfileUserView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: neutral02Color,
-      appBar: AppBar(
-        scrolledUnderElevation: 0.0,
-        backgroundColor: neutral02Color,
-      ),
+      //appBar: AppBar(scrolledUnderElevation: 0.0),
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -51,33 +43,16 @@ class MemberDetailView extends GetView<MemberController> {
                                       "assets/images/paternkartu.png"))),
                         ),
                         const SizedBox(height: 50),
-                        Text(
-                          "${memberList.name}",
-                          style: semiBoldText24,
-                          textAlign: TextAlign.center,
-                        ),
+                        Text(controller.name.value, style: semiBoldText24),
                         const SizedBox(height: 5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Flexible(
-                              child: Text(
-                                provinceOptions[
-                                    memberList.provinceId.toString()]!,
-                                style: regulerText16,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                            Text(controller.placeOfBirth.value, style: regulerText16),
                             SizedBox(
                                 height: 20,
                                 child: VerticalDivider(color: neutral04Color)),
-                            Flexible(
-                              child: Text(
-                                "Joined ${DateFormat('MMMM yyyy', 'id_ID').format(memberList.emailVerifiedAt!)}",
-                                style: regulerText16,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                            Text(controller.createdAt.value, style: regulerText16),
                           ],
                         ),
                         const SizedBox(height: 6),
@@ -85,9 +60,9 @@ class MemberDetailView extends GetView<MemberController> {
                           padding: const EdgeInsets.only(
                               left: 63, top: 5, right: 63, bottom: 20),
                           child: Text(
-                            memberList.bio ?? "no bio yet",
+                            controller.bio.value,
                             style:
-                                regulerText10.copyWith(color: neutral04Color),
+                            regulerText10.copyWith(color: neutral04Color),
                             textAlign: TextAlign.center,
                           ),
                         )
@@ -104,7 +79,7 @@ class MemberDetailView extends GetView<MemberController> {
                             image: const DecorationImage(
                                 fit: BoxFit.cover,
                                 image:
-                                    AssetImage("assets/images/profile.png"))),
+                                AssetImage("assets/images/profile.png"))),
                       ),
                     ),
                   ],
@@ -133,22 +108,18 @@ class MemberDetailView extends GetView<MemberController> {
                           children: [
                             Icon(
                               Icons.email,
+                              size: 20,
                               color: subTitleColor,
                             ),
                             const SizedBox(width: 7),
                             Text("Email",
-                                style: regulerText16.copyWith(
+                                style: regulerText12.copyWith(
                                     color: subTitleColor)),
                           ],
                         ),
-                        Flexible(
-                          child: Text(
-                            "${memberList.email}",
+                        Text(controller.email.value,
                             style:
-                                regulerText16.copyWith(color: neutral04Color),
-                            maxLines: 2,
-                          ),
-                        )
+                            regulerText12.copyWith(color: neutral04Color))
                       ],
                     ),
                     const SizedBox(height: 27),
@@ -159,19 +130,18 @@ class MemberDetailView extends GetView<MemberController> {
                           children: [
                             Icon(
                               Icons.email,
+                              size: 20,
                               color: subTitleColor,
                             ),
                             const SizedBox(width: 7),
                             Text("Joined",
-                                style: regulerText16.copyWith(
+                                style: regulerText12.copyWith(
                                     color: subTitleColor)),
                           ],
                         ),
-                        Text(
-                            DateFormat('MMMM yyyy', 'id_ID')
-                                .format(memberList.emailVerifiedAt!),
+                        Text(controller.createdAt.value,
                             style:
-                                regulerText16.copyWith(color: neutral04Color))
+                            regulerText12.copyWith(color: neutral04Color))
                       ],
                     ),
                     const SizedBox(height: 27),
@@ -182,11 +152,9 @@ class MemberDetailView extends GetView<MemberController> {
                       children: [
                         Text("First Expertise",
                             style:
-                                mediumText16.copyWith(color: neutral04Color)),
+                            mediumText16.copyWith(color: neutral04Color)),
                         Text(
-                            expertiseOptions[
-                                    memberList.firstExpertiseId.toString()] ??
-                                "Not set",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
                     ),
@@ -196,11 +164,9 @@ class MemberDetailView extends GetView<MemberController> {
                       children: [
                         Text("Second Expertise",
                             style:
-                                mediumText16.copyWith(color: neutral04Color)),
+                            mediumText16.copyWith(color: neutral04Color)),
                         Text(
-                            expertiseOptions[
-                                    memberList.secondExpertiseId.toString()] ??
-                                "Not set",
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
                     ),

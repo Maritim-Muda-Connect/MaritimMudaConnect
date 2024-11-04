@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_detail_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/widget/filter_dropdown.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
@@ -16,7 +18,14 @@ class MemberView extends GetView<MemberController> {
 
     return Scaffold(
       backgroundColor: neutral02Color,
-      endDrawer: SafeArea(child: FilterDrawer()),
+      // endDrawer: SafeArea(child: FilterDrawer(controller.memberList)),
+      endDrawer: const SafeArea(child: FilterDrawer()),
+      appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        backgroundColor: neutral02Color,
+        excludeHeaderSemantics: false,
+        actions: const [Text('')],
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -28,8 +37,12 @@ class MemberView extends GetView<MemberController> {
                   const SizedBox(height: 10),
                   Obx(() {
                     if (controller.isLoading.value) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: primaryDarkBlueColor,
+                          ),
+                        ),
                       );
                     } else if (controller.memberList.isEmpty) {
                       return Text(
@@ -39,9 +52,10 @@ class MemberView extends GetView<MemberController> {
                     } else {
                       return Expanded(
                         child: ListView.builder(
-                          itemCount: controller.memberList.length,
+                          itemCount: controller.filteredMemberList.length,
                           itemBuilder: (context, index) {
-                            final memberList = controller.memberList[index];
+                            final memberList =
+                                controller.filteredMemberList[index];
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 7.5),
                               color: neutral01Color,
@@ -49,22 +63,27 @@ class MemberView extends GetView<MemberController> {
                                   borderRadius: BorderRadius.circular(16)),
                               child: ListTile(
                                 onTap: () {
-                                  Get.to(() =>
-                                      MemberDetailView(memberList: memberList));
+                                  if (memberList.emailVerifiedAt != null) {
+                                    Get.to(() => MemberDetailView(
+                                        memberList: memberList));
+                                  } else {
+                                    customSnackbar(
+                                        "User not verified", secondaryRedColor);
+                                  }
                                 },
                                 leading: const CircleAvatar(
                                   backgroundImage:
                                       AssetImage("assets/images/profile.png"),
-                                  // child: Image(
-                                  //     image: AssetImage("assets/images/profile.png")),
                                 ),
                                 title: Text(
                                   memberList.name ?? "",
                                   style: regulerText24,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                subtitle:
-                                    Text("Jawa timur", style: extraLightText16),
+                                subtitle: Text(
+                                    provinceOptions[
+                                        memberList.provinceId.toString()]!,
+                                    style: extraLightText16),
                                 trailing: CircleAvatar(
                                     backgroundColor: primaryDarkBlueColor,
                                     maxRadius: 15,

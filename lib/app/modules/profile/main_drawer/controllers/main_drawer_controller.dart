@@ -4,6 +4,8 @@ import 'package:maritimmuda_connect/app/modules/profile/achievement/controllers/
 import 'package:maritimmuda_connect/app/modules/profile/achievement/views/achievement_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/educations/views/educations_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/controllers/home_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/profile_user/views/profile_user_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/publication/controllers/publication_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/publication/views/publication_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/organizations/views/organizations_view.dart';
@@ -23,6 +25,9 @@ class MainDrawerController extends GetxController {
   var currentTitle = 'General'.obs;
 
   MainDrawerController() {
+    currentTitle.value = title[selectedIndex.value];
+
+    Get.put(ProfileUserController());
     Get.put(HomeController());
     Get.put(ProfileController());
     Get.put(EducationsController());
@@ -36,17 +41,19 @@ class MainDrawerController extends GetxController {
 
   List<Widget> screens = [
     // Taruh halaman contoh const ProfileView() di sini
-    ProfileView(),
-    EducationsView(),
-    WorkExperiencesView(),
-    OrganizationsView(),
-    AchievementView(),
-    PublicationView(),
-    SocialActivityView(),
-    ResearchesView()
+    const ProfileUserView(),
+    const ProfileView(),
+    const EducationsView(),
+    const WorkExperiencesView(),
+    const OrganizationsView(),
+    const AchievementView(),
+    const PublicationView(),
+    const SocialActivityView(),
+    const ResearchesView()
   ];
 
   List<String> title = [
+    'Profile',
     'General',
     'Educations',
     'Work Experiences',
@@ -59,6 +66,7 @@ class MainDrawerController extends GetxController {
 
   // Kalo mau pake icon dari flutter nya
   List<IconData> icon = [
+    Icons.person_2_rounded,
     Icons.account_circle,
     Icons.school,
     Icons.work,

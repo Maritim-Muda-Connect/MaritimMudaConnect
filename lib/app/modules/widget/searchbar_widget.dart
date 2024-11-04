@@ -10,10 +10,11 @@ class SearchbarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (value) => controller.searchMembers(value),
       decoration: InputDecoration(
         filled: true,
         fillColor: neutral01Color,
-        prefixIcon: Icon(Icons.search),
+        prefixIcon: const Icon(Icons.search),
         suffixIcon: filterButton(context),
         hintText: "Search event",
         hintStyle: regulerText15.copyWith(color: neutral03Color),

@@ -27,7 +27,7 @@ class AnalyticCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon as IconData?),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Text(
@@ -36,7 +36,7 @@ class AnalyticCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           SvgPicture.asset(image)

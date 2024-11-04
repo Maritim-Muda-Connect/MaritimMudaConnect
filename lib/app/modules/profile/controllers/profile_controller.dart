@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
 import 'package:maritimmuda_connect/app/data/services/general_service.dart';
+import 'package:maritimmuda_connect/app/data/utils/expertises.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
@@ -17,35 +18,40 @@ class ProfileController extends GetxController {
   final dateOfBirthController = TextEditingController();
   final linkedInController = TextEditingController();
   final instagramController = TextEditingController();
-  final firstExpertiseController = TextEditingController();
-  final secondExpertiseController = TextEditingController();
   final addressController = TextEditingController();
   final residenceAddressController = TextEditingController();
   final bioController = TextEditingController();
 
   final List<String> genderOptions = ["Choose your gender", 'Male', 'Female'];
-  final List<String> firstExpertise = [];
-  final List<String> secondExpertise = [];
   final Rx<File?> identityCardFile = Rx<File?>(null);
   final Rx<File?> studentCardFile = Rx<File?>(null);
   final Rx<File?> profileImageFile = Rx<File?>(null);
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
   Rx<int?> selectedYear = Rx<int?>(null);
-  Rx<int?> selectedOption = Rx<int?>(null);
-  Map<String, int> expertiseMap = {};
-  int indexCounter = 0;
+
+  var generalData = GeneralResponse().obs;
   var selectedFirstExpertise = 0.obs;
   var selectedSecondExpertise = 0.obs;
-  var generalData = GeneralResponse().obs;
-  var isLoading = false.obs;
   var selectedGender = 1.obs;
   var province = 1.obs;
+  var isLoading = false.obs;
 
   String get formattedDate {
     return selectedDate.value != null
         ? DateFormat('yyyy-MM-dd').format(selectedDate.value!)
         : '';
+  }
+
+  int mapExpertise(int value) {
+    if (value >= 2 && value <= 25) {
+      return value;
+    } else if (value >= 27 && value <= 50) {
+      return value - 25;
+    } else if (value >= 52 && value <= 75) {
+      return value - 50;
+    }
+    return 0;
   }
 
   @override
@@ -97,32 +103,12 @@ class ProfileController extends GetxController {
     }
   }
 
-  void expertiseMapping(GeneralResponse data) {
-    data.expertises?.forEach((id, expertise) {
-      if (!expertiseMap.containsKey(expertise)) {
-        expertiseMap[expertise] = indexCounter;
-        firstExpertise.add(expertise);
-        secondExpertise.add(expertise);
-        indexCounter++;
-      }
-    });
-
-    if (data.user?.firstExpertiseId != null) {
-      var firstExpertiseId = data.user!.firstExpertiseId.toString();
-      selectedFirstExpertise.value =
-          expertiseMap[data.expertises?[firstExpertiseId] ?? ""] ?? 0;
-    }
-    if (data.user?.secondExpertiseId != null) {
-      var secondExpertiseId = data.user!.secondExpertiseId.toString();
-      selectedSecondExpertise.value =
-          expertiseMap[data.expertises?[secondExpertiseId] ?? ""]! + 1;
-    }
-  }
-
   void setAllController() {
+    String provinceId = generalData.value.user?.provinceId?.toString() ?? '1';
+    String provinceName = provinceOptions[provinceId] ?? '';
+
     emailController.text = generalData.value.user?.email ?? '';
-    provincialOrgController.text =
-        provinceOptions[generalData.value.user?.provinceId ?? 1];
+    provincialOrgController.text = provinceName;
     placeOfBirthController.text = generalData.value.user?.placeOfBirth ?? '';
     dateOfBirthController.text = DateFormat('yyyy-MM-dd')
         .format(DateTime.parse(generalData.value.user!.dateOfBirth.toString()));
@@ -132,15 +118,18 @@ class ProfileController extends GetxController {
     residenceAddressController.text =
         generalData.value.user?.residenceAddress ?? '';
     bioController.text = generalData.value.user?.bio ?? '';
+    selectedFirstExpertise.value =
+        mapExpertise(generalData.value.user?.firstExpertiseId ?? 0);
+    selectedSecondExpertise.value =
+        mapExpertise(generalData.value.user?.secondExpertiseId ?? 0);
   }
 
-  void fetchGeneral() async {
+  Future<void> fetchGeneral() async {
     try {
       isLoading.value = true;
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
 
-      expertiseMapping(data);
       setAllController();
     } catch (e) {
       print(e);
@@ -182,33 +171,9 @@ class ProfileController extends GetxController {
     dateOfBirthController.dispose();
     linkedInController.dispose();
     instagramController.dispose();
-    firstExpertiseController.dispose();
-    secondExpertiseController.dispose();
     addressController.dispose();
     residenceAddressController.dispose();
     bioController.dispose();
     super.onClose();
-  }
-
-  void clearAll() {
-    // emailController.clear();
-    // genderController.clear();
-    // provincialOrgController.clear();
-    // placeOfBirthController.clear();
-    // dateOfBirthController.clear();
-    // linkedInController.clear();
-    // instagramController.clear();
-    // firstExpertiseController.clear();
-    // secondExpertiseController.clear();
-    // addressController.clear();
-    // residenceAddressController.clear();
-    // bioController.clear();
-    // selectedGender.value = 0;
-    // selectedFirstExpertise.value = 0;
-    // selectedSecondExpertise.value = 0;
-    // selectedDate.value = null;
-    // identityCardFile.value = null;
-    // studentCardFile.value = null;
-    // profileImagePath.value = null;
   }
 }

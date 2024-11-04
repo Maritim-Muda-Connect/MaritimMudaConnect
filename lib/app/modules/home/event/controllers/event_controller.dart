@@ -15,6 +15,8 @@ class EventController extends GetxController
   var searchQuery = "".obs;
   var filterEventList = <Event>[].obs;
   var sortedEventList = <Event>[].obs;
+  var selectedFilter = 'A - Z'.obs;
+
 
   List<String> title = [
     'All',
@@ -43,6 +45,7 @@ class EventController extends GetxController
     tabController.addListener(() {
       selectedIndex.value = tabController.index;
       sortEventsByType(getTypeForTab(selectedIndex.value));
+      print(selectedIndex.value);
     });
     getAllEvents();
   }
@@ -97,8 +100,10 @@ class EventController extends GetxController
     }
 
 
-    filterEventList.assignAll(tempList);
-    sortedEventList.assignAll(tempList);
+      filterEventList.assignAll(tempList);
+
+      sortedEventList.assignAll(tempList);
+
 
 
   }
@@ -112,6 +117,43 @@ class EventController extends GetxController
     // sortedEventList.assignAll(filteredList);
 
   }
+
+  final filterOptions = ['A - Z', 'Terbaru', 'Terlama'];
+  void updateFilter(String filter) {
+    selectedFilter.value = filter;
+    applyFilter();
+  }
+
+  void applyFilter() {
+    List<Event>? sortedList ;
+    if (selectedIndex.value == 0) {
+      sortedList = List<Event>.from(filterEventList);
+    } else {
+      sortedList = eventsList.where((event) => event.type == getTypeForTab(selectedIndex.value)).toList();
+    }
+
+    if (selectedFilter.value == 'A - Z') {
+      sortedList.sort((a,b) => (
+          (a.name) ?? "").compareTo(b.name ?? "")
+      );
+    } else if(selectedFilter.value == 'Terbaru') {
+      sortedList.sort((a,b) =>
+          (b.startDate ?? DateTime.now()).compareTo(a.startDate ?? DateTime.now())
+      );
+    } else if (selectedFilter.value == 'Terlama') {
+      sortedList.sort((a,b) =>
+          (a.startDate ?? DateTime.now()).compareTo(b.startDate ?? DateTime.now())
+      );
+    }
+
+    if (selectedIndex.value == 0) {
+      filterEventList.assignAll(sortedList);
+    } else {
+      sortedEventList.assignAll(sortedList);
+    }
+
+  }
+
 
   void setSelectedIndex(int index) {
     tabController.index = index;

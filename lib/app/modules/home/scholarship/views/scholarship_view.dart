@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/scholarship_data.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_filter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../../themes.dart';
@@ -16,8 +17,16 @@ class ScholarshipView extends GetView<ScholarshipController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ScholarshipController());
+
     return Scaffold(
         backgroundColor: neutral02Color,
+        endDrawer: SortedScholarFilter(
+            filterText: controller.filterOptions,
+            // onFilterSelected: (selectedFilter) {
+            //   controller.updateFilter(selectedFilter);
+            // }
+            ),
         appBar: AppBar(
           backgroundColor: neutral02Color,
           title: Text(
@@ -31,6 +40,9 @@ class ScholarshipView extends GetView<ScholarshipController> {
               Navigator.pop(context);
             },
           ),
+          actions: [
+            Container()
+          ],
         ),
         body: Column(children: <Widget>[
           Container(

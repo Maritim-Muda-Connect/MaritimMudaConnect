@@ -10,6 +10,7 @@ class ScholarshipController extends GetxController
   var scholarshipList = <Scholarship>[].obs;
   var searchQuery = "".obs;
   var filteredList = <Scholarship>[].obs;
+  var selectedFilter = "A - Z".obs;
 
   @override
   void onInit() {
@@ -49,6 +50,32 @@ class ScholarshipController extends GetxController
     filteredList.assignAll(tempList);
 
   }
+
+  final filterOptions =  ["A - Z", "Terdekat", "Terlama"];
+  void updateFilter(String filter) {
+    selectedFilter.value = filter;
+    applyFilter();
+  }
+
+  void applyFilter() {
+    var sortedList = List<Scholarship>.from(filteredList);
+    if(selectedFilter.value == "A - Z") {
+      sortedList.sort((a,b) =>
+          (a.name ?? "").compareTo(b.name ?? "")
+      );
+    } else if (selectedFilter.value == "Terdekat") {
+      sortedList.sort((a,b) =>
+          (b.submissionDeadline ?? DateTime.now()).compareTo(a.submissionDeadline ?? DateTime.now())
+      );
+    } else if (selectedFilter.value == "Terlama") {
+      sortedList.sort((a,b) =>
+          (a.submissionDeadline ?? DateTime.now()).compareTo(b.submissionDeadline ?? DateTime.now())
+      );
+    }
+
+    filteredList.assignAll(sortedList);
+  }
+
 
   @override
   void onReady() {

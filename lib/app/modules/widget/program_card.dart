@@ -3,24 +3,26 @@ import 'package:flutter/material.dart';
 import '../../../themes.dart';
 
 class ProgramCard extends StatelessWidget {
-  const ProgramCard(
-      {super.key,
-      this.image,
-      this.date,
-      this.textTitle,
-      this.textSubTitle,
-        this.views,
-        this.likes,
-        this.send,
-      });
+  const ProgramCard({
+    super.key,
+    this.image,
+    this.date,
+    this.textTitle,
+    this.textSubTitle,
+    this.onShare,
+    // this.views,
+    // this.likes,
+    // this.send,
+  });
 
   final String? image;
   final String? date;
   final String? textTitle;
   final String? textSubTitle;
-  final String? views;
-  final String? likes;
-  final String? send;
+  final VoidCallback? onShare;
+  // final String? views;
+  // final String? likes;
+  // final String? send;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,7 @@ class ProgramCard extends StatelessWidget {
           decoration: BoxDecoration(
               color: neutral01Color,
               borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: primaryBlueColor, width: 2.0)
-
-          ),
+              border: Border.all(color: primaryBlueColor, width: 2.0)),
           padding:
               const EdgeInsets.only(left: 23, top: 19, right: 23, bottom: 19),
           child: Column(
@@ -75,36 +75,34 @@ class ProgramCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  Row(
-                    children: [
-                      Icon(Icons.remove_red_eye_sharp,
-                          color: primaryDarkBlueColor),
-                      const SizedBox(width: 4),
-                      Text(
-                        views!,
-                        style: regulerText10,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.favorite, color: primaryDarkBlueColor),
-                      const SizedBox(width: 4),
-                      Text(
-                        likes!,
-                        style: regulerText10,
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.send, color: primaryDarkBlueColor),
-                      const SizedBox(width: 4),
-                      Text(
-                        send!,
-                        style: regulerText10,
-                      )
-                    ],
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.remove_red_eye_sharp,
+                  //         color: primaryDarkBlueColor),
+                  //     const SizedBox(width: 4),
+                  //     Text(
+                  //       views!,
+                  //       style: regulerText10,
+                  //     )
+                  //   ],
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.favorite, color: primaryDarkBlueColor),
+                  //     const SizedBox(width: 4),
+                  //     Text(
+                  //       likes!,
+                  //       style: regulerText10,
+                  //     )
+                  //   ],
+                  // ),
+                  IconButton(
+                      icon: Icon(Icons.send, color: primaryDarkBlueColor),
+                      onPressed: onShare,
+                      // Text(
+                      //   send!,
+                      //   style: regulerText10,
+                      // )
                   ),
                 ],
               )

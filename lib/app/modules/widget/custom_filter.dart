@@ -79,6 +79,7 @@ class SortedEventFilter extends GetView<EventController> {
     return Drawer(
       child: Container(
         width: 170,
+        height: 300,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -108,7 +109,7 @@ class SortedEventFilter extends GetView<EventController> {
                 onTap: () {
                   // onFilterSelected(text);
                   controller.updateFilter(text);
-                  // Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),

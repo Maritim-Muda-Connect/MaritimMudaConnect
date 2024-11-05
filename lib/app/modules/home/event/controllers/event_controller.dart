@@ -118,8 +118,8 @@ class EventController extends GetxController
 
   }
 
-  final filterOptions = ['A - Z', 'Terbaru', 'Terlama'];
-  void updateFilter(String filter) {
+  final filterOptions = ['Urutkan Berdasarkan:','A - Z', 'Terbaru', 'Terlama'];
+  dynamic updateFilter(String filter) {
     selectedFilter.value = filter;
     applyFilter();
   }

@@ -21,12 +21,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
 
     return Scaffold(
         backgroundColor: neutral02Color,
-        endDrawer: SortedScholarFilter(
-            filterText: controller.filterOptions,
-            // onFilterSelected: (selectedFilter) {
-            //   controller.updateFilter(selectedFilter);
-            // }
-            ),
+
         appBar: AppBar(
           backgroundColor: neutral02Color,
           title: Text(

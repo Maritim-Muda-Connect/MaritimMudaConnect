@@ -51,7 +51,7 @@ class ScholarshipController extends GetxController
 
   }
 
-  final filterOptions =  ["A - Z", "Terdekat", "Terlama"];
+  final filterOptions =  ["Urutkan Berdasarkan", "A - Z", "Terdekat", "Terlama"];
   void updateFilter(String filter) {
     selectedFilter.value = filter;
     applyFilter();

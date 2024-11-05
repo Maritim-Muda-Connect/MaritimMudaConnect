@@ -15,14 +15,7 @@ class EventView extends GetView<EventController> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: neutral02Color,
-        endDrawer: SortedEventFilter(
-          filterText: controller.filterOptions,
-          // onFilterSelected: (selectedFilter) {
-          //   controller.updateFilter(selectedFilter);
-          //   // controller.selectedFilter.value = selectedFilter;
-          //   // controller.applyFilter();
-          // }
-          ),
+
         appBar: AppBar(
             backgroundColor: neutral02Color,
             title: Text(

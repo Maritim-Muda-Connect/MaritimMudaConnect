@@ -25,13 +25,9 @@ class SearchbarWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
             borderSide: BorderSide.none),
       ),
-
     );
   }
-
 }
-
-
 
 class SearchbarEventWidget extends StatelessWidget {
   final controller = Get.put(EventController());
@@ -44,7 +40,7 @@ class SearchbarEventWidget extends StatelessWidget {
         filled: true,
         fillColor: neutral01Color,
         prefixIcon: const Icon(Icons.search),
-        suffixIcon: FilterSearchButton(),
+        suffixIcon: FilterSearchEventButton(),
         hintText: "Search event",
         hintStyle: regulerText15.copyWith(color: neutral03Color),
         border: OutlineInputBorder(
@@ -53,8 +49,6 @@ class SearchbarEventWidget extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 class SearchbarScholarWidget extends StatelessWidget {
@@ -68,7 +62,7 @@ class SearchbarScholarWidget extends StatelessWidget {
         filled: true,
         fillColor: neutral01Color,
         prefixIcon: const Icon(Icons.search),
-        suffixIcon: FilterSearchButton(),
+        suffixIcon: FilterSearchScholarButton(),
         hintText: "Search scholarship",
         hintStyle: regulerText15.copyWith(color: neutral03Color),
         border: OutlineInputBorder(
@@ -77,38 +71,136 @@ class SearchbarScholarWidget extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
-class FilterSearchButton extends StatelessWidget{
+class FilterSearchEventButton extends GetView<EventController> {
+
+
   @override
   Widget build(BuildContext context) {
+    return Padding(
+        // crossAxisAlignment: CrossAxisAlignment.start,
 
-    return InkWell(
-          onTap: () {
-            Scaffold.of(context).openEndDrawer();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: neutral01Color,
-                shape: BoxShape.circle,
-                border: Border.all(color: neutral02Color, width: 3),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 4,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
+        padding: const EdgeInsets.all(8.0),
+        child: (
+
+          PopupMenuButton<String>(
+              itemBuilder: (BuildContext context) {
+                return controller.filterOptions.map((String filter) {
+                  return PopupMenuItem(
+                      value: filter,
+                      child: filter == "Urutkan Berdasarkan:" ?
+                      Text(filter, style: boldText14.copyWith(color: neutral04Color),):
+                      Text(filter )
+                  );
+
+                }).toList();
+              },
+            color: Colors.white,
+
+              onSelected: (selectedFilter) {
+                controller.updateFilter(selectedFilter);
+                },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: neutral01Color,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: neutral02Color, width: 3),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: Offset(0, 3), // changes position of shadow
+
+                    ),
+                  ],
+                ),
+                child: Image.asset('assets/icons/filter_icon.png'),
               ),
-              child: Image.asset('assets/icons/filter_icon.png'),
-            ),
-          ),
-        );
-  }
+            )
 
+    ));
+    }
+}
+
+class FilterSearchScholarButton extends GetView<ScholarshipController> {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+
+        padding: const EdgeInsets.all(8.0),
+        child: (
+
+            PopupMenuButton<String>(
+              itemBuilder: (BuildContext context) {
+                return controller.filterOptions.map((String filter) {
+                  return PopupMenuItem(
+                      value: filter,
+                      child: filter == "Urutkan Berdasarkan:" ?
+                      Text(filter, style: boldText14.copyWith(color: neutral04Color),):
+                      Text(filter )
+                  );
+
+                }).toList();
+              },
+              color: Colors.white,
+
+              onSelected: (selectedFilter) {
+                controller.updateFilter(selectedFilter);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: neutral01Color,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: neutral02Color, width: 3),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: Offset(0, 3), // changes position of shadow
+
+                    ),
+                  ],
+                ),
+                child: Image.asset('assets/icons/filter_icon.png'),
+              ),
+            )
+
+        ));
+  }
+}
+
+class FilterSearchButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Scaffold.of(context).openEndDrawer();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: neutral01Color,
+            shape: BoxShape.circle,
+            border: Border.all(color: neutral02Color, width: 3),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 4,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Image.asset('assets/icons/filter_icon.png'),
+        ),
+      ),
+    );
+  }
 }

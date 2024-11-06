@@ -17,6 +17,8 @@ class CustomTextField extends StatelessWidget {
     this.maxLines,
     this.readOnly,
     this.inputAction,
+    this.focusNode,
+    this.onFieldSubmitted,
   });
 
   final TextEditingController controller;
@@ -31,6 +33,8 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final bool? readOnly;
   final TextInputAction? inputAction;
+  final FocusNode? focusNode;
+  final void Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,8 @@ class CustomTextField extends StatelessWidget {
       cursorHeight: 15,
       readOnly: readOnly ?? false,
       textInputAction: inputAction,
+      focusNode: focusNode,
+      onFieldSubmitted: onFieldSubmitted,
       style: regulerText12,
       decoration: InputDecoration(
         filled: true,
@@ -72,7 +78,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: primaryBlueColor, width: 1.5),
+          borderSide: BorderSide(color: primaryDarkBlueColor, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

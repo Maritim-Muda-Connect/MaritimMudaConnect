@@ -16,16 +16,25 @@ class ResearchesController extends GetxController {
   final TextEditingController sponsorC = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
+  final focusNodes = List.generate(6, (_) => FocusNode());
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
   Rx<int?> selectedYear = Rx<int?>(null);
 
+  var researcheLists = <ResearchesResponse>[].obs;
   var isLoading = false.obs;
   var isEdit = false.obs;
   var idCard = 0.obs;
-  var researcheLists = <ResearchesResponse>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    focusNodes;
+    fetchResearches();
+  }
 
   String formatDate(DateTime? date) {
     return date != null ? DateFormat('MMMM yyyy').format(date) : '';
@@ -40,14 +49,63 @@ class ResearchesController extends GetxController {
     return DateFormat('yyyy-MM').format(date);
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchResearches();
-  }
-
   bool validateForm() {
     return formKey.currentState!.validate();
+  }
+
+  String? validateTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Title is required";
+    }
+    return null;
+  }
+
+  String? validateRole(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Role is required";
+    }
+    return null;
+  }
+
+  String? validateAffiliate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Affiliate name is required";
+    }
+    return null;
+  }
+
+  String? validateSponsor(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Sponsor is required";
+    }
+    return null;
+  }
+
+  String? validateStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Start date is required";
+    }
+    return null;
+  }
+
+  String? validateEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "End date is required";
+    }
+    return null;
+  }
+
+  bool checkField() {
+    if (researchTitleC.text.isEmpty &&
+        roleC.text.isEmpty &&
+        affiliationC.text.isEmpty &&
+        sponsorC.text.isEmpty &&
+        startDateController.text.isEmpty &&
+        endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> selectStartDate(BuildContext context) async {
@@ -110,20 +168,19 @@ class ResearchesController extends GetxController {
 
   Future<void> fetchResearches() async {
     try {
-      isLoading.value = true;
+      isLoading(true);
       var data = await ResearchesService().fetchResearches();
       researcheLists.assignAll(data);
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
   void createResearche(ResearchesRequest request) async {
-    print(request.toJson());
     try {
-      isLoading.value = true;
+      isLoading(true);
       bool success = await ResearchesService().createResearche(request);
 
       if (success) {
@@ -141,13 +198,13 @@ class ResearchesController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
   void updateResearche(ResearchesRequest request, int id) async {
     try {
-      isLoading.value = true;
+      isLoading(true);
       bool success = await ResearchesService().updateResearche(request, id);
 
       if (success) {
@@ -165,13 +222,13 @@ class ResearchesController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
   void deleteResearche(int id) async {
     try {
-      isLoading.value = true;
+      isLoading(true);
       bool success = await ResearchesService().deleteResearche(id);
 
       if (success) {
@@ -190,7 +247,7 @@ class ResearchesController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
@@ -210,8 +267,10 @@ class ResearchesController extends GetxController {
     super.onClose();
     researchTitleC.dispose();
     roleC.dispose();
+    affiliationC.dispose();
     sponsorC.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

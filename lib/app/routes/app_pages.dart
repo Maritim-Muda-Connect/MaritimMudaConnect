@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-
-import '../data/models/category_data.dart';
 import '../modules/analytics/bindings/analytics_binding.dart';
 import '../modules/analytics/views/analytics_view.dart';
 import '../modules/auth/forgot_password/bindings/forgot_password_binding.dart';
@@ -11,14 +9,14 @@ import '../modules/auth/register/bindings/register_binding.dart';
 import '../modules/auth/register/views/register_view.dart';
 import '../modules/auth/splash/bindings/splash_binding.dart';
 import '../modules/auth/splash/views/splash_view.dart';
-import '../modules/catalog/all_catalog/bindings/all_catalog_binding.dart';
-import '../modules/catalog/all_catalog/views/all_catalog_view.dart';
-import '../modules/catalog/bindings/catalog_binding.dart';
-import '../modules/catalog/detail_catalog/bindings/detail_catalog_binding.dart';
-import '../modules/catalog/detail_catalog/views/detail_catalog_view.dart';
-import '../modules/catalog/sub_catalog/bindings/sub_catalog_binding.dart';
-import '../modules/catalog/sub_catalog/views/sub_catalog_view.dart';
-import '../modules/catalog/views/catalog_view.dart';
+import '../modules/product/all_product/bindings/all_product_binding.dart';
+import '../modules/product/all_product/views/all_product_view.dart';
+import '../modules/product/bindings/product_binding.dart';
+import '../modules/product/detail_catalog/bindings/detail_catalog_binding.dart';
+import '../modules/product/detail_catalog/views/detail_catalog_view.dart';
+import '../modules/product/sub_product/bindings/sub_product_binding.dart';
+import '../modules/product/sub_product/views/sub_product_view.dart';
+import '../modules/product/views/product_view.dart';
 import '../modules/e_kta/bindings/e_kta_binding.dart';
 import '../modules/e_kta/views/e_kta_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -154,23 +152,23 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CATALOG,
-      page: () => const CatalogView(),
-      binding: CatalogBinding(),
+      page: () => const ProductView(),
+      binding: ProductBinding(),
     ),
     GetPage(
       name: _Paths.ALL_CATALOG,
-      page: () => const AllCatalogView(),
-      binding: AllCatalogBinding(),
+      page: () => const AllProductView(),
+      binding: AllProductBinding(),
     ),
     GetPage(
       name: _Paths.SUB_CATALOG,
-      page: () => const SubCatalogView(),
-      binding: SubCatalogBinding(),
+      page: () => const SubProductView(),
+      binding: SubProductBinding(),
     ),
     GetPage(
       name: _Paths.DETAIL_CATALOG,
-      page: () => const DetailCatalogView(),
-      binding: DetailCatalogBinding(),
+      page: () => const DetailProductView(),
+      binding: DetailProductBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE_USER,

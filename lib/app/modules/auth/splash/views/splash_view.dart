@@ -9,9 +9,9 @@ class SplashView extends GetView<SplashController> {
   Widget build(BuildContext context) {
     Get.put(SplashController());
     return Scaffold(
-      backgroundColor: neutral02Color,
+      backgroundColor: thirdGreyColor,
       body: Center(
-        child: Image.asset("assets/images/maritimmuda_connect.png", width: 200),
+        child: Image.asset("assets/gif/logo_gif.GIF", width: 300),
       ),
     );
   }

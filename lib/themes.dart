@@ -9,6 +9,7 @@ Color subTitleColor = const Color(0xFFB3B3B3);
 Color primaryBlueColor = const Color(0xFF12AEC7);
 Color primaryDarkBlueColor = const Color(0xFF086C9E);
 Color secondaryRedColor = const Color(0xFFDE5859);
+Color thirdGreyColor = const Color(0xFFEEEEEE);
 
 // EXTRA LIGHT TEXT
 TextStyle extraLightText16 =
@@ -29,7 +30,7 @@ TextStyle regulerText11 =
 TextStyle regulerText12 =
     GoogleFonts.poppins(fontSize: 12, fontWeight: reguler);
 TextStyle regulerText14 =
-GoogleFonts.poppins(fontSize: 14, fontWeight: reguler);
+    GoogleFonts.poppins(fontSize: 14, fontWeight: reguler);
 TextStyle regulerText15 =
     GoogleFonts.poppins(fontSize: 15, fontWeight: reguler);
 TextStyle regulerText16 =

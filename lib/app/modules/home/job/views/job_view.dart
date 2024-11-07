@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:maritimmuda_connect/app/data/models/response/job_response.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 
 import 'package:maritimmuda_connect/themes.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controllers/job_controller.dart';
 
 class JobView extends GetView<JobController> {
@@ -20,41 +24,45 @@ class JobView extends GetView<JobController> {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          _buildJobCard(context),
-          _buildJobCard(context),
-          _buildJobCard(context),
-        ],
-      ),
+      body: Obx(() {
+        // Jika data masih loading, tampilkan indikator loading
+        if (controller.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else if (controller.jobs.isEmpty) {
+          return Text('tidak ada data');
+        } else {
+          return ListView.builder(
+            itemCount: controller.jobs.length,
+            itemBuilder: (context, index) {
+              final job = controller.jobs[index];
+              return _buildJobCard(context, job);
+            },
+          );
+        }
+      }),
     );
   }
 
-  Widget _buildJobCard(BuildContext context) {
+  Widget _buildJobCard(BuildContext context, JobResponse job) {
     return Card(
       margin: const EdgeInsets.all(16),
       color: neutral01Color,
       child: InkWell(
-        onTap: () => _showJobDetails(context),
-        child: const Padding(
+        onTap: () => _showJobDetails(context, job),
+        child: Padding(
           padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Commercial Legal Partner',
+                job.positionTitle ?? '',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
-              Text('Rp. 10.000.000 - 15.000.000'),
+              Text(job.companyName ?? ''),
               SizedBox(height: 8),
-              Text('KG, Gading'),
-              SizedBox(height: 8),
-              Text('Full Time'),
-              SizedBox(height: 8),
-              Text('Until 15 Apr 2024'),
-              SizedBox(height: 8),
-              Text('PT Waruna Nusa Sentana'),
+              Text(
+                  'Until ${DateFormat('dd MMMM yyyy').format(job.applicationClosedAt ?? DateTime.now())}'),
             ],
           ),
         ),
@@ -62,7 +70,7 @@ class JobView extends GetView<JobController> {
     );
   }
 
-  void _showJobDetails(BuildContext context) {
+  void _showJobDetails(BuildContext context, JobResponse job) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -71,14 +79,14 @@ class JobView extends GetView<JobController> {
       ),
       builder: (BuildContext context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.9,
+          initialChildSize: 0.6,
           minChildSize: 0.5,
-          maxChildSize: 0.9,
+          maxChildSize: 0.6,
           expand: false,
           builder: (_, controller) {
             return SingleChildScrollView(
               controller: controller,
-              child: _buildJobDetailsContent(context),
+              child: _buildJobDetailsContent(context, job),
             );
           },
         );
@@ -86,7 +94,7 @@ class JobView extends GetView<JobController> {
     );
   }
 
-  Widget _buildJobDetailsContent(BuildContext context) {
+  Widget _buildJobDetailsContent(BuildContext context, JobResponse job) {
     return Container(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -97,65 +105,49 @@ class JobView extends GetView<JobController> {
             children: [
               const Text(
                 'Available Job',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => Navigator.pop(context),
               ),
+
             ],
           ),
-          const SizedBox(height: 16),
-          const Text(
-            'Commercial Legal Partner',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          SizedBox(height: 8),
+          Text(
+            job.positionTitle ?? '',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
-          const Text('Rp. 10.000.000 - 15.000.000'),
-          const SizedBox(height: 16),
-          const Text('Job Details', style: TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          const Text('PT Waruna Nusa Sentana • Kelapa Gading, Jakarta Utara'),
-          const Chip(label: Text('Full Time')),
-          const SizedBox(height: 16),
-          const Text('Jobdesk:', style: TextStyle(fontWeight: FontWeight.bold)),
-          _buildBulletPoint('Mengawasi dan memberikan tanggapan, saran, dan perbaikan aspek hukum operasional perusahaan'),
-          _buildBulletPoint('Monitoring, review, dan memberikan saran terhadap semua perjanjian/kontrak dengan klien (pencharter)'),
-          _buildBulletPoint('Memastikan seluruh kontrak/perjanjian sesuai dengan peraturan hukum perundang-undangan yang berlaku'),
-          const SizedBox(height: 16),
-          const Text('Kualifikasi:', style: TextStyle(fontWeight: FontWeight.bold)),
-          _buildBulletPoint('S1 / S2 Jurusan Hukum'),
-          _buildBulletPoint('Minimal 5 tahun pengalaman sebagai Legal Manager'),
-          _buildBulletPoint('Memiliki lisensi PERADI menjadi nilai tambah'),
-          _buildBulletPoint('Familiar dengan regulasi maritim baik nasional maupun internasional'),
-          _buildBulletPoint('Menguasai litigasi, drafting, dan review kontrak bisnis (komersial)'),
-          _buildBulletPoint('Memiliki leadership yang kuat dan kemampuan interpersonal yang baik'),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 50),
-            ),
-            child: const Text('LAMAR'),
+          SizedBox(height: 10,),
+          Text(job.companyName ?? ''),
+          SizedBox(height: 8),
+          InkWell(
+            onTap: () async {
+              await launchUrl(Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
+            },
+            child: Text('Job Link: ${job.link}'),
           ),
+          SizedBox(height: 16),
+          const SizedBox(height: 16),
+
+
+          const SizedBox(height: 16),
+          const Text('Job Details',
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+           Text(job.companyName ?? ''),
+           Chip(label: Text(job.type == 1 ? 'Full Time' : 'Contract')),
+          const SizedBox(height: 16),
+
+          const SizedBox(height: 16),
+          CustomButton(text: 'APPLY', onPressed: () async {
+            await launchUrl(Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
+          })
         ],
       ),
     );
   }
 
-  Widget _buildBulletPoint(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, top: 4, bottom: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('• '),
-          Expanded(child: Text(text)),
-        ],
-      ),
-    );
-  }
+
 }
-
-
-

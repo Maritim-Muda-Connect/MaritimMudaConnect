@@ -153,7 +153,7 @@ class HomeView extends GetView<HomeController> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EventView(categoryList)));
+                              builder: (context) => const EventView()));
                     },
                   ),
                 ),

@@ -27,7 +27,7 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 430,
+            height: 500,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               itemCount: controller.title.length,

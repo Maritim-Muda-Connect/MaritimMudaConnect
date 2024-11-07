@@ -1,5 +1,7 @@
 const String baseUrl = "https://hub.maritimmuda.id/api";
 
+const String baseUrlImage = "https://hub.maritimmuda.id/media";
+
 final Map<String, String> headersNoToken = {
   'Content-Type': 'application/json',
 };

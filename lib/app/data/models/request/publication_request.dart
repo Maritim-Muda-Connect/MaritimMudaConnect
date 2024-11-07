@@ -43,4 +43,6 @@ class PublicationRequest {
     "publish_date": publishDate,
     "first_page": firstPage,
   };
+
+
 }

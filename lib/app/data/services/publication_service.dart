@@ -38,7 +38,7 @@ class PublicationService {
     }
   }
 
-  Future<bool> updatePublications(PublicationRequest request, String id) async {
+  Future<bool> updatePublications(PublicationRequest request, int id) async {
     String? token = await UserPreferences().getToken();
 
     final response = await http.patch(

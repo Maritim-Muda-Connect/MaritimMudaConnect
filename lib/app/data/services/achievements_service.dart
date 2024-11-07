@@ -41,7 +41,7 @@ class AchievementsService {
     }
   }
 
-  Future<bool> updateAchievements(AchievementsRequest request, String id) async {
+  Future<bool> updateAchievements(AchievementsRequest request, int id) async {
     String? token = await UserPreferences().getToken();
 
     final response = await http.patch(

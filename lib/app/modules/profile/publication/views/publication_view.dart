@@ -19,6 +19,7 @@ class PublicationView extends GetView<PublicationController> {
       resizeToAvoidBottomInset: false,
       backgroundColor: neutral02Color,
       body: SingleChildScrollView(
+        controller: controller.scrollController,
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +59,8 @@ class PublicationView extends GetView<PublicationController> {
                     const SizedBox(height: 16),
                     Text('Publication Type', style: boldText12),
                     const SizedBox(height: 8),
-                    Obx(() =>
-                      CustomDropdown(
+                    Obx(
+                      () => CustomDropdown(
                         options: controller.publicationOptions,
                         hintText: 'Choose your publications type',
                         selectedOption: controller.publicationOptions[
@@ -147,25 +148,45 @@ class PublicationView extends GetView<PublicationController> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ProfileButton(
+                          color: primaryDarkBlueColor,
                           icon:
                               Icon(Icons.save_outlined, color: neutral01Color),
                           text: 'Save',
                           onTap: () {
                             if (controller.validateForm()) {
-                              controller.createPublication(
-                                PublicationRequest(
+                              if (controller.isEdit.value) {
+                                controller.updatePublications(
+                                    PublicationRequest(
+                                      title: controller.titleC.text,
+                                      authorName: controller.authorC.text,
+                                      type: controller
+                                          .selectedPublicationType.value,
+                                      publisher: controller.publisherC.text,
+                                      city: controller.cityC.text,
+                                      publishDate: controller.formatDate(
+                                          controller.selectedDate.value ??
+                                              DateTime.now()),
+                                    ),
+                                    controller.idCard.value);
+                                controller.isEdit.value = false;
+                                controller.idCard.value = 0;
+                              } else {
+                                controller.createPublication(
+                                  PublicationRequest(
                                     title: controller.titleC.text,
                                     authorName: controller.authorC.text,
-                                    type: controller.selectedPublicationType.value,
+                                    type: controller
+                                        .selectedPublicationType.value,
                                     publisher: controller.publisherC.text,
                                     city: controller.cityC.text,
                                     publishDate: controller.formatDate(
                                         controller.selectedDate.value ??
-                                            DateTime.now())),
-                              );
+                                            DateTime.now()),
+                                  ),
+                                );
+                              }
                             }
                           },
-                          color: primaryDarkBlueColor,
                         ),
                         const SizedBox(width: 10),
                         ProfileButton(
@@ -178,6 +199,7 @@ class PublicationView extends GetView<PublicationController> {
                                   'Are you sure you want to clear all data entered?',
                               onConfirm: () {
                                 controller.clearAll();
+                                controller.isEdit.value = false;
                                 Get.back();
                                 customSnackbar(
                                   'All data has been deleted successfully',
@@ -192,63 +214,71 @@ class PublicationView extends GetView<PublicationController> {
                       ],
                     ),
                     const SizedBox(height: 30),
-                Obx(
+                    Obx(
                       () {
-                    if (controller.isLoading.value) {
-                      return CircularProgressIndicator();
-                    } else if (controller.publicationData.isEmpty) {
-                      return Container();
-                    } else {
-                      return SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                          itemCount: controller.publicationData.length,
-                          itemBuilder: (context, index) {
-                            final publicationData = controller.publicationData[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: ProfileCard(
-                                title: publicationData.title ?? '',
-                                rightTitle: publicationData.publisher,
-                                leftSubTitle: '',
-                                rightSubTitle: '',
-                                startDate:
-                                controller.formatDate(publicationData.publishDate!),
-                                imageUrl: '',
-                                onTap1: () {
-                                  controller.patchField(publicationData);
-                                },
-                                onTap2: () {
-                                  showCustomDialog(
-                                    content:
-                                    'Are you sure you want to delete this data?',
-                                    onConfirm: () {
-                                      controller
-                                          .deletePublication(publicationData.id ?? 0);
-                                      Get.back();
-                                    },
-                                    onCancel: () {
-                                      Get.back();
-                                    },
-                                  );
-                                },
-                                onTap3: () {},
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                  },
-                ),
-                    const SizedBox(
-                      height: 50,
-                    )
+                        if (controller.isLoading.value) {
+                          return CircularProgressIndicator();
+                        } else if (controller.publicationData.isEmpty) {
+                          return Container();
+                        } else {
+                          return ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              height: 5,
+                            ),
+                            itemCount: controller.publicationData.length,
+                            itemBuilder: (context, index) {
+                              final publicationData =
+                                  controller.publicationData[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: ProfileCard(
+                                  title: publicationData.title ?? '',
+                                  rightTitle: publicationData.publisher,
+                                  leftSubTitle: '',
+                                  rightSubTitle: '',
+                                  startDate: controller
+                                      .formatDate(publicationData.publishDate!),
+                                  imageUrl: '',
+                                  onTap1: () {
+                                    controller.isEdit.value = true;
+                                    controller.idCard.value = publicationData.id ?? 0;
+                                    controller.patchField(publicationData);
+                                    controller.scrollController.animateTo(
+                                      0.0,
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  onTap2: () {
+                                    showCustomDialog(
+                                      content:
+                                          'Are you sure you want to delete this data?',
+                                      onConfirm: () {
+                                        controller.deletePublication(
+                                            publicationData.id ?? 0);
+                                        Get.back();
+                                      },
+                                      onCancel: () {
+                                        Get.back();
+                                      },
+                                    );
+                                  },
+                                  onTap3: () {},
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 58),
+            const SizedBox(height: 50),
           ],
         ),
       ),

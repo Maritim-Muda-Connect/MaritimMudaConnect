@@ -19,6 +19,8 @@ class PublicationController extends GetxController {
   final TextEditingController publisherC = TextEditingController();
   final TextEditingController cityC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
@@ -26,8 +28,11 @@ class PublicationController extends GetxController {
   RxString selectedFileName = 'No File Chosen'.obs;
   Rx<File?> selectedImage = Rx<File?>(null);
   RxString selectedImagePath = ''.obs;
+
   var publicationData = <PublicationResponse>[].obs;
   var isLoading = false.obs;
+  var isEdit = false.obs;
+  var idCard = 0.obs;
   var selectedPublicationType = 1.obs;
 
   String formatDate(DateTime date) {
@@ -114,7 +119,7 @@ class PublicationController extends GetxController {
     dateC.text = formatDate(publicationData.publishDate ?? DateTime.now());
   }
 
-  void fetchPublications() async {
+  Future<void> fetchPublications() async {
     try {
       isLoading.value = true;
       var data = await PublicationService().fetchPublication();
@@ -140,6 +145,30 @@ class PublicationController extends GetxController {
       } else {
         customSnackbar(
           'Failed adding publication history!',
+          secondaryRedColor,
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void updatePublications(PublicationRequest request, int id) async {
+    try {
+      isLoading.value = true;
+      bool success = await PublicationService().updatePublications(request, id);
+
+      if (success) {
+        await fetchPublications();
+        clearAll();
+        customSnackbar(
+          'Success update publication history!',
+        );
+      } else {
+        customSnackbar(
+          'Failed update publication history!',
           secondaryRedColor,
         );
       }
@@ -194,6 +223,8 @@ class PublicationController extends GetxController {
     pubTypeC.dispose();
     publisherC.dispose();
     dateC.dispose();
+    cityC.dispose();
+    scrollController.dispose();
     super.onClose();
   }
   void setPublicationType(String? value) {

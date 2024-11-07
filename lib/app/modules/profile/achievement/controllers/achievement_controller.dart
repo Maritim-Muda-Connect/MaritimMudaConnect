@@ -33,10 +33,13 @@ class AchievementController extends GetxController {
   final TextEditingController eventNameC = TextEditingController();
   final TextEditingController eventLevelC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
   var isLoading = false.obs;
+  var isEdit = false.obs;
+  var idCard = 0.obs;
   var achievementsData = <AchievementsResponse>[].obs;
 
   String formatDate(DateTime? date) {
@@ -90,7 +93,7 @@ class AchievementController extends GetxController {
     dateC.text = formatDate(achievementsData.achievedAt!);
   }
 
-  void fetchAchievements() async {
+  Future<void> fetchAchievements() async {
     try {
       isLoading.value = true;
       var data = await AchievementsService().fetchAchievements();
@@ -116,6 +119,30 @@ class AchievementController extends GetxController {
       } else {
         customSnackbar(
           'Failed adding achievements history!',
+          secondaryRedColor,
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateAchievements(AchievementsRequest request, int id) async {
+    try {
+      isLoading.value = true;
+      bool success = await AchievementsService().updateAchievements(request, id);
+
+      if (success) {
+        await fetchAchievements();
+        clearAll();
+        customSnackbar(
+          'Success update publication history!',
+        );
+      } else {
+        customSnackbar(
+          'Failed update publication history!',
           secondaryRedColor,
         );
       }
@@ -166,6 +193,8 @@ class AchievementController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchAchievements();
+
   }
 
   bool validateForm() {
@@ -185,5 +214,6 @@ class AchievementController extends GetxController {
     eventNameC.dispose();
     eventLevelC.dispose();
     dateC.dispose();
+    scrollController.dispose();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/product/controllers/product_controller.dart';
-import 'package:maritimmuda_connect/app/modules/product/detail_catalog/views/detail_catalog_view.dart';
+import 'package:maritimmuda_connect/app/modules/product/detail_product/views/detail_product_view.dart';
 import 'package:maritimmuda_connect/app/modules/product/sub_product/widget/list_product.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/sub_product_controller.dart';
@@ -34,7 +34,7 @@ class SubProductView extends GetView<SubProductController> {
             itemBuilder: (context, index) {
               return ListCatalog(
                 onTap: () {
-                  Get.to(() => const DetailProductView());
+                  Get.to(() => DetailProductView(productData: controller.filteredProductList[index],));
                 },
                 productList: controller.filteredProductList[index],
               );

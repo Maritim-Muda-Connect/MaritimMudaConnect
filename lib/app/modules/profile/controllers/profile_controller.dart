@@ -5,12 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
 import 'package:maritimmuda_connect/app/data/services/general_service.dart';
-import 'package:maritimmuda_connect/app/data/utils/expertises.dart';
+import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class ProfileController extends GetxController {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
   final provincialOrgController = TextEditingController();
@@ -107,6 +108,7 @@ class ProfileController extends GetxController {
     String provinceId = generalData.value.user?.provinceId?.toString() ?? '1';
     String provinceName = provinceOptions[provinceId] ?? '';
 
+    nameController.text = generalData.value.user?.name ?? '';
     emailController.text = generalData.value.user?.email ?? '';
     provincialOrgController.text = provinceName;
     placeOfBirthController.text = generalData.value.user?.placeOfBirth ?? '';
@@ -126,7 +128,7 @@ class ProfileController extends GetxController {
 
   Future<void> fetchGeneral() async {
     try {
-      isLoading.value = true;
+      isLoading(true);
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
 
@@ -134,13 +136,13 @@ class ProfileController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
   void updateGeneral(GeneralRequest request) async {
     try {
-      isLoading.value = true;
+      isLoading(true);
       bool success = await GeneralService().updateGeneral(request);
 
       if (success) {
@@ -158,12 +160,13 @@ class ProfileController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
   @override
   void onClose() {
+    nameController.dispose();
     emailController.dispose();
     genderController.dispose();
     provincialOrgController.dispose();

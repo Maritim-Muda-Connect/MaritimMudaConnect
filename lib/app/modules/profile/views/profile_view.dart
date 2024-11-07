@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
-import 'package:maritimmuda_connect/app/data/utils/expertises.dart';
+import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
@@ -163,6 +163,14 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                     const SizedBox(height: 24),
+                    Text('Name', style: boldText12),
+                    const SizedBox(height: 8),
+                    CustomTextField(
+                      keyboardType: TextInputType.text,
+                      controller: controller.nameController,
+                      hintText: 'Enter your name',
+                    ),
+                    const SizedBox(height: 16),
                     Text('Email', style: boldText12),
                     const SizedBox(height: 8),
                     CustomTextField(

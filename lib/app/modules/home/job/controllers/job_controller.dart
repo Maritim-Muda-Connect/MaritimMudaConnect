@@ -1,23 +1,31 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/data/models/response/job_response.dart';
+import 'package:maritimmuda_connect/app/data/services/job_service.dart';
+
 
 class JobController extends GetxController {
-  //TODO: Implement JobController
+  var jobs = <JobResponse>[].obs;
+  var isLoading = true.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    fetchJobs();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  Future<void> fetchJobs() async {
+    try {
+      isLoading(true);
+      var response = await JobService().fetchJob();
 
-  @override
-  void onClose() {
-    super.onClose();
+      jobs.assignAll(response);
+    } catch (e) {
+      print('Error fetching jobs: $e');
+    } finally {
+      isLoading(false);
+    }
   }
-
-  void increment() => count.value++;
 }
+

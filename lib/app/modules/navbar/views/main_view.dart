@@ -20,7 +20,7 @@ class MainView extends StatelessWidget {
         onPageChanged: (index) {
           controller.updateIndex(index);
         },
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         children: controller.views,
       ),
       bottomNavigationBar: ClipRRect(

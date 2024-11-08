@@ -7,6 +7,7 @@ class CustomDropdown extends StatelessWidget {
     required this.options,
     required this.selectedOption,
     required this.onSelected,
+    this.validator,
     this.hintText,
   });
 
@@ -14,17 +15,19 @@ class CustomDropdown extends StatelessWidget {
   final String selectedOption;
   final Function(String?) onSelected;
   final String? hintText;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 41,
       width: double.infinity,
       decoration: BoxDecoration(
         color: neutral02Color,
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButtonFormField<String>(
+        validator: validator,
         value: selectedOption != '' && selectedOption != hintText ? selectedOption : null,
         onChanged: onSelected,
         items: options.map((String value) {

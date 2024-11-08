@@ -35,7 +35,7 @@ class WorkExperiencesController extends GetxController {
   }
 
   String formatDateRequest(DateTime date) {
-    return DateFormat('yyyy-MM').format(date);
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
@@ -103,7 +103,7 @@ class WorkExperiencesController extends GetxController {
     selectedEndDate.value = DateTime.parse(workExperiencesData.endDate.toString());
   }
 
-  void fetchWorkExperiences() async {
+  Future<void> fetchWorkExperiences() async {
     try {
       isLoading.value = true;
       var data = await WorkExperiencesService().fetchWorkExperiences();

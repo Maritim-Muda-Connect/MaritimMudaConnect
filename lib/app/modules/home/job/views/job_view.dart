@@ -18,14 +18,10 @@ class JobView extends GetView<JobController> {
       appBar: AppBar(
         title: const Text('Available Job'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
-          ),
+
         ],
       ),
       body: Obx(() {
-        // Jika data masih loading, tampilkan indikator loading
         if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         } else if (controller.jobs.isEmpty) {
@@ -56,6 +52,7 @@ class JobView extends GetView<JobController> {
             children: [
               Text(
                 job.positionTitle ?? '',
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),

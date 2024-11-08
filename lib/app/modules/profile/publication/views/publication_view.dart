@@ -48,6 +48,7 @@ class PublicationView extends GetView<PublicationController> {
                     CustomTextField(
                       hintText: 'Enter title',
                       controller: controller.titleC,
+                      validator: controller.validateTitle,
                     ),
                     const SizedBox(height: 16),
                     Text('Author(s)', style: boldText12),
@@ -55,6 +56,7 @@ class PublicationView extends GetView<PublicationController> {
                     CustomTextField(
                       hintText: 'Enter author',
                       controller: controller.authorC,
+                      validator: controller.validateAuthors,
                     ),
                     const SizedBox(height: 16),
                     Text('Publication Type', style: boldText12),
@@ -62,6 +64,7 @@ class PublicationView extends GetView<PublicationController> {
                     Obx(
                       () => CustomDropdown(
                         options: controller.publicationOptions,
+                        validator: controller.validatePublicationType,
                         hintText: 'Choose your publications type',
                         selectedOption: controller.publicationOptions[
                             controller.selectedPublicationType.value - 1],
@@ -76,6 +79,7 @@ class PublicationView extends GetView<PublicationController> {
                     CustomTextField(
                       hintText: 'Enter publisher',
                       controller: controller.publisherC,
+                      validator: controller.validatePublisher,
                     ),
                     const SizedBox(height: 16),
                     Text('City of Publisher', style: boldText12),
@@ -83,6 +87,7 @@ class PublicationView extends GetView<PublicationController> {
                     CustomTextField(
                       hintText: 'Enter City of Publisher',
                       controller: controller.cityC,
+                      validator: controller.validateCity,
                     ),
                     const SizedBox(height: 16),
                     Text('Date of Publication', style: boldText12),
@@ -91,6 +96,7 @@ class PublicationView extends GetView<PublicationController> {
                       onTap: () => controller.selectDate(context),
                       child: AbsorbPointer(
                         child: CustomTextField(
+                          validator: controller.validateDate,
                           controller: controller.dateC,
                           hintText: 'Select date of publication',
                           suffixIcon: Icon(Icons.calendar_today,
@@ -194,91 +200,57 @@ class PublicationView extends GetView<PublicationController> {
                           color: secondaryRedColor,
                           text: 'Clear',
                           onTap: () {
-                            showCustomDialog(
-                              content:
-                                  'Are you sure you want to clear all data entered?',
-                              onConfirm: () {
-                                controller.clearAll();
-                                controller.isEdit.value = false;
-                                Get.back();
-                                customSnackbar(
-                                  'All data has been deleted successfully',
-                                );
-                              },
-                              onCancel: () {
-                                Get.back();
-                              },
-                            );
+                            if (controller.checkField()){
+                              customSnackbar(
+                                "All field already empty",
+                                secondaryRedColor,
+                              );
+                            } else {
+                              showCustomDialog(
+                                content:
+                                'Are you sure you want to clear all data entered?',
+                                onConfirm: () {
+                                  controller.clearAll();
+                                  controller.isEdit.value = false;
+                                  Get.back();
+                                  customSnackbar(
+                                    'All data has been deleted successfully',
+                                  );
+                                },
+                                onCancel: () {
+                                  Get.back();
+                                },
+                              );
+                            }
                           },
                         ),
                       ],
                     ),
                     const SizedBox(height: 30),
-                    Obx(
-                      () {
-                        if (controller.isLoading.value) {
-                          return CircularProgressIndicator();
-                        } else if (controller.publicationData.isEmpty) {
-                          return Container();
-                        } else {
-                          return ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 5,
-                            ),
-                            itemCount: controller.publicationData.length,
-                            itemBuilder: (context, index) {
-                              final publicationData =
-                                  controller.publicationData[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: ProfileCard(
-                                  title: publicationData.title ?? '',
-                                  rightTitle: publicationData.publisher,
-                                  leftSubTitle: '',
-                                  rightSubTitle: '',
-                                  startDate: controller
-                                      .formatDate(publicationData.publishDate!),
-                                  imageUrl: '',
-                                  onTap1: () {
-                                    controller.isEdit.value = true;
-                                    controller.idCard.value = publicationData.id ?? 0;
-                                    controller.patchField(publicationData);
-                                    controller.scrollController.animateTo(
-                                      0.0,
-                                      duration: const Duration(milliseconds: 300),
-                                      curve: Curves.easeInOut,
-                                    );
-                                  },
-                                  onTap2: () {
-                                    showCustomDialog(
-                                      content:
-                                          'Are you sure you want to delete this data?',
-                                      onConfirm: () {
-                                        controller.deletePublication(
-                                            publicationData.id ?? 0);
-                                        Get.back();
-                                      },
-                                      onCancel: () {
-                                        Get.back();
-                                      },
-                                    );
-                                  },
-                                  onTap3: () {},
-                                ),
-                              );
+                    Obx(() => Column(
+                      children: controller.publicationData.map((activity) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: ProfileCard(
+                            title: activity.title!,
+                            rightTitle: activity.publisher!,
+                            startDate: activity.publishDate != null ? controller.formatDate(activity.publishDate!) : 'N/A',
+                            onTap1: () {
+                              controller.isEdit.value = true;
+                              controller.idCard.value = activity.id!;
+                              controller.patchField(activity);
                             },
-                          );
-                        }
-                      },
-                    ),
+                            onTap2: () => controller.deletePublication(activity.id!),
+                            onTap3: () {},
+                          ),
+                        );
+                      }).toList(),
+                    )),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 200),
           ],
         ),
       ),

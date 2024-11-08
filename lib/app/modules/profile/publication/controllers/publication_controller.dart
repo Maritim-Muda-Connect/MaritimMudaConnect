@@ -58,8 +58,63 @@ class PublicationController extends GetxController {
     selectedPublicationType.value = 1;
   }
 
+  bool checkField() {
+    if (titleC.text.isEmpty &&
+        authorC.text.isEmpty &&
+        pubTypeC.text.isEmpty &&
+        publisherC.text.isEmpty &&
+        cityC.text.isEmpty &&
+        dateC.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   bool validateForm() {
     return formKey.currentState!.validate();
+  }
+
+  String? validateTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Title is required";
+    }
+    return null;
+  }
+
+  String? validateAuthors(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Author(s) is required";
+    }
+    return null;
+  }
+
+  String? validatePublicationType(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Publication Type is required";
+    }
+    return null;
+  }
+
+  String? validatePublisher(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Publisher is required";
+    }
+    return null;
+  }
+
+  String? validateCity(String? value) {
+    if (value == null || value.isEmpty) {
+      return "City of Publisher is required";
+    }
+    return null;
+  }
+
+  String? validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Date of Publication is required";
+    }
+    return null;
   }
 
   Future<void> selectDate(BuildContext context) async {
@@ -209,6 +264,7 @@ class PublicationController extends GetxController {
     authorC.clear();
     pubTypeC.clear();
     publisherC.clear();
+    cityC.clear();
     dateC.clear();
 
     selectedFileName.value = 'No File Chosen';

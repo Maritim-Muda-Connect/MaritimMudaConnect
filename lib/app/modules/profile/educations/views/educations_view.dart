@@ -25,7 +25,7 @@ class EducationsView extends GetView<EducationsController> {
           children: [
             const SizedBox(height: 24),
             Padding(
-              padding: const EdgeInsets.only(left: 18),
+              padding: const EdgeInsets.only(left: 15),
               child: Text(
                   'Add Education History',
                   style: regulerText24
@@ -204,8 +204,8 @@ class EducationsView extends GetView<EducationsController> {
               ),
             ),
             const SizedBox(
-              height: 50,
-            )
+              height: 200,
+            ),
           ],
         ),
       ),

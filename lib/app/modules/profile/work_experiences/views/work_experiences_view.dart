@@ -176,7 +176,9 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                   )
               ),
             ),
-            const SizedBox(height: 50)
+            const SizedBox(
+              height: 200,
+            ),
           ],
         ),
       ),

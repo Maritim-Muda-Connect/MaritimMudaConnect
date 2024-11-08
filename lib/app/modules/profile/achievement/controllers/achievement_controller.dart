@@ -85,6 +85,54 @@ class AchievementController extends GetxController {
     );
   }
 
+  String? validateAward(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Award is required";
+    }
+    return null;
+  }
+
+  String? validateAppreciator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Appreciator or Organizer is required";
+    }
+    return null;
+  }
+
+  String? validateEventName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Event Name is required";
+    }
+    return null;
+  }
+
+  String? validateEventLevel(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Event Level is required";
+    }
+    return null;
+  }
+
+  String? validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Date is required";
+    }
+    return null;
+  }
+
+  bool checkField() {
+    if (awardC.text.isEmpty &&
+        appreciatorC.text.isEmpty &&
+        eventNameC.text.isEmpty &&
+        eventLevelC.text.isEmpty &&
+        dateC.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   void patchField(AchievementsResponse achievementsData) {
     awardC.text = achievementsData.awardName ?? '';
     appreciatorC.text = achievementsData.appreciator ?? '';

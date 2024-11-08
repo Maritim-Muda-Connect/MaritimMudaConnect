@@ -9,6 +9,7 @@ class MainDrawerView extends GetView<MainDrawerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: neutral01Color,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         scrolledUnderElevation: 0.0,

@@ -27,7 +27,7 @@ class AchievementView extends GetView<AchievementController> {
           children: [
             const SizedBox(height: 24),
             Padding(
-              padding: const EdgeInsets.only(left: 18),
+              padding: const EdgeInsets.only(left: 15),
               child: Text('Add Achievement History', style: regulerText24),
             ),
             const SizedBox(height: 16),
@@ -51,6 +51,7 @@ class AchievementView extends GetView<AchievementController> {
                     CustomTextField(
                       hintText: 'Enter award name',
                       controller: controller.awardC,
+                      validator: controller.validateAward,
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -61,6 +62,7 @@ class AchievementView extends GetView<AchievementController> {
                     CustomTextField(
                       hintText: 'Enter appreciator name',
                       controller: controller.appreciatorC,
+                      validator: controller.validateAppreciator,
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -71,6 +73,7 @@ class AchievementView extends GetView<AchievementController> {
                     CustomTextField(
                       hintText: 'Enter event name',
                       controller: controller.eventNameC,
+                      validator: controller.validateEventName,
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -81,6 +84,7 @@ class AchievementView extends GetView<AchievementController> {
                     CustomTextField(
                       hintText: 'Enter event level',
                       controller: controller.eventLevelC,
+                      validator: controller.validateEventLevel,
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -94,6 +98,7 @@ class AchievementView extends GetView<AchievementController> {
                         child: CustomTextField(
                           controller: controller.dateC,
                           hintText: 'Select date of achievement',
+                          validator: controller.validateDate,
                           suffixIcon: Icon(Icons.calendar_today,
                               color: primaryBlueColor),
                         ),
@@ -151,20 +156,27 @@ class AchievementView extends GetView<AchievementController> {
                           color: secondaryRedColor,
                           text: 'Clear',
                           onTap: () {
-                            showCustomDialog(
-                              content:
-                                  'Are you sure you want to clear all data entered?',
-                              onConfirm: () {
-                                controller.clearAll();
-                                Get.back();
-                                customSnackbar(
-                                  'All data has been deleted successfully',
-                                );
-                              },
-                              onCancel: () {
-                                Get.back();
-                              },
-                            );
+                            if (controller.checkField()) {
+                              customSnackbar(
+                                "All field already empty",
+                                secondaryRedColor,
+                              );
+                            } else {
+                              showCustomDialog(
+                                content:
+                                    'Are you sure you want to clear all data entered?',
+                                onConfirm: () {
+                                  controller.clearAll();
+                                  Get.back();
+                                  customSnackbar(
+                                    'All data has been deleted successfully',
+                                  );
+                                },
+                                onCancel: () {
+                                  Get.back();
+                                },
+                              );
+                            }
                           },
                         ),
                       ],

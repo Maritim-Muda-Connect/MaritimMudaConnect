@@ -44,6 +44,17 @@ class WorkExperiencesController extends GetxController {
     fetchWorkExperiences();
   }
 
+  bool checkField() {
+    if (positionController.text.isEmpty &&
+        institutionController.text.isEmpty &&
+        startDateController.text.isEmpty &&
+        endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   bool validateForm() {
     return formKey.currentState!.validate();
   }

@@ -239,6 +239,11 @@ class PublicationView extends GetView<PublicationController> {
                               controller.isEdit.value = true;
                               controller.idCard.value = activity.id!;
                               controller.patchField(activity);
+                              controller.scrollController.animateTo(
+                                0.0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
                             },
                             onTap2: () => controller.deletePublication(activity.id!),
                             onTap3: () {},

@@ -23,6 +23,7 @@ class EducationsView extends GetView<EducationsController> {
         resizeToAvoidBottomInset: false,
         backgroundColor: neutral02Color,
         body: SingleChildScrollView(
+          controller: controller.scrollController,
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,10 +31,7 @@ class EducationsView extends GetView<EducationsController> {
               const SizedBox(height: 24),
               Padding(
                 padding: const EdgeInsets.only(left: 18),
-                child: Text(
-                    'Add Education History',
-                    style: regulerText24
-                ),
+                child: Text('Add Education History', style: regulerText24),
               ),
               const SizedBox(height: 16),
               Container(
@@ -91,13 +89,19 @@ class EducationsView extends GetView<EducationsController> {
                         height: 8,
                       ),
                       Obx(() => CustomDropdown(
-                        hintText: 'Choose your education level',
-                        options: controller.levelOptions,
-                        selectedOption: controller.selectedLevel.value,
-                        onSelected: (String? newLevel) {
-                          controller.setLevel(newLevel);
+                            hintText: 'Choose your education level',
+                            options: controller.levelOptions,
+                            selectedOption: controller.selectedLevel.value,
+                            onSelected: (String? newLevel) {
+                              controller.setLevel(newLevel);
+                            },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Education Level';
+                          }
+                          return null;
                         },
-                      )),
+                          )),
                       const SizedBox(
                         height: 16,
                       ),
@@ -115,11 +119,19 @@ class EducationsView extends GetView<EducationsController> {
                             controller: controller.gradController,
                             hintText: 'Select your graduation date',
                             suffixIcon: Icon(Icons.calendar_today,
-                                color: primaryBlueColor),
+                                color: primaryDarkBlueColor),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Graduation date';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16,),
+                      const SizedBox(
+                        height: 16,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -134,21 +146,30 @@ class EducationsView extends GetView<EducationsController> {
                               if (controller.validateForm()) {
                                 if (controller.isEdit.value) {
                                   EducationsRequest request = EducationsRequest(
-                                      institutionName: controller.institutionController.text,
+                                      institutionName:
+                                          controller.institutionController.text,
                                       major: controller.majorController.text,
-                                      level: controller.getLevelValue(controller.selectedLevel.value),
-                                      graduationDate: controller.formatDateRequest(controller.selectedDate.value ?? DateTime.now())
-                                  );
-                                  controller.updateEducations(request, controller.idCard.value);
+                                      level: controller.getLevelValue(
+                                          controller.selectedLevel.value),
+                                      graduationDate:
+                                          controller.formatDateRequest(
+                                              controller.selectedDate.value ??
+                                                  DateTime.now()));
+                                  controller.updateEducations(
+                                      request, controller.idCard.value);
                                   controller.isEdit.value = false;
                                   controller.idCard.value = 0;
                                 } else {
                                   EducationsRequest request = EducationsRequest(
-                                      institutionName: controller.institutionController.text,
+                                      institutionName:
+                                          controller.institutionController.text,
                                       major: controller.majorController.text,
-                                      level: controller.getLevelValue(controller.selectedLevel.value),
-                                      graduationDate: controller.formatDateRequest(controller.selectedDate.value ?? DateTime.now())
-                                  );
+                                      level: controller.getLevelValue(
+                                          controller.selectedLevel.value),
+                                      graduationDate:
+                                          controller.formatDateRequest(
+                                              controller.selectedDate.value ??
+                                                  DateTime.now()));
                                   controller.createEducations(request);
                                 }
                               }
@@ -165,84 +186,74 @@ class EducationsView extends GetView<EducationsController> {
                               color: secondaryRedColor,
                               text: 'Clear',
                               onTap: () {
-                                controller.isEdit.value = false;
-                                showCustomDialog(
-                                  content: 'Are you sure you want to clear all data entered?',
-                                  onConfirm: () {
-                                    controller.clearAll();
-                                    Get.back();
-                                    customSnackbar(
-                                      'All data has been deleted successfully'
-                                    );
-                                  },
-                                  onCancel: () {
-                                    Get.back();
-                                  },
-                                );
-                              }
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Obx(() {
-                        if (controller.isLoading.value) {
-                          return Center(
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(color: primaryDarkBlueColor),
-                            ),
-                          );
-                        } else if (controller.educationList.isEmpty) {
-                          return const SizedBox.shrink();
-                        } else {
-                          return ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: controller.educationList.length,
-                            separatorBuilder: (context, index) => const SizedBox(
-                              height: 16,
-                            ),
-                            itemBuilder: (context, index) {
-                              final activity = controller.educationList[index];
-                              return ProfileCard(
-                                title: activity.institutionName!,
-                                leftSubTitle: activity.major!,
-                                startDate: activity.graduationDate != null
-                                    ? controller.formatDate(activity.graduationDate)
-                                    : 'N/A',
-                                onTap1: () {
-                                  controller.isEdit.value = true;
-                                  controller.idCard.value = activity.id!;
-                                  controller.patchField(activity);
-                                },
-                                onTap2: () {
+                                if (controller.checkField()) {
+                                  customSnackbar(
+                                    "All field already empty",
+                                    secondaryRedColor,
+                                  );
+                                } else {
+                                  controller.isEdit.value = false;
                                   showCustomDialog(
-                                    content: 'Are you sure you want to delete this data?',
+                                    content:
+                                        'Are you sure you want to clear all data entered?',
                                     onConfirm: () {
-                                      controller.deleteEducations(activity.id ?? 0);
+                                      controller.clearAll();
                                       Get.back();
+                                      customSnackbar(
+                                          'All data has been deleted successfully');
                                     },
                                     onCancel: () {
                                       Get.back();
-                                    }
+                                    },
                                   );
-                                },
-                                onTap3: () {},
+                                }
+                              })
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      Obx(
+                        () => Column(
+                          children: controller.educationList.map(
+                            (activity) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: ProfileCard(
+                                  title: activity.institutionName!,
+                                  leftSubTitle: activity.major!,
+                                  startDate: activity.graduationDate != null
+                                      ? controller.formatDate(activity.graduationDate)
+                                      : 'N/A',
+                                  onTap1: () {
+                                    controller.isEdit.value = true;
+                                    controller.idCard.value = activity.id!;
+                                    controller.patchField(activity);
+                                    controller.scrollController.animateTo(
+                                      0.0,
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  // Populate fields for editing
+                                  onTap2: () =>
+                                      controller.deleteEducations(activity.id!),
+                                  // Assuming activity has an ID
+                                  onTap3:
+                                      () {}, // Additional action, if necessary
+                                ),
                               );
                             },
-                          );
-                        }
-                      }),
+                          ).toList(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 200,
-            ),
-          ],
+              const SizedBox(
+                height: 200,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -23,6 +23,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
         backgroundColor: neutral02Color,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
+          controller: controller.scrollController,
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,6 +61,12 @@ class OrganizationsView extends GetView<OrganizationsController> {
                       CustomTextField(
                         controller: controller.organizationNameC,
                         hintText: 'Enter your organization name',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter organization name';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(
                         height: 16,
@@ -74,6 +81,12 @@ class OrganizationsView extends GetView<OrganizationsController> {
                       CustomTextField(
                         controller: controller.positionC,
                         hintText: 'Enter your position',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter position';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(
                         height: 16,
@@ -92,7 +105,13 @@ class OrganizationsView extends GetView<OrganizationsController> {
                             controller: controller.startDateController,
                             hintText: 'Select start date',
                             suffixIcon: Icon(Icons.calendar_today,
-                                color: primaryBlueColor),
+                                color: primaryDarkBlueColor),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter start date';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ),
@@ -113,7 +132,13 @@ class OrganizationsView extends GetView<OrganizationsController> {
                             controller: controller.endDateController,
                             hintText: 'Select end date',
                             suffixIcon: Icon(Icons.calendar_today,
-                                color: primaryBlueColor),
+                                color: primaryDarkBlueColor),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter end date';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ),
@@ -136,12 +161,12 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   controller.updateOrganizations(
                                     OrganizationsRequest(
                                         organizationName:
-                                            controller.organizationNameC.text,
+                                        controller.organizationNameC.text,
                                         role: controller.positionC.text,
                                         periodStartDate:
-                                            controller.selectedStartDate.value,
+                                        controller.selectedStartDate.value,
                                         periodEndDate:
-                                            controller.selectedEndDate.value),
+                                        controller.selectedEndDate.value),
                                     controller.idCard.value,
                                   );
                                   controller.isEdit.value = false;
@@ -150,12 +175,12 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   controller.createOrganizations(
                                     OrganizationsRequest(
                                         organizationName:
-                                            controller.organizationNameC.text,
+                                        controller.organizationNameC.text,
                                         role: controller.positionC.text,
                                         periodStartDate:
-                                            controller.selectedStartDate.value,
+                                        controller.selectedStartDate.value,
                                         periodEndDate:
-                                            controller.selectedEndDate.value),
+                                        controller.selectedEndDate.value),
                                   );
                                 }
                               }
@@ -172,11 +197,18 @@ class OrganizationsView extends GetView<OrganizationsController> {
                               color: secondaryRedColor,
                               text: 'Clear',
                               onTap: () {
-                                showCustomDialog(
+                                if (controller.checkField()) {
+                                  customSnackbar(
+                                    "All field already empty",
+                                    secondaryRedColor,
+                                  );
+                                } else {
+                                  showCustomDialog(
                                     content:
-                                        'Are you sure you want to clear all data entered?',
+                                    'Are you sure you want to clear all data entered?',
                                     onConfirm: () {
                                       controller.clearAll();
+                                      controller.isEdit.value = false;
                                       Get.back();
                                       customSnackbar(
                                         'All data has been deleted successfully',
@@ -184,81 +216,41 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                     },
                                     onCancel: () {
                                       Get.back();
-                                    });
+                                    },
+                                  );
+                                }
                               })
                         ],
                       ),
                       const SizedBox(
                         height: 30,
                       ),
-                      Obx(
-                        () {
-                          if (controller.isLoading.value) {
-                            return Center(
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(
-                                    color: primaryDarkBlueColor),
-                              ),
-                            );
-                          } else if (controller.organizationList.isEmpty) {
-                            return const SizedBox.shrink();
-                          } else {
-                            return ListView.separated(
-                              padding: EdgeInsets.only(bottom: 20),
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: controller.organizationList.length,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                height: 5,
-                              ),
-                              itemBuilder: (context, index) {
-                                final organizationsData =
-                                    controller.organizationList[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 16),
-                                  child: ProfileCard(
-                                    title:
-                                        organizationsData.organizationName ?? '',
-                                    rightTitle: organizationsData.role ?? '',
-                                    startDate: controller.formatDate(
-                                        organizationsData.periodStartDate),
-                                    endDate: controller.formatDate(
-                                        organizationsData.periodEndDate),
-                                    onTap1: () {
-                                      controller.isEdit.value = true;
-                                      controller.idCard.value =
-                                          organizationsData.id ?? 0;
-                                      controller.patchField(organizationsData);
-                                    },
-                                    onTap2: () {
-                                      showCustomDialog(
-                                        content:
-                                            'Are you sure you want to delete this data?',
-                                        onConfirm: () {
-                                          controller.deleteOrganizations(
-                                              organizationsData.id ?? 0);
-                                          Get.back();
-                                        },
-                                        onCancel: () {
-                                          Get.back();
-                                        },
-                                      );
-                                    },
-                                    onTap3: () {},
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                        },
-                      ),
+                      Obx(() => Column(
+                        children: controller.organizationList.map((activity) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: ProfileCard(
+                              title: activity.organizationName!,
+                              rightTitle: activity.role!,
+                              startDate: activity.periodStartDate != null ? controller.formatDate(activity.periodStartDate) : 'N/A',
+                              endDate: activity.periodEndDate != null ? controller.formatDate(activity.periodEndDate) : 'N/A',
+                              onTap1: () {
+                                controller.isEdit.value = true;
+                                controller.idCard.value = activity.id!;
+                                controller.patchField(activity);
+                                controller.scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+                              },// Populate fields for editing
+                              onTap2: () => controller.deleteOrganizations(activity.id!), // Assuming activity has an ID
+                              onTap3: () {}, // Additional action, if necessary
+                            ),
+                          );
+                        }).toList(),
+                      )),
                     ],
                   ),
                 ),
               ),
+              const SizedBox(height: 200),
             ],
           ),
         ),

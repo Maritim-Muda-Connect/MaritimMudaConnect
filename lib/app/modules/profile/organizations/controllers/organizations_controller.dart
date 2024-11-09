@@ -15,6 +15,7 @@ class OrganizationsController extends GetxController {
   final TextEditingController positionC = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -47,6 +48,17 @@ class OrganizationsController extends GetxController {
 
   bool validateForm() {
     return formKey.currentState!.validate();
+  }
+
+  bool checkField() {
+    if (organizationNameC.text.isEmpty &&
+        positionC.text.isEmpty &&
+        startDateController.text.isEmpty &&
+        endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> selectStartDate(BuildContext context) async {
@@ -209,5 +221,6 @@ class OrganizationsController extends GetxController {
     positionC.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

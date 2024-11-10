@@ -23,6 +23,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
         backgroundColor: neutral02Color,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
+          controller: controller.scrollController,
           physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +102,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                               hintText: 'Select end date',
                               suffixIcon: Icon(Icons.calendar_today,
                                   color: primaryDarkBlueColor),
-                                  validator: (value) {
+                              validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter end date';
                                 }
@@ -123,42 +124,42 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                 if (controller.validateForm()) {
                                   if (controller.isEdit.value) {
                                     WorkExperiencesRequest request =
-                                    WorkExperiencesRequest(
-                                        positionTitle: controller
-                                            .positionController.text,
-                                        companyName: controller
-                                            .institutionController.text,
-                                        startDate: controller
-                                            .formatDateRequest(controller
-                                            .selectedStartDate
-                                            .value ??
-                                            DateTime.now()),
-                                        endDate: controller
-                                            .formatDateRequest(controller
-                                            .selectedEndDate
-                                            .value ??
-                                            DateTime.now()));
+                                        WorkExperiencesRequest(
+                                            positionTitle: controller
+                                                .positionController.text,
+                                            companyName: controller
+                                                .institutionController.text,
+                                            startDate: controller
+                                                .formatDateRequest(controller
+                                                        .selectedStartDate
+                                                        .value ??
+                                                    DateTime.now()),
+                                            endDate: controller
+                                                .formatDateRequest(controller
+                                                        .selectedEndDate
+                                                        .value ??
+                                                    DateTime.now()));
                                     controller.updateWorkExperience(
                                         request, controller.idCard.value);
                                     controller.isEdit.value = false;
                                     controller.idCard.value = 0;
                                   } else {
                                     WorkExperiencesRequest request =
-                                    WorkExperiencesRequest(
-                                        positionTitle: controller
-                                            .positionController.text,
-                                        companyName: controller
-                                            .institutionController.text,
-                                        startDate: controller
-                                            .formatDateRequest(controller
-                                            .selectedStartDate
-                                            .value ??
-                                            DateTime.now()),
-                                        endDate: controller
-                                            .formatDateRequest(controller
-                                            .selectedEndDate
-                                            .value ??
-                                            DateTime.now()));
+                                        WorkExperiencesRequest(
+                                            positionTitle: controller
+                                                .positionController.text,
+                                            companyName: controller
+                                                .institutionController.text,
+                                            startDate: controller
+                                                .formatDateRequest(controller
+                                                        .selectedStartDate
+                                                        .value ??
+                                                    DateTime.now()),
+                                            endDate: controller
+                                                .formatDateRequest(controller
+                                                        .selectedEndDate
+                                                        .value ??
+                                                    DateTime.now()));
                                     controller.createWorkExperience(request);
                                   }
                                 }
@@ -178,7 +179,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                 } else {
                                   showCustomDialog(
                                       content:
-                                      'Are you sure you want to clear all data entered?',
+                                          'Are you sure you want to clear all data entered?',
                                       onConfirm: () {
                                         controller.clearAll();
                                         Get.back();
@@ -190,7 +191,8 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                         Get.back();
                                       });
                                 }
-                              },)
+                              },
+                            )
                           ],
                         ),
                         const SizedBox(height: 30),
@@ -213,18 +215,18 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                               shrinkWrap: true,
                               itemCount: controller.workExperienceLists.length,
                               separatorBuilder: (context, index) =>
-                              const SizedBox(
+                                  const SizedBox(
                                 height: 16,
                               ),
                               itemBuilder: (context, index) {
                                 final activity =
-                                controller.workExperienceLists[index];
+                                    controller.workExperienceLists[index];
                                 return ProfileCard(
                                   title: activity.positionTitle!,
                                   leftSubTitle: activity.positionTitle!,
                                   startDate: activity.startDate != null
                                       ? controller
-                                      .formatDate(activity.startDate)
+                                          .formatDate(activity.startDate)
                                       : 'N/A',
                                   endDate: activity.endDate != null
                                       ? controller.formatDate(activity.endDate)
@@ -233,11 +235,14 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                     controller.isEdit.value = true;
                                     controller.idCard.value = activity.id!;
                                     controller.patchField(activity);
+                                    controller.scrollController.animateTo(0,
+                                        duration: const Duration(milliseconds: 300),
+                                        curve: Curves.easeInOut);
                                   },
                                   onTap2: () {
                                     showCustomDialog(
                                         content:
-                                        'Are you sure you want to delete this data?',
+                                            'Are you sure you want to delete this data?',
                                         onConfirm: () {
                                           controller.deleteWorkExperience(
                                               activity.id ?? 0);

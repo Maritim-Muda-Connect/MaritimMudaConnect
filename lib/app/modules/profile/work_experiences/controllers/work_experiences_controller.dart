@@ -14,6 +14,7 @@ class WorkExperiencesController extends GetxController {
   final TextEditingController institutionController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -212,5 +213,6 @@ class WorkExperiencesController extends GetxController {
     institutionController.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

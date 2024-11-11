@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/profile/main_drawer/views/main_drawer_view.dart';
+import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
 
 import '../../analytics/controllers/analytics_controller.dart';
 import '../../analytics/views/analytics_view.dart';
@@ -21,6 +22,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
     Get.put(EventController());
     Get.put(AnalyticsController());
     Get.put(JobController());
+    Get.put(ProfileUserController());
   }
 
   PageController pageController = PageController();

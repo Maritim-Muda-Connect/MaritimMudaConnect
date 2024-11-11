@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/request/organizations_request.dart';
-import 'package:maritimmuda_connect/app/data/models/request/researches_request.dart';
-import 'package:maritimmuda_connect/app/data/models/response/researches_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/data/models/response/organizations_response.dart';

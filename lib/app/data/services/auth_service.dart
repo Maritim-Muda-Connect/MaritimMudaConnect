@@ -4,6 +4,7 @@ import "package:maritimmuda_connect/app/data/models/request/login_request.dart";
 import "package:maritimmuda_connect/app/data/models/request/register_request.dart";
 import "package:maritimmuda_connect/app/data/models/response/login_response.dart";
 import "package:maritimmuda_connect/app/data/services/config.dart";
+import "package:maritimmuda_connect/app/data/utils/expertise.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class AuthService {
@@ -28,6 +29,9 @@ class AuthService {
       DateTime emailVerifiedAt = loginResponseFromJson(response.body).user!.emailVerifiedAt!;
       int serialNumber =
           loginResponseFromJson(response.body).user?.serialNumber ?? 0;
+      int provinceId = loginResponseFromJson(response.body).user!.provinceId!;
+      int firstExpertiseId = loginResponseFromJson(response.body).user!.firstExpertiseId!;
+      int secondExpertiseId = loginResponseFromJson(response.body).user!.secondExpertiseId!;
 
       await prefs.setString("token", token);
       await prefs.setString("userId", userId.toString());
@@ -39,6 +43,9 @@ class AuthService {
       await prefs.setString("place_of_birth", placeOfBirth);
       await prefs.setString("bio", bio);
       await prefs.setString("created_at", emailVerifiedAt.toIso8601String());
+      await prefs.setInt("province_id", provinceId);
+      await prefs.setInt("first_expertise_id", firstExpertiseId);
+      await prefs.setInt("second_expertise_id", secondExpertiseId);
 
       return 200;
     } else {

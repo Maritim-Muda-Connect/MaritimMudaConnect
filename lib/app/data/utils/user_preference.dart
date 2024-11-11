@@ -63,6 +63,21 @@ class UserPreferences {
     return prefs.getString('created_at');
   }
 
+  Future<int?> getProvinceId() async {
+    final prefs = await _getPrefs();
+    return prefs.getInt('province_id');
+  }
+
+  Future<int?> getFirstExpertiseId() async {
+    final prefs = await _getPrefs();
+    return prefs.getInt('first_expertise_id');
+  }
+
+  Future<int?> getSecondExpertiseId() async {
+    final prefs = await _getPrefs();
+    return prefs.getInt('second_expertise_id');
+  }
+
   Future<void> logout() async {
     final prefs = await _getPrefs();
     await prefs.clear();

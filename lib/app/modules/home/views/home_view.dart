@@ -9,6 +9,7 @@ import 'package:maritimmuda_connect/app/modules/home/scholarship/views/scholarsh
 import 'package:maritimmuda_connect/app/modules/home/widget/home_card.dart';
 
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_view.dart';
+import 'package:maritimmuda_connect/app/modules/navbar/controllers/main_controller.dart';
 
 import '../controllers/home_controller.dart';
 import 'package:maritimmuda_connect/themes.dart';
@@ -24,6 +25,8 @@ class HomeView extends GetView<HomeController> {
       "assets/images/eventimage.png",
     ];
 
+    final MainController mainController = Get.find();
+
     return Scaffold(
       backgroundColor: neutral02Color,
       body: ListView(
@@ -32,6 +35,7 @@ class HomeView extends GetView<HomeController> {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Column(
               children: [
+                const SizedBox(height: 8,),
                 Row(
                   children: [
                     Image.asset("assets/images/logo_maritim_muda_connect.png"),
@@ -44,61 +48,71 @@ class HomeView extends GetView<HomeController> {
                 const SizedBox(
                   height: 24,
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: neutral04Color.withOpacity(0.3), // Warna shadow
-                        spreadRadius: 1, // Penyebaran shadow
-                        blurRadius: 5, // Tingkat blur shadow
-                        offset:
-                            const Offset(3, 3), // Arah dan jarak shadow (x, y)
+                GestureDetector(
+                  onTap: (){
+                    mainController.updateIndex(3);
+                    mainController.pageController.animateToPage(
+                        3,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    decoration: BoxDecoration(
+                      color: neutral01Color,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: neutral04Color.withOpacity(0.3), // Warna shadow
+                          spreadRadius: 1, // Penyebaran shadow
+                          blurRadius: 5, // Tingkat blur shadow
+                          offset:
+                              const Offset(3, 3), // Arah dan jarak shadow (x, y)
 
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Hello,",
-                              style: regulerText16.copyWith(
-                                  color: neutral04Color, fontSize: 20),
-                            ),
-                            Obx(() => Text(
-                                  controller.name.value,
-                                  style: semiBoldText24.copyWith(
-                                      color: primaryBlueColor),
-                                  overflow: TextOverflow
-                                      .ellipsis, // Tambahkan ini untuk memotong teks panjang
-                                )),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Obx(() => Text(
-                                      "No: ${controller.serialNumber.value}",
-                                      style:
-                                          regulerText10.copyWith(fontSize: 9),
-                                    )),
-                              ],
-                            ),
-                          ],
                         ),
-                      ),
-                      const CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            AssetImage("assets/images/profile.png"),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Hello,",
+                                style: regulerText16.copyWith(
+                                    color: neutral04Color, fontSize: 20),
+                              ),
+                              Obx(() => Text(
+                                    controller.name.value,
+                                    style: semiBoldText24.copyWith(
+                                        color: primaryBlueColor),
+                                    overflow: TextOverflow
+                                        .ellipsis, // Tambahkan ini untuk memotong teks panjang
+                                  )),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Obx(() => Text(
+                                        "No: ${controller.serialNumber.value}",
+                                        style:
+                                            regulerText10.copyWith(fontSize: 9),
+                                      )),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              AssetImage("assets/images/profile.png"),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

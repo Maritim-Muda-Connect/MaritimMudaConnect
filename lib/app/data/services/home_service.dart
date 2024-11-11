@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:maritimmuda_connect/app/data/models/response/member_response.dart';
 import 'package:http/http.dart' as http;

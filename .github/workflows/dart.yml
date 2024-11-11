@@ -8,14 +8,19 @@ jobs:
     name: 🎉 iOS Build
     runs-on: macos-latest
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - uses: actions/checkout@v3
 
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
+
       - run: flutter pub get
-      
 
       - run: pod repo update
         working-directory: ios

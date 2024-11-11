@@ -211,8 +211,8 @@ class AchievementView extends GetView<AchievementController> {
                               return ProfileCard(
                                 title: achievementsData.awardName ?? '',
                                 rightTitle: achievementsData.appreciator,
-                                leftSubTitle: '',
-                                rightSubTitle: '',
+                                leftSubTitle: achievementsData.eventName,
+                                rightSubTitle: achievementsData.eventLevel,
                                 startDate: controller
                                     .formatDate(achievementsData.achievedAt!),
                                 imageUrl: '',

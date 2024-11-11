@@ -16,15 +16,15 @@ class SocialActivityView extends GetView<SocialActivityController> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        await controller.fetchSocialActivity();
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: neutral02Color,
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: neutral02Color,
+      body: RefreshIndicator(
+        onRefresh: () async{
+          await controller.fetchSocialActivity();
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

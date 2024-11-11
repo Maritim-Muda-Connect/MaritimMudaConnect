@@ -29,7 +29,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
             children: [
               const SizedBox(height: 24),
               Padding(
-                padding: const EdgeInsets.only(left: 18),
+                padding: const EdgeInsets.only(left: 15),
                 child: Text(
                   'Add Organization Experience',
                   style: regulerText24,
@@ -42,7 +42,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                 decoration: BoxDecoration(
                     color: neutral01Color,
                     borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(horizontal: 13),
                 child: Form(
@@ -206,54 +206,55 @@ class OrganizationsView extends GetView<OrganizationsController> {
                             return const SizedBox.shrink();
                           } else {
                             return ListView.separated(
+                              padding: EdgeInsets.only(bottom: 20),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: controller.organizationList.length,
                               separatorBuilder: (context, index) =>
                                   const SizedBox(
-                                height: 16,
+                                height: 5,
                               ),
                               itemBuilder: (context, index) {
                                 final organizationsData =
                                     controller.organizationList[index];
-                                return ProfileCard(
-                                  title:
-                                      organizationsData.organizationName ?? '',
-                                  rightTitle: organizationsData.role ?? '',
-                                  startDate: controller.formatDate(
-                                      organizationsData.periodStartDate),
-                                  endDate: controller.formatDate(
-                                      organizationsData.periodEndDate),
-                                  onTap1: () {
-                                    controller.isEdit.value = true;
-                                    controller.idCard.value =
-                                        organizationsData.id ?? 0;
-                                    controller.patchField(organizationsData);
-                                  },
-                                  onTap2: () {
-                                    showCustomDialog(
-                                      content:
-                                          'Are you sure you want to delete this data?',
-                                      onConfirm: () {
-                                        controller.deleteOrganizations(
-                                            organizationsData.id ?? 0);
-                                        Get.back();
-                                      },
-                                      onCancel: () {
-                                        Get.back();
-                                      },
-                                    );
-                                  },
-                                  onTap3: () {},
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: ProfileCard(
+                                    title:
+                                        organizationsData.organizationName ?? '',
+                                    rightTitle: organizationsData.role ?? '',
+                                    startDate: controller.formatDate(
+                                        organizationsData.periodStartDate),
+                                    endDate: controller.formatDate(
+                                        organizationsData.periodEndDate),
+                                    onTap1: () {
+                                      controller.isEdit.value = true;
+                                      controller.idCard.value =
+                                          organizationsData.id ?? 0;
+                                      controller.patchField(organizationsData);
+                                    },
+                                    onTap2: () {
+                                      showCustomDialog(
+                                        content:
+                                            'Are you sure you want to delete this data?',
+                                        onConfirm: () {
+                                          controller.deleteOrganizations(
+                                              organizationsData.id ?? 0);
+                                          Get.back();
+                                        },
+                                        onCancel: () {
+                                          Get.back();
+                                        },
+                                      );
+                                    },
+                                    onTap3: () {},
+                                  ),
                                 );
                               },
                             );
                           }
                         },
                       ),
-                      const SizedBox(
-                        height: 50,
-                      )
                     ],
                   ),
                 ),

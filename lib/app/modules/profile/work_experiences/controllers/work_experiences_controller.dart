@@ -15,6 +15,7 @@ class WorkExperiencesController extends GetxController {
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -43,6 +44,7 @@ class WorkExperiencesController extends GetxController {
   void onInit() {
     super.onInit();
     fetchWorkExperiences();
+    focusNodes;
   }
 
   bool checkField() {

@@ -15,6 +15,7 @@ class EducationsController extends GetxController {
   final levelController = TextEditingController();
   final gradController = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -46,6 +47,7 @@ class EducationsController extends GetxController {
   void onInit() {
     super.onInit();
     fetchEducations();
+    focusNodes;
   }
 
   bool validateForm() {

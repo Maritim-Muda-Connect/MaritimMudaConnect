@@ -16,6 +16,7 @@ class OrganizationsController extends GetxController {
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -44,6 +45,7 @@ class OrganizationsController extends GetxController {
   void onInit() {
     super.onInit();
     fetchOrganizations();
+    focusNodes;
   }
 
   bool validateForm() {

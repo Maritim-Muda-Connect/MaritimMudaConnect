@@ -20,7 +20,7 @@ class CustomDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 41,
+      height: 48,
       width: double.infinity,
       decoration: BoxDecoration(
         color: neutral02Color,

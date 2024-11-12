@@ -305,7 +305,7 @@ class ResearchesView extends GetView<ResearchesController> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 200),
               ],
             ),
           ),

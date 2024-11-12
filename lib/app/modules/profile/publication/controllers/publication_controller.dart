@@ -20,6 +20,7 @@ class PublicationController extends GetxController {
   final TextEditingController cityC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
@@ -56,6 +57,7 @@ class PublicationController extends GetxController {
     super.onInit();
     fetchPublications();
     selectedPublicationType.value = 1;
+    focusNodes;
   }
 
   bool checkField() {

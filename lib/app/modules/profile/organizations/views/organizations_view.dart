@@ -24,7 +24,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
           onTap: () {
-            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           child: SingleChildScrollView(
             controller: controller.scrollController,

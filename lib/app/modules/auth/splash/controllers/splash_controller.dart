@@ -13,7 +13,7 @@ class SplashController extends GetxController {
   }
 
   void navigateToNextScreen() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 1900));
     String? token = await UserPreferences().getToken();
     if (token == null) {
       Get.offAll(

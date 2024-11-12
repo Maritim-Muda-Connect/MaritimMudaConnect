@@ -23,7 +23,7 @@ class ResearchesView extends GetView<ResearchesController> {
         backgroundColor: neutral02Color,
         body: GestureDetector(
           onTap: () {
-            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           child: SingleChildScrollView(
             controller: controller.scrollController,

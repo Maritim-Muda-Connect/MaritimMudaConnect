@@ -39,3 +39,4 @@ jobs:
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           body: "This is first release"
+          overwrite_release: true

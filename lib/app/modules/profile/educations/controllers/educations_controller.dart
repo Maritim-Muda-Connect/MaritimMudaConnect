@@ -288,7 +288,6 @@ class EducationsController extends GetxController {
     majorController.clear();
     gradController.clear();
     levelController.clear();
-
     selectedLevel.value = '';
     selectedDate.value = null;
   }

@@ -22,7 +22,9 @@ class ProfileController extends GetxController {
   final addressController = TextEditingController();
   final residenceAddressController = TextEditingController();
   final bioController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
+  final focusNodes = List.generate(7, (_) => FocusNode());
   final List<String> genderOptions = ["Choose your gender", 'Male', 'Female'];
   final Rx<File?> identityCardFile = Rx<File?>(null);
   final Rx<File?> studentCardFile = Rx<File?>(null);
@@ -57,6 +59,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    focusNodes;
     super.onInit();
     fetchGeneral();
   }
@@ -177,6 +180,7 @@ class ProfileController extends GetxController {
     addressController.dispose();
     residenceAddressController.dispose();
     bioController.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 }

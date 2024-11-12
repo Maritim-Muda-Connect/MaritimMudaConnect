@@ -17,6 +17,8 @@ class SocialActivityController extends GetxController {
   final TextEditingController roleController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -44,12 +46,61 @@ class SocialActivityController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    focusNodes;
     fetchSocialActivity();
   }
 
   bool validateForm() {
     return formKey.currentState!.validate();
   }
+
+  String? validateProgramName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Program name is required";
+    }
+    return null;
+  }
+
+  String? validateInstitutionName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Institution name is required";
+    }
+    return null;
+  }
+
+  String? validateRole(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Role is required";
+    }
+    return null;
+  }
+
+  String? validateStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Start date is required";
+    }
+    return null;
+  }
+
+  String? validateEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "End date is required";
+    }
+    return null;
+  }
+
+  bool checkField() {
+    if (programController.text.isEmpty &&
+    institutionController.text.isEmpty &&
+    roleController.text.isEmpty &&
+    startDateController.text.isEmpty &&
+    endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   Future<void> selectStartDate(BuildContext context) async {
     showMonthPicker(
@@ -209,5 +260,6 @@ class SocialActivityController extends GetxController {
     roleController.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

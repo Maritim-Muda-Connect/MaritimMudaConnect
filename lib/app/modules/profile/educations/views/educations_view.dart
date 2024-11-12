@@ -24,7 +24,7 @@ class EducationsView extends GetView<EducationsController> {
         backgroundColor: neutral02Color,
         body: GestureDetector(
           onTap: () {
-            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           child: SingleChildScrollView(
             controller: controller.scrollController,
@@ -57,6 +57,10 @@ class EducationsView extends GetView<EducationsController> {
                         const SizedBox(height: 8),
                         CustomTextField(
                             controller: controller.institutionController,
+                            focusNode: controller.focusNodes[0],
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(controller.focusNodes[1]);
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter institution name';
@@ -73,6 +77,10 @@ class EducationsView extends GetView<EducationsController> {
                           height: 8,
                         ),
                         CustomTextField(
+                          focusNode: controller.focusNodes[1],
+                          onFieldSubmitted: (_) {
+                            FocusScope.of(context).requestFocus(controller.focusNodes[2]);
+                          },
                           controller: controller.majorController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {

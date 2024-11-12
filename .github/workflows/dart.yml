@@ -38,5 +38,4 @@ jobs:
           repo_token: ${{ secrets.PAT_GITHUB }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
-          overwrite: true
           body: "This is first release"

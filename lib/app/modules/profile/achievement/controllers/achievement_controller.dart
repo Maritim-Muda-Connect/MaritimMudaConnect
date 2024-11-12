@@ -27,6 +27,9 @@ class Achievements {
 
 
 class AchievementController extends GetxController {
+
+  var achievement = <Achievements>[].obs;  // Define as RxList
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController awardC = TextEditingController();
   final TextEditingController appreciatorC = TextEditingController();

@@ -14,9 +14,9 @@ jobs:
         with:
           channel: 'stable'
           architecture: x64
+
       - run: flutter pub get
       
-
       - run: pod repo update
         working-directory: ios
 
@@ -32,11 +32,28 @@ jobs:
         run: zip -qq -r -9 FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
+      # Delete existing release if it exists
+      - name: Delete existing release and tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+        run: |
+          if gh release view v1.0; then
+            gh release delete v1.0 -y
+            git tag -d v1.0
+            git push origin --delete v1.0
+          fi
+
+      # Recreate the tag
+      - name: Create a new tag
+        run: |
+          git tag v1.0
+          git push origin v1.0
+
+      # Upload IPA file as a release asset
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.PAT_GITHUB }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
-          overwrite: true
-          body: "This is first release"
+          body: "This is the first release"

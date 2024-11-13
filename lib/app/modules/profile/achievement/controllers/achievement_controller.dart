@@ -37,6 +37,7 @@ class AchievementController extends GetxController {
   final TextEditingController eventLevelC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
@@ -245,6 +246,7 @@ class AchievementController extends GetxController {
   void onInit() {
     super.onInit();
     fetchAchievements();
+    focusNodes;
 
   }
 

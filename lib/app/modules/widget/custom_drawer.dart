@@ -15,6 +15,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: neutral01Color,
       width: MediaQuery.of(context).size.width / 1.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

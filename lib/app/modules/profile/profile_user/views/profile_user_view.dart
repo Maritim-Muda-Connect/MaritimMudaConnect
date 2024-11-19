@@ -231,6 +231,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 70,),
               ],
             ),
           ),

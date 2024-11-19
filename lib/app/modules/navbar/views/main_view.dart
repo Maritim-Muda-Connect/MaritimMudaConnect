@@ -15,14 +15,6 @@ class MainView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       extendBody: true,
       backgroundColor: Colors.transparent,
-      body: PageView(
-        controller: controller.pageController,
-        onPageChanged: (index) {
-          controller.updateIndex(index);
-        },
-        physics: const ClampingScrollPhysics(),
-        children: controller.views,
-      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
         child: BottomAppBar(
@@ -48,6 +40,40 @@ class MainView extends StatelessWidget {
             ),
           ),
         ),
+      ),
+      body: Stack(
+        children: [
+          // PageView for main content
+          PageView(
+            controller: controller.pageController,
+            onPageChanged: (index) {
+              controller.updateIndex(index);
+            },
+            physics: const ClampingScrollPhysics(),
+            children: controller.views,
+          ),
+
+          // Shadow container below BottomAppBar
+          Positioned(
+            bottom: 90,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 10,
+                    offset: const Offset(0, 3), // Shadow position below the BottomAppBar
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

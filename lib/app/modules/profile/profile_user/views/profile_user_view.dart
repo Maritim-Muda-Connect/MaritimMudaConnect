@@ -21,7 +21,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 14),
-                  width: 403,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                       color: neutral01Color,
                       borderRadius: const BorderRadius.only(
@@ -71,17 +71,24 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         ],
                       ),
                       Positioned(
-                        top: 75,
-                        left: 140,
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              image: const DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image:
-                                  AssetImage("assets/images/profile.png"))),
+                        top: -30,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                      AssetImage("assets/images/profile.png"))),
+                            ),
+                          ],
                         ),
                       ),
                     ],

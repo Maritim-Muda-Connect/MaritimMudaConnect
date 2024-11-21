@@ -28,7 +28,7 @@ class MainView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(controller.iconList.length + 1, (index) {
                 if (index == 2) return const SizedBox(width: 40);
-
+    
                 return GetBuilder<MainController>(
                   builder: (_) => _buildNavItem(
                     controller.iconList[index < 2 ? index : index - 1],
@@ -52,14 +52,12 @@ class MainView extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             children: controller.views,
           ),
-
+    
           // Shadow container below BottomAppBar
-          Positioned(
-            bottom: 90,
-            left: 0,
-            right: 0,
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
-              height: 30,
+              height: 75,
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 boxShadow: [

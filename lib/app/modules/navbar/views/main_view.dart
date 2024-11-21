@@ -11,82 +11,82 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBody: true,
-      backgroundColor: Colors.transparent,
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-        child: BottomAppBar(
-          color: neutral01Color,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 8,
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(controller.iconList.length + 1, (index) {
-                if (index == 2) return const SizedBox(width: 40);
-
-                return GetBuilder<MainController>(
-                  builder: (_) => _buildNavItem(
-                    controller.iconList[index < 2 ? index : index - 1],
-                    controller.iconTitles[index < 2 ? index : index - 1],
-                    index,
-                  ),
-                );
-              }),
-            ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          // PageView for main content
-          PageView(
-            controller: controller.pageController,
-            onPageChanged: (index) {
-              controller.updateIndex(index);
-            },
-            physics: const ClampingScrollPhysics(),
-            children: controller.views,
-          ),
-
-          // Shadow container below BottomAppBar
-          Positioned(
-            bottom: 90,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 10,
-                    offset: const Offset(0, 3), // Shadow position below the BottomAppBar
-                  ),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBody: true,
+        backgroundColor: Colors.transparent,
+        bottomNavigationBar: ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+          child: BottomAppBar(
+            color: neutral01Color,
+            shape: const CircularNotchedRectangle(),
+            notchMargin: 8,
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(controller.iconList.length + 1, (index) {
+                  if (index == 2) return const SizedBox(width: 40);
+      
+                  return GetBuilder<MainController>(
+                    builder: (_) => _buildNavItem(
+                      controller.iconList[index < 2 ? index : index - 1],
+                      controller.iconTitles[index < 2 ? index : index - 1],
+                      index,
+                    ),
+                  );
+                }),
               ),
             ),
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(const EKtaView());
-        },
-        backgroundColor: primaryDarkBlueColor,
-        shape: const CircleBorder(),
-        child: Icon(
-          Icons.credit_card,
-          color: neutral01Color,
         ),
+        body: Stack(
+          children: [
+            // PageView for main content
+            PageView(
+              controller: controller.pageController,
+              onPageChanged: (index) {
+                controller.updateIndex(index);
+              },
+              physics: const ClampingScrollPhysics(),
+              children: controller.views,
+            ),
+      
+            // Shadow container below BottomAppBar
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 75,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3), // Shadow position below the BottomAppBar
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.to(const EKtaView());
+          },
+          backgroundColor: primaryDarkBlueColor,
+          shape: const CircleBorder(),
+          child: Icon(
+            Icons.credit_card,
+            color: neutral01Color,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

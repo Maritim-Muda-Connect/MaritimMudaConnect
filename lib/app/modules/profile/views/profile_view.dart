@@ -361,31 +361,70 @@ class ProfileView extends GetView<ProfileController> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ProfileButton(
                                   onTap: () async {
-                                    controller.updateGeneral(
-                                      GeneralRequest(
-                                        name: controller.nameController.text,
-                                        linkedinProfile:
-                                            controller.linkedInController.text,
-                                        instagramProfile:
-                                            controller.instagramController.text,
-                                        gender: controller.selectedGender.value,
-                                        placeOfBirth: controller
-                                            .placeOfBirthController.text,
-                                        dateOfBirth: controller
-                                            .dateOfBirthController.text,
-                                        firstExpertiseId: controller
-                                            .selectedFirstExpertise.value,
-                                        secondExpertiseId: controller
-                                            .selectedSecondExpertise.value,
-                                        permanentAddress:
-                                            controller.addressController.text,
-                                        residenceAddress: controller
-                                            .residenceAddressController.text,
-                                        bio: controller.bioController.text,
-                                      ),
-                                      File(controller.photoImagePath.value),
-                                      File(controller.identityImagePath.value),
-                                    );
+                                    if (controller
+                                            .selectedFirstExpertise.value ==
+                                        controller
+                                            .selectedSecondExpertise.value) {
+                                      controller.updateGeneral(
+                                        GeneralRequest(
+                                          name: controller.nameController.text,
+                                          linkedinProfile: controller
+                                              .linkedInController.text,
+                                          instagramProfile: controller
+                                              .instagramController.text,
+                                          gender:
+                                              controller.selectedGender.value,
+                                          placeOfBirth: controller
+                                              .placeOfBirthController.text,
+                                          dateOfBirth: controller
+                                              .dateOfBirthController.text,
+                                          firstExpertiseId: controller
+                                              .selectedFirstExpertise.value,
+                                          secondExpertiseId: controller
+                                                  .selectedSecondExpertise
+                                                  .value +
+                                              25,
+                                          permanentAddress:
+                                              controller.addressController.text,
+                                          residenceAddress: controller
+                                              .residenceAddressController.text,
+                                          bio: controller.bioController.text,
+                                        ),
+                                        File(controller.photoImagePath.value),
+                                        File(
+                                            controller.identityImagePath.value),
+                                      );
+                                    } else {
+                                      controller.updateGeneral(
+                                        GeneralRequest(
+                                          name: controller.nameController.text,
+                                          linkedinProfile: controller
+                                              .linkedInController.text,
+                                          instagramProfile: controller
+                                              .instagramController.text,
+                                          gender:
+                                              controller.selectedGender.value,
+                                          placeOfBirth: controller
+                                              .placeOfBirthController.text,
+                                          dateOfBirth: controller
+                                              .dateOfBirthController.text,
+                                          firstExpertiseId: controller
+                                              .selectedFirstExpertise.value,
+                                          secondExpertiseId: controller
+                                                  .selectedSecondExpertise
+                                                  .value +
+                                              25,
+                                          permanentAddress:
+                                              controller.addressController.text,
+                                          residenceAddress: controller
+                                              .residenceAddressController.text,
+                                          bio: controller.bioController.text,
+                                        ),
+                                        File(controller.photoImagePath.value),
+                                        File(
+                                            controller.identityImagePath.value),
+                                      );
+                                    }
                                   },
                                   icon: Icon(
                                     Icons.save_outlined,

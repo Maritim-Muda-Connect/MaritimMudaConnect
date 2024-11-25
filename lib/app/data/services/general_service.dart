@@ -50,7 +50,7 @@ class GeneralService {
     if (imagePhoto.path.isNotEmpty) {
       var photo = await http.MultipartFile.fromPath(
         "photo",
-        imagePhoto!.path,
+        imagePhoto.path,
         filename: imagePhoto.path.split('/').last,
       );
       request.files.add(photo);
@@ -58,7 +58,7 @@ class GeneralService {
     if (imageIdentity.path.isNotEmpty) {
       var identity = await http.MultipartFile.fromPath(
         "identity_card",
-        imageIdentity!.path,
+        imageIdentity.path,
         filename: imageIdentity.path.split('/').last,
       );
       request.files.add(identity);
@@ -69,6 +69,7 @@ class GeneralService {
     if (response.statusCode == 200) {
       return true;
     } else {
+      print("Gagal ${response.stream.bytesToString()}");
       return false;
     }
   }

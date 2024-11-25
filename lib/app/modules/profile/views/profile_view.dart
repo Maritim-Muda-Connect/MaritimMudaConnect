@@ -25,345 +25,384 @@ class ProfileView extends GetView<ProfileController> {
       },
       child: Scaffold(
         backgroundColor: neutral02Color,
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 30),
-              Center(
-                child: Stack(
-                  children: [
-                    Obx(
-                      () => CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            controller.profileImageFile.value != null
-                                ? FileImage(controller.profileImageFile.value!)
-                                : const AssetImage('assets/images/profile.png')
-                                    as ImageProvider,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            type: FileType.image,
-                            allowMultiple: false,
-                          );
-                          if (result != null && result.files.isNotEmpty) {
-                            controller.setProfileImagePath(
-                                File(result.files.single.path ?? ''));
-                          }
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: primaryBlueColor,
-                          radius: 18,
-                          child:
-                              Icon(Icons.edit, color: neutral01Color, size: 18),
+        body: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: SingleChildScrollView(
+            controller: controller.scrollController,
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                Center(
+                  child: Stack(
+                    children: [
+                      Obx(
+                        () => CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              controller.profileImageFile.value != null
+                                  ? FileImage(controller.profileImageFile.value!)
+                                  : const AssetImage('assets/images/profile.png')
+                                      as ImageProvider,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                decoration: BoxDecoration(
-                  color: neutral01Color,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                margin: const EdgeInsets.symmetric(horizontal: 13),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Identity Card', style: boldText12),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => DottedBorder(
-                        dashPattern: const [10],
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(20),
-                        padding: const EdgeInsets.all(6),
-                        child: InkWell(
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
                           onTap: () async {
-                            FilePickerResult? result = await FilePicker.platform
-                                .pickFiles(type: FileType.image);
-                            if (result != null) {
-                              controller.setIdentityCardFile(
-                                  File(result.files.single.path!));
+                            FilePickerResult? result =
+                                await FilePicker.platform.pickFiles(
+                              type: FileType.image,
+                              allowMultiple: false,
+                            );
+                            if (result != null && result.files.isNotEmpty) {
+                              controller.setProfileImagePath(
+                                  File(result.files.single.path ?? ''));
                             }
                           },
-                          child: Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: neutral02Color,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: controller.identityCardFile.value != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.file(
-                                      controller.identityCardFile.value!,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  )
-                                : const Center(
-                                    child: Icon(Icons.add_photo_alternate,
-                                        size: 50, color: Colors.grey),
-                                  ),
+                          child: CircleAvatar(
+                            backgroundColor: primaryBlueColor,
+                            radius: 18,
+                            child:
+                                Icon(Icons.edit, color: neutral01Color, size: 18),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Student Card', style: boldText12),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => DottedBorder(
-                        dashPattern: const [10],
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(20),
-                        padding: const EdgeInsets.all(6),
-                        child: InkWell(
-                          onTap: () async {
-                            FilePickerResult? result = await FilePicker.platform
-                                .pickFiles(type: FileType.image);
-                            if (result != null) {
-                              controller.setStudentCardFile(
-                                  File(result.files.single.path!));
-                            }
-                          },
-                          child: Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              color: neutral02Color,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: controller.studentCardFile.value != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.file(
-                                      controller.studentCardFile.value!,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  )
-                                : const Center(
-                                    child: Icon(Icons.add_photo_alternate,
-                                        size: 50, color: Colors.grey),
-                                  ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Text('Name', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      keyboardType: TextInputType.text,
-                      controller: controller.nameController,
-                      hintText: 'Enter your name',
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Email', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      keyboardType: TextInputType.emailAddress,
-                      controller: controller.emailController,
-                      hintText: 'Enter your email',
-                      readOnly: true,
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Gender', style: boldText12),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => CustomDropdown(
-                        hintText: 'Choose your gender',
-                        options: controller.genderOptions,
-                        selectedOption: controller
-                            .genderOptions[controller.selectedGender.value],
-                        onSelected: (String? value) {
-                          controller.setGender(value);
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Provincial Organization', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      controller: controller.provincialOrgController,
-                      hintText: 'Enter provincial organization',
-                      readOnly: true,
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Place of Birth', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      controller: controller.placeOfBirthController,
-                      hintText: 'Enter place of birth',
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Date of Birth', style: boldText12),
-                    const SizedBox(height: 8),
-                    GestureDetector(
-                      onTap: () => controller.selectDate(context),
-                      child: AbsorbPointer(
-                        child: CustomTextField(
-                          controller: controller.dateOfBirthController,
-                          hintText: 'Select date of birth',
-                          suffixIcon: Icon(Icons.calendar_today,
-                              color: primaryBlueColor),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text('LinkedIn', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      controller: controller.linkedInController,
-                      hintText: 'Enter LinkedIn profile URL',
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Instagram', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      controller: controller.instagramController,
-                      hintText: 'Enter Instagram profile URL',
-                    ),
-                    const SizedBox(height: 16),
-                    Text('First Expertise', style: boldText12),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => CustomDropdown(
-                        hintText: 'Choose your first expertise',
-                        options: firstExpertise,
-                        selectedOption: firstExpertise[
-                            controller.selectedFirstExpertise.value],
-                        onSelected: (String? value) {
-                          controller.setFirstExpertise(value);
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Second Expertise', style: boldText12),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => CustomDropdown(
-                        hintText: 'Choose your second expertise',
-                        options: secondExpertise,
-                        selectedOption: secondExpertise[
-                            controller.selectedSecondExpertise.value],
-                        onSelected: (String? value) {
-                          controller.setSecondExpertise(value);
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Address', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      maxLines: 5,
-                      controller: controller.addressController,
-                      hintText: 'Enter address',
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Residence Address', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      maxLines: 5,
-                      controller: controller.residenceAddressController,
-                      hintText: 'Enter residence address',
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Bio', style: boldText12),
-                    const SizedBox(height: 8),
-                    CustomTextField(
-                      maxLines: 5,
-                      controller: controller.bioController,
-                      hintText: 'Enter your bio',
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ProfileButton(
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Container(
+                  decoration: BoxDecoration(
+                    color: neutral01Color,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 13),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Identity Card', style: boldText12),
+                      const SizedBox(height: 8),
+                      Obx(
+                        () => DottedBorder(
+                          dashPattern: const [10],
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(20),
+                          padding: const EdgeInsets.all(6),
+                          child: InkWell(
                             onTap: () async {
-                              String? name = await UserPreferences().getName();
-
-                              controller.updateGeneral(
-                                GeneralRequest(
-                                  name: name ?? "",
-                                  linkedinProfile:
-                                      controller.linkedInController.text,
-                                  instagramProfile:
-                                      controller.instagramController.text,
-                                  gender: controller.selectedGender.value,
-                                  photo:
-                                      controller.profileImageFile.value?.path ??
-                                          "",
-                                  identityCard:
-                                      controller.identityCardFile.value?.path ??
-                                          '',
-                                  placeOfBirth:
-                                      controller.placeOfBirthController.text,
-                                  dateOfBirth:
-                                      controller.dateOfBirthController.text,
-                                  firstExpertiseId:
-                                      controller.selectedFirstExpertise.value,
-                                  secondExpertiseId:
-                                      controller.selectedSecondExpertise.value,
-                                  permanentAddress:
-                                      controller.addressController.text,
-                                  residenceAddress: controller
-                                      .residenceAddressController.text,
-                                  bio: controller.bioController.text,
-                                ),
-                              );
+                              FilePickerResult? result = await FilePicker.platform
+                                  .pickFiles(type: FileType.image);
+                              if (result != null) {
+                                controller.setIdentityCardFile(
+                                    File(result.files.single.path!));
+                              }
                             },
+                            child: Container(
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: neutral02Color,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: controller.identityCardFile.value != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.file(
+                                        controller.identityCardFile.value!,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                      ),
+                                    )
+                                  : const Center(
+                                      child: Icon(Icons.add_photo_alternate,
+                                          size: 50, color: Colors.grey),
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Student Card', style: boldText12),
+                      const SizedBox(height: 8),
+                      Obx(
+                        () => DottedBorder(
+                          dashPattern: const [10],
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(20),
+                          padding: const EdgeInsets.all(6),
+                          child: InkWell(
+                            onTap: () async {
+                              FilePickerResult? result = await FilePicker.platform
+                                  .pickFiles(type: FileType.image);
+                              if (result != null) {
+                                controller.setStudentCardFile(
+                                    File(result.files.single.path!));
+                              }
+                            },
+                            child: Container(
+                              height: 200,
+                              decoration: BoxDecoration(
+                                color: neutral02Color,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: controller.studentCardFile.value != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.file(
+                                        controller.studentCardFile.value!,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                      ),
+                                    )
+                                  : const Center(
+                                      child: Icon(Icons.add_photo_alternate,
+                                          size: 50, color: Colors.grey),
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Text('Name', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        keyboardType: TextInputType.text,
+                        controller: controller.nameController,
+                        hintText: 'Enter your name',
+                        focusNode: controller.focusNodes[0],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[1]);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Email', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: controller.emailController,
+                        hintText: 'Enter your email',
+                        readOnly: true,
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Gender', style: boldText12),
+                      const SizedBox(height: 8),
+                      Obx(
+                        () => CustomDropdown(
+                          hintText: 'Choose your gender',
+                          options: controller.genderOptions,
+                          selectedOption: controller
+                              .genderOptions[controller.selectedGender.value],
+                          onSelected: (String? value) {
+                            controller.setGender(value);
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Provincial Organization', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        controller: controller.provincialOrgController,
+                        hintText: 'Enter provincial organization',
+                        readOnly: true,
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Place of Birth', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        focusNode: controller.focusNodes[1],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[2]);
+                        },
+                        controller: controller.placeOfBirthController,
+                        hintText: 'Enter place of birth',
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Date of Birth', style: boldText12),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () => controller.selectDate(context),
+                        child: AbsorbPointer(
+                          child: CustomTextField(
+                            controller: controller.dateOfBirthController,
+                            hintText: 'Select date of birth',
+                            suffixIcon: Icon(Icons.calendar_today,
+                                color: primaryBlueColor),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text('LinkedIn', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        focusNode: controller.focusNodes[2],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[3]);
+                        },
+                        controller: controller.linkedInController,
+                        hintText: 'Enter LinkedIn profile URL',
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Instagram', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        controller: controller.instagramController,
+                        focusNode: controller.focusNodes[3],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[4]);
+                        },
+                        hintText: 'Enter Instagram profile URL',
+                      ),
+                      const SizedBox(height: 16),
+                      Text('First Expertise', style: boldText12),
+                      const SizedBox(height: 8),
+                      Obx(
+                        () => CustomDropdown(
+                          hintText: 'Choose your first expertise',
+                          options: firstExpertise,
+                          selectedOption: firstExpertise[
+                              controller.selectedFirstExpertise.value],
+                          onSelected: (String? value) {
+                            controller.setFirstExpertise(value);
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Second Expertise', style: boldText12),
+                      const SizedBox(height: 8),
+                      Obx(
+                        () => CustomDropdown(
+                          hintText: 'Choose your second expertise',
+                          options: secondExpertise,
+                          selectedOption: secondExpertise[
+                              controller.selectedSecondExpertise.value],
+                          onSelected: (String? value) {
+                            controller.setSecondExpertise(value);
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Address', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        focusNode: controller.focusNodes[4],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[5]);
+                        },
+                        inputAction: TextInputAction.done,
+                        maxLines: 5,
+                        controller: controller.addressController,
+                        hintText: 'Enter address',
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Residence Address', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        inputAction: TextInputAction.done,
+                        focusNode: controller.focusNodes[5],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[6]);
+                        },
+                        maxLines: 5,
+                        controller: controller.residenceAddressController,
+                        hintText: 'Enter residence address',
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Bio', style: boldText12),
+                      const SizedBox(height: 8),
+                      CustomTextField(
+                        focusNode: controller.focusNodes[6],
+                        onFieldSubmitted: (_) {
+                          FocusScope.of(context).requestFocus(controller.focusNodes[7]);
+                        },
+                        inputAction: TextInputAction.done,
+                        maxLines: 5,
+                        controller: controller.bioController,
+                        hintText: 'Enter your bio',
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ProfileButton(
+                              onTap: () async {
+                                String? name = await UserPreferences().getName();
+
+                                controller.updateGeneral(
+                                  GeneralRequest(
+                                    name: name ?? "",
+                                    linkedinProfile:
+                                        controller.linkedInController.text,
+                                    instagramProfile:
+                                        controller.instagramController.text,
+                                    gender: controller.selectedGender.value,
+                                    photo:
+                                        controller.profileImageFile.value?.path ??
+                                            "",
+                                    identityCard:
+                                        controller.identityCardFile.value?.path ??
+                                            '',
+                                    placeOfBirth:
+                                        controller.placeOfBirthController.text,
+                                    dateOfBirth:
+                                        controller.dateOfBirthController.text,
+                                    firstExpertiseId:
+                                        controller.selectedFirstExpertise.value,
+                                    secondExpertiseId:
+                                        controller.selectedSecondExpertise.value,
+                                    permanentAddress:
+                                        controller.addressController.text,
+                                    residenceAddress: controller
+                                        .residenceAddressController.text,
+                                    bio: controller.bioController.text,
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.save_outlined,
+                                color: neutral01Color,
+                              ),
+                              color: primaryDarkBlueColor,
+                              text: 'Save',
+                            ),
+                          ),
+                          ProfileButton(
                             icon: Icon(
-                              Icons.save_outlined,
+                              Icons.close,
                               color: neutral01Color,
                             ),
-                            color: primaryDarkBlueColor,
-                            text: 'Save',
-                          ),
-                        ),
-                        ProfileButton(
-                          icon: Icon(
-                            Icons.close,
-                            color: neutral01Color,
-                          ),
-                          color: secondaryRedColor,
-                          text: 'Clear',
-                          onTap: () {
-                            showCustomDialog(
-                              content:
-                                  'Are you sure you want to clear all data entered?',
-                              onConfirm: () {
-                                Get.back();
-                                customSnackbar("All data has been cleared");
-                              },
-                              onCancel: () {
-                                Get.back();
-                              },
-                            );
-                          },
-                        )
-                      ],
-                    ),
-                  ],
+                            color: secondaryRedColor,
+                            text: 'Clear',
+                            onTap: () {
+                              showCustomDialog(
+                                content:
+                                    'Are you sure you want to clear all data entered?',
+                                onConfirm: () {
+                                  Get.back();
+                                  customSnackbar("All data has been cleared");
+                                },
+                                onCancel: () {
+                                  Get.back();
+                                },
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 100),
-            ],
+                const SizedBox(
+                  height: 200,
+                ),
+              ],
+            ),
           ),
         ),
       ),

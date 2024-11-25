@@ -33,8 +33,8 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final bool? readOnly;
   final TextInputAction? inputAction;
-  final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,9 @@ class CustomTextField extends StatelessWidget {
       style: regulerText12,
       decoration: InputDecoration(
         filled: true,
-        fillColor:
-            readOnly == true ? neutral03Color.withOpacity(0.5) : neutral02Color,
+        fillColor: readOnly == true
+            ? neutral03Color.withOpacity(0.5)
+            : neutral02Color,
         hintText: hintText,
         prefixIcon: svgIcon != null
             ? Padding(
@@ -65,6 +66,8 @@ class CustomTextField extends StatelessWidget {
                 ),
               )
             : preffixIcon,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
         suffixIcon: suffixIcon,
         isDense: true,
         hintStyle: TextStyle(

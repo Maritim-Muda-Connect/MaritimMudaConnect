@@ -12,8 +12,8 @@ import '../modules/auth/splash/views/splash_view.dart';
 import '../modules/product/all_product/bindings/all_product_binding.dart';
 import '../modules/product/all_product/views/all_product_view.dart';
 import '../modules/product/bindings/product_binding.dart';
-import '../modules/product/detail_catalog/bindings/detail_catalog_binding.dart';
-import '../modules/product/detail_catalog/views/detail_catalog_view.dart';
+import '../modules/product/detail_product/bindings/detail_product_binding.dart';
+import '../modules/product/detail_product/views/detail_product_view.dart';
 import '../modules/product/sub_product/bindings/sub_product_binding.dart';
 import '../modules/product/sub_product/views/sub_product_view.dart';
 import '../modules/product/views/product_view.dart';
@@ -167,7 +167,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_CATALOG,
-      page: () => const DetailProductView(),
+      page: () =>  DetailProductView(),
       binding: DetailProductBinding(),
     ),
     GetPage(

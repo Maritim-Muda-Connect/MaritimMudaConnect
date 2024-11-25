@@ -41,6 +41,8 @@ class MainDrawerController extends GetxController {
 
   List<Widget> screens = [
     // Taruh halaman contoh const ProfileView() di sini
+
+    //oke ham, jago amat lu. SROTOS SROTOS SROTOS SIIIUUUUUU
     const ProfileUserView(),
     const ProfileView(),
     const EducationsView(),
@@ -65,6 +67,8 @@ class MainDrawerController extends GetxController {
   ];
 
   // Kalo mau pake icon dari flutter nya
+
+  //ingyah ham
   List<IconData> icon = [
     Icons.person_2_rounded,
     Icons.account_circle,

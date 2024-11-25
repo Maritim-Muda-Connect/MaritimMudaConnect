@@ -14,6 +14,8 @@ class WorkExperiencesController extends GetxController {
   final TextEditingController institutionController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -35,13 +37,25 @@ class WorkExperiencesController extends GetxController {
   }
 
   String formatDateRequest(DateTime date) {
-    return DateFormat('yyyy-MM').format(date);
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
   void onInit() {
     super.onInit();
     fetchWorkExperiences();
+    focusNodes;
+  }
+
+  bool checkField() {
+    if (positionController.text.isEmpty &&
+        institutionController.text.isEmpty &&
+        startDateController.text.isEmpty &&
+        endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool validateForm() {
@@ -103,7 +117,7 @@ class WorkExperiencesController extends GetxController {
     selectedEndDate.value = DateTime.parse(workExperiencesData.endDate.toString());
   }
 
-  void fetchWorkExperiences() async {
+  Future<void> fetchWorkExperiences() async {
     try {
       isLoading.value = true;
       var data = await WorkExperiencesService().fetchWorkExperiences();
@@ -201,5 +215,6 @@ class WorkExperiencesController extends GetxController {
     institutionController.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

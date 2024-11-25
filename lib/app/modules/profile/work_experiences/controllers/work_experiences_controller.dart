@@ -113,8 +113,10 @@ class WorkExperiencesController extends GetxController {
     institutionController.text = workExperiencesData.companyName ?? '';
     startDateController.text = formatDate(workExperiencesData.startDate);
     endDateController.text = formatDate(workExperiencesData.endDate);
-    selectedStartDate.value = DateTime.parse(workExperiencesData.startDate.toString());
-    selectedEndDate.value = DateTime.parse(workExperiencesData.endDate.toString());
+    selectedStartDate.value =
+        DateTime.parse(workExperiencesData.startDate.toString());
+    selectedEndDate.value =
+        DateTime.parse(workExperiencesData.endDate.toString());
   }
 
   Future<void> fetchWorkExperiences() async {
@@ -123,31 +125,27 @@ class WorkExperiencesController extends GetxController {
       var data = await WorkExperiencesService().fetchWorkExperiences();
       workExperienceLists.assignAll(data);
     } catch (e) {
-      print (e);
+      print(e);
     } finally {
       isLoading.value = false;
     }
   }
 
   void createWorkExperience(WorkExperiencesRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
-      bool success = await WorkExperiencesService().createWorkExperience(request);
+      bool success =
+          await WorkExperiencesService().createWorkExperience(request);
 
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar(
-          'Success Adding Work Experience!'
-        );
+        customSnackbar('Success Adding Work Experience!');
       } else {
-        customSnackbar(
-          'Failed Adding Work Experience!'
-        );
+        customSnackbar('Failed Adding Work Experience!');
       }
     } catch (e) {
-      print (e);
+      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -156,18 +154,15 @@ class WorkExperiencesController extends GetxController {
   void updateWorkExperience(WorkExperiencesRequest request, int id) async {
     try {
       isLoading.value = true;
-      bool success = await WorkExperiencesService().updateWorkExperience(request, id);
+      bool success =
+          await WorkExperiencesService().updateWorkExperience(request, id);
 
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar(
-            'Success Updating Work Experience!'
-        );
+        customSnackbar('Success Updating Work Experience!');
       } else {
-        customSnackbar(
-            'Failed Updating Work Experience!'
-        );
+        customSnackbar('Failed Updating Work Experience!');
       }
     } catch (e) {
       print(e);
@@ -184,13 +179,9 @@ class WorkExperiencesController extends GetxController {
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar(
-            'Success Deleting Work Experience!'
-        );
+        customSnackbar('Success Deleting Work Experience!');
       } else {
-        customSnackbar(
-            'Failed Deleting Work Experience!'
-        );
+        customSnackbar('Failed Deleting Work Experience!');
       }
     } catch (e) {
       print(e);

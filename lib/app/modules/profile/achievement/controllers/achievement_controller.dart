@@ -25,10 +25,8 @@ class Achievements {
   });
 }
 
-
 class AchievementController extends GetxController {
-
-  var achievement = <Achievements>[].obs;  // Define as RxList
+  var achievement = <Achievements>[].obs; // Define as RxList
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController awardC = TextEditingController();
@@ -65,16 +63,10 @@ class AchievementController extends GetxController {
   Future<void> selectDate(BuildContext context) async {
     showMonthPicker(
       context,
-      initialSelectedMonth: selectedMonth.value ?? DateTime
-          .now()
-          .month,
-      initialSelectedYear: selectedYear.value ?? DateTime
-          .now()
-          .year,
+      initialSelectedMonth: selectedMonth.value ?? DateTime.now().month,
+      initialSelectedYear: selectedYear.value ?? DateTime.now().year,
       firstYear: 1900,
-      lastYear: DateTime
-          .now()
-          .year,
+      lastYear: DateTime.now().year,
       selectButtonText: 'OK',
       cancelButtonText: 'Cancel',
       highlightColor: primaryBlueColor,
@@ -136,7 +128,6 @@ class AchievementController extends GetxController {
     }
   }
 
-
   void patchField(AchievementsResponse achievementsData) {
     awardC.text = achievementsData.awardName ?? '';
     appreciatorC.text = achievementsData.appreciator ?? '';
@@ -158,7 +149,6 @@ class AchievementController extends GetxController {
   }
 
   void createAchievements(AchievementsRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
       bool success = await AchievementsService().createAchievements(request);
@@ -184,7 +174,8 @@ class AchievementController extends GetxController {
   Future<void> updateAchievements(AchievementsRequest request, int id) async {
     try {
       isLoading.value = true;
-      bool success = await AchievementsService().updateAchievements(request, id);
+      bool success =
+          await AchievementsService().updateAchievements(request, id);
 
       if (success) {
         await fetchAchievements();
@@ -247,7 +238,6 @@ class AchievementController extends GetxController {
     super.onInit();
     fetchAchievements();
     focusNodes;
-
   }
 
   bool validateForm() {

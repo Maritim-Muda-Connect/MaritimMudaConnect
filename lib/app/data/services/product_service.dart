@@ -13,10 +13,8 @@ class ProductService {
     );
     if (response.statusCode == 200) {
       var data = productResponseFromJson(response.body);
-      print("berhasil $data");
       return data;
     } else {
-      print("Gagal $response.body");
       throw Exception('Failed to load products');
     }
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 String generalRequestToJson(GeneralRequest data) => json.encode(data.toJson());
 
@@ -7,8 +8,6 @@ class GeneralRequest {
   String linkedinProfile;
   String instagramProfile;
   int gender;
-  String photo;
-  String identityCard;
   String placeOfBirth;
   String dateOfBirth;
   int firstExpertiseId;
@@ -22,8 +21,6 @@ class GeneralRequest {
     required this.linkedinProfile,
     required this.instagramProfile,
     required this.gender,
-    required this.photo,
-    required this.identityCard,
     required this.placeOfBirth,
     required this.dateOfBirth,
     required this.firstExpertiseId,
@@ -38,8 +35,6 @@ class GeneralRequest {
         "linkedin_profile": linkedinProfile,
         "instagram_profile": instagramProfile,
         "gender": gender,
-        "photo": photo,
-        "identity_card": identityCard,
         "place_of_birth": placeOfBirth,
         "date_of_birth": dateOfBirth,
         "first_expertise_id": firstExpertiseId,

@@ -17,7 +17,6 @@ class EventController extends GetxController
   var sortedEventList = <Event>[].obs;
   var selectedFilter = 'A - Z'.obs;
 
-
   List<String> title = [
     'All',
     'Competetion',
@@ -45,7 +44,6 @@ class EventController extends GetxController
     tabController.addListener(() {
       selectedIndex.value = tabController.index;
       sortEventsByType(getTypeForTab(selectedIndex.value));
-      print(selectedIndex.value);
     });
     getAllEvents();
   }
@@ -89,25 +87,22 @@ class EventController extends GetxController
 
     if (searchQuery.value.isNotEmpty) {
       tempList = tempList.where((event) {
-        final nameMatch = event.name?.toLowerCase().contains(
-            searchQuery.value.toLowerCase()
-        ) ?? false;
-        final organizerMatch = event.organizerName?.toLowerCase().contains(
-            searchQuery.value.toLowerCase()
-        ) ?? false;
+        final nameMatch = event.name
+                ?.toLowerCase()
+                .contains(searchQuery.value.toLowerCase()) ??
+            false;
+        final organizerMatch = event.organizerName
+                ?.toLowerCase()
+                .contains(searchQuery.value.toLowerCase()) ??
+            false;
         return nameMatch || organizerMatch;
       }).toList();
     }
 
+    filterEventList.assignAll(tempList);
 
-      filterEventList.assignAll(tempList);
-
-      sortedEventList.assignAll(tempList);
-
-
-
+    sortedEventList.assignAll(tempList);
   }
-
 
   void sortEventsByType(int type) {
     var sortedList = eventsList.where((event) => event.type == type).toList();
@@ -115,35 +110,32 @@ class EventController extends GetxController
     // var filteredList = eventsList.where((event) => event.type == type).toList();
     // filteredList.sort((a, b) => (a.type ?? 0).compareTo(b.type ?? 0));
     // sortedEventList.assignAll(filteredList);
-
   }
 
-  final filterOptions = ['Urutkan Berdasarkan:','A - Z', 'Terbaru', 'Terlama'];
+  final filterOptions = ['Urutkan Berdasarkan:', 'A - Z', 'Terbaru', 'Terlama'];
   dynamic updateFilter(String filter) {
     selectedFilter.value = filter;
     applyFilter();
   }
 
   void applyFilter() {
-    List<Event>? sortedList ;
+    List<Event>? sortedList;
     if (selectedIndex.value == 0) {
       sortedList = List<Event>.from(filterEventList);
     } else {
-      sortedList = eventsList.where((event) => event.type == getTypeForTab(selectedIndex.value)).toList();
+      sortedList = eventsList
+          .where((event) => event.type == getTypeForTab(selectedIndex.value))
+          .toList();
     }
 
     if (selectedFilter.value == 'A - Z') {
-      sortedList.sort((a,b) => (
-          (a.name) ?? "").compareTo(b.name ?? "")
-      );
-    } else if(selectedFilter.value == 'Terbaru') {
-      sortedList.sort((a,b) =>
-          (b.startDate ?? DateTime.now()).compareTo(a.startDate ?? DateTime.now())
-      );
+      sortedList.sort((a, b) => ((a.name) ?? "").compareTo(b.name ?? ""));
+    } else if (selectedFilter.value == 'Terbaru') {
+      sortedList.sort((a, b) => (b.startDate ?? DateTime.now())
+          .compareTo(a.startDate ?? DateTime.now()));
     } else if (selectedFilter.value == 'Terlama') {
-      sortedList.sort((a,b) =>
-          (a.startDate ?? DateTime.now()).compareTo(b.startDate ?? DateTime.now())
-      );
+      sortedList.sort((a, b) => (a.startDate ?? DateTime.now())
+          .compareTo(b.startDate ?? DateTime.now()));
     }
 
     if (selectedIndex.value == 0) {
@@ -151,9 +143,7 @@ class EventController extends GetxController
     } else {
       sortedEventList.assignAll(sortedList);
     }
-
   }
-
 
   void setSelectedIndex(int index) {
     tabController.index = index;
@@ -164,6 +154,4 @@ class EventController extends GetxController
     tabController.dispose();
     super.onClose();
   }
-
-
 }

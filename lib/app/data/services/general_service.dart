@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
@@ -21,15 +22,18 @@ class GeneralService {
     }
   }
 
-  Future<bool> updateGeneral(GeneralRequest requests) async {
+  Future<bool> updateGeneral(
+    GeneralRequest requests,
+    File imagePhoto,
+    File imageIdentity,
+  ) async {
     String? token = await UserPreferences().getToken();
 
-    final request = http.MultipartRequest(
-      'PATCH',
-      Uri.parse("$baseUrl/profile/general"),
-    );
+    final url = Uri.parse("$baseUrl/profile/general");
+    var request = http.MultipartRequest("POST", url);
 
-    request.headers.addAll(headerWithToken(token!));
+    request.headers['Authorization'] = 'Bearer $token';
+
     request.fields['name'] = requests.name;
     request.fields['linkedin_profile'] = requests.linkedinProfile;
     request.fields['instagram_profile'] = requests.instagramProfile;
@@ -43,23 +47,23 @@ class GeneralService {
     request.fields['residence_address'] = requests.residenceAddress;
     request.fields['bio'] = requests.bio;
 
-    if (requests.photo.isNotEmpty) {
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'photo',
-          requests.photo,
-        ),
+    if (imagePhoto.path.isNotEmpty) {
+      var photo = await http.MultipartFile.fromPath(
+        "photo",
+        imagePhoto!.path,
+        filename: imagePhoto.path.split('/').last,
       );
+      request.files.add(photo);
+    }
+    if (imageIdentity.path.isNotEmpty) {
+      var identity = await http.MultipartFile.fromPath(
+        "identity_card",
+        imageIdentity!.path,
+        filename: imageIdentity.path.split('/').last,
+      );
+      request.files.add(identity);
     }
 
-    if (requests.identityCard.isNotEmpty) {
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'identity_card',
-          requests.identityCard,
-        ),
-      );
-    }
     var response = await request.send();
 
     if (response.statusCode == 200) {

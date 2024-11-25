@@ -22,7 +22,6 @@ class PublicationController extends GetxController {
   final ScrollController scrollController = ScrollController();
   final focusNodes = List.generate(6, (_) => FocusNode());
 
-
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
   // Updated file related variables
@@ -53,7 +52,7 @@ class PublicationController extends GetxController {
   }
 
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
     fetchPublications();
     selectedPublicationType.value = 1;
@@ -189,7 +188,6 @@ class PublicationController extends GetxController {
   }
 
   void createPublication(PublicationRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
       bool success = await PublicationService().createPublication(request);
@@ -285,6 +283,7 @@ class PublicationController extends GetxController {
     scrollController.dispose();
     super.onClose();
   }
+
   void setPublicationType(String? value) {
     if (value != null) {
       selectedPublicationType.value = publicationOptions.indexOf(value) + 1;

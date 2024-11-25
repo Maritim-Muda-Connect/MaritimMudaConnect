@@ -24,14 +24,19 @@ class AuthService {
       String uuid = loginResponseFromJson(response.body).user!.uuid!;
       String name = loginResponseFromJson(response.body).user!.name!;
       String email = loginResponseFromJson(response.body).user!.email!;
-      String placeOfBirth = loginResponseFromJson(response.body).user!.placeOfBirth!;
-      String bio = loginResponseFromJson(response.body).user!.bio ?? "No bio yet";
-      DateTime emailVerifiedAt = loginResponseFromJson(response.body).user!.emailVerifiedAt!;
+      String placeOfBirth =
+          loginResponseFromJson(response.body).user!.placeOfBirth!;
+      String bio =
+          loginResponseFromJson(response.body).user!.bio ?? "No bio yet";
+      DateTime emailVerifiedAt =
+          loginResponseFromJson(response.body).user!.emailVerifiedAt!;
       int serialNumber =
           loginResponseFromJson(response.body).user?.serialNumber ?? 0;
       int provinceId = loginResponseFromJson(response.body).user!.provinceId!;
-      int firstExpertiseId = loginResponseFromJson(response.body).user!.firstExpertiseId!;
-      int secondExpertiseId = loginResponseFromJson(response.body).user!.secondExpertiseId!;
+      int firstExpertiseId =
+          loginResponseFromJson(response.body).user!.firstExpertiseId!;
+      int secondExpertiseId =
+          loginResponseFromJson(response.body).user!.secondExpertiseId!;
 
       await prefs.setString("token", token);
       await prefs.setString("userId", userId.toString());
@@ -75,10 +80,8 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      print("Berhasil ${response.body}");
       return true;
     } else {
-      print("Gagal ${response.body}");
       return false;
     }
   }

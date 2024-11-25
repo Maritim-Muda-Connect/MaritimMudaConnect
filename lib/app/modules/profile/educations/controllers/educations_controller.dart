@@ -95,7 +95,8 @@ class EducationsController extends GetxController {
     selectedLevel.value = levelText;
     levelController.text = levelText;
     gradController.text = formatDate(educationsData.graduationDate);
-    selectedDate.value = DateTime.parse(educationsData.graduationDate.toString());
+    selectedDate.value =
+        DateTime.parse(educationsData.graduationDate.toString());
   }
 
   String? validateInstitution(String? value) {
@@ -195,7 +196,7 @@ class EducationsController extends GetxController {
       isLoading.value = true;
       var data = await EducationsService().fetchEducations();
       educationList.assignAll(data);
-    } catch(e) {
+    } catch (e) {
       print(e);
     } finally {
       isLoading.value = false;
@@ -203,7 +204,6 @@ class EducationsController extends GetxController {
   }
 
   void createEducations(EducationsRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
       bool success = await EducationsService().createEducations(request);
@@ -211,13 +211,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar(
-          'Success Adding Education History!'
-        );
+        customSnackbar('Success Adding Education History!');
       } else {
-        customSnackbar(
-          'Failed Adding Education History!'
-        );
+        customSnackbar('Failed Adding Education History!');
       }
     } catch (e) {
       print(e);
@@ -234,13 +230,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar(
-          'Success Update Education History!'
-        );
+        customSnackbar('Success Update Education History!');
       } else {
-        customSnackbar(
-          'Failed Update Education History!'
-        );
+        customSnackbar('Failed Update Education History!');
       }
     } catch (e) {
       print(e);
@@ -257,14 +249,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar(
-          'Success Deleting Education History!'
-        );
+        customSnackbar('Success Deleting Education History!');
       } else {
-        customSnackbar(
-          'Failed Deleting Education History!',
-          secondaryRedColor
-        );
+        customSnackbar('Failed Deleting Education History!', secondaryRedColor);
       }
     } catch (e) {
       print(e);

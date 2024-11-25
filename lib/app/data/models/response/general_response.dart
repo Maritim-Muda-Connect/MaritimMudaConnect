@@ -56,6 +56,9 @@ class User {
   String? residenceAddress;
   String? bio;
   int? isAdmin;
+  String? photoLink;
+  String? identityCardLink;
+  String? paymentLink;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -80,6 +83,9 @@ class User {
     this.residenceAddress,
     this.bio,
     this.isAdmin,
+    this.photoLink,
+    this.identityCardLink,
+    this.paymentLink,
     this.createdAt,
     this.updatedAt,
   });
@@ -109,6 +115,9 @@ class User {
         residenceAddress: json["residence_address"],
         bio: json["bio"],
         isAdmin: json["is_admin"],
+        photoLink: json["photo_link"],
+        identityCardLink: json["identity_card_link"],
+        paymentLink: json["payment_link"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -138,6 +147,9 @@ class User {
         "residence_address": residenceAddress,
         "bio": bio,
         "is_admin": isAdmin,
+        "photo_link": photoLink,
+        "identity_card_link": identityCardLink,
+        "payment_link": paymentLink,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };

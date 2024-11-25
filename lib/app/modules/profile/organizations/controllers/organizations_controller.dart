@@ -133,7 +133,6 @@ class OrganizationsController extends GetxController {
   }
 
   void createOrganizations(OrganizationsRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
       bool success = await OrganizationsService().createOrganizations(request);

@@ -48,7 +48,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
           ),
         Expanded(
             child: Padding(
-                padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+                padding: EdgeInsets.only(left: 30.0, right: 30.0),
                 // child:Expanded(
 
                 child: Obx(() {
@@ -88,7 +88,8 @@ class ScholarshipView extends GetView<ScholarshipController> {
                             padding: EdgeInsets.symmetric(vertical: 10.0),
                             child: ProgramCard(
                               image:
-                              "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
+                                  scholarship.posterLink,
+                              // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
                               date: startDate,
                               textTitle: scholarship.name,
                               textSubTitle: scholarship.providerName,

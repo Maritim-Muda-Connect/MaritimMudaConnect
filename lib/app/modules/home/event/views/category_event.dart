@@ -15,7 +15,7 @@ class CategoryEvent extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-      padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0,),
       child: Obx(() {
         if (controller.isLoading.value) {
           return Expanded(
@@ -53,10 +53,11 @@ class CategoryEvent extends GetView<EventController> {
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: ProgramCard(
                     image:
-                        "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
+                        event.posterLink,
+                        // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
                     date: startDate,
                     textTitle: event.name,
-                    textSubTitle: "Kocak ga ada deskripsi nya wkwk",
+                    textSubTitle: "",
                     onShare: () {
                       Share.share("Check this out: \n${event.externalUrl ?? "Sorry, this event does not have a URL available!"}" , subject: "Event Url");
                     },

@@ -210,7 +210,6 @@ class WorkExperiencesController extends GetxController {
         customSnackbar(
           'Success deleting work experience history!',
           null,
-          const Duration(milliseconds: 800),
         );;
       } else {
         customSnackbar('Failed Deleting Work Experience!');

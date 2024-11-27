@@ -204,7 +204,7 @@ class AchievementsController extends GetxController {
       if (success) {
         fetchAchievements();
         customSnackbar(
-          'Success deleting achievement history!',
+          'Success deleting education history!',
           null,
         );
       } else {

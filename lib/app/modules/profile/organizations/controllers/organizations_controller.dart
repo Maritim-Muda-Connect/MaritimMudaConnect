@@ -219,7 +219,6 @@ class OrganizationsController extends GetxController {
         customSnackbar(
           'Success delete organization history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

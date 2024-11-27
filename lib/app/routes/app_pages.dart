@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/profile/publications/bindings/publication_binding.dart';
+import 'package:maritimmuda_connect/app/modules/profile/publications/views/publications_view.dart';
 import '../modules/analytics/bindings/analytics_binding.dart';
 import '../modules/analytics/views/analytics_view.dart';
 import '../modules/auth/forgot_password/bindings/forgot_password_binding.dart';
@@ -40,8 +42,6 @@ import '../modules/profile/organizations/bindings/organizations_binding.dart';
 import '../modules/profile/organizations/views/organizations_view.dart';
 import '../modules/profile/profile_user/bindings/profile_user_binding.dart';
 import '../modules/profile/profile_user/views/profile_user_view.dart';
-import '../modules/profile/publication/bindings/publication_binding.dart';
-import '../modules/profile/publication/views/publication_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile/work_experiences/bindings/work_experiences_binding.dart';
 import '../modules/profile/work_experiences/views/work_experiences_view.dart';
@@ -101,8 +101,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PUBLICATION,
-      page: () => const PublicationView(),
-      binding: PublicationBinding(),
+      page: () => const PublicationsView(),
+      binding: PublicationsBinding(),
     ),
     GetPage(
       name: _Paths.EVENT,

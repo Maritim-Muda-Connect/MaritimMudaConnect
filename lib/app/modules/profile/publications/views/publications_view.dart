@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/request/publication_request.dart';
-import 'package:maritimmuda_connect/app/modules/profile/publication/controllers/publication_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/publications/controllers/publications_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_dropdown.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_textfield.dart';
 import 'package:maritimmuda_connect/app/modules/widget/profile_button.dart';
@@ -10,8 +10,8 @@ import 'package:maritimmuda_connect/themes.dart';
 import '../../../widget/custom_dialog.dart';
 import '../../../widget/custom_snackbar.dart';
 
-class PublicationView extends GetView<PublicationController> {
-  const PublicationView({super.key});
+class PublicationsView extends GetView<PublicationsController> {
+  const PublicationsView({super.key});
 
   @override
   Widget build(BuildContext context) {

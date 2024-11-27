@@ -211,9 +211,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar('Success Adding Education History!');
+        customSnackbar('Success adding education history!');
       } else {
-        customSnackbar('Failed Adding Education History!');
+        customSnackbar('Failed adding education history!');
       }
     } catch (e) {
       print(e);
@@ -230,9 +230,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar('Success Update Education History!');
+        customSnackbar('Success updating education history!');
       } else {
-        customSnackbar('Failed Update Education History!');
+        customSnackbar('Failed updating education history!');
       }
     } catch (e) {
       print(e);
@@ -252,10 +252,9 @@ class EducationsController extends GetxController {
         customSnackbar(
           'Success deleting education history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
-        customSnackbar('Failed Deleting Education History!', secondaryRedColor);
+        customSnackbar('Failed deleting education history!', secondaryRedColor);
       }
     } catch (e) {
       print(e);

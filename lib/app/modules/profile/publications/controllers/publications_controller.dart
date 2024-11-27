@@ -11,7 +11,7 @@ import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';
 
-class PublicationController extends GetxController {
+class PublicationsController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController titleC = TextEditingController();
   final TextEditingController authorC = TextEditingController();

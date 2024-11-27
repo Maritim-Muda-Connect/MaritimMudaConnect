@@ -180,11 +180,11 @@ class SocialActivityController extends GetxController {
         fetchSocialActivity();
         clearAll();
         customSnackbar(
-          'Success Adding Social Activity History!',
+          'Success adding social activity history!',
         );
       } else {
         customSnackbar(
-          'Failed Adding Social Activity History!',
+          'Failed adding social activity history!',
         );
       }
     } catch (e) {
@@ -204,10 +204,10 @@ class SocialActivityController extends GetxController {
         fetchSocialActivity();
         clearAll();
         customSnackbar(
-          'Success Updating Social Activity History !',
+          'Success updating social activity history !',
         );
       } else {
-        customSnackbar('Failed Updating Social Activity History !');
+        customSnackbar('Failed updating social activity history !');
       }
     } catch (e) {
       print(e);
@@ -229,7 +229,7 @@ class SocialActivityController extends GetxController {
         );
       } else {
         customSnackbar(
-          'Failed Deleting social activity history!',
+          'Failed deleting social activity history!',
           secondaryRedColor,
         );
       }

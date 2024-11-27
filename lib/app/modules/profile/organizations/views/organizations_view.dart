@@ -227,7 +227,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   padding: const EdgeInsets.only(bottom: 16.0),
                                   child: ProfileCard(
                                     title: activity.organizationName!,
-                                    rightTitle: activity.role!,
+                                    leftSubTitle: activity.role!,
                                     startDate: activity.periodStartDate != null
                                         ? controller.formatDate(
                                             activity.periodStartDate)

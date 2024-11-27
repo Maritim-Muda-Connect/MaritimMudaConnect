@@ -69,13 +69,15 @@ class MemberView extends GetView<MemberController> {
                                   borderRadius: BorderRadius.circular(16)),
                               child: ListTile(
                                 onTap: () {
-                                  controller.getEmail(memberList.email ?? "");
+                                  controller.getEmail(memberList.email!);
                                   Get.to(() =>
                                       MemberDetailView(memberList: memberList));
                                 },
                                 leading: CircleAvatar(
-                                  backgroundImage:
+                                  foregroundImage:
                                       NetworkImage(memberList.photoLink!),
+                                  backgroundImage: const AssetImage(
+                                      'assets/images/default_photo.jpg'),
                                 ),
                                 title: Text(
                                   memberList.name ?? "",

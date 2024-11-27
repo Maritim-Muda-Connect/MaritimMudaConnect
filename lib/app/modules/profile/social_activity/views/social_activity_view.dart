@@ -263,6 +263,7 @@ class SocialActivityView extends GetView<SocialActivityController> {
           ),
         ),
       ),
+    )
     );
   }
 }

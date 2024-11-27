@@ -44,12 +44,11 @@ class MemberController extends GetxController {
     }
   }
 
-  void getAllMember() async {
+  Future<void> getAllMember() async {
     try {
       isLoading.value = true;
       var response = await HomeService().getAllMembers();
       memberList.assignAll(response.members!);
-      // Initialize filtered list with all members
       filteredMemberList.assignAll(memberList);
     } catch (e) {
       print("Error fetching members: $e");
@@ -88,7 +87,6 @@ class MemberController extends GetxController {
   void applyFilters() {
     var tempList = List<Member>.from(memberList);
 
-    // Apply search filter
     if (searchQuery.value.isNotEmpty) {
       tempList = tempList.where((member) {
         final nameMatch = member.name
@@ -102,14 +100,12 @@ class MemberController extends GetxController {
       }).toList();
     }
 
-    // Apply province filter
     if (selectedItems.containsKey('Province')) {
       tempList = tempList.where((member) {
         return member.provinceId.toString() == selectedItems['Province'];
       }).toList();
     }
 
-    // Apply expertise filter
     if (selectedItems.containsKey('Expertise')) {
       tempList = tempList.where((member) {
         return member.firstExpertiseId.toString() ==

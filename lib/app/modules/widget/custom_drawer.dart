@@ -90,7 +90,6 @@ class CustomDrawer extends StatelessWidget {
     required int index,
     required MainDrawerController controller,
     IconData? icon,
-    // Widget? icon,
   }) {
     return Obx(
       () => InkWell(

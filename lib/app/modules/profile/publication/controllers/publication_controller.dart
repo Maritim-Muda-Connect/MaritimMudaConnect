@@ -24,7 +24,6 @@ class PublicationController extends GetxController {
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
-  // Updated file related variables
   RxString selectedFileName = 'No File Chosen'.obs;
   Rx<File?> selectedImage = Rx<File?>(null);
   RxString selectedImagePath = ''.obs;
@@ -244,7 +243,6 @@ class PublicationController extends GetxController {
         customSnackbar(
           'Success delete publication!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

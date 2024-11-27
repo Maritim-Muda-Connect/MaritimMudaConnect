@@ -56,7 +56,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                             controller: controller.positionController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter position title';
+                                return 'Position title is required.';
                               }
                               return null;
                             },
@@ -74,7 +74,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                             controller: controller.institutionController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter institution name';
+                                return 'Institution name is required.';
                               }
                               return null;
                             },
@@ -94,7 +94,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                     color: primaryDarkBlueColor),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter start date';
+                                    return 'Start date is required.';
                                   }
                                   return null;
                                 },
@@ -114,7 +114,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                     color: primaryDarkBlueColor),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter end date';
+                                    return 'End date is required.';
                                   }
                                   return null;
                                 },
@@ -207,16 +207,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                           ),
                           const SizedBox(height: 30),
                           Obx(() {
-                            if (controller.isLoading.value) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(
-                                      color: primaryDarkBlueColor),
-                                ),
-                              );
-                            } else if (controller.workExperienceLists.isEmpty) {
+                            if (controller.workExperienceLists.isEmpty) {
                               return const SizedBox.shrink();
                             } else {
                               return ListView.separated(

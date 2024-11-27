@@ -47,6 +47,8 @@ class ProfileController extends GetxController {
   var photoIdentity = ''.obs;
   var photoPayment = ''.obs;
   var isLoading = false.obs;
+  var photoStudent = ''.obs;
+
 
   String get formattedDate {
     return selectedDate.value != null
@@ -126,6 +128,7 @@ class ProfileController extends GetxController {
     photoImage.value = generalData.value.user?.photoLink ?? '';
     photoIdentity.value = generalData.value.user?.identityCardLink ?? '';
     photoPayment.value = generalData.value.user?.paymentLink ?? '';
+    photoStudent.value = generalData.value.user?.memberCardPreview ?? '';
   }
 
   Future<void> fetchGeneral() async {

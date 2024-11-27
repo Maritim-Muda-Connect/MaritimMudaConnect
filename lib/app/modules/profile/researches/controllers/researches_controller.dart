@@ -236,7 +236,6 @@ class ResearchesController extends GetxController {
         customSnackbar(
           'Success delete research!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

@@ -61,12 +61,7 @@ class EducationsView extends GetView<EducationsController> {
                             onFieldSubmitted: (_) {
                               FocusScope.of(context).requestFocus(controller.focusNodes[1]);
                             },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter institution name';
-                              }
-                              return null;
-                            },
+                            validator: controller.validateInstitution,
                             hintText: 'Enter your Institution Name'),
                         const SizedBox(height: 16),
                         Text(
@@ -82,12 +77,7 @@ class EducationsView extends GetView<EducationsController> {
                             FocusScope.of(context).requestFocus(controller.focusNodes[2]);
                           },
                           controller: controller.majorController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter major/field study name';
-                            }
-                            return null;
-                          },
+                          validator: controller.validateMajor,
                           hintText: 'Enter your Major/Field Study',
                         ),
                         const SizedBox(
@@ -107,12 +97,7 @@ class EducationsView extends GetView<EducationsController> {
                               onSelected: (String? newLevel) {
                                 controller.setLevel(newLevel);
                               },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter Education Level';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateLevel,
                             )),
                         const SizedBox(
                           height: 16,
@@ -133,12 +118,7 @@ class EducationsView extends GetView<EducationsController> {
                               hintText: 'Select your graduation date',
                               suffixIcon: Icon(Icons.calendar_today,
                                   color: primaryDarkBlueColor),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter Graduation date';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateGraduate,
                             ),
                           ),
                         ),
@@ -255,8 +235,18 @@ class EducationsView extends GetView<EducationsController> {
                                       );
                                     },
                                     // Populate fields for editing
-                                    onTap2: () => controller
-                                        .deleteEducations(activity.id!),
+                                    onTap2: () {
+                                      showCustomDialog(
+                                        content: 'Are you sure you want to delete this data?',
+                                        onConfirm: () {
+                                          controller.deleteEducations(activity.id ?? 0);
+                                          Get.back();
+                                        },
+                                        onCancel: () {
+                                          Get.back();
+                                        }
+                                      );
+                                    },
                                     // Assuming activity has an ID
                                     onTap3:
                                         () {}, // Additional action, if necessary

@@ -84,7 +84,7 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '$leftSubTitle ',
+                        leftSubTitle != null ? '$leftSubTitle' : '',
                         style: regulerText12,
                       ),
                       const SizedBox(width: 3),

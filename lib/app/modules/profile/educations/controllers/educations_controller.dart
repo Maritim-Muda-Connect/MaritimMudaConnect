@@ -249,7 +249,11 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar('Success Deleting Education History!');
+        customSnackbar(
+          'Success deleting education history!',
+          null,
+          const Duration(milliseconds: 800),
+        );
       } else {
         customSnackbar('Failed Deleting Education History!', secondaryRedColor);
       }

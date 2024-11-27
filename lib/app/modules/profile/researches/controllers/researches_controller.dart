@@ -234,7 +234,7 @@ class ResearchesController extends GetxController {
       if (success) {
         await fetchResearches();
         customSnackbar(
-          'Success delete research!',
+          'Success deleting research history!',
           null,
           const Duration(milliseconds: 800),
         );

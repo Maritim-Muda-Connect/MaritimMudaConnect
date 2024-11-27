@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/services/home_service.dart';
 import '../../../../data/models/response/member_response.dart';
+import '../../../../data/services/config.dart';
 import '../../../../data/utils/province.dart';
+import 'package:http/http.dart' as http;
 
 class MemberController extends GetxController {
   var isVisible = false.obs;
@@ -13,11 +17,28 @@ class MemberController extends GetxController {
   var searchQuery = ''.obs;
   final selectedItems = <String, String>{}.obs;
   var isDrawerVisible = false.obs;
+  DateTime? emailVerifiedAt;
 
   @override
   void onInit() {
     super.onInit();
     getAllMember();
+  }
+
+  void getEmail(String email) async {
+    final response =
+        await http.get(Uri.parse("$baseUrl/user/$email/check-uid"));
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['success'] == true) {
+        final emailVerifiedAtString = jsonResponse['user']['email_verified_at'];
+        emailVerifiedAt = DateTime.parse(emailVerifiedAtString);
+      } else {
+        print('Error: ${jsonResponse['error']}');
+      }
+    } else {
+      print('Error fetching data: ${response.statusCode}');
+    }
   }
 
   void getAllMember() async {
@@ -36,7 +57,7 @@ class MemberController extends GetxController {
 
   void searchMembers(String query) {
     searchQuery.value = query;
-    applyFilters(); // Apply both search and filters
+    applyFilters();
   }
 
   void toggleSection(String title) {
@@ -45,7 +66,7 @@ class MemberController extends GetxController {
 
   void setSelectedProvince(String value) {
     if (selectedItems['Province'] == value) {
-      selectedItems.remove('Province'); // Deselect if already selected
+      selectedItems.remove('Province');
     } else {
       selectedItems['Province'] = value;
     }
@@ -54,7 +75,7 @@ class MemberController extends GetxController {
 
   void setSelectedExpertise(String value) {
     if (selectedItems['Expertise'] == value) {
-      selectedItems.remove('Expertise'); // Deselect if already selected
+      selectedItems.remove('Expertise');
     } else {
       selectedItems['Expertise'] = value;
     }

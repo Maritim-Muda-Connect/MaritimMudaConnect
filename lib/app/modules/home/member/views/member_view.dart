@@ -69,13 +69,9 @@ class MemberView extends GetView<MemberController> {
                                   borderRadius: BorderRadius.circular(16)),
                               child: ListTile(
                                 onTap: () {
-                                  if (memberList.emailVerifiedAt != null) {
-                                    Get.to(() => MemberDetailView(
-                                        memberList: memberList));
-                                  } else {
-                                    customSnackbar(
-                                        "User not verified", secondaryRedColor);
-                                  }
+                                  controller.getEmail(memberList.email ?? "");
+                                  Get.to(() =>
+                                      MemberDetailView(memberList: memberList));
                                 },
                                 leading: const CircleAvatar(
                                   backgroundImage:

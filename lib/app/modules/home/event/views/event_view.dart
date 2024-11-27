@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:maritimmuda_connect/app/modules/widget/custom_filter.dart';
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
-import '../../../../data/models/category_data.dart';
 import '../controllers/event_controller.dart';
 
 class EventView extends GetView<EventController> {
@@ -43,7 +41,6 @@ class EventView extends GetView<EventController> {
               ),
             ),
 
-            // 2. Category
             Container(
               width: double.infinity,
               color: primaryDarkBlueColor,

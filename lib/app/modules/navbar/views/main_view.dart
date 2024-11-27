@@ -43,7 +43,6 @@ class MainView extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // PageView for main content
           PageView(
             controller: controller.pageController,
             onPageChanged: (index) {
@@ -53,7 +52,6 @@ class MainView extends StatelessWidget {
             children: controller.views,
           ),
     
-          // Shadow container below BottomAppBar
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -65,7 +63,7 @@ class MainView extends StatelessWidget {
                     color: Colors.black.withOpacity(0.2),
                     spreadRadius: 5,
                     blurRadius: 10,
-                    offset: const Offset(0, 3), // Shadow position below the BottomAppBar
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),

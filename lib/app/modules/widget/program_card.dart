@@ -10,9 +10,7 @@ class ProgramCard extends StatelessWidget {
     this.textTitle,
     this.textSubTitle,
     this.onShare,
-    // this.views,
-    // this.likes,
-    // this.send,
+
   });
 
   final String? image;
@@ -20,16 +18,10 @@ class ProgramCard extends StatelessWidget {
   final String? textTitle;
   final String? textSubTitle;
   final VoidCallback? onShare;
-  // final String? views;
-  // final String? likes;
-  // final String? send;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () {
-      //   Get.to(() => MemberView());
-      // },
       borderRadius: BorderRadius.circular(15),
       child: Card(
         elevation: 1,
@@ -75,34 +67,9 @@ class ProgramCard extends StatelessWidget {
                       )
                     ],
                   ),
-                  // Row(
-                  //   children: [
-                  //     Icon(Icons.remove_red_eye_sharp,
-                  //         color: primaryDarkBlueColor),
-                  //     const SizedBox(width: 4),
-                  //     Text(
-                  //       views!,
-                  //       style: regulerText10,
-                  //     )
-                  //   ],
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Icon(Icons.favorite, color: primaryDarkBlueColor),
-                  //     const SizedBox(width: 4),
-                  //     Text(
-                  //       likes!,
-                  //       style: regulerText10,
-                  //     )
-                  //   ],
-                  // ),
                   IconButton(
                       icon: Icon(Icons.send, color: primaryDarkBlueColor),
                       onPressed: onShare,
-                      // Text(
-                      //   send!,
-                      //   style: regulerText10,
-                      // )
                   ),
                 ],
               )

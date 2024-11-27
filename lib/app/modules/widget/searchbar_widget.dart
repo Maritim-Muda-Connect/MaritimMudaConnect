@@ -78,11 +78,8 @@ class FilterSearchEventButton extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-
         padding: const EdgeInsets.all(8.0),
         child: (
-
           PopupMenuButton<String>(
               itemBuilder: (BuildContext context) {
                 return controller.filterOptions.map((String filter) {
@@ -92,7 +89,6 @@ class FilterSearchEventButton extends GetView<EventController> {
                       Text(filter, style: boldText14.copyWith(color: neutral04Color),):
                       Text(filter )
                   );
-
                 }).toList();
               },
             color: Colors.white,
@@ -110,7 +106,7 @@ class FilterSearchEventButton extends GetView<EventController> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 4,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: Offset(0, 3),
 
                     ),
                   ],
@@ -129,8 +125,6 @@ class FilterSearchScholarButton extends GetView<ScholarshipController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // crossAxisAlignment: CrossAxisAlignment.start,
-
         padding: const EdgeInsets.all(8.0),
         child: (
 
@@ -161,7 +155,7 @@ class FilterSearchScholarButton extends GetView<ScholarshipController> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 4,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: Offset(0, 3),
 
                     ),
                   ],
@@ -193,7 +187,7 @@ class FilterSearchButton extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 4,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: Offset(0, 3),
               ),
             ],
           ),

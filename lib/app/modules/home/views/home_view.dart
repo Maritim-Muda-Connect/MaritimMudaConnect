@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maritimmuda_connect/app/data/models/category_data.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/job/views/job_view.dart';
 
@@ -65,11 +64,11 @@ class HomeView extends GetView<HomeController> {
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: neutral04Color.withOpacity(0.3), // Warna shadow
-                          spreadRadius: 1, // Penyebaran shadow
-                          blurRadius: 5, // Tingkat blur shadow
+                          color: neutral04Color.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 5,
                           offset:
-                              const Offset(3, 3), // Arah dan jarak shadow (x, y)
+                              const Offset(3, 3),
 
                         ),
                       ],
@@ -91,7 +90,7 @@ class HomeView extends GetView<HomeController> {
                                     style: semiBoldText24.copyWith(
                                         color: primaryBlueColor),
                                     overflow: TextOverflow
-                                        .ellipsis, // Tambahkan ini untuk memotong teks panjang
+                                        .ellipsis,
                                   )),
                               const SizedBox(height: 8),
                               Row(
@@ -124,14 +123,14 @@ class HomeView extends GetView<HomeController> {
           CarouselSlider(
             options: CarouselOptions(
               height: 180,
-              autoPlay: true, // Otomatis bergeser
-              enlargeCenterPage: true, // Gambar di tengah diperbesar
+              autoPlay: true,
+              enlargeCenterPage: true,
             ),
             items: listImage.map((item) {
               return ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 child: Image.asset(
-                  item, // Mengambil path dari listImage
+                  item,
                   fit: BoxFit.cover,
                 ),
               );
@@ -142,13 +141,13 @@ class HomeView extends GetView<HomeController> {
           ),
           Center(
             child: Wrap(
-              spacing: 16, // Jarak horizontal antar card
-              runSpacing: 24, // Jarak vertikal antar card
+              spacing: 16,
+              runSpacing: 24,
               alignment: WrapAlignment.start,
               children: [
                 SizedBox(
                   width: (MediaQuery.of(context).size.width / 2) -
-                      24, // Lebar HomeCard
+                      24,
                   child: HomeCard(
                     icon: 'assets/icons/member_icon.svg',
                     title: 'Member',
@@ -159,7 +158,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(
                   width: (MediaQuery.of(context).size.width / 2) -
-                      24, // Lebar HomeCard
+                      24,
                   child: HomeCard(
                     icon: 'assets/icons/event_icon.svg',
                     title: 'Event',
@@ -173,7 +172,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(
                   width: (MediaQuery.of(context).size.width / 2) -
-                      24, // Lebar HomeCard
+                      24,
                   child: HomeCard(
                     icon: 'assets/icons/scholarship_icon.svg',
                     title: 'Scholarship',

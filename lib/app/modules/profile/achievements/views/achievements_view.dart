@@ -9,10 +9,10 @@ import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_dialog.dart';
 import '../../../widget/custom_snackbar.dart';
-import '../controllers/achievement_controller.dart';
+import '../controllers/achievements_controller.dart';
 
-class AchievementView extends GetView<AchievementController> {
-  const AchievementView({super.key});
+class AchievementsView extends GetView<AchievementsController> {
+  const AchievementsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -206,16 +206,7 @@ class AchievementView extends GetView<AchievementController> {
                       const SizedBox(height: 30),
                       Obx(
                         () {
-                          if (controller.isLoading.value) {
-                            return Center(
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: CircularProgressIndicator(
-                                    color: primaryDarkBlueColor),
-                              ),
-                            );
-                          } else if (controller.achievementsData.isEmpty) {
+                          if (controller.achievementsData.isEmpty) {
                             return const SizedBox.shrink();
                           } else {
                             return ListView.separated(

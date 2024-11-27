@@ -226,7 +226,6 @@ class SocialActivityController extends GetxController {
         customSnackbar(
           'Success Deleting social activity history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

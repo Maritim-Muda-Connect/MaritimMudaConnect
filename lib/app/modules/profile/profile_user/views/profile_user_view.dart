@@ -13,7 +13,6 @@ class ProfileUserView extends GetView<ProfileUserController> {
 
     return Scaffold(
       backgroundColor: neutral02Color,
-      //appBar: AppBar(scrolledUnderElevation: 0.0),
       body: SafeArea(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -198,9 +197,8 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       ),
                       const SizedBox(height: 15),
                       
-                      // Achievement List with Dot
                       Obx(() {
-                        final achievements = controller.achievmentController.achievementsData;
+                        final achievements = controller.achievmentsController.achievementsData;
                         if (achievements.isEmpty) {
                           return Text(
                             "No achievements yet.",
@@ -212,7 +210,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(Icons.circle, size: 8, color: neutral04Color), // Dot icon
+                                Icon(Icons.circle, size: 8, color: neutral04Color),
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Column(

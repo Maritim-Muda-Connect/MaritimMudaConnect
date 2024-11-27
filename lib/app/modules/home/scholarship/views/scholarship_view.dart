@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:maritimmuda_connect/app/data/models/scholarship_data.dart';
-import 'package:maritimmuda_connect/app/modules/widget/custom_filter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../../themes.dart';
@@ -48,9 +46,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
           ),
         Expanded(
             child: Padding(
-                padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                // child:Expanded(
-
+                padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
                 child: Obx(() {
                   if (controller.isLoading.value) {
                     return Expanded(
@@ -69,7 +65,6 @@ class ScholarshipView extends GetView<ScholarshipController> {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
-                      // scrollDirection: Axis.vertical,
                       itemCount: controller.filteredList.length,
                       itemBuilder: (context, index) {
                         final scholarship = controller.filteredList[index];
@@ -96,9 +91,6 @@ class ScholarshipView extends GetView<ScholarshipController> {
                               onShare: () {
                                 Share.share("Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}" , subject: "Scholarship Url");
                               },
-                              // views: scholarship.views,
-                              // likes: scholarship.likes,
-                              // send: scholarship.send,
                             ),
                           ),
                         );

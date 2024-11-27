@@ -52,7 +52,7 @@ class DetailEventView extends GetView<EventController> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Image.network(
-                    "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
+                eventData.posterLink!,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -64,6 +64,7 @@ class DetailEventView extends GetView<EventController> {
                 style: boldText24,
               ),
             ),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
@@ -71,6 +72,15 @@ class DetailEventView extends GetView<EventController> {
                 style: regulerText14,
               ),
             ),
+            SizedBox(height: 30,),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            //   child: Text(
+            //     "wkwwkwkwkwkwkwkwkwkwkwkwkw\nwkwkwkwkwkwwkw\nwkwkwkwkwkwkwkwkwkwk",
+            //     // eventData.descriptionDetail!,
+            //     style: regulerText14,
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(

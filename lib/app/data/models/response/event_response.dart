@@ -22,6 +22,7 @@ class Event {
   dynamic deletedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? posterLink;
 
   Event({
     this.id,
@@ -34,7 +35,8 @@ class Event {
       this.endDate,
       this.deletedAt,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.posterLink});
 
   factory Event.fromJson(Map<String, dynamic> json) => Event(
       id: json["id"],
@@ -51,7 +53,9 @@ class Event {
           // : DateTime.parse(json["deleted_at"])
       ,
       createdAt: DateTime.parse(json["created_at"]),
-      updatedAt: DateTime.parse(json["updated_at"]));
+      updatedAt: DateTime.parse(json["updated_at"]),
+    posterLink: json["poster_link"],
+  );
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -65,5 +69,6 @@ class Event {
         "deleted_at": deletedAt,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "poster_link": posterLink
       };
 }

@@ -53,10 +53,10 @@ class ListEventView extends GetView<EventController> {
                       padding: EdgeInsets.symmetric(vertical: 10.0),
                       child: ProgramCard(
                         image:
-                            "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
+                            event.posterLink,
                         date: startDate ,
                         textTitle: event.name,
-                        textSubTitle: "Kocak ga ada deskripsi nya",
+                        textSubTitle: "",
                         onShare: () {
                           Share.share("Check this out: \n${event.externalUrl ?? "Sorry, this event does not have a URL available!"}" , subject: "Event Url");
                         },

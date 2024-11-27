@@ -53,7 +53,8 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Image.network(
-                "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
+                scholarshipData.posterLink!,
+                // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -65,13 +66,15 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
                 style: boldText24,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Text(
-                "ga ada deskripsi wkwkw",
-                style: regulerText14,
-              ),
-            ),
+            SizedBox(height: 30,),
+
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            //   child: Text(
+            //     "ga ada deskripsi wkwkw",
+            //     style: regulerText14,
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(

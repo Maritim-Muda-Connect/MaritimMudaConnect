@@ -19,8 +19,6 @@ class MemberView extends GetView<MemberController> {
 
     return Scaffold(
       backgroundColor: neutral02Color,
-
-
       endDrawer: const SafeArea(child: FilterDrawer()),
       appBar: AppBar(
         title: Text(
@@ -54,18 +52,16 @@ class MemberView extends GetView<MemberController> {
                     } else if (controller.memberList.isEmpty) {
                       return Expanded(
                         child: RefreshIndicator(
-                            child: ListView(
-                              children: const [
-                                Center(
-                                  child: Column(
-                                    children: [Text("data tidak ditemukan cuy")],
-                                  ),
-                                ),
-                              ]
+                          child: ListView(children: const [
+                            Center(
+                              child: Column(
+                                children: [Text("data tidak ditemukan cuy")],
+                              ),
                             ),
-                            onRefresh: () async {
-                        await controller.getAllMember();
-                        },
+                          ]),
+                          onRefresh: () async {
+                            await controller.getAllMember();
+                          },
                         ),
                       );
                     } else {
@@ -74,27 +70,23 @@ class MemberView extends GetView<MemberController> {
                           itemCount: controller.filteredMemberList.length,
                           itemBuilder: (context, index) {
                             final memberList =
-                            controller.filteredMemberList[index];
+                                controller.filteredMemberList[index];
                             return Card(
-                              margin:
-                              const EdgeInsets.symmetric(vertical: 7.5),
+                              margin: const EdgeInsets.symmetric(vertical: 7.5),
                               color: neutral01Color,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
                               child: ListTile(
                                 onTap: () {
-                                  if (memberList.emailVerifiedAt != null) {
-                                    Get.to(() =>
-                                        MemberDetailView(
-                                            memberList: memberList));
-                                  } else {
-                                    customSnackbar("User not verified",
-                                        secondaryRedColor);
-                                  }
+                                  controller.getEmail(memberList.email!);
+                                  Get.to(() =>
+                                      MemberDetailView(memberList: memberList));
                                 },
-                                leading: const CircleAvatar(
-                                  backgroundImage:
-                                  AssetImage("assets/images/profile.png"),
+                                leading: CircleAvatar(
+                                  foregroundImage:
+                                      NetworkImage(memberList.photoLink!),
+                                  backgroundImage: const AssetImage(
+                                      'assets/images/default_photo.jpg'),
                                 ),
                                 title: Text(
                                   memberList.name ?? "",
@@ -103,7 +95,7 @@ class MemberView extends GetView<MemberController> {
                                 ),
                                 subtitle: Text(
                                     provinceOptions[
-                                    memberList.provinceId.toString()]!,
+                                        memberList.provinceId.toString()]!,
                                     style: extraLightText16),
                                 trailing: CircleAvatar(
                                     backgroundColor: primaryDarkBlueColor,

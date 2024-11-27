@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maritimmuda_connect/app/modules/profile/achievement/controllers/achievement_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/achievement/views/achievement_view.dart';
+import 'package:maritimmuda_connect/app/modules/profile/achievements/views/achievements_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/educations/views/educations_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/controllers/home_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
@@ -20,6 +19,8 @@ import 'package:maritimmuda_connect/app/modules/profile/educations/controllers/e
 import 'package:maritimmuda_connect/app/modules/profile/work_experiences/controllers/work_experiences_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/organizations/controllers/organizations_controller.dart';
 
+import '../../achievements/controllers/achievements_controller.dart';
+
 class MainDrawerController extends GetxController {
   var selectedIndex = 0.obs;
   var currentTitle = 'General'.obs;
@@ -33,22 +34,19 @@ class MainDrawerController extends GetxController {
     Get.put(EducationsController());
     Get.put(WorkExperiencesController());
     Get.put(OrganizationsController());
-    Get.put(AchievementController());
+    Get.put(AchievementsController());
     Get.put(PublicationController());
     Get.put(SocialActivityController());
     Get.put(ResearchesController());
   }
 
   List<Widget> screens = [
-    // Taruh halaman contoh const ProfileView() di sini
-
-    //oke ham, jago amat lu. SROTOS SROTOS SROTOS SIIIUUUUUU
     const ProfileUserView(),
     const ProfileView(),
     const EducationsView(),
     const WorkExperiencesView(),
     const OrganizationsView(),
-    const AchievementView(),
+    const AchievementsView(),
     const PublicationView(),
     const SocialActivityView(),
     const ResearchesView()
@@ -65,10 +63,6 @@ class MainDrawerController extends GetxController {
     'Social Activities',
     'Researches',
   ];
-
-  // Kalo mau pake icon dari flutter nya
-
-  //ingyah ham
   List<IconData> icon = [
     Icons.person_2_rounded,
     Icons.account_circle,
@@ -80,19 +74,6 @@ class MainDrawerController extends GetxController {
     Icons.group_work,
     Icons.science,
   ];
-
-  // Kalo mau pake icon SVG dari figma, uncomment code di bawah ini
-  // List<Widget> svgIcons = [
-  //   SvgPicture.asset('assets/icons/general.svg'),
-  //   SvgPicture.asset('assets/icons/educations.svg'),
-  //   SvgPicture.asset('assets/icons/work_experiences.svg'),
-  //   SvgPicture.asset('assets/icons/organizations.svg'),
-  //   SvgPicture.asset('assets/icons/achievements.svg'),
-  //   SvgPicture.asset('assets/icons/publications.svg'),
-  //   SvgPicture.asset('assets/icons/social_activities.svg'),
-  //   SvgPicture.asset('assets/icons/researches.svg'),
-  //   SvgPicture.asset('assets/icons/logout.svg'),
-  // ];
 
   void onItemTapped(int index) {
     selectedIndex.value = index;

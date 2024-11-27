@@ -227,7 +227,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   padding: const EdgeInsets.only(bottom: 16.0),
                                   child: ProfileCard(
                                     title: activity.organizationName!,
-                                    leftSubTitle: activity.role!,
+                                    rightTitle: activity.role!,
                                     startDate: activity.periodStartDate != null
                                         ? controller.formatDate(
                                             activity.periodStartDate)
@@ -245,22 +245,19 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                               const Duration(milliseconds: 300),
                                           curve: Curves.easeInOut);
                                     },
-                                    // Populate fields for editing
-                                    onTap2: () {
-                                      showCustomDialog(
-                                          content: 'Are you sure you want to delete this data?',
-                                          onConfirm: () {
-                                            controller.deleteOrganizations(activity.id ?? 0);
-                                            Get.back();
-                                          },
-                                          onCancel: () {
-                                            Get.back();
-                                          }
-                                      );
-                                    },
-                                    // Assuming activity has an ID
+                                    onTap2: () => showCustomDialog(
+                                        content:
+                                            'Are you sure you want to delete this data?',
+                                        onConfirm: () {
+                                          controller.deleteOrganizations(
+                                              activity.id ?? 0);
+                                          Get.back();
+                                        },
+                                        onCancel: () {
+                                          Get.back();
+                                        }),
                                     onTap3:
-                                        () {}, // Additional action, if necessary
+                                        () {},
                                   ),
                                 );
                               }).toList(),

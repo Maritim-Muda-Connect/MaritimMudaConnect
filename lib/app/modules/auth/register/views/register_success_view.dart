@@ -60,16 +60,6 @@ class RegisterSuccessView extends StatelessWidget {
                               "Before proceeding, please check your email for a verification link",
                           style: regulerText12.copyWith(color: neutral03Color),
                           children: [
-                            // TextSpan(
-                            //   text: "click here to request another",
-                            //   style: regulerText11.copyWith(
-                            //       color: primaryDarkBlueColor),
-                            //   recognizer: TapGestureRecognizer()
-                            //     ..onTap = () async {
-                            //       const url = 'https://hub.maritimmuda.id';
-                            //       await launchUrl(Uri.parse(url));
-                            //     },
-                            // ),
                           ],
                         ),
                       ),

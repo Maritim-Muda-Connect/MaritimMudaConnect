@@ -20,12 +20,11 @@ class MemberController extends GetxController {
     getAllMember();
   }
 
-  void getAllMember() async {
+   Future <void> getAllMember() async {
     try {
       isLoading.value = true;
       var response = await HomeService().getAllMembers();
       memberList.assignAll(response.members!);
-      // Initialize filtered list with all members
       filteredMemberList.assignAll(memberList);
     } catch (e) {
       print("Error fetching members: $e");
@@ -36,7 +35,7 @@ class MemberController extends GetxController {
 
   void searchMembers(String query) {
     searchQuery.value = query;
-    applyFilters(); // Apply both search and filters
+    applyFilters();
   }
 
   void toggleSection(String title) {
@@ -45,7 +44,7 @@ class MemberController extends GetxController {
 
   void setSelectedProvince(String value) {
     if (selectedItems['Province'] == value) {
-      selectedItems.remove('Province'); // Deselect if already selected
+      selectedItems.remove('Province');
     } else {
       selectedItems['Province'] = value;
     }
@@ -54,7 +53,7 @@ class MemberController extends GetxController {
 
   void setSelectedExpertise(String value) {
     if (selectedItems['Expertise'] == value) {
-      selectedItems.remove('Expertise'); // Deselect if already selected
+      selectedItems.remove('Expertise');
     } else {
       selectedItems['Expertise'] = value;
     }
@@ -64,7 +63,6 @@ class MemberController extends GetxController {
   void applyFilters() {
     var tempList = List<Member>.from(memberList);
 
-    // Apply search filter
     if (searchQuery.value.isNotEmpty) {
       tempList = tempList.where((member) {
         final nameMatch = member.name
@@ -78,14 +76,12 @@ class MemberController extends GetxController {
       }).toList();
     }
 
-    // Apply province filter
     if (selectedItems.containsKey('Province')) {
       tempList = tempList.where((member) {
         return member.provinceId.toString() == selectedItems['Province'];
       }).toList();
     }
 
-    // Apply expertise filter
     if (selectedItems.containsKey('Expertise')) {
       tempList = tempList.where((member) {
         return member.firstExpertiseId.toString() ==

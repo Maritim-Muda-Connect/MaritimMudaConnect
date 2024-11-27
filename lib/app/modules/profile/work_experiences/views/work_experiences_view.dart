@@ -187,16 +187,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                           ),
                           const SizedBox(height: 30),
                           Obx(() {
-                            if (controller.isLoading.value) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(
-                                      color: primaryDarkBlueColor),
-                                ),
-                              );
-                            } else if (controller.workExperienceLists.isEmpty) {
+                            if (controller.workExperienceLists.isEmpty) {
                               return const SizedBox.shrink();
                             } else {
                               return ListView.separated(

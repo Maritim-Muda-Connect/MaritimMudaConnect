@@ -40,7 +40,6 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image section
           if (imageUrl != null && imageUrl!.isNotEmpty)
             Container(
               width: 120,
@@ -55,7 +54,6 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
 
-          // Content section
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +82,7 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        leftSubTitle != null ? '$leftSubTitle' : '',
+                        '${leftSubTitle ?? ""}',
                         style: regulerText12,
                       ),
                       const SizedBox(width: 3),

@@ -68,11 +68,9 @@ class SortedEventFilter extends GetView<EventController> {
   const SortedEventFilter({
     super.key,
     required this.filterText,
-    // required this.onFilterSelected,
   });
 
   final List<String> filterText;
-  // final void Function(String) onFilterSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +81,7 @@ class SortedEventFilter extends GetView<EventController> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: primaryBlueColor, width: 1), // Blue outline
+          border: Border.all(color: primaryBlueColor, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -107,7 +105,6 @@ class SortedEventFilter extends GetView<EventController> {
             ...filterText.map((text) {
               return InkWell(
                 onTap: () {
-                  // onFilterSelected(text);
                   controller.updateFilter(text);
                   Navigator.of(context).pop();
                 },
@@ -134,11 +131,9 @@ class SortedScholarFilter extends GetView<ScholarshipController> {
   const SortedScholarFilter({
     super.key,
     required this.filterText,
-    // required this.onFilterSelected,
   });
 
   final List<String> filterText;
-  // final void Function(String) onFilterSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +143,7 @@ class SortedScholarFilter extends GetView<ScholarshipController> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: primaryBlueColor, width: 1), // Blue outline
+          border: Border.all(color: primaryBlueColor, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -172,9 +167,7 @@ class SortedScholarFilter extends GetView<ScholarshipController> {
             ...filterText.map((text) {
               return InkWell(
                 onTap: () {
-                  // onFilterSelected(text);
                   controller.updateFilter(text);
-                  // Navigator.of(context).pop();
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),

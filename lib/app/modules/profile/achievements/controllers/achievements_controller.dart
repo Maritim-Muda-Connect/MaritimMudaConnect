@@ -25,8 +25,8 @@ class Achievements {
   });
 }
 
-class AchievementController extends GetxController {
-  var achievement = <Achievements>[].obs; // Define as RxList
+class AchievementsController extends GetxController {
+  var achievement = <Achievements>[].obs;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController awardC = TextEditingController();
@@ -206,7 +206,6 @@ class AchievementController extends GetxController {
         customSnackbar(
           'Success deleting achievement history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

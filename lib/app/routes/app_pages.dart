@@ -31,8 +31,8 @@ import '../modules/home/scholarship/views/scholarship_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/navbar/bindings/main_binding.dart';
 import '../modules/navbar/views/main_view.dart';
-import '../modules/profile/achievement/bindings/achievement_binding.dart';
-import '../modules/profile/achievement/views/achievement_view.dart';
+import '../modules/profile/achievements/bindings/achievement_binding.dart';
+import '../modules/profile/achievements/views/achievements_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/educations/bindings/educations_binding.dart';
 import '../modules/profile/educations/views/educations_view.dart';
@@ -69,11 +69,6 @@ class AppPages {
       page: () => const RegisterView(),
       binding: RegisterBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.MAIN_DRAWER,
-    //   page: () => const MainDrawerView(),
-    //   binding: MainDrawerBinding(),
-    // ),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
@@ -101,8 +96,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ACHIEVEMENT,
-      page: () => const AchievementView(),
-      binding: AchievementBinding(),
+      page: () => const AchievementsView(),
+      binding: AchievementsBinding(),
     ),
     GetPage(
       name: _Paths.PUBLICATION,

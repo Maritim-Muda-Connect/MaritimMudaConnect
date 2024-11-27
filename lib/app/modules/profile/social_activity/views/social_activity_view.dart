@@ -33,7 +33,7 @@ class SocialActivityView extends GetView<SocialActivityController> {
             },
             child: SingleChildScrollView(
               controller: controller.scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/services/home_service.dart';
 import '../../../../data/models/response/member_response.dart';
+import '../../../../data/services/config.dart';
 import '../../../../data/utils/province.dart';
+import 'package:http/http.dart' as http;
 
 class MemberController extends GetxController {
   var isVisible = false.obs;
@@ -13,6 +17,7 @@ class MemberController extends GetxController {
   var searchQuery = ''.obs;
   final selectedItems = <String, String>{}.obs;
   var isDrawerVisible = false.obs;
+  DateTime? emailVerifiedAt;
 
   @override
   void onInit() {
@@ -20,7 +25,26 @@ class MemberController extends GetxController {
     getAllMember();
   }
 
-   Future <void> getAllMember() async {
+  void getEmail(String email) async {
+    isLoading.value = true;
+    final response =
+        await http.get(Uri.parse("$baseUrl/user/$email/check-uid"));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['success'] == true) {
+        final emailVerifiedAtString = jsonResponse['user']['email_verified_at'];
+        emailVerifiedAt = DateTime.parse(emailVerifiedAtString);
+        isLoading.value = false;
+      } else {
+        print('Error: ${jsonResponse['error']}');
+      }
+    } else {
+      print('Error fetching data: ${response.statusCode}');
+    }
+  }
+
+  Future<void> getAllMember() async {
     try {
       isLoading.value = true;
       var response = await HomeService().getAllMembers();

@@ -5,12 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
 import 'package:maritimmuda_connect/app/data/services/general_service.dart';
-import 'package:maritimmuda_connect/app/data/utils/expertises.dart';
+import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class ProfileController extends GetxController {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
   final provincialOrgController = TextEditingController();
@@ -21,11 +22,18 @@ class ProfileController extends GetxController {
   final addressController = TextEditingController();
   final residenceAddressController = TextEditingController();
   final bioController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
+  final focusNodes = List.generate(7, (_) => FocusNode());
   final List<String> genderOptions = ["Choose your gender", 'Male', 'Female'];
-  final Rx<File?> identityCardFile = Rx<File?>(null);
-  final Rx<File?> studentCardFile = Rx<File?>(null);
-  final Rx<File?> profileImageFile = Rx<File?>(null);
+  final RxString photoImagePath = ''.obs;
+  final RxString photoImageName = ''.obs;
+  final RxString identityImagePath = ''.obs;
+  final RxString identityImageName = ''.obs;
+  final RxString studentImagePath = ''.obs;
+  final RxString studentImageName = ''.obs;
+  final RxString paymentImagePath = ''.obs;
+  final RxString paymentImageName = ''.obs;
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
   Rx<int?> selectedYear = Rx<int?>(null);
@@ -35,6 +43,9 @@ class ProfileController extends GetxController {
   var selectedSecondExpertise = 0.obs;
   var selectedGender = 1.obs;
   var province = 1.obs;
+  var photoImage = ''.obs;
+  var photoIdentity = ''.obs;
+  var photoPayment = ''.obs;
   var isLoading = false.obs;
 
   String get formattedDate {
@@ -56,6 +67,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    focusNodes;
     super.onInit();
     fetchGeneral();
   }
@@ -78,18 +90,6 @@ class ProfileController extends GetxController {
     }
   }
 
-  void setIdentityCardFile(File file) {
-    identityCardFile.value = file;
-  }
-
-  void setStudentCardFile(File file) {
-    studentCardFile.value = file;
-  }
-
-  void setProfileImagePath(File file) {
-    profileImageFile.value = file;
-  }
-
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -107,6 +107,7 @@ class ProfileController extends GetxController {
     String provinceId = generalData.value.user?.provinceId?.toString() ?? '1';
     String provinceName = provinceOptions[provinceId] ?? '';
 
+    nameController.text = generalData.value.user?.name ?? '';
     emailController.text = generalData.value.user?.email ?? '';
     provincialOrgController.text = provinceName;
     placeOfBirthController.text = generalData.value.user?.placeOfBirth ?? '';
@@ -122,11 +123,14 @@ class ProfileController extends GetxController {
         mapExpertise(generalData.value.user?.firstExpertiseId ?? 0);
     selectedSecondExpertise.value =
         mapExpertise(generalData.value.user?.secondExpertiseId ?? 0);
+    photoImage.value = generalData.value.user?.photoLink ?? '';
+    photoIdentity.value = generalData.value.user?.identityCardLink ?? '';
+    photoPayment.value = generalData.value.user?.paymentLink ?? '';
   }
 
   Future<void> fetchGeneral() async {
     try {
-      isLoading.value = true;
+      isLoading(true);
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
 
@@ -134,21 +138,29 @@ class ProfileController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
-  void updateGeneral(GeneralRequest request) async {
+  void updateGeneral(
+    GeneralRequest request,
+    File imagePhoto,
+    File imageIdentity,
+  ) async {
     try {
-      isLoading.value = true;
-      bool success = await GeneralService().updateGeneral(request);
+      isLoading(true);
+      bool success = await GeneralService().updateGeneral(
+        request,
+        imagePhoto,
+        imageIdentity,
+      );
 
       if (success) {
-        // customSnackbar("Profile updated successfully");
-        customSnackbar(
-          "Profile update failed, please check your input field",
-          secondaryRedColor,
-        );
+        await Future.delayed(const Duration(seconds: 2));
+        photoImagePath.value = '';
+        identityImagePath.value = '';
+        customSnackbar("Profile updated successfully");
+        fetchGeneral();
       } else {
         customSnackbar(
           "Profile update failed, please check your input field",
@@ -156,14 +168,15 @@ class ProfileController extends GetxController {
         );
       }
     } catch (e) {
-      print(e);
+      print("Error controller profil $e");
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
 
   @override
   void onClose() {
+    nameController.dispose();
     emailController.dispose();
     genderController.dispose();
     provincialOrgController.dispose();
@@ -174,6 +187,7 @@ class ProfileController extends GetxController {
     addressController.dispose();
     residenceAddressController.dispose();
     bioController.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 }

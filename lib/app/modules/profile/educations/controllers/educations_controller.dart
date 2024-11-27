@@ -14,6 +14,8 @@ class EducationsController extends GetxController {
   final majorController = TextEditingController();
   final levelController = TextEditingController();
   final gradController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -38,13 +40,14 @@ class EducationsController extends GetxController {
   }
 
   String formatDateRequest(DateTime date) {
-    return DateFormat('yyyy-MM').format(date);
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
   void onInit() {
     super.onInit();
     fetchEducations();
+    focusNodes;
   }
 
   bool validateForm() {
@@ -74,6 +77,17 @@ class EducationsController extends GetxController {
     );
   }
 
+  bool checkField() {
+    if (institutionController.text.isEmpty &&
+        majorController.text.isEmpty &&
+        levelController.text.isEmpty &&
+        gradController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void patchField(EducationsResponse educationsData) {
     institutionController.text = educationsData.institutionName ?? '';
     majorController.text = educationsData.major ?? '';
@@ -81,7 +95,36 @@ class EducationsController extends GetxController {
     selectedLevel.value = levelText;
     levelController.text = levelText;
     gradController.text = formatDate(educationsData.graduationDate);
-    selectedDate.value = DateTime.parse(educationsData.graduationDate.toString());
+    selectedDate.value =
+        DateTime.parse(educationsData.graduationDate.toString());
+  }
+
+  String? validateInstitution(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Institution name is required";
+    }
+    return null;
+  }
+
+  String? validateMajor(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Major/Field of study is required";
+    }
+    return null;
+  }
+
+  String? validateLevel(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Education level is required";
+    }
+    return null;
+  }
+
+  String? validateGraduate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Graduation date is required";
+    }
+    return null;
   }
 
   int getLevelValue(String levelText) {
@@ -148,12 +191,12 @@ class EducationsController extends GetxController {
   ];
   var selectedLevel = ''.obs;
 
-  void fetchEducations() async {
+  Future<void> fetchEducations() async {
     try {
       isLoading.value = true;
       var data = await EducationsService().fetchEducations();
       educationList.assignAll(data);
-    } catch(e) {
+    } catch (e) {
       print(e);
     } finally {
       isLoading.value = false;
@@ -161,7 +204,6 @@ class EducationsController extends GetxController {
   }
 
   void createEducations(EducationsRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
       bool success = await EducationsService().createEducations(request);
@@ -169,13 +211,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar(
-          'Success Adding Education History!'
-        );
+        customSnackbar('Success Adding Education History!');
       } else {
-        customSnackbar(
-          'Failed Adding Education History!'
-        );
+        customSnackbar('Failed Adding Education History!');
       }
     } catch (e) {
       print(e);
@@ -192,13 +230,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar(
-          'Success Update Education History!'
-        );
+        customSnackbar('Success Update Education History!');
       } else {
-        customSnackbar(
-          'Failed Update Education History!'
-        );
+        customSnackbar('Failed Update Education History!');
       }
     } catch (e) {
       print(e);
@@ -215,14 +249,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar(
-          'Success Deleting Education History!'
-        );
+        customSnackbar('Success Deleting Education History!');
       } else {
-        customSnackbar(
-          'Failed Deleting Education History!',
-          secondaryRedColor
-        );
+        customSnackbar('Failed Deleting Education History!', secondaryRedColor);
       }
     } catch (e) {
       print(e);
@@ -237,6 +266,7 @@ class EducationsController extends GetxController {
     majorController.dispose();
     levelController.dispose();
     gradController.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 
@@ -245,7 +275,6 @@ class EducationsController extends GetxController {
     majorController.clear();
     gradController.clear();
     levelController.clear();
-
     selectedLevel.value = '';
     selectedDate.value = null;
   }
@@ -254,6 +283,7 @@ class EducationsController extends GetxController {
     if (level != null) {
       selectedLevel.value = level;
       levelController.text = level;
+      print(selectedLevel.value);
     }
   }
 }

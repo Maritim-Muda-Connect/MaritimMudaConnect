@@ -2,41 +2,50 @@ import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:maritimmuda_connect/app/data/models/request/achievements_request.dart';
+import 'package:maritimmuda_connect/app/data/models/response/achievements_response.dart';
+import 'package:maritimmuda_connect/app/data/services/achievements_service.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';
 
 class Achievements {
   final String award;
-  final String appreciatior;
+  final String appreciator;
   final String eventName;
   final String eventLevel;
   final String date;
 
   Achievements({
     required this.award,
-    required this.appreciatior,
+    required this.appreciator,
     required this.eventName,
     required this.eventLevel,
     required this.date,
   });
 }
 
-
 class AchievementController extends GetxController {
-  //TODO: Implement AchievementController
+  var achievement = <Achievements>[].obs; // Define as RxList
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController awardC = TextEditingController();
   final TextEditingController appreciatorC = TextEditingController();
   final TextEditingController eventNameC = TextEditingController();
   final TextEditingController eventLevelC = TextEditingController();
   final TextEditingController dateC = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
+
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
-  RxList<Achievements> achievement = <Achievements>[].obs;
+  var isLoading = false.obs;
+  var isEdit = false.obs;
+  var idCard = 0.obs;
+  var achievementsData = <AchievementsResponse>[].obs;
 
   String formatDate(DateTime? date) {
-    return date != null ? DateFormat('MMMM yyyy').format(date) : '';
+    return DateFormat('yyyy-MM').format(date!);
   }
 
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -72,27 +81,143 @@ class AchievementController extends GetxController {
     );
   }
 
-  void saveAchievement() {
-    if (awardC.text.isNotEmpty &&
-    appreciatorC.text.isNotEmpty &&
-    eventNameC.text.isNotEmpty &&
-    eventLevelC.text.isNotEmpty &&
-    dateC.text.isNotEmpty) {
-      achievement.add(Achievements(
-        award: awardC.text,
-        appreciatior: appreciatorC.text,
-        eventName: eventNameC.text,
-        eventLevel: eventLevelC.text,
-        date: dateC.text
-      ));
-      clearAll();
-      customSnackbar(
-        'Success adding achievement history!',
-      );
+  String? validateAward(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Award is required";
+    }
+    return null;
+  }
+
+  String? validateAppreciator(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Appreciator or Organizer is required";
+    }
+    return null;
+  }
+
+  String? validateEventName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Event Name is required";
+    }
+    return null;
+  }
+
+  String? validateEventLevel(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Event Level is required";
+    }
+    return null;
+  }
+
+  String? validateDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Date is required";
+    }
+    return null;
+  }
+
+  bool checkField() {
+    if (awardC.text.isEmpty &&
+        appreciatorC.text.isEmpty &&
+        eventNameC.text.isEmpty &&
+        eventLevelC.text.isEmpty &&
+        dateC.text.isEmpty) {
+      return true;
     } else {
-      customSnackbar(
-        'Please fill all fields!',
-      );
+      return false;
+    }
+  }
+
+  void patchField(AchievementsResponse achievementsData) {
+    awardC.text = achievementsData.awardName ?? '';
+    appreciatorC.text = achievementsData.appreciator ?? '';
+    eventNameC.text = achievementsData.awardName ?? '';
+    eventLevelC.text = achievementsData.eventLevel ?? '';
+    dateC.text = formatDate(achievementsData.achievedAt!);
+  }
+
+  Future<void> fetchAchievements() async {
+    try {
+      isLoading.value = true;
+      var data = await AchievementsService().fetchAchievements();
+      achievementsData.assignAll(data);
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void createAchievements(AchievementsRequest request) async {
+    try {
+      isLoading.value = true;
+      bool success = await AchievementsService().createAchievements(request);
+      if (success) {
+        fetchAchievements();
+        clearAll();
+        customSnackbar(
+          'Success adding achievements history!',
+        );
+      } else {
+        customSnackbar(
+          'Failed adding achievements history!',
+          secondaryRedColor,
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateAchievements(AchievementsRequest request, int id) async {
+    try {
+      isLoading.value = true;
+      bool success =
+          await AchievementsService().updateAchievements(request, id);
+
+      if (success) {
+        await fetchAchievements();
+        clearAll();
+        customSnackbar(
+          'Success update publication history!',
+        );
+      } else {
+        customSnackbar(
+          'Failed update publication history!',
+          secondaryRedColor,
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void deleteAchievements(int id) async {
+    try {
+      isLoading.value = true;
+      bool success = await AchievementsService().deleteAchievements(id);
+
+      if (success) {
+        fetchAchievements();
+        customSnackbar(
+          'Success delete achievements!',
+          null,
+          const Duration(milliseconds: 800),
+        );
+      } else {
+        customSnackbar(
+          'Failed delete achievements!',
+          secondaryRedColor,
+        );
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -111,6 +236,12 @@ class AchievementController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchAchievements();
+    focusNodes;
+  }
+
+  bool validateForm() {
+    return formKey.currentState!.validate();
   }
 
   @override
@@ -126,14 +257,6 @@ class AchievementController extends GetxController {
     eventNameC.dispose();
     eventLevelC.dispose();
     dateC.dispose();
+    scrollController.dispose();
   }
-
-  void deleteAchievement(int index) {
-    achievement.removeAt(index);
-    customSnackbar(
-      'Success deleting education history!',
-    );
-  }
-
-  void increment() => count.value++;
 }

@@ -4,6 +4,7 @@ import "package:maritimmuda_connect/app/data/models/request/login_request.dart";
 import "package:maritimmuda_connect/app/data/models/request/register_request.dart";
 import "package:maritimmuda_connect/app/data/models/response/login_response.dart";
 import "package:maritimmuda_connect/app/data/services/config.dart";
+import "package:maritimmuda_connect/app/data/utils/expertise.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class AuthService {
@@ -23,9 +24,20 @@ class AuthService {
       String uuid = loginResponseFromJson(response.body).user!.uuid!;
       String name = loginResponseFromJson(response.body).user!.name!;
       String email = loginResponseFromJson(response.body).user!.email!;
+      String placeOfBirth =
+          loginResponseFromJson(response.body).user!.placeOfBirth!;
+      String bio =
+          loginResponseFromJson(response.body).user!.bio ?? "No bio yet";
+      DateTime emailVerifiedAt =
+          loginResponseFromJson(response.body).user!.emailVerifiedAt!;
       int serialNumber =
           loginResponseFromJson(response.body).user?.serialNumber ?? 0;
-      
+      int provinceId = loginResponseFromJson(response.body).user!.provinceId!;
+      int firstExpertiseId =
+          loginResponseFromJson(response.body).user!.firstExpertiseId!;
+      int secondExpertiseId =
+          loginResponseFromJson(response.body).user!.secondExpertiseId!;
+
       await prefs.setString("token", token);
       await prefs.setString("userId", userId.toString());
       await prefs.setString("uid", uid);
@@ -33,6 +45,13 @@ class AuthService {
       await prefs.setString("name", name);
       await prefs.setInt("serial_number", serialNumber);
       await prefs.setString("email", email);
+      await prefs.setString("place_of_birth", placeOfBirth);
+      await prefs.setString("bio", bio);
+      await prefs.setString("created_at", emailVerifiedAt.toIso8601String());
+      await prefs.setInt("province_id", provinceId);
+      await prefs.setInt("first_expertise_id", firstExpertiseId);
+      await prefs.setInt("second_expertise_id", secondExpertiseId);
+
       return 200;
     } else {
       return response.statusCode;
@@ -61,10 +80,8 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      print("Berhasil ${response.body}");
       return true;
     } else {
-      print("Gagal ${response.body}");
       return false;
     }
   }

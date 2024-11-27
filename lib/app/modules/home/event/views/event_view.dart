@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_filter.dart';
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
@@ -8,13 +9,13 @@ import '../../../../data/models/category_data.dart';
 import '../controllers/event_controller.dart';
 
 class EventView extends GetView<EventController> {
-  final CategoryData category;
 
-  const EventView(this.category, {super.key});
+  const EventView( {super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: neutral02Color,
+
         appBar: AppBar(
             backgroundColor: neutral02Color,
             title: Text(
@@ -27,14 +28,18 @@ class EventView extends GetView<EventController> {
               onPressed: () {
                 Navigator.pop(context);
               },
-            )),
+            ),
+            actions: [
+              Container()
+          ],
+        ),
         body: SingleChildScrollView(
           child: Column(children: <Widget>[
             Container(
               color: primaryBlueColor,
               child: Padding(
                 padding: EdgeInsets.all(30.0),
-                child: SearchbarWidget(),
+                child: SearchbarEventWidget(),
               ),
             ),
 

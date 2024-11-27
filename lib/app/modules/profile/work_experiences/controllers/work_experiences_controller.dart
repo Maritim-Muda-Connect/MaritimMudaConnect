@@ -14,6 +14,8 @@ class WorkExperiencesController extends GetxController {
   final TextEditingController institutionController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -35,13 +37,25 @@ class WorkExperiencesController extends GetxController {
   }
 
   String formatDateRequest(DateTime date) {
-    return DateFormat('yyyy-MM').format(date);
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
   void onInit() {
     super.onInit();
     fetchWorkExperiences();
+    focusNodes;
+  }
+
+  bool checkField() {
+    if (positionController.text.isEmpty &&
+        institutionController.text.isEmpty &&
+        startDateController.text.isEmpty &&
+        endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool validateForm() {
@@ -99,41 +113,39 @@ class WorkExperiencesController extends GetxController {
     institutionController.text = workExperiencesData.companyName ?? '';
     startDateController.text = formatDate(workExperiencesData.startDate);
     endDateController.text = formatDate(workExperiencesData.endDate);
-    selectedStartDate.value = DateTime.parse(workExperiencesData.startDate.toString());
-    selectedEndDate.value = DateTime.parse(workExperiencesData.endDate.toString());
+    selectedStartDate.value =
+        DateTime.parse(workExperiencesData.startDate.toString());
+    selectedEndDate.value =
+        DateTime.parse(workExperiencesData.endDate.toString());
   }
 
-  void fetchWorkExperiences() async {
+  Future<void> fetchWorkExperiences() async {
     try {
       isLoading.value = true;
       var data = await WorkExperiencesService().fetchWorkExperiences();
       workExperienceLists.assignAll(data);
     } catch (e) {
-      print (e);
+      print(e);
     } finally {
       isLoading.value = false;
     }
   }
 
   void createWorkExperience(WorkExperiencesRequest request) async {
-    print(request.toJson());
     try {
       isLoading.value = true;
-      bool success = await WorkExperiencesService().createWorkExperience(request);
+      bool success =
+          await WorkExperiencesService().createWorkExperience(request);
 
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar(
-          'Success Adding Work Experience!'
-        );
+        customSnackbar('Success Adding Work Experience!');
       } else {
-        customSnackbar(
-          'Failed Adding Work Experience!'
-        );
+        customSnackbar('Failed Adding Work Experience!');
       }
     } catch (e) {
-      print (e);
+      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -142,18 +154,15 @@ class WorkExperiencesController extends GetxController {
   void updateWorkExperience(WorkExperiencesRequest request, int id) async {
     try {
       isLoading.value = true;
-      bool success = await WorkExperiencesService().updateWorkExperience(request, id);
+      bool success =
+          await WorkExperiencesService().updateWorkExperience(request, id);
 
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar(
-            'Success Updating Work Experience!'
-        );
+        customSnackbar('Success Updating Work Experience!');
       } else {
-        customSnackbar(
-            'Failed Updating Work Experience!'
-        );
+        customSnackbar('Failed Updating Work Experience!');
       }
     } catch (e) {
       print(e);
@@ -170,13 +179,9 @@ class WorkExperiencesController extends GetxController {
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar(
-            'Success Deleting Work Experience!'
-        );
+        customSnackbar('Success Deleting Work Experience!');
       } else {
-        customSnackbar(
-            'Failed Deleting Work Experience!'
-        );
+        customSnackbar('Failed Deleting Work Experience!');
       }
     } catch (e) {
       print(e);
@@ -201,5 +206,6 @@ class WorkExperiencesController extends GetxController {
     institutionController.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

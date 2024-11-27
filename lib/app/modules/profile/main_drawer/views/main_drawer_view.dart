@@ -9,23 +9,14 @@ class MainDrawerView extends GetView<MainDrawerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: neutral01Color,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
         backgroundColor: neutral02Color,
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
         title: Obx(() => Text(controller.currentTitle.value)),
       ),
-      drawer: Container(
+      endDrawer: Container(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           child: CustomDrawer(controller: controller)),
       body: Obx(

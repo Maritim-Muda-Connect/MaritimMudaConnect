@@ -17,6 +17,8 @@ class CustomTextField extends StatelessWidget {
     this.maxLines,
     this.readOnly,
     this.inputAction,
+    this.focusNode,
+    this.onFieldSubmitted,
   });
 
   final TextEditingController controller;
@@ -31,6 +33,8 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final bool? readOnly;
   final TextInputAction? inputAction;
+  final void Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +48,14 @@ class CustomTextField extends StatelessWidget {
       cursorHeight: 15,
       readOnly: readOnly ?? false,
       textInputAction: inputAction,
+      focusNode: focusNode,
+      onFieldSubmitted: onFieldSubmitted,
       style: regulerText12,
       decoration: InputDecoration(
         filled: true,
-        fillColor:
-            readOnly == true ? neutral03Color.withOpacity(0.5) : neutral02Color,
+        fillColor: readOnly == true
+            ? neutral03Color.withOpacity(0.5)
+            : neutral02Color,
         hintText: hintText,
         prefixIcon: svgIcon != null
             ? Padding(
@@ -59,6 +66,8 @@ class CustomTextField extends StatelessWidget {
                 ),
               )
             : preffixIcon,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
         suffixIcon: suffixIcon,
         isDense: true,
         hintStyle: TextStyle(
@@ -72,7 +81,7 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: primaryBlueColor, width: 1.5),
+          borderSide: BorderSide(color: primaryDarkBlueColor, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

@@ -15,7 +15,8 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 260,
+      backgroundColor: neutral01Color,
+      width: MediaQuery.of(context).size.width / 1.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -27,7 +28,7 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 430,
+            height: 500,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               itemCount: controller.title.length,

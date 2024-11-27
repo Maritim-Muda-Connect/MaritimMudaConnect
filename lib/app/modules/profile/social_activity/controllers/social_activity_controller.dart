@@ -9,7 +9,6 @@ import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';
 
-
 class SocialActivityController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController programController = TextEditingController();
@@ -17,6 +16,8 @@ class SocialActivityController extends GetxController {
   final TextEditingController roleController = TextEditingController();
   final TextEditingController startDateController = TextEditingController();
   final TextEditingController endDateController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  final focusNodes = List.generate(6, (_) => FocusNode());
 
   Rx<DateTime?> selectedStartDate = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndDate = Rx<DateTime?>(null);
@@ -44,11 +45,59 @@ class SocialActivityController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    focusNodes;
     fetchSocialActivity();
   }
 
   bool validateForm() {
     return formKey.currentState!.validate();
+  }
+
+  String? validateProgramName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Program name is required";
+    }
+    return null;
+  }
+
+  String? validateInstitutionName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Institution name is required";
+    }
+    return null;
+  }
+
+  String? validateRole(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Role is required";
+    }
+    return null;
+  }
+
+  String? validateStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Start date is required";
+    }
+    return null;
+  }
+
+  String? validateEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "End date is required";
+    }
+    return null;
+  }
+
+  bool checkField() {
+    if (programController.text.isEmpty &&
+        institutionController.text.isEmpty &&
+        roleController.text.isEmpty &&
+        startDateController.text.isEmpty &&
+        endDateController.text.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<void> selectStartDate(BuildContext context) async {
@@ -97,35 +146,37 @@ class SocialActivityController extends GetxController {
     );
   }
 
-  void patchField(SocialActivityResponse socialActivityData){
+  void patchField(SocialActivityResponse socialActivityData) {
     programController.text = socialActivityData.name ?? '';
     institutionController.text = socialActivityData.institutionName ?? '';
     roleController.text = socialActivityData.role ?? '';
     startDateController.text = formatDate(socialActivityData.startDate);
     endDateController.text = formatDate(socialActivityData.endDate);
-    selectedStartDate.value = DateTime.parse(socialActivityData.startDate.toString());
-    selectedEndDate.value = DateTime.parse(socialActivityData.endDate.toString());
+    selectedStartDate.value =
+        DateTime.parse(socialActivityData.startDate.toString());
+    selectedEndDate.value =
+        DateTime.parse(socialActivityData.endDate.toString());
   }
 
-  void fetchSocialActivity() async {
-    try{
+  Future<void> fetchSocialActivity() async {
+    try {
       isLoading.value = true;
       var data = await SocialActivityService().fetchSocialActivity();
       socialActivityLists.assignAll(data);
-    } catch (e){
+    } catch (e) {
       print(e);
-    }finally{
+    } finally {
       isLoading.value = false;
     }
   }
 
   void createSocialActivity(SocialActivityRequest request) async {
-    print(request.toJson());
-    try{
+    try {
       isLoading.value = true;
-      bool success = await SocialActivityService().createSocialActivity(request);
+      bool success =
+          await SocialActivityService().createSocialActivity(request);
 
-      if (success){
+      if (success) {
         fetchSocialActivity();
         clearAll();
         customSnackbar(
@@ -136,28 +187,27 @@ class SocialActivityController extends GetxController {
           'Failed Adding Social Activity History!',
         );
       }
-    } catch (e){
+    } catch (e) {
       print(e);
     } finally {
       isLoading.value = false;
     }
   }
 
-  void updateSocialActivity(SocialActivityRequest request, int id) async{
-    try{
+  void updateSocialActivity(SocialActivityRequest request, int id) async {
+    try {
       isLoading.value = true;
-      bool success = await SocialActivityService().updateSocialActivity(request, id);
+      bool success =
+          await SocialActivityService().updateSocialActivity(request, id);
 
-      if (success){
+      if (success) {
         fetchSocialActivity();
         clearAll();
         customSnackbar(
           'Success Updating Social Activity History !',
         );
       } else {
-        customSnackbar(
-          'Failed Updating Social Activity History !'
-        );
+        customSnackbar('Failed Updating Social Activity History !');
       }
     } catch (e) {
       print(e);
@@ -191,7 +241,7 @@ class SocialActivityController extends GetxController {
     }
   }
 
-  void clearAll(){
+  void clearAll() {
     programController.clear();
     institutionController.clear();
     roleController.clear();
@@ -202,12 +252,13 @@ class SocialActivityController extends GetxController {
   }
 
   @override
-  void onClose(){
+  void onClose() {
     super.onClose();
     programController.dispose();
     institutionController.dispose();
     roleController.dispose();
     startDateController.dispose();
     endDateController.dispose();
+    scrollController.dispose();
   }
 }

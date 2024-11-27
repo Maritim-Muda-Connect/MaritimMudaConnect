@@ -10,7 +10,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadUserData(); // Muat data pengguna saat controller diinisialisasi
+    loadUserData();
   }
 
   Future<void> loadUserData() async {

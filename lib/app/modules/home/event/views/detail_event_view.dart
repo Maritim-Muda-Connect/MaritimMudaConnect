@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:maritimmuda_connect/app/data/models/event_data.dart';
 import 'package:maritimmuda_connect/app/data/models/response/event_response.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
 import 'package:maritimmuda_connect/themes.dart';
@@ -69,7 +68,6 @@ class DetailEventView extends GetView<EventController> {
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 "wkwwkwkwkwkwkwkwkwkwkwkwkw\nwkwkwkwkwkwwkw\nwkwkwkwkwkwkwkwkwkwk",
-                // eventData.descriptionDetail!,
                 style: regulerText14,
               ),
             ),
@@ -112,22 +110,6 @@ class DetailEventView extends GetView<EventController> {
 
                 ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            //   child: Text(style: boldText16, 'Benefit'),
-            // ),
-            // Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: 16.0),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //       children: [
-            //         _BenefitRowItem(
-            //             Icons.restaurant_menu_sharp, "eventData.benefit[0]!"),
-            //         _BenefitRowItem(
-            //             Icons.house_outlined, "eventData.benefit[1]!"),
-            //         _BenefitRowItem(Icons.card_giftcard, "eventData.benefit[2]!"),
-            //       ],
-            //     )),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: SizedBox(

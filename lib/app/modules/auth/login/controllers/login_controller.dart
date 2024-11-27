@@ -35,10 +35,10 @@ class LoginController extends GetxController {
   }
 
   void checkField() {
-    if (emailC.text.isEmpty && passwordC.text.isEmpty) {
-      isCheckField.value = false;
-    } else {
+    if (validateEmailField(emailC.text) == null && validatePasswordField(passwordC.text) == null) {
       isCheckField.value = true;
+    } else {
+      isCheckField.value = false;
     }
   }
 
@@ -60,8 +60,6 @@ class LoginController extends GetxController {
   String? validatePasswordField(String? value) {
     if (value == null || value.isEmpty) {
       return "Password is required";
-    } else if (value.length < 4) {
-      return "Password must be at least 4 characters long";
     }
     return null;
   }

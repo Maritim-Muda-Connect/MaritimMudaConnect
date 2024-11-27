@@ -108,53 +108,15 @@ class ProfileView extends GetView<ProfileController> {
                               borderType: BorderType.RRect,
                               radius: const Radius.circular(20),
                               padding: const EdgeInsets.all(6),
-                              child: InkWell(
-                                onTap: () async {
-                                  // FilePickerResult? result =
-                                  //     await FilePicker.platform.pickFiles(
-                                  //   type: FileType.media,
-                                  //   allowMultiple: false,
-                                  // );
-                                  // if (result != null) {
-                                  //   controller.identityImagePath.value =
-                                  //       result.files.single.path!;
-                                  //   controller.identityImageName.value =
-                                  //       result.files.single.name;
-                                  // }
-                                },
-                                child: Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: neutral02Color,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child:
-                                      controller.studentImagePath.value.isEmpty
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: Image.asset(
-                                                "assets/images/student_card.png",
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                              ),
-                                            )
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: Image.file(
-                                                File(controller
-                                                    .studentImagePath.value),
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                              ),
-                                            ),
-                                  // const Center(
-                                  //     child: Icon(Icons.add_photo_alternate,
-                                  //         size: 50, color: Colors.grey),
-                                  //   ),
-                                ),
-                              ),
+                              child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: Image.network(
+                                            controller.photoStudent.value,
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                          ),
+                                        ),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -215,11 +177,6 @@ class ProfileView extends GetView<ProfileController> {
                                             width: double.infinity,
                                           ),
                                         ),
-
-                                  // const Center(
-                                  //     child: Icon(Icons.add_photo_alternate,
-                                  //         size: 50, color: Colors.grey),
-                                  //   ),
                                 ),
                               ),
                             ),
@@ -280,7 +237,7 @@ class ProfileView extends GetView<ProfileController> {
                                 controller: controller.dateOfBirthController,
                                 hintText: 'Select date of birth',
                                 suffixIcon: Icon(Icons.calendar_today,
-                                    color: primaryBlueColor),
+                                    color: primaryDarkBlueColor),
                               ),
                             ),
                           ),
@@ -468,25 +425,6 @@ class ProfileView extends GetView<ProfileController> {
                 ),
               ),
             ),
-          ),
-          Obx(
-            () => controller.isLoading.value
-                ? Container(color: Colors.black.withOpacity(0.3))
-                : const SizedBox.shrink(),
-          ),
-          Obx(
-            () => controller.isLoading.value
-                ? Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 18, horizontal: 32),
-                    decoration: BoxDecoration(
-                      color: neutral01Color,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child:
-                        CircularProgressIndicator(color: primaryDarkBlueColor),
-                  )
-                : const SizedBox.shrink(),
           ),
         ],
       ),

@@ -6,7 +6,6 @@ import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_con
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../../themes.dart';
-import '../../../../data/models/event_data.dart';
 import '../../../widget/program_card.dart';
 import 'detail_event_view.dart';
 
@@ -35,7 +34,6 @@ class CategoryEvent extends GetView<EventController> {
           return ListView.builder(
             shrinkWrap: true,
             physics: BouncingScrollPhysics(),
-            // scrollDirection: Axis.vertical,
             itemCount: controller.sortedEventList.length,
             itemBuilder: (context, index) {
               final event = controller.sortedEventList[index];
@@ -62,9 +60,6 @@ class CategoryEvent extends GetView<EventController> {
                     onShare: () {
                       Share.share("Check this out: \n${event.externalUrl ?? "Sorry, this event does not have a URL available!"}" , subject: "Event Url");
                     },
-                    // views: event.views,
-                    // likes: event.likes,
-                    // send: event.send,
                   ),
                 ),
               );

@@ -68,7 +68,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                           hintText: 'Enter your organization name',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter organization name';
+                              return 'Organization name is required.';
                             }
                             return null;
                           },
@@ -93,7 +93,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                           hintText: 'Enter your position',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter position';
+                              return 'Position is required.';
                             }
                             return null;
                           },
@@ -123,7 +123,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   color: primaryDarkBlueColor),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter start date';
+                                  return 'Start date is required.';
                                 }
                                 return null;
                               },
@@ -150,7 +150,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   color: primaryDarkBlueColor),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter end date';
+                                  return 'End date is required.';
                                 }
                                 return null;
                               },
@@ -265,12 +265,19 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                               const Duration(milliseconds: 300),
                                           curve: Curves.easeInOut);
                                     },
-                                    // Populate fields for editing
-                                    onTap2: () => controller
-                                        .deleteOrganizations(activity.id!),
-                                    // Assuming activity has an ID
+                                    onTap2: () => showCustomDialog(
+                                        content:
+                                            'Are you sure you want to delete this data?',
+                                        onConfirm: () {
+                                          controller.deleteOrganizations(
+                                              activity.id ?? 0);
+                                          Get.back();
+                                        },
+                                        onCancel: () {
+                                          Get.back();
+                                        }),
                                     onTap3:
-                                        () {}, // Additional action, if necessary
+                                        () {},
                                   ),
                                 );
                               }).toList(),

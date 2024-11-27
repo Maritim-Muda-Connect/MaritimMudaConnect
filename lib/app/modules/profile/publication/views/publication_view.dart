@@ -76,16 +76,18 @@ class PublicationView extends GetView<PublicationController> {
                       Text('Publication Type', style: boldText12),
                       const SizedBox(height: 8),
                       Obx(
-                        () => CustomDropdown(
-                          options: controller.publicationOptions,
-                          validator: controller.validatePublicationType,
-                          hintText: 'Choose your publications type',
-                          selectedOption: controller.publicationOptions[
+                            () =>
+                            CustomDropdown(
+                              options: controller.publicationOptions,
+                              validator: controller.validatePublicationType,
+                              hintText: 'Choose your publications type',
+                              selectedOption: controller.publicationOptions[
                               controller.selectedPublicationType.value - 1],
-                          onSelected: (String? newPublicationType) {
-                            controller.setPublicationType(newPublicationType);
-                          },
-                        ),
+                              onSelected: (String? newPublicationType) {
+                                controller.setPublicationType(
+                                    newPublicationType);
+                              },
+                            ),
                       ),
                       const SizedBox(height: 16),
                       Text('Publisher', style: boldText12),
@@ -124,7 +126,7 @@ class PublicationView extends GetView<PublicationController> {
                             controller: controller.dateC,
                             hintText: 'Select date of publication',
                             suffixIcon: Icon(Icons.calendar_today,
-                                color: primaryBlueColor),
+                                color: primaryDarkBlueColor),
                             focusNode: controller.focusNodes[4],
                           ),
                         ),
@@ -133,46 +135,52 @@ class PublicationView extends GetView<PublicationController> {
                       Text('Title Page', style: boldText12),
                       const SizedBox(height: 8),
                       Obx(
-                        () => Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: neutral02Color,
-                            border: Border.all(color: neutral04Color),
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: InkWell(
-                                  onTap: () => controller.pickImage(),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 8,
+                            () =>
+                            Container(
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: neutral02Color,
+                                border: Border.all(color: neutral04Color),
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: InkWell(
+                                      onTap: () => controller.pickImage(),
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 8,
+                                        ),
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              10),
+                                          color: neutral03Color,
+                                          border: Border.all(
+                                              color: neutral02Color),
+                                        ),
+                                        child: Text('Choose File',
+                                            style: regulerText12),
+                                      ),
                                     ),
-                                    height: 36,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: neutral03Color,
-                                      border: Border.all(color: neutral02Color),
-                                    ),
-                                    child: Text('Choose File',
-                                        style: regulerText12),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      controller.selectedFileName.value,
+                                      style: regulerText12,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Text(
-                                  controller.selectedFileName.value,
-                                  style: regulerText12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -233,7 +241,7 @@ class PublicationView extends GetView<PublicationController> {
                               } else {
                                 showCustomDialog(
                                   content:
-                                      'Are you sure you want to clear all data entered?',
+                                  'Are you sure you want to clear all data entered?',
                                   onConfirm: () {
                                     controller.clearAll();
                                     controller.isEdit.value = false;
@@ -252,34 +260,43 @@ class PublicationView extends GetView<PublicationController> {
                         ],
                       ),
                       const SizedBox(height: 30),
-                      Obx(() => Column(
+                      Obx(() =>
+                          Column(
                             children:
-                                controller.publicationData.map((activity) {
+                            controller.publicationData.map((activity) {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 16.0),
                                 child: ProfileCard(
-                                  title: activity.title!,
-                                  rightTitle: activity.publisher!,
-                                  startDate: activity.publishDate != null
-                                      ? controller
-                                          .formatDate(activity.publishDate!)
-                                      : 'N/A',
-                                  onTap1: () {
-                                    controller.isEdit.value = true;
-                                    controller.idCard.value = activity.id!;
-                                    controller.patchField(activity);
-                                    controller.scrollController.animateTo(
-                                      0.0,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.easeInOut,
-                                    );
-                                  },
-                                  onTap2: () => controller
-                                      .deletePublication(activity.id!),
-                                  onTap3: () {},
-                                ),
-                              );
+                                    title: activity.title!,
+                                    rightTitle: activity.publisher!,
+                                    startDate: activity.publishDate != null
+                                        ? controller
+                                        .formatDate(activity.publishDate!)
+                                        : 'N/A',
+                                    onTap1: () {
+                                      controller.isEdit.value = true;
+                                      controller.idCard.value = activity.id!;
+                                      controller.patchField(activity);
+                                      controller.scrollController.animateTo(
+                                        0.0,
+                                        duration:
+                                        const Duration(milliseconds: 300),
+                                        curve: Curves.easeInOut,
+                                      );
+                                    },
+                                    onTap2: () =>
+                                        showCustomDialog(
+                                            content: 'Are you sure want to delete this data?',
+                                            onConfirm: () {
+                                              controller
+                                                  .deletePublication(activity.id!);
+                                              Get.back();
+                                            },
+                                            onCancel: () {
+                                              Get.back();
+                                            }),
+                                    onTap3: () {},
+                              ),);
                             }).toList(),
                           )),
                     ],

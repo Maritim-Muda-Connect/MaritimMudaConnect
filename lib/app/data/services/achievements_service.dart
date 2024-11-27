@@ -2,12 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/request/achievements_request.dart';
-import 'package:maritimmuda_connect/app/data/models/request/publication_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/achievements_response.dart';
-import 'package:maritimmuda_connect/app/data/models/response/publication_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
-import 'package:maritimmuda_connect/app/modules/profile/achievement/controllers/achievement_controller.dart';
 
 class AchievementsService {
   Future<List<AchievementsResponse>> fetchAchievements() async {

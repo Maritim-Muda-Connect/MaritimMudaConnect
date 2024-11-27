@@ -29,7 +29,6 @@ class DetailProductView extends GetView<DetailProductController> {
             icon: Icon(Icons.share),
             onPressed: () async {
               await Share.share('${productData?.name}\n\n${productData?.link}');
-              // Implement share functionality
             },
           ),
         ],
@@ -50,7 +49,6 @@ class DetailProductView extends GetView<DetailProductController> {
               style: boldText32,
             ),
             SizedBox(height: 60),
-            // Menggunakan Image.asset untuk menampilkan gambar
             Image.network(
               '$baseUrlImage/${productData?.image}',
               fit: BoxFit.cover,
@@ -67,7 +65,6 @@ class DetailProductView extends GetView<DetailProductController> {
               await launchUrl(Uri.parse(productData?.link ?? 'https://hub.maritimmuda.id'));
             }
             )
-            // ... (sisa kode tetap sama)
           ],
         ),
       ),

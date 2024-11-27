@@ -53,7 +53,7 @@ class CustomDropdown extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: neutral04Color, width: 1),
         ),
-        filled: true,  // Tambahkan ini
+        filled: true,
         fillColor: neutral02Color,
       ),
       style: regulerText12.copyWith(color: neutral03Color),

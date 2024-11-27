@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:maritimmuda_connect/app/data/models/scholarship_data.dart';
 import 'package:maritimmuda_connect/app/modules/home/scholarship/controllers/scholarship_controller.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import 'package:share_plus/share_plus.dart';
@@ -86,19 +85,6 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
               ),
               child: Text(style: regulerText14, scholarshipData.providerName!),
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            //   child: Text(
-            //     style: boldText16,
-            //     'Benefit',
-            //   ),
-            // ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(
-            //     horizontal: 16.0,
-            //   ),
-            //   child: Text(style: regulerText14, scholarshipData.benefit!),
-            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(

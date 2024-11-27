@@ -6,10 +6,8 @@ class AnalyticsController extends GetxController
   late TabController tabController;
   var selectedIndex = 0.obs;
 
-  // Observable for selected month
-  var selectedMonth = 'January'.obs;  // Default to January
+  var selectedMonth = 'January'.obs;
 
-  //month dropdown
   final List<String> months = [
     'January',
     'February',
@@ -24,7 +22,6 @@ class AnalyticsController extends GetxController
     'December',
   ];
 
-  // Tab titles
   final List<String> title = [
     'Members',
     'Events',
@@ -39,7 +36,6 @@ class AnalyticsController extends GetxController
     'About Jobs',
   ];
 
-  // List data for the cards
   final List<List<Map<String, dynamic>>> tabCardsData = [
     [
       {

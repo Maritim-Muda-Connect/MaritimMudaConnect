@@ -211,11 +211,11 @@ class ResearchesController extends GetxController {
         await fetchResearches();
         clearAll();
         customSnackbar(
-          'Success update research history!',
+          'Success updating research history!',
         );
       } else {
         customSnackbar(
-          'Failed update research history!',
+          'Failed updating research history!',
           secondaryRedColor,
         );
       }
@@ -234,12 +234,12 @@ class ResearchesController extends GetxController {
       if (success) {
         await fetchResearches();
         customSnackbar(
-          'Success delete research!',
+          'Success deleting research history!',
           null,
         );
       } else {
         customSnackbar(
-          'Failed delete research!',
+          'Failed deleting research history!',
           secondaryRedColor,
         );
       }

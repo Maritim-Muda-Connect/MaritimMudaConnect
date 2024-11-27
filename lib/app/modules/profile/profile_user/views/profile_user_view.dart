@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 
@@ -221,7 +222,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                         style: mediumText16.copyWith(color: neutral04Color),
                                       ),
                                       Text(
-                                        "${achievement.eventName ?? ''} - ${achievement.achievedAt != null ? achievement.achievedAt!.toLocal().toString().split(' ')[0] : ''}",
+                                        "${achievement.eventName ?? ''} - ${achievement.achievedAt != null ? DateFormat('MMM yyyy').format(achievement.achievedAt!.toLocal()) : ''}",
                                         style: regulerText12.copyWith(color: subTitleColor),
                                       ),
                                       const SizedBox(height: 10),

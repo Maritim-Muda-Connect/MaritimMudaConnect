@@ -11,7 +11,7 @@ import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';
 
-class PublicationController extends GetxController {
+class PublicationsController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController titleC = TextEditingController();
   final TextEditingController authorC = TextEditingController();
@@ -34,8 +34,8 @@ class PublicationController extends GetxController {
   var idCard = 0.obs;
   var selectedPublicationType = 1.obs;
 
-  String formatDate(DateTime date) {
-    return DateFormat('yyyy-MM').format(date);
+  String formatDate(DateTime? date) {
+    return date != null ? DateFormat('MMMM yyyy').format(date) : '';
   }
 
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -241,7 +241,7 @@ class PublicationController extends GetxController {
       if (success) {
         fetchPublications();
         customSnackbar(
-          'Success delete publication!',
+          'Success deleting publication history!',
           null,
         );
       } else {

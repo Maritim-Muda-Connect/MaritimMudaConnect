@@ -119,6 +119,34 @@ class WorkExperiencesController extends GetxController {
         DateTime.parse(workExperiencesData.endDate.toString());
   }
 
+  String? validatePosition(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Position title is required";
+    }
+    return null;
+  }
+
+  String? validateInstitution(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Institution name is required";
+    }
+    return null;
+  }
+
+  String? validateStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Start date is required";
+    }
+    return null;
+  }
+
+  String? validateEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "End date is required";
+    }
+    return null;
+  }
+
   Future<void> fetchWorkExperiences() async {
     try {
       isLoading.value = true;
@@ -179,7 +207,10 @@ class WorkExperiencesController extends GetxController {
       if (success) {
         fetchWorkExperiences();
         clearAll();
-        customSnackbar('Success Deleting Work Experience!');
+        customSnackbar(
+          'Success deleting work experience history!',
+          null,
+        );;
       } else {
         customSnackbar('Failed Deleting Work Experience!');
       }

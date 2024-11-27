@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/educations/controllers/educations_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/organizations/controllers/organizations_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/publication/controllers/publication_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/publications/controllers/publications_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/researches/controllers/researches_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/social_activity/controllers/social_activity_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/work_experiences/controllers/work_experiences_controller.dart';
@@ -22,7 +22,7 @@ class MainDrawerView extends GetView<MainDrawerController> {
     final WorkExperiencesController workExperiencesController = Get.find<WorkExperiencesController>();
     final OrganizationsController organizationsController = Get.find<OrganizationsController>();
     final AchievementsController achievementsController = Get.find<AchievementsController>();
-    final PublicationController publicationController = Get.find<PublicationController>();
+    final PublicationsController publicationController = Get.find<PublicationsController>();
     final SocialActivityController socialActivityController = Get.find<SocialActivityController>();
     final ResearchesController researchesController = Get.find<ResearchesController>();
 

@@ -16,55 +16,59 @@ class SocialActivityView extends GetView<SocialActivityController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: neutral02Color,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await controller.fetchSocialActivity();
-        },
-        child: GestureDetector(
-          onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.fetchSocialActivity();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: neutral02Color,
+        body: RefreshIndicator(
+          onRefresh: () async{
+            await controller.fetchSocialActivity();
           },
-          child: SingleChildScrollView(
-            controller: controller.scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text('Add Social Activity', style: regulerText24),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(10),
+          child: GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: SingleChildScrollView(
+              controller: controller.scrollController,
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18),
+                    child: Text('Add Social Activity', style: regulerText24),
                   ),
-                  padding: const EdgeInsets.all(10.0),
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 13),
-                  child: Form(
-                    key: controller.formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Program Name', style: boldText12),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          focusNode: controller.focusNodes[0],
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(
-                                controller.focusNodes[1]);
-                          },
-                          hintText: 'Enter program name',
-                          controller: controller.programController,
-                          validator: controller.validateProgramName,
-                        ),
-                        const SizedBox(height: 16),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: neutral01Color,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Form(
+                      key: controller.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Program Name
+                          Text('Program Name', style: boldText12),
+                          const SizedBox(height: 8),
+                          CustomTextField(
+                            focusNode: controller.focusNodes[0],
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(controller.focusNodes[1]);
+                            },
+                            hintText: 'Enter program name',
+                            controller: controller.programController,
+                            validator: controller.validateProgramName,
+                          ),
+                          const SizedBox(height: 16),
 
                         Text('Institution Name', style: boldText12),
                         const SizedBox(height: 8),
@@ -259,6 +263,7 @@ class SocialActivityView extends GetView<SocialActivityController> {
           ),
         ),
       ),
+    )
     );
   }
 }

@@ -14,6 +14,7 @@ class Scholarship {
   dynamic deletedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? posterLink;
 
   Scholarship({
     this.id,
@@ -25,6 +26,7 @@ class Scholarship {
     this.deletedAt,
     this.createdAt,
     this.updatedAt,
+    this.posterLink,
   });
 
   factory Scholarship.fromJson(Map<String, dynamic> json) => Scholarship(
@@ -37,6 +39,7 @@ class Scholarship {
     deletedAt: json["deleted_at"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
+    posterLink: json["poster_link"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +52,6 @@ class Scholarship {
     "deleted_at": deletedAt,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
+    "poster_link": posterLink,
   };
 }

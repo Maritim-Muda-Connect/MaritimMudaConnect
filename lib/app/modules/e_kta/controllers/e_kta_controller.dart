@@ -1,15 +1,15 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../data/utils/user_preference.dart';
 
 class EKtaController extends GetxController {
-  var sliderValue = 0.0.obs;
   final RxInt currentPage = 0.obs;
+  final String defaultAvatar =
+      "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg";
+  var sliderValue = 0.0.obs;
   var ektaImage = ''.obs;
   var displayName = ''.obs;
   var urlDownloaded = ''.obs;

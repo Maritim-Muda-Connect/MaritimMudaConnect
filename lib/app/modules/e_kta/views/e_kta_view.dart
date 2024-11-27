@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/views/e_kta_detail_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 import 'package:maritimmuda_connect/themes.dart';
-
 import '../controllers/e_kta_controller.dart';
 import '../widgets/custom_indicator.dart';
 import '../widgets/custom_slide_card.dart';
@@ -18,6 +16,7 @@ class EKtaView extends GetView<EKtaController> {
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
+        backgroundColor: neutral02Color,
         title: Text('E-KTA',
             style: semiBoldText16.copyWith(color: neutral04Color)),
         centerTitle: true,
@@ -84,21 +83,25 @@ class EKtaView extends GetView<EKtaController> {
                     end: Alignment.bottomRight,
                   ),
                 ),
-                // CustomButton(
-                //   text: "Show QR",
-                //   textSize: boldText16.copyWith(color: neutral01Color),
-                //   radius: 50,
-                //   onPressed: () {
-                //     Get.to(() => EKtaDetailView());
-                //   },
-                //   height: 43,
-                //   width: 130,
-                //   gradient: LinearGradient(
-                //     colors: [primaryDarkBlueColor, primaryBlueColor],
-                //     begin: Alignment.topLeft,
-                //     end: Alignment.bottomRight,
-                //   ),
-                // ),
+                CustomButton(
+                  text: "Show QR",
+                  textSize: boldText16.copyWith(color: neutral01Color),
+                  radius: 50,
+                  onPressed: () {
+                    Get.to(
+                      () => const EKtaDetailView(),
+                      transition: Transition.rightToLeft,
+                      duration: const Duration(milliseconds: 100),
+                    );
+                  },
+                  height: 43,
+                  width: 130,
+                  gradient: LinearGradient(
+                    colors: [primaryDarkBlueColor, primaryBlueColor],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
               ],
             ),
           ],

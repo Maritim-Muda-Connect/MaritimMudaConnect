@@ -144,7 +144,7 @@ class MemberDetailView extends GetView<MemberController> {
                             ),
                             const SizedBox(width: 7),
                             Text("Email",
-                                style: regulerText16.copyWith(
+                                style: regulerText10.copyWith(
                                     color: subTitleColor)),
                           ],
                         ),

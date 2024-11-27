@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final memberResponse = memberResponseFromJson(jsonString);
+
 import 'dart:convert';
 
 MemberResponse memberResponseFromJson(String str) =>
@@ -32,7 +36,6 @@ class MemberResponse {
 
 class Member {
   int? id;
-  String? uuid;
   String? name;
   int? provinceId;
   String? email;
@@ -43,7 +46,6 @@ class Member {
 
   Member({
     this.id,
-    this.uuid,
     this.name,
     this.provinceId,
     this.email,
@@ -55,7 +57,6 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) => Member(
         id: json["id"],
-        uuid: json["uuid"],
         name: json["name"],
         provinceId: json["province_id"],
         email: json["email"],
@@ -67,7 +68,6 @@ class Member {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "uuid": uuid,
         "name": name,
         "province_id": provinceId,
         "email": email,

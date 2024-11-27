@@ -36,26 +36,36 @@ class EKtaView extends GetView<EKtaController> {
               children: [
                 Text("Hello,",
                     style: regulerText26.copyWith(color: neutral04Color)),
-                Text("Komeng Uhuy",
-                    style: semiBoldText32.copyWith(color: neutral04Color))
+                Obx(() => Text(controller.displayName.value,
+                    style: semiBoldText32.copyWith(color: neutral04Color)))
               ],
             ),
-            Column(
-              children: [
-                Container(
-                  height: 237,
-                  child: PageView(
-                    onPageChanged: controller.onPageChanged,
-                    children: const [
-                      CustomCardSlider(),
-                      CustomCardSlider(),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                CustomIndicator(controller: controller)
-              ],
-            ),
+            Obx(() {
+              if (controller.ektaImage.value.isNotEmpty) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 237,
+                      child: PageView(
+                        onPageChanged: controller.onPageChanged,
+                        children: [
+                          CustomCardSlider(
+                              image: NetworkImage(controller.ektaImage.value)),
+                          const CustomCardSlider(
+                            image: AssetImage("assets/images/ekta.png"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomIndicator(controller: controller)
+                  ],
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -63,21 +73,8 @@ class EKtaView extends GetView<EKtaController> {
                   text: "Download",
                   textSize: boldText16.copyWith(color: neutral01Color),
                   radius: 50,
-                  onPressed: () {},
-                  height: 43,
-                  width: 130,
-                  gradient: LinearGradient(
-                    colors: [primaryDarkBlueColor, primaryBlueColor],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                CustomButton(
-                  text: "Show QR",
-                  textSize: boldText16.copyWith(color: neutral01Color),
-                  radius: 50,
                   onPressed: () {
-                    Get.to(() => EKtaDetailView());
+                    controller.launchURL(controller.urlDownloaded.value);
                   },
                   height: 43,
                   width: 130,
@@ -87,6 +84,21 @@ class EKtaView extends GetView<EKtaController> {
                     end: Alignment.bottomRight,
                   ),
                 ),
+                // CustomButton(
+                //   text: "Show QR",
+                //   textSize: boldText16.copyWith(color: neutral01Color),
+                //   radius: 50,
+                //   onPressed: () {
+                //     Get.to(() => EKtaDetailView());
+                //   },
+                //   height: 43,
+                //   width: 130,
+                //   gradient: LinearGradient(
+                //     colors: [primaryDarkBlueColor, primaryBlueColor],
+                //     begin: Alignment.topLeft,
+                //     end: Alignment.bottomRight,
+                //   ),
+                // ),
               ],
             ),
           ],

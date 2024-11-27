@@ -73,9 +73,9 @@ class MemberView extends GetView<MemberController> {
                                   Get.to(() =>
                                       MemberDetailView(memberList: memberList));
                                 },
-                                leading: const CircleAvatar(
+                                leading: CircleAvatar(
                                   backgroundImage:
-                                      AssetImage("assets/images/profile.png"),
+                                      NetworkImage(memberList.photoLink!),
                                 ),
                                 title: Text(
                                   memberList.name ?? "",

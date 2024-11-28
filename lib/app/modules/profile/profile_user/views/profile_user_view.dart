@@ -15,6 +15,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
       backgroundColor: neutral02Color,
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: controller.scrollController,
           scrollDirection: Axis.vertical,
           child: Column(
             children: [

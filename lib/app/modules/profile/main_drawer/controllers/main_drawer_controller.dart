@@ -80,6 +80,12 @@ class MainDrawerController extends GetxController {
     currentTitle.value = title[index];
 
     switch (index) {
+      case 0:
+        Get.find<ProfileUserController>().scrollController.jumpTo(0.0);
+        break;
+      case 1:
+        Get.find<ProfileController>().scrollController.jumpTo(0.0);
+        break;
       case 2:
         Get.find<EducationsController>().scrollController.jumpTo(0.0);
         break;

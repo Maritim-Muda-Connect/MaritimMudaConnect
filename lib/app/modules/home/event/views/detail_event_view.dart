@@ -26,6 +26,8 @@ class DetailEventView extends GetView<EventController> {
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: neutral02Color,
         title: Text(
           'Detail Event',
           style: boldText24,
@@ -61,13 +63,15 @@ class DetailEventView extends GetView<EventController> {
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 eventData.name!,
+                textAlign: TextAlign.justify,
                 style: boldText24,
               ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
-                "wkwwkwkwkwkwkwkwkwkwkwkwkw\nwkwkwkwkwkwwkw\nwkwkwkwkwkwkwkwkwkwk",
+                "Dalam rangka memperingati Hari Maritim Nasional, kami mengundang para pemuda Indonesia untuk berpartisipasi dalam Lomba Mikroblog sebagai bagian dari Pekan Literasi Maritim 2021. Tuangkan ide kreatifmu mengenai pentingnya peran pemuda dalam menjaga, memajukan, dan menghargai potensi maritim Indonesia melalui karya mikroblog yang inspiratif!",
+                textAlign: TextAlign.justify,
                 style: regulerText14,
               ),
             ),

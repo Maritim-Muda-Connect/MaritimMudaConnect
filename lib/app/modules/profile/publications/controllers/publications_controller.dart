@@ -11,7 +11,7 @@ import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';
 
-class PublicationController extends GetxController {
+class PublicationsController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController titleC = TextEditingController();
   final TextEditingController authorC = TextEditingController();
@@ -24,7 +24,6 @@ class PublicationController extends GetxController {
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
-  // Updated file related variables
   RxString selectedFileName = 'No File Chosen'.obs;
   Rx<File?> selectedImage = Rx<File?>(null);
   RxString selectedImagePath = ''.obs;
@@ -33,10 +32,10 @@ class PublicationController extends GetxController {
   var isLoading = false.obs;
   var isEdit = false.obs;
   var idCard = 0.obs;
-  var selectedPublicationType = 1.obs;
+  var selectedPublicationType = ''.obs;
 
-  String formatDate(DateTime date) {
-    return DateFormat('yyyy-MM').format(date);
+  String formatDate(DateTime? date) {
+    return date != null ? DateFormat('MMMM yyyy').format(date) : '';
   }
 
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -55,7 +54,6 @@ class PublicationController extends GetxController {
   void onInit() {
     super.onInit();
     fetchPublications();
-    selectedPublicationType.value = 1;
     focusNodes;
   }
 
@@ -139,6 +137,44 @@ class PublicationController extends GetxController {
     );
   }
 
+  int getTypeValue(String levelText) {
+    switch (levelText) {
+      case 'Abstract':
+        return 1;
+      case 'Book':
+        return 2;
+      case 'Journal Article':
+        return 3;
+      case 'Magazine Article':
+        return 4;
+      case 'News Article':
+        return 5;
+      case 'Proceeding Article':
+        return 6;
+      default:
+        return 0;
+    }
+  }
+
+  String getTypeText(int? levelValue) {
+    switch (levelValue) {
+      case 1:
+        return 'Abstract';
+      case 2:
+        return 'Book';
+      case 3:
+        return 'Journal Article';
+      case 4:
+        return 'Magazine Article';
+      case 5:
+        return 'News Article';
+      case 6:
+        return 'Proceeding Article';
+      default:
+        return '';
+    }
+  }
+
   final List<String> publicationOptions = [
     'Choose your publications type',
     'Abstract',
@@ -169,7 +205,9 @@ class PublicationController extends GetxController {
   void patchField(PublicationResponse publicationData) {
     titleC.text = publicationData.title ?? '';
     authorC.text = publicationData.authorName ?? '';
-    selectedPublicationType.value = publicationData.type ?? 0;
+    String typeText = getTypeText(publicationData.type);
+    selectedPublicationType.value = typeText;
+    pubTypeC.text = typeText;
     publisherC.text = publicationData.publisher ?? '';
     cityC.text = publicationData.city ?? '';
     dateC.text = formatDate(publicationData.publishDate ?? DateTime.now());
@@ -179,6 +217,7 @@ class PublicationController extends GetxController {
     try {
       isLoading.value = true;
       var data = await PublicationService().fetchPublication();
+      selectedPublicationType("");
       publicationData.assignAll(data);
     } catch (e) {
       print(e);
@@ -189,6 +228,7 @@ class PublicationController extends GetxController {
 
   void createPublication(PublicationRequest request) async {
     try {
+      print(request.type);
       isLoading.value = true;
       bool success = await PublicationService().createPublication(request);
       if (success) {
@@ -242,9 +282,8 @@ class PublicationController extends GetxController {
       if (success) {
         fetchPublications();
         customSnackbar(
-          'Success delete publication!',
+          'Success deleting publication history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(
@@ -284,9 +323,11 @@ class PublicationController extends GetxController {
     super.onClose();
   }
 
-  void setPublicationType(String? value) {
-    if (value != null) {
-      selectedPublicationType.value = publicationOptions.indexOf(value) + 1;
+  void setPubType(String? level) {
+    if (level != null) {
+      selectedPublicationType.value = level;
+      pubTypeC.text = level;
+      print(selectedPublicationType.value);
     }
   }
 }

@@ -45,7 +45,7 @@ class FilterDrawer extends GetView<MemberController> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        // Province Filter
+
                         FilterSection(
                           title: 'Province',
                           icon: Icons.maps_home_work,
@@ -57,7 +57,7 @@ class FilterDrawer extends GetView<MemberController> {
                           },
                         ),
                         const SizedBox(height: 16),
-                        // Expertise Filter
+
                         FilterSection(
                           title: 'Expertise',
                           icon: Icons.travel_explore_outlined,

@@ -66,12 +66,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                         CustomTextField(
                           controller: controller.organizationNameC,
                           hintText: 'Enter your organization name',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter organization name';
-                            }
-                            return null;
-                          },
+                          validator: controller.validateOrganization,
                           focusNode: controller.focusNodes[0],
                           onFieldSubmitted: (_) {
                             FocusScope.of(context)
@@ -91,12 +86,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                         CustomTextField(
                           controller: controller.positionC,
                           hintText: 'Enter your position',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter position';
-                            }
-                            return null;
-                          },
+                          validator: controller.validatePosition,
                           focusNode: controller.focusNodes[1],
                           onFieldSubmitted: (_) {
                             FocusScope.of(context)
@@ -121,12 +111,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                               hintText: 'Select start date',
                               suffixIcon: Icon(Icons.calendar_today,
                                   color: primaryDarkBlueColor),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter start date';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateStartDate,
                             ),
                           ),
                         ),
@@ -148,12 +133,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                               hintText: 'Select end date',
                               suffixIcon: Icon(Icons.calendar_today,
                                   color: primaryDarkBlueColor),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter end date';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateEndDate,
                             ),
                           ),
                         ),
@@ -247,7 +227,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   padding: const EdgeInsets.only(bottom: 16.0),
                                   child: ProfileCard(
                                     title: activity.organizationName!,
-                                    rightTitle: activity.role!,
+                                    leftSubTitle: activity.role!,
                                     startDate: activity.periodStartDate != null
                                         ? controller.formatDate(
                                             activity.periodStartDate)
@@ -265,12 +245,19 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                               const Duration(milliseconds: 300),
                                           curve: Curves.easeInOut);
                                     },
-                                    // Populate fields for editing
-                                    onTap2: () => controller
-                                        .deleteOrganizations(activity.id!),
-                                    // Assuming activity has an ID
+                                    onTap2: () => showCustomDialog(
+                                        content:
+                                            'Are you sure you want to delete this data?',
+                                        onConfirm: () {
+                                          controller.deleteOrganizations(
+                                              activity.id ?? 0);
+                                          Get.back();
+                                        },
+                                        onCancel: () {
+                                          Get.back();
+                                        }),
                                     onTap3:
-                                        () {}, // Additional action, if necessary
+                                        () {},
                                   ),
                                 );
                               }).toList(),

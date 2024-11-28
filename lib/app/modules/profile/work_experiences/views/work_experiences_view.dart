@@ -54,12 +54,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                           const SizedBox(height: 8),
                           CustomTextField(
                             controller: controller.positionController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter position title';
-                              }
-                              return null;
-                            },
+                            validator: controller.validatePosition,
                             hintText: 'Enter your position title',
                             focusNode: controller.focusNodes[0],
                             onFieldSubmitted: (_) {
@@ -72,12 +67,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                           const SizedBox(height: 8),
                           CustomTextField(
                             controller: controller.institutionController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter institution name';
-                              }
-                              return null;
-                            },
+                            validator: controller.validateInstitution,
                             hintText: 'Enter your institution name',
                             focusNode: controller.focusNodes[1],
                           ),
@@ -92,12 +82,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                 hintText: 'Select start date',
                                 suffixIcon: Icon(Icons.calendar_today,
                                     color: primaryDarkBlueColor),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter start date';
-                                  }
-                                  return null;
-                                },
+                                validator: controller.validateStartDate,
                               ),
                             ),
                           ),
@@ -112,12 +97,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                 hintText: 'Select end date',
                                 suffixIcon: Icon(Icons.calendar_today,
                                     color: primaryDarkBlueColor),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter end date';
-                                  }
-                                  return null;
-                                },
+                                validator: controller.validateEndDate,
                               ),
                             ),
                           ),
@@ -207,16 +187,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                           ),
                           const SizedBox(height: 30),
                           Obx(() {
-                            if (controller.isLoading.value) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(
-                                      color: primaryDarkBlueColor),
-                                ),
-                              );
-                            } else if (controller.workExperienceLists.isEmpty) {
+                            if (controller.workExperienceLists.isEmpty) {
                               return const SizedBox.shrink();
                             } else {
                               return ListView.separated(

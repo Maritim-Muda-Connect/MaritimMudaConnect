@@ -16,63 +16,67 @@ class SocialActivityView extends GetView<SocialActivityController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: neutral02Color,
-      body: RefreshIndicator(
-        onRefresh: () async{
-          await controller.fetchSocialActivity();
-        },
-        child: GestureDetector(
-          onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.fetchSocialActivity();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: neutral02Color,
+        body: RefreshIndicator(
+          onRefresh: () async{
+            await controller.fetchSocialActivity();
           },
-          child: SingleChildScrollView(
-            controller: controller.scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.only(left: 18),
-                  child: Text('Add Social Activity', style: regulerText24),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(10),
+          child: GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: SingleChildScrollView(
+              controller: controller.scrollController,
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 18),
+                    child: Text('Add Social Activity', style: regulerText24),
                   ),
-                  padding: const EdgeInsets.all(10.0),
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 13),
-                  child: Form(
-                    key: controller.formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Program Name
-                        Text('Program Name', style: boldText12),
-                        const SizedBox(height: 8),
-                        CustomTextField(
-                          focusNode: controller.focusNodes[0],
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(controller.focusNodes[1]);
-                          },
-                          hintText: 'Enter program name',
-                          controller: controller.programController,
-                          validator: controller.validateProgramName,
-                        ),
-                        const SizedBox(height: 16),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: neutral01Color,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 13),
+                    child: Form(
+                      key: controller.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Program Name
+                          Text('Program Name', style: boldText12),
+                          const SizedBox(height: 8),
+                          CustomTextField(
+                            focusNode: controller.focusNodes[0],
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(controller.focusNodes[1]);
+                            },
+                            hintText: 'Enter program name',
+                            controller: controller.programController,
+                            validator: controller.validateProgramName,
+                          ),
+                          const SizedBox(height: 16),
 
-                        // Institution Name
                         Text('Institution Name', style: boldText12),
                         const SizedBox(height: 8),
                         CustomTextField(
                           focusNode: controller.focusNodes[1],
                           onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(controller.focusNodes[2]);
+                            FocusScope.of(context).requestFocus(
+                                controller.focusNodes[2]);
                           },
                           hintText: 'Enter institution name',
                           controller: controller.institutionController,
@@ -80,13 +84,13 @@ class SocialActivityView extends GetView<SocialActivityController> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Role
                         Text('Role', style: boldText12),
                         const SizedBox(height: 8),
                         CustomTextField(
                           focusNode: controller.focusNodes[2],
                           onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(controller.focusNodes[3]);
+                            FocusScope.of(context).requestFocus(
+                                controller.focusNodes[3]);
                           },
                           hintText: 'Enter role name',
                           controller: controller.roleController,
@@ -94,7 +98,6 @@ class SocialActivityView extends GetView<SocialActivityController> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Start Date
                         Text('Start Date', style: boldText12),
                         const SizedBox(height: 8),
                         GestureDetector(
@@ -104,13 +107,13 @@ class SocialActivityView extends GetView<SocialActivityController> {
                               validator: controller.validateStartDate,
                               controller: controller.startDateController,
                               hintText: 'Select start date',
-                              suffixIcon: Icon(Icons.calendar_today, color: primaryBlueColor),
+                              suffixIcon: Icon(Icons.calendar_today,
+                                  color: primaryDarkBlueColor),
                             ),
                           ),
                         ),
                         const SizedBox(height: 16),
 
-                        // End Date
                         Text('End Date', style: boldText12),
                         const SizedBox(height: 8),
                         GestureDetector(
@@ -120,44 +123,54 @@ class SocialActivityView extends GetView<SocialActivityController> {
                               validator: controller.validateEndDate,
                               controller: controller.endDateController,
                               hintText: 'Select end date',
-                              suffixIcon: Icon(Icons.calendar_today, color: primaryBlueColor),
+                              suffixIcon: Icon(Icons.calendar_today,
+                                  color: primaryDarkBlueColor),
                             ),
                           ),
                         ),
                         const SizedBox(height: 16),
 
-                        // Save and Clear Buttons
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             ProfileButton(
-                              icon: Icon(Icons.save_outlined, color: neutral01Color),
+                              icon: Icon(
+                                  Icons.save_outlined, color: neutral01Color),
                               text: 'Save',
                               onTap: () {
                                 if (controller.validateForm()) {
-                                  // Construct the request object to save
-                                  if (controller.isEdit.value){
+                                  if (controller.isEdit.value) {
                                     SocialActivityRequest request = SocialActivityRequest(
                                       name: controller.programController.text,
-                                      institutionName: controller.institutionController.text,
+                                      institutionName: controller
+                                          .institutionController.text,
                                       role: controller.roleController.text,
-                                      startDate: controller.formatDateRequest(controller.selectedStartDate.value ?? DateTime.now()),
-                                      endDate: controller.formatDateRequest(controller.selectedEndDate.value ?? DateTime.now()),
+                                      startDate: controller.formatDateRequest(
+                                          controller.selectedStartDate.value ??
+                                              DateTime.now()),
+                                      endDate: controller.formatDateRequest(
+                                          controller.selectedEndDate.value ??
+                                              DateTime.now()),
                                     );
-                                    controller.updateSocialActivity(request, controller.idCard.value);
+                                    controller.updateSocialActivity(
+                                        request, controller.idCard.value);
                                     controller.isEdit.value = false;
                                     controller.idCard.value = 0;
                                   } else {
                                     SocialActivityRequest request = SocialActivityRequest(
                                       name: controller.programController.text,
-                                      institutionName: controller.institutionController.text,
+                                      institutionName: controller
+                                          .institutionController.text,
                                       role: controller.roleController.text,
-                                      startDate: controller.formatDateRequest(controller.selectedStartDate.value ?? DateTime.now()),
-                                      endDate: controller.formatDateRequest(controller.selectedEndDate.value ?? DateTime.now()),
+                                      startDate: controller.formatDateRequest(
+                                          controller.selectedStartDate.value ??
+                                              DateTime.now()),
+                                      endDate: controller.formatDateRequest(
+                                          controller.selectedEndDate.value ??
+                                              DateTime.now()),
                                     );
                                     controller.createSocialActivity(request);
                                   }
-
                                 }
                               },
                               color: primaryDarkBlueColor,
@@ -195,34 +208,50 @@ class SocialActivityView extends GetView<SocialActivityController> {
                         ),
                         const SizedBox(height: 30),
 
-                        // Displaying social activity list
-                        Obx(() => Column(
-                          children: controller.socialActivityLists.map((activity) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: ProfileCard(
-                                title: activity.name!,
-                                leftSubTitle: activity.institutionName!,
-                                rightSubTitle: activity.role,
-                                startDate: activity.startDate != null ? controller.formatDate(activity.startDate) : 'N/A',
-                                endDate: activity.endDate != null ? controller.formatDate(activity.endDate) : 'N/A',
-                                onTap1: () {
-                                  controller.isEdit.value = true;
-                                  controller.idCard.value = activity.id!;
-                                  controller.patchField(activity);
-                                  controller.scrollController.animateTo(
-                                    0.0,
-                                    duration:
-                                    const Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut,
-                                  );
-                                },// Populate fields for editing
-                                onTap2: () => controller.deleteSocialAcitivty(activity.id!), // Assuming activity has an ID
-                                onTap3: () {}, // Additional action, if necessary
-                              ),
-                            );
-                          }).toList(),
-                        )),
+                        Obx(() =>
+                            Column(
+                              children: controller.socialActivityLists.map((
+                                  activity) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: ProfileCard(
+                                      title: activity.name!,
+                                      leftSubTitle: activity.institutionName!,
+                                      rightSubTitle: activity.role,
+                                      startDate: activity.startDate != null
+                                          ? controller.formatDate(
+                                          activity.startDate)
+                                          : 'N/A',
+                                      endDate: activity.endDate != null
+                                          ? controller.formatDate(
+                                          activity.endDate)
+                                          : 'N/A',
+                                      onTap1: () {
+                                        controller.isEdit.value = true;
+                                        controller.idCard.value = activity.id!;
+                                        controller.patchField(activity);
+                                        controller.scrollController.animateTo(
+                                          0.0,
+                                          duration:
+                                          const Duration(milliseconds: 300),
+                                          curve: Curves.easeInOut,
+                                        );
+                                      },
+                                      onTap2: () =>
+                                          showCustomDialog(
+                                              content: 'Are you sure want to delete this data?',
+                                              onConfirm: () {
+                                                controller.deleteSocialAcitivty(activity.id!);
+                                                Get.back();
+                                              },
+                                              onCancel: () {
+                                                Get.back();
+                                              }),
+                                      onTap3: ()
+                                  {},
+                                ),);
+                              }).toList(),
+                            )),
                         const SizedBox(height: 10),
                       ],
                     ),
@@ -234,6 +263,7 @@ class SocialActivityView extends GetView<SocialActivityController> {
           ),
         ),
       ),
+    )
     );
   }
 }

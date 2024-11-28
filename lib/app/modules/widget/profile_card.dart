@@ -40,7 +40,6 @@ class ProfileCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image section
           if (imageUrl != null && imageUrl!.isNotEmpty)
             Container(
               width: 120,
@@ -55,7 +54,6 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
 
-          // Content section
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +82,7 @@ class ProfileCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '$leftSubTitle ',
+                        '${leftSubTitle ?? ""}',
                         style: regulerText12,
                       ),
                       const SizedBox(width: 3),
@@ -119,22 +117,12 @@ class ProfileCard extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: onTap1,
-                        child: SvgPicture.asset('assets/icons/edit.svg'),
+                        child: Image.asset('assets/icons/pen.png'),
                       ),
                       const SizedBox(width: 3),
                       InkWell(
                         onTap: onTap2,
-                        child: SvgPicture.asset('assets/icons/trashcan.svg'),
-                      ),
-                      FittedBox(
-                        child: InkWell(
-                          onTap: onTap3,
-                          child: Icon(
-                            Icons.menu,
-                            color: primaryDarkBlueColor,
-                            size: 30,
-                          ),
-                        ),
+                        child: Image.asset('assets/icons/trash.png'),
                       ),
                     ],
                   ),

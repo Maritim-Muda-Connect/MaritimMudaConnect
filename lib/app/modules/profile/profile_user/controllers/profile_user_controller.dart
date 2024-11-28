@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
-import 'package:maritimmuda_connect/app/modules/profile/achievement/controllers/achievement_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 
 class ProfileUserController extends GetxController {
   final name = ''.obs;
@@ -13,8 +14,9 @@ class ProfileUserController extends GetxController {
   final firstExpertiseId = ''.obs;
   final secondExpertiseId = ''.obs;
   final userPreferences = UserPreferences();
+  final ScrollController scrollController = ScrollController();
 
-  final achievmentController = Get.put(AchievementController());
+  final achievmentsController = Get.put(AchievementsController());
 
   final count = 0.obs;
   @override
@@ -54,6 +56,7 @@ class ProfileUserController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    scrollController.dispose();
   }
 
   void increment() => count.value++;

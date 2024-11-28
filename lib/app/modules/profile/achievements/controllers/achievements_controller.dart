@@ -25,8 +25,8 @@ class Achievements {
   });
 }
 
-class AchievementController extends GetxController {
-  var achievement = <Achievements>[].obs; // Define as RxList
+class AchievementsController extends GetxController {
+  var achievement = <Achievements>[].obs;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController awardC = TextEditingController();
@@ -45,7 +45,7 @@ class AchievementController extends GetxController {
   var achievementsData = <AchievementsResponse>[].obs;
 
   String formatDate(DateTime? date) {
-    return DateFormat('yyyy-MM').format(date!);
+    return date != null ? DateFormat('MMMM yyyy').format(date) : '';
   }
 
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -204,9 +204,8 @@ class AchievementController extends GetxController {
       if (success) {
         fetchAchievements();
         customSnackbar(
-          'Success delete achievements!',
+          'Success deleting education history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

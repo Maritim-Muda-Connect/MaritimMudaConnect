@@ -1,41 +1,35 @@
+// To parse this JSON data, do
+//
+//     final uidResponse = uidResponseFromJson(jsonString);
+
 import 'dart:convert';
 
-GeneralResponse generalResponseFromJson(String str) =>
-    GeneralResponse.fromJson(json.decode(str));
+UidResponse uidResponseFromJson(String str) =>
+    UidResponse.fromJson(json.decode(str));
 
-String generalResponseToJson(GeneralResponse data) =>
-    json.encode(data.toJson());
+String uidResponseToJson(UidResponse data) => json.encode(data.toJson());
 
-class GeneralResponse {
+class UidResponse {
+  bool? success;
   User? user;
-  String? qrCodeUrl;
-  Map<String, String>? provinces;
-  Map<String, String>? expertises;
+  String? uid;
 
-  GeneralResponse({
+  UidResponse({
+    this.success,
     this.user,
-    this.qrCodeUrl,
-    this.provinces,
-    this.expertises,
+    this.uid,
   });
 
-  factory GeneralResponse.fromJson(Map<String, dynamic> json) =>
-      GeneralResponse(
+  factory UidResponse.fromJson(Map<String, dynamic> json) => UidResponse(
+        success: json["success"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
-        qrCodeUrl: json["qr_code_url"] ?? '',
-        provinces: Map.from(json["provinces"]!)
-            .map((k, v) => MapEntry<String, String>(k, v)),
-        expertises: Map.from(json["expertises"]!)
-            .map((k, v) => MapEntry<String, String>(k, v)),
+        uid: json["uid"],
       );
 
   Map<String, dynamic> toJson() => {
+        "success": success,
         "user": user?.toJson(),
-        "qr_code_url": qrCodeUrl,
-        "provinces":
-            Map.from(provinces!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "expertises": Map.from(expertises!)
-            .map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "uid": uid,
       };
 }
 
@@ -60,10 +54,6 @@ class User {
   String? residenceAddress;
   String? bio;
   int? isAdmin;
-  String? photoLink;
-  String? identityCardLink;
-  String? paymentLink;
-  String? memberCardPreview;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -88,10 +78,6 @@ class User {
     this.residenceAddress,
     this.bio,
     this.isAdmin,
-    this.photoLink,
-    this.identityCardLink,
-    this.paymentLink,
-    this.memberCardPreview,
     this.createdAt,
     this.updatedAt,
   });
@@ -121,10 +107,6 @@ class User {
         residenceAddress: json["residence_address"],
         bio: json["bio"],
         isAdmin: json["is_admin"],
-        photoLink: json["photo_link"],
-        identityCardLink: json["identity_card_link"],
-        paymentLink: json["payment_link"],
-        memberCardPreview: json["member-card-preview_link"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -154,10 +136,6 @@ class User {
         "residence_address": residenceAddress,
         "bio": bio,
         "is_admin": isAdmin,
-        "photo_link": photoLink,
-        "identity_card_link": identityCardLink,
-        "payment_link": paymentLink,
-        "member-card-preview_link": memberCardPreview,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };

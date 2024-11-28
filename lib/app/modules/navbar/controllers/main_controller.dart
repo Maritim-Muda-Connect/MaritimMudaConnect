@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/main_drawer/views/main_drawer_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
 
@@ -11,13 +12,12 @@ import '../../product/views/product_view.dart';
 import '../../home/event/controllers/event_controller.dart';
 import '../../home/job/controllers/job_controller.dart';
 import '../../home/views/home_view.dart';
-import '../../profile/achievement/controllers/achievement_controller.dart';
 import '../../profile/main_drawer/controllers/main_drawer_controller.dart';
 
 class MainController extends GetxController with GetTickerProviderStateMixin {
   MainController() {
     Get.put(MainDrawerController());
-    Get.put(AchievementController());
+    Get.put(AchievementsController());
     Get.put(ProductController());
     Get.put(EventController());
     Get.put(AnalyticsController());
@@ -64,7 +64,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
 
   @override
   void onClose() {
-    pageController.dispose(); // Membebaskan controller ketika ditutup
+    pageController.dispose();
     super.onClose();
   }
 }

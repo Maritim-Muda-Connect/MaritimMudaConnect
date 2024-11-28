@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/services/home_service.dart';
 import '../../../../data/models/response/member_response.dart';
+import '../../../../data/services/config.dart';
 import '../../../../data/utils/province.dart';
+import 'package:http/http.dart' as http;
 
 class MemberController extends GetxController {
   var isVisible = false.obs;
@@ -13,6 +17,7 @@ class MemberController extends GetxController {
   var searchQuery = ''.obs;
   final selectedItems = <String, String>{}.obs;
   var isDrawerVisible = false.obs;
+  DateTime? emailVerified;
 
   @override
   void onInit() {
@@ -20,12 +25,23 @@ class MemberController extends GetxController {
     getAllMember();
   }
 
-  void getAllMember() async {
+  Future<void> getEmail(String email) async {
+    isLoading.value = true;
+
+    try {
+      var response = await HomeService().getEmail(email);
+      emailVerified = response.user?.emailVerifiedAt;
+      isLoading.value = false;
+    } catch (e) {
+      print("Error fetching email: $e");
+    }
+  }
+
+  Future<void> getAllMember() async {
     try {
       isLoading.value = true;
       var response = await HomeService().getAllMembers();
       memberList.assignAll(response.members!);
-      // Initialize filtered list with all members
       filteredMemberList.assignAll(memberList);
     } catch (e) {
       print("Error fetching members: $e");
@@ -36,7 +52,7 @@ class MemberController extends GetxController {
 
   void searchMembers(String query) {
     searchQuery.value = query;
-    applyFilters(); // Apply both search and filters
+    applyFilters();
   }
 
   void toggleSection(String title) {
@@ -45,7 +61,7 @@ class MemberController extends GetxController {
 
   void setSelectedProvince(String value) {
     if (selectedItems['Province'] == value) {
-      selectedItems.remove('Province'); // Deselect if already selected
+      selectedItems.remove('Province');
     } else {
       selectedItems['Province'] = value;
     }
@@ -54,7 +70,7 @@ class MemberController extends GetxController {
 
   void setSelectedExpertise(String value) {
     if (selectedItems['Expertise'] == value) {
-      selectedItems.remove('Expertise'); // Deselect if already selected
+      selectedItems.remove('Expertise');
     } else {
       selectedItems['Expertise'] = value;
     }
@@ -64,7 +80,6 @@ class MemberController extends GetxController {
   void applyFilters() {
     var tempList = List<Member>.from(memberList);
 
-    // Apply search filter
     if (searchQuery.value.isNotEmpty) {
       tempList = tempList.where((member) {
         final nameMatch = member.name
@@ -78,14 +93,12 @@ class MemberController extends GetxController {
       }).toList();
     }
 
-    // Apply province filter
     if (selectedItems.containsKey('Province')) {
       tempList = tempList.where((member) {
         return member.provinceId.toString() == selectedItems['Province'];
       }).toList();
     }
 
-    // Apply expertise filter
     if (selectedItems.containsKey('Expertise')) {
       tempList = tempList.where((member) {
         return member.firstExpertiseId.toString() ==

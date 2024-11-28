@@ -37,6 +37,7 @@ class ProfileController extends GetxController {
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
   Rx<int?> selectedYear = Rx<int?>(null);
+  String svgString = '';
 
   var generalData = GeneralResponse().obs;
   var selectedFirstExpertise = 0.obs;
@@ -47,6 +48,8 @@ class ProfileController extends GetxController {
   var photoIdentity = ''.obs;
   var photoPayment = ''.obs;
   var isLoading = false.obs;
+  var photoStudent = ''.obs;
+  var qrCodeBase64 = ''.obs;
 
   String get formattedDate {
     return selectedDate.value != null
@@ -126,6 +129,10 @@ class ProfileController extends GetxController {
     photoImage.value = generalData.value.user?.photoLink ?? '';
     photoIdentity.value = generalData.value.user?.identityCardLink ?? '';
     photoPayment.value = generalData.value.user?.paymentLink ?? '';
+    photoStudent.value = generalData.value.user?.memberCardPreview ?? '';
+    qrCodeBase64.value = generalData.value.qrCodeUrl ?? '';
+    svgString =
+        qrCodeBase64.value.replaceFirst("data:image/svg+xml;base64,", "");
   }
 
   Future<void> fetchGeneral() async {

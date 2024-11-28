@@ -48,6 +48,9 @@ class EducationsController extends GetxController {
     super.onInit();
     fetchEducations();
     focusNodes;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(0.0);
+    });
   }
 
   bool validateForm() {
@@ -211,9 +214,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar('Success Adding Education History!');
+        customSnackbar('Success adding education history!');
       } else {
-        customSnackbar('Failed Adding Education History!');
+        customSnackbar('Failed adding education history!');
       }
     } catch (e) {
       print(e);
@@ -230,9 +233,9 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar('Success Update Education History!');
+        customSnackbar('Success updating education history!');
       } else {
-        customSnackbar('Failed Update Education History!');
+        customSnackbar('Failed updating education history!');
       }
     } catch (e) {
       print(e);
@@ -249,9 +252,12 @@ class EducationsController extends GetxController {
       if (success) {
         fetchEducations();
         clearAll();
-        customSnackbar('Success Deleting Education History!');
+        customSnackbar(
+          'Success deleting education history!',
+          null,
+        );
       } else {
-        customSnackbar('Failed Deleting Education History!', secondaryRedColor);
+        customSnackbar('Failed deleting education history!', secondaryRedColor);
       }
     } catch (e) {
       print(e);

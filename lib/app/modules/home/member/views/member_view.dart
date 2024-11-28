@@ -12,14 +12,13 @@ import '../controllers/member_controller.dart';
 
 class MemberView extends GetView<MemberController> {
   const MemberView({super.key});
+
   @override
   Widget build(BuildContext context) {
     Get.put(MemberController());
 
     return Scaffold(
       backgroundColor: neutral02Color,
-
-      // endDrawer: SafeArea(child: FilterDrawer(controller.memberList)),
       endDrawer: const SafeArea(child: FilterDrawer()),
       appBar: AppBar(
         title: Text(
@@ -51,9 +50,19 @@ class MemberView extends GetView<MemberController> {
                         ),
                       );
                     } else if (controller.memberList.isEmpty) {
-                      return Text(
-                        'Data belum tersedia',
-                        style: extraLightText16,
+                      return Expanded(
+                        child: RefreshIndicator(
+                          child: ListView(children: const [
+                            Center(
+                              child: Column(
+                                children: [Text("data tidak ditemukan cuy")],
+                              ),
+                            ),
+                          ]),
+                          onRefresh: () async {
+                            await controller.getAllMember();
+                          },
+                        ),
                       );
                     } else {
                       return Expanded(
@@ -69,17 +78,15 @@ class MemberView extends GetView<MemberController> {
                                   borderRadius: BorderRadius.circular(16)),
                               child: ListTile(
                                 onTap: () {
-                                  if (memberList.emailVerifiedAt != null) {
-                                    Get.to(() => MemberDetailView(
-                                        memberList: memberList));
-                                  } else {
-                                    customSnackbar(
-                                        "User not verified", secondaryRedColor);
-                                  }
+                                  controller.getEmail(memberList.email!);
+                                  Get.to(() =>
+                                      MemberDetailView(memberList: memberList));
                                 },
-                                leading: const CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/images/profile.png"),
+                                leading: CircleAvatar(
+                                  foregroundImage:
+                                      NetworkImage(memberList.photoLink!),
+                                  backgroundImage: const AssetImage(
+                                      'assets/images/default_photo.jpg'),
                                 ),
                                 title: Text(
                                   memberList.name ?? "",

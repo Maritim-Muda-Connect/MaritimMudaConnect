@@ -100,68 +100,10 @@ class ProfileView extends GetView<ProfileController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Student Card', style: boldText12),
-                          const SizedBox(height: 8),
-                          Obx(
-                            () => DottedBorder(
-                              dashPattern: const [10],
-                              borderType: BorderType.RRect,
-                              radius: const Radius.circular(20),
-                              padding: const EdgeInsets.all(6),
-                              child: InkWell(
-                                onTap: () async {
-                                  // FilePickerResult? result =
-                                  //     await FilePicker.platform.pickFiles(
-                                  //   type: FileType.media,
-                                  //   allowMultiple: false,
-                                  // );
-                                  // if (result != null) {
-                                  //   controller.identityImagePath.value =
-                                  //       result.files.single.path!;
-                                  //   controller.identityImageName.value =
-                                  //       result.files.single.name;
-                                  // }
-                                },
-                                child: Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    color: neutral02Color,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child:
-                                      controller.studentImagePath.value.isEmpty
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: Image.asset(
-                                                "assets/images/student_card.png",
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                              ),
-                                            )
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: Image.file(
-                                                File(controller
-                                                    .studentImagePath.value),
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                              ),
-                                            ),
-                                  // const Center(
-                                  //     child: Icon(Icons.add_photo_alternate,
-                                  //         size: 50, color: Colors.grey),
-                                  //   ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
                           Text('Identity Card', style: boldText12),
                           const SizedBox(height: 8),
                           Obx(
-                            () => DottedBorder(
+                                () => DottedBorder(
                               dashPattern: const [10],
                               borderType: BorderType.RRect,
                               radius: const Radius.circular(20),
@@ -169,13 +111,13 @@ class ProfileView extends GetView<ProfileController> {
                               child: InkWell(
                                 onTap: () async {
                                   FilePickerResult? result =
-                                      await FilePicker.platform.pickFiles(
+                                  await FilePicker.platform.pickFiles(
                                     type: FileType.media,
                                     allowMultiple: false,
                                   );
                                   if (result != null) {
                                     controller.identityImagePath.value =
-                                        result.files.single.path!;
+                                    result.files.single.path!;
                                     controller.identityImageName.value =
                                         result.files.single.name;
                                   }
@@ -187,44 +129,92 @@ class ProfileView extends GetView<ProfileController> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: controller
-                                          .identityImagePath.value.isEmpty
+                                      .identityImagePath.value.isEmpty
                                       ? ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: controller.photoIdentity.value
-                                                  .contains("via")
-                                              ? Image.asset(
-                                                  "assets/images/process_identity.png",
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                )
-                                              : Image.network(
-                                                  controller
-                                                      .photoIdentity.value,
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                ),
-                                        )
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                    child: controller.photoIdentity.value
+                                        .contains("via")
+                                        ? Image.asset(
+                                      "assets/images/process_identity.png",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    )
+                                        : Image.network(
+                                      controller
+                                          .photoIdentity.value,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                  )
                                       : ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image.file(
-                                            File(controller
-                                                .identityImagePath.value),
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                          ),
-                                        ),
-
-                                  // const Center(
-                                  //     child: Icon(Icons.add_photo_alternate,
-                                  //         size: 50, color: Colors.grey),
-                                  //   ),
+                                    borderRadius:
+                                    BorderRadius.circular(20),
+                                    child: Image.file(
+                                      File(controller
+                                          .identityImagePath.value),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 16,),
+                          Text('Payment Confirmation Receipt', style: boldText12),
+                          const SizedBox(height: 8),
+                          Obx(
+                                () => DottedBorder(
+                              dashPattern: const [10],
+                              borderType: BorderType.RRect,
+                              radius: const Radius.circular(20),
+                              padding: const EdgeInsets.all(6),
+                              child: InkWell(
+                                onTap: () async {
+                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                    type: FileType.media,
+                                    allowMultiple: false,
+                                  );
+                                  if (result != null) {
+                                    controller.paymentImagePath.value = result.files.single.path!;
+                                    controller.paymentImageName.value = result.files.single.name;
+                                  }
+                                },
+                                child: Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    color: neutral02Color,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: controller.paymentImagePath.value.isEmpty
+                                      ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: controller.photoPayment.value.contains("via")
+                                        ? Image.asset(
+                                      "assets/images/process_payment.png",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    )
+                                        : Image.network(
+                                      controller.photoPayment.value,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                  )
+                                      : ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.file(
+                                      File(controller.paymentImagePath.value),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
                           Text('Name', style: boldText12),
                           const SizedBox(height: 8),
                           CustomTextField(
@@ -280,7 +270,7 @@ class ProfileView extends GetView<ProfileController> {
                                 controller: controller.dateOfBirthController,
                                 hintText: 'Select date of birth',
                                 suffixIcon: Icon(Icons.calendar_today,
-                                    color: primaryBlueColor),
+                                    color: primaryDarkBlueColor),
                               ),
                             ),
                           ),
@@ -446,6 +436,7 @@ class ProfileView extends GetView<ProfileController> {
                                     content:
                                         'Are you sure you want to clear all data entered?',
                                     onConfirm: () {
+                                      controller.fetchGeneral();
                                       Get.back();
                                       customSnackbar(
                                           "All data has been cleared");
@@ -468,25 +459,6 @@ class ProfileView extends GetView<ProfileController> {
                 ),
               ),
             ),
-          ),
-          Obx(
-            () => controller.isLoading.value
-                ? Container(color: Colors.black.withOpacity(0.3))
-                : const SizedBox.shrink(),
-          ),
-          Obx(
-            () => controller.isLoading.value
-                ? Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 18, horizontal: 32),
-                    decoration: BoxDecoration(
-                      color: neutral01Color,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child:
-                        CircularProgressIndicator(color: primaryDarkBlueColor),
-                  )
-                : const SizedBox.shrink(),
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../../e_kta/views/e_kta_view.dart';
 import '../controllers/main_controller.dart';
@@ -28,7 +30,7 @@ class MainView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(controller.iconList.length + 1, (index) {
                 if (index == 2) return const SizedBox(width: 40);
-    
+
                 return GetBuilder<MainController>(
                   builder: (_) => _buildNavItem(
                     controller.iconList[index < 2 ? index : index - 1],
@@ -43,7 +45,6 @@ class MainView extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // PageView for main content
           PageView(
             controller: controller.pageController,
             onPageChanged: (index) {
@@ -52,8 +53,6 @@ class MainView extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             children: controller.views,
           ),
-    
-          // Shadow container below BottomAppBar
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -65,7 +64,7 @@ class MainView extends StatelessWidget {
                     color: Colors.black.withOpacity(0.2),
                     spreadRadius: 5,
                     blurRadius: 10,
-                    offset: const Offset(0, 3), // Shadow position below the BottomAppBar
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -74,8 +73,17 @@ class MainView extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(const EKtaView());
+        onPressed: () async {
+          String? uid = await UserPreferences().getUid();
+          if (uid == null || uid.isEmpty) {
+            customSnackbar("Akun ini belum memiliki E-KTA", secondaryRedColor);
+          } else {
+            Get.to(
+              () => const EKtaView(),
+              transition: Transition.rightToLeft,
+              duration: const Duration(milliseconds: 100),
+            );
+          }
         },
         backgroundColor: primaryDarkBlueColor,
         shape: const CircleBorder(),

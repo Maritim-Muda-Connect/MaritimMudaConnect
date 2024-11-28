@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/views/e_kta_detail_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 import 'package:maritimmuda_connect/themes.dart';
-
 import '../controllers/e_kta_controller.dart';
 import '../widgets/custom_indicator.dart';
 import '../widgets/custom_slide_card.dart';
@@ -18,6 +16,7 @@ class EKtaView extends GetView<EKtaController> {
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
+        backgroundColor: neutral02Color,
         title: Text('E-KTA',
             style: semiBoldText16.copyWith(color: neutral04Color)),
         centerTitle: true,
@@ -36,26 +35,36 @@ class EKtaView extends GetView<EKtaController> {
               children: [
                 Text("Hello,",
                     style: regulerText26.copyWith(color: neutral04Color)),
-                Text("Komeng Uhuy",
-                    style: semiBoldText32.copyWith(color: neutral04Color))
+                Obx(() => Text(controller.displayName.value,
+                    style: semiBoldText32.copyWith(color: neutral04Color)))
               ],
             ),
-            Column(
-              children: [
-                Container(
-                  height: 237,
-                  child: PageView(
-                    onPageChanged: controller.onPageChanged,
-                    children: const [
-                      CustomCardSlider(),
-                      CustomCardSlider(),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                CustomIndicator(controller: controller)
-              ],
-            ),
+            Obx(() {
+              if (controller.ektaImage.value.isNotEmpty) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 237,
+                      child: PageView(
+                        onPageChanged: controller.onPageChanged,
+                        children: [
+                          CustomCardSlider(
+                              image: NetworkImage(controller.ektaImage.value)),
+                          const CustomCardSlider(
+                            image: AssetImage("assets/images/ekta.png"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomIndicator(controller: controller)
+                  ],
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            }),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -63,7 +72,9 @@ class EKtaView extends GetView<EKtaController> {
                   text: "Download",
                   textSize: boldText16.copyWith(color: neutral01Color),
                   radius: 50,
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.launchURL(controller.urlDownloaded.value);
+                  },
                   height: 43,
                   width: 130,
                   gradient: LinearGradient(
@@ -77,7 +88,11 @@ class EKtaView extends GetView<EKtaController> {
                   textSize: boldText16.copyWith(color: neutral01Color),
                   radius: 50,
                   onPressed: () {
-                    Get.to(() => EKtaDetailView());
+                    Get.to(
+                      () => const EKtaDetailView(),
+                      transition: Transition.rightToLeft,
+                      duration: const Duration(milliseconds: 100),
+                    );
                   },
                   height: 43,
                   width: 130,

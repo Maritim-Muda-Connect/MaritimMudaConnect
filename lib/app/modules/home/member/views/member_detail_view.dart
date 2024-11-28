@@ -71,13 +71,7 @@ class MemberDetailView extends GetView<MemberController> {
                             SizedBox(
                                 height: 20,
                                 child: VerticalDivider(color: neutral04Color)),
-                            Flexible(
-                              child: Text(
-                                "Joined ${DateFormat('MMMM yyyy', 'id_ID').format(memberList.emailVerifiedAt!)}",
-                                style: regulerText16,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                            Text("${memberList.email}")
                           ],
                         ),
                         const SizedBox(height: 6),
@@ -95,118 +89,132 @@ class MemberDetailView extends GetView<MemberController> {
                     ),
                     Positioned(
                       top: 75,
-                      left: 140,
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            image: const DecorationImage(
-                                fit: BoxFit.cover,
-                                image:
-                                    AssetImage("assets/images/profile.png"))),
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            minRadius: 50,
+                            foregroundImage:
+                                NetworkImage(memberList.photoLink!),
+                            backgroundImage: const AssetImage(
+                                'assets/images/default_photo.jpg'),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 29),
-              Container(
-                margin: const EdgeInsets.only(left: 14, right: 14, bottom: 14),
-                padding: const EdgeInsets.all(30),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(16)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Information",
-                      style: semiBoldText24.copyWith(color: neutral04Color),
-                    ),
-                    const SizedBox(height: 21),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.email,
-                              color: subTitleColor,
-                            ),
-                            const SizedBox(width: 7),
-                            Text("Email",
-                                style: regulerText16.copyWith(
-                                    color: subTitleColor)),
-                          ],
-                        ),
-                        Flexible(
-                          child: Text(
-                            "${memberList.email}",
-                            style:
-                                regulerText16.copyWith(color: neutral04Color),
-                            maxLines: 2,
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return Center(
+                      child: CircularProgressIndicator(
+                          color: primaryDarkBlueColor));
+                }
+                return Container(
+                  margin:
+                      const EdgeInsets.only(left: 14, right: 14, bottom: 14),
+                  padding: const EdgeInsets.all(30),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: neutral01Color,
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Information",
+                        style: semiBoldText24.copyWith(color: neutral04Color),
+                      ),
+                      const SizedBox(height: 21),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.email,
+                                color: subTitleColor,
+                              ),
+                              const SizedBox(width: 7),
+                              Text("Email",
+                                  style: regulerText12.copyWith(
+
+                                      color: subTitleColor)),
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 27),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.email,
-                              color: subTitleColor,
+                          Flexible(
+                            child: Text(
+                              "${memberList.email}",
+                              style:
+                                  regulerText14.copyWith(color: neutral04Color),
+                              maxLines: 2,
                             ),
-                            const SizedBox(width: 7),
-                            Text("Joined",
-                                style: regulerText16.copyWith(
-                                    color: subTitleColor)),
-                          ],
-                        ),
-                        Text(
-                            DateFormat('MMMM yyyy', 'id_ID')
-                                .format(memberList.emailVerifiedAt!),
-                            style:
-                                regulerText16.copyWith(color: neutral04Color))
-                      ],
-                    ),
-                    const SizedBox(height: 27),
-                    Divider(color: neutral04Color),
-                    const SizedBox(height: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("First Expertise",
-                            style:
-                                mediumText16.copyWith(color: neutral04Color)),
-                        Text(
-                            expertiseOptions[
-                                    memberList.firstExpertiseId.toString()] ??
-                                "Not set",
-                            style: regulerText10.copyWith(color: subTitleColor))
-                      ],
-                    ),
-                    const SizedBox(height: 7),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Second Expertise",
-                            style:
-                                mediumText16.copyWith(color: neutral04Color)),
-                        Text(
-                            expertiseOptions[
-                                    memberList.secondExpertiseId.toString()] ??
-                                "Not set",
-                            style: regulerText10.copyWith(color: subTitleColor))
-                      ],
-                    ),
-                  ],
-                ),
-              )
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 27),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_month,
+                                color: subTitleColor,
+                              ),
+                              const SizedBox(width: 7),
+                              Text("Joined",
+                                  style: regulerText12.copyWith(
+                                      color: subTitleColor)),
+                            ],
+                          ),
+                          Text(
+                              DateFormat('MMMM yyyy', 'id_ID').format(
+                                  controller.emailVerified ?? DateTime.now()),
+                              style:
+                                  regulerText16.copyWith(color: neutral04Color))
+                        ],
+                      ),
+                      const SizedBox(height: 27),
+                      Divider(color: neutral04Color),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("First Expertise",
+                              style:
+                                  mediumText16.copyWith(color: neutral04Color)),
+                          Text(
+                              expertiseOptions[
+                                      memberList.firstExpertiseId.toString()] ??
+                                  "Not set",
+                              style:
+                                  regulerText10.copyWith(color: subTitleColor))
+                        ],
+                      ),
+                      const SizedBox(height: 7),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Second Expertise",
+                              style:
+                                  mediumText16.copyWith(color: neutral04Color)),
+                          Text(
+                              expertiseOptions[memberList.secondExpertiseId
+                                      .toString()] ??
+                                  "Not set",
+                              style:
+                                  regulerText10.copyWith(color: subTitleColor))
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              })
             ],
           ),
         ),

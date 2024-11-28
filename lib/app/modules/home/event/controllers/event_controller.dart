@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maritimmuda_connect/app/data/models/event_data.dart';
 import 'package:maritimmuda_connect/app/data/models/response/event_response.dart';
 import 'package:maritimmuda_connect/app/data/services/event_service.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/category_event.dart';
@@ -82,7 +81,6 @@ class EventController extends GetxController
 
   void searchEvents(String query) {
     searchQuery.value = query;
-    // applyFilters();
     var tempList = List<Event>.from(eventsList);
 
     if (searchQuery.value.isNotEmpty) {
@@ -107,9 +105,6 @@ class EventController extends GetxController
   void sortEventsByType(int type) {
     var sortedList = eventsList.where((event) => event.type == type).toList();
     sortedEventList.assignAll(type == 0 ? eventsList : sortedList);
-    // var filteredList = eventsList.where((event) => event.type == type).toList();
-    // filteredList.sort((a, b) => (a.type ?? 0).compareTo(b.type ?? 0));
-    // sortedEventList.assignAll(filteredList);
   }
 
   final filterOptions = ['Urutkan Berdasarkan:', 'A - Z', 'Terbaru', 'Terlama'];

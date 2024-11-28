@@ -197,10 +197,14 @@ class EducationsView extends GetView<EducationsController> {
                                   text: 'Clear',
                                   onTap: () {
                                     if (controller.checkField()) {
-                                      customSnackbar(
-                                        "All field already empty",
-                                        secondaryRedColor,
-                                      );
+                                      if (SnackbarController
+                                              .isSnackbarBeingShown ==
+                                          false) {
+                                        customSnackbar(
+                                          "All field already empty",
+                                          secondaryRedColor,
+                                        );
+                                      }
                                     } else {
                                       controller.isEdit.value = false;
                                       showCustomDialog(
@@ -247,16 +251,17 @@ class EducationsView extends GetView<EducationsController> {
                                         );
                                       },
                                       onTap2: () => showCustomDialog(
-                                          content:
-                                              'Are you sure want to delete this data?',
-                                          onConfirm: () {
-                                            controller
-                                                .deleteEducations(activity.id!);
-                                            Get.back();
-                                          },
-                                          onCancel: () {
-                                            Get.back();
-                                          }),
+                                        content:
+                                            'Are you sure want to delete this data?',
+                                        onConfirm: () {
+                                          controller
+                                              .deleteEducations(activity.id!);
+                                          Navigator.of(context).pop();
+                                        },
+                                        onCancel: () {
+                                          Get.back();
+                                        },
+                                      ),
                                       onTap3: () {},
                                     ),
                                   );

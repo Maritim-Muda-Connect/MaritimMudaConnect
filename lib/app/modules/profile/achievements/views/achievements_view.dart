@@ -148,7 +148,8 @@ class AchievementsView extends GetView<AchievementsController> {
                                           appreciator:
                                               controller.appreciatorC.text,
                                           eventName: controller.eventNameC.text,
-                                          eventLevel: controller.eventLevelC.text,
+                                          eventLevel:
+                                              controller.eventLevelC.text,
                                           achievedAt: controller.formatDate(
                                             controller.selectedDate.value ??
                                                 DateTime.now(),
@@ -164,7 +165,8 @@ class AchievementsView extends GetView<AchievementsController> {
                                           appreciator:
                                               controller.appreciatorC.text,
                                           eventName: controller.eventNameC.text,
-                                          eventLevel: controller.eventLevelC.text,
+                                          eventLevel:
+                                              controller.eventLevelC.text,
                                           achievedAt: controller.formatDate(
                                               controller.selectedDate.value ??
                                                   DateTime.now())),
@@ -183,10 +185,13 @@ class AchievementsView extends GetView<AchievementsController> {
                               text: 'Clear',
                               onTap: () {
                                 if (controller.checkField()) {
-                                  customSnackbar(
-                                    "All field already empty",
-                                    secondaryRedColor,
-                                  );
+                                  if (SnackbarController.isSnackbarBeingShown ==
+                                      false) {
+                                    customSnackbar(
+                                      "All field already empty",
+                                      secondaryRedColor,
+                                    );
+                                  }
                                 } else {
                                   showCustomDialog(
                                     content:
@@ -223,7 +228,7 @@ class AchievementsView extends GetView<AchievementsController> {
                               return const SizedBox.shrink();
                             } else {
                               return ListView.separated(
-                                padding: EdgeInsets.only(bottom: 20),
+                                padding: const EdgeInsets.only(bottom: 20),
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 separatorBuilder: (context, index) =>
@@ -238,10 +243,11 @@ class AchievementsView extends GetView<AchievementsController> {
                                     title: achievementsData.eventName ?? '',
                                     rightTitle: achievementsData.eventLevel,
                                     leftSubTitle: achievementsData.awardName,
-                                    startDate: achievementsData.achievedAt != null
-                                        ? controller
-                                        .formatDate(achievementsData.achievedAt)
-                                        : 'N/A',
+                                    startDate:
+                                        achievementsData.achievedAt != null
+                                            ? controller.formatDate(
+                                                achievementsData.achievedAt)
+                                            : 'N/A',
                                     imageUrl: '',
                                     onTap1: () {
                                       controller.isEdit.value = true;
@@ -262,7 +268,7 @@ class AchievementsView extends GetView<AchievementsController> {
                                         onConfirm: () {
                                           controller.deleteAchievements(
                                               achievementsData.id ?? 0);
-                                          Get.back();
+                                          Navigator.of(context).pop();
                                         },
                                         onCancel: () {
                                           Get.back();

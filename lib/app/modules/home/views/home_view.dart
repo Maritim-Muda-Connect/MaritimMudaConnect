@@ -51,16 +51,17 @@ class HomeView extends GetView<HomeController> {
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 16),
                     decoration: BoxDecoration(
                       color: neutral01Color,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: neutral04Color.withOpacity(0.3), 
-                          spreadRadius: 1, 
-                          blurRadius: 5, 
-                          offset: const Offset(3, 3), 
+                          color: neutral04Color.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(3, 3),
                         ),
                       ],
                     ),
@@ -87,19 +88,25 @@ class HomeView extends GetView<HomeController> {
                                 children: [
                                   Obx(() => Text(
                                         "No: ${controller.serialNumber.value}",
-                                        style: regulerText10.copyWith(fontSize: 9),
+                                        style:
+                                            regulerText10.copyWith(fontSize: 9),
                                       )),
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundImage: profileController.photoImage.value.isNotEmpty
-                              ? NetworkImage(profileController.photoImage.value)
-                              : const AssetImage('assets/images/default_photo.jpg')
-                                  as ImageProvider,
+                        Obx(
+                          () => CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                profileController.photoImage.value.isNotEmpty
+                                    ? NetworkImage(
+                                        profileController.photoImage.value)
+                                    : const AssetImage(
+                                            'assets/images/default_photo.jpg')
+                                        as ImageProvider,
+                          ),
                         ),
                       ],
                     ),
@@ -113,7 +120,8 @@ class HomeView extends GetView<HomeController> {
           ),
           Obx(() {
             var latestEvents = eventController.eventsList
-                .where((event) => event.posterLink != null && event.posterLink!.isNotEmpty)
+                .where((event) =>
+                    event.posterLink != null && event.posterLink!.isNotEmpty)
                 .toList();
 
             latestEvents.sort((a, b) => (b.createdAt ?? DateTime.now())
@@ -143,7 +151,8 @@ class HomeView extends GetView<HomeController> {
                     return SizedBox(
                       width: 320,
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
                         child: Image.network(
                           event.posterLink ?? 'https://via.placeholder.com/150',
                           fit: BoxFit.cover,
@@ -154,9 +163,11 @@ class HomeView extends GetView<HomeController> {
                             } else {
                               return Center(
                                 child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes != null
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
                                       ? loadingProgress.cumulativeBytesLoaded /
-                                          (loadingProgress.expectedTotalBytes ?? 1)
+                                          (loadingProgress.expectedTotalBytes ??
+                                              1)
                                       : null,
                                 ),
                               );
@@ -178,8 +189,8 @@ class HomeView extends GetView<HomeController> {
           ),
           Center(
             child: Wrap(
-              spacing: 16, 
-              runSpacing: 24, 
+              spacing: 16,
+              runSpacing: 24,
               alignment: WrapAlignment.start,
               children: [
                 SizedBox(

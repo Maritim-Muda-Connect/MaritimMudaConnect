@@ -172,7 +172,7 @@ class MemberDetailView extends GetView<MemberController> {
                           Row(
                             children: [
                               Icon(
-                                Icons.email,
+                                Icons.calendar_month,
                                 color: subTitleColor,
                               ),
                               const SizedBox(width: 7),

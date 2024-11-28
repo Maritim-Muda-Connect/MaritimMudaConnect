@@ -45,6 +45,9 @@ class WorkExperiencesController extends GetxController {
     super.onInit();
     fetchWorkExperiences();
     focusNodes;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(0.0);
+    });
   }
 
   bool checkField() {

@@ -63,12 +63,7 @@ class EducationsView extends GetView<EducationsController> {
                                 FocusScope.of(context)
                                     .requestFocus(controller.focusNodes[1]);
                               },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Institution name is required.';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateInstitution,
                               hintText: 'Enter your Institution Name'),
                           const SizedBox(height: 16),
                           Text(
@@ -85,12 +80,7 @@ class EducationsView extends GetView<EducationsController> {
                                   .requestFocus(controller.focusNodes[2]);
                             },
                             controller: controller.majorController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Major/field study name is required.';
-                              }
-                              return null;
-                            },
+                            validator: controller.validateMajor,
                             hintText: 'Enter your Major/Field Study',
                           ),
                           const SizedBox(
@@ -110,12 +100,7 @@ class EducationsView extends GetView<EducationsController> {
                                 onSelected: (String? newLevel) {
                                   controller.setLevel(newLevel);
                                 },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Education level is required.';
-                                  }
-                                  return null;
-                                },
+                                validator: controller.validateLevel,
                               )),
                           const SizedBox(
                             height: 16,
@@ -136,12 +121,7 @@ class EducationsView extends GetView<EducationsController> {
                                 hintText: 'Select your graduation date',
                                 suffixIcon: Icon(Icons.calendar_today,
                                     color: primaryDarkBlueColor),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Graduation date is required.';
-                                  }
-                                  return null;
-                                },
+                                validator: controller.validateGraduate,
                               ),
                             ),
                           ),

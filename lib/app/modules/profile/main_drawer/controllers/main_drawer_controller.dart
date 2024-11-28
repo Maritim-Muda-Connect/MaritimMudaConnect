@@ -78,5 +78,31 @@ class MainDrawerController extends GetxController {
   void onItemTapped(int index) {
     selectedIndex.value = index;
     currentTitle.value = title[index];
+
+    switch (index) {
+      case 2:
+        Get.find<EducationsController>().scrollController.jumpTo(0.0);
+        break;
+      case 3:
+        Get.find<WorkExperiencesController>().scrollController.jumpTo(0.0);
+        break;
+      case 4:
+        Get.find<OrganizationsController>().scrollController.jumpTo(0.0);
+        break;
+      case 5:
+        Get.find<AchievementsController>().scrollController.jumpTo(0.0);
+        break;
+      case 6:
+        Get.find<PublicationsController>().scrollController.jumpTo(0.0);
+        break;
+      case 7:
+        Get.find<SocialActivityController>().scrollController.jumpTo(0.0);
+        break;
+      case 8:
+        Get.find<ResearchesController>().scrollController.jumpTo(0.0);
+        break;
+      default:
+        break;
+    }
   }
 }

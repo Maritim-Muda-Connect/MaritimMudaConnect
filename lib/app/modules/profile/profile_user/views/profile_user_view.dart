@@ -140,7 +140,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         Row(
                           children: [
                             Icon(
-                              Icons.email,
+                              Icons.calendar_month,
                               size: 20,
                               color: subTitleColor,
                             ),

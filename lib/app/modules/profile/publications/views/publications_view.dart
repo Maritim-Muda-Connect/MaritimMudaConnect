@@ -84,10 +84,9 @@ class PublicationsView extends GetView<PublicationsController> {
                             options: controller.publicationOptions,
                             validator: controller.validatePublicationType,
                             hintText: 'Choose your publications type',
-                            selectedOption: controller.publicationOptions[
-                                controller.selectedPublicationType.value - 1],
-                            onSelected: (String? newPublicationType) {
-                              controller.setPublicationType(newPublicationType);
+                            selectedOption: controller.selectedPublicationType.value,
+                            onSelected: (String? newType) {
+                              controller.setPubType(newType);
                             },
                           ),
                         ),
@@ -128,7 +127,7 @@ class PublicationsView extends GetView<PublicationsController> {
                               controller: controller.dateC,
                               hintText: 'Select date of publication',
                               suffixIcon: Icon(Icons.calendar_today,
-                                  color: primaryBlueColor),
+                                  color: primaryDarkBlueColor),
                               focusNode: controller.focusNodes[4],
                             ),
                           ),
@@ -194,8 +193,7 @@ class PublicationsView extends GetView<PublicationsController> {
                                         PublicationRequest(
                                           title: controller.titleC.text,
                                           authorName: controller.authorC.text,
-                                          type: controller
-                                              .selectedPublicationType.value,
+                                          type: controller.getTypeValue(controller.selectedPublicationType.value),
                                           publisher: controller.publisherC.text,
                                           city: controller.cityC.text,
                                           publishDate: controller.formatDate(
@@ -210,8 +208,7 @@ class PublicationsView extends GetView<PublicationsController> {
                                       PublicationRequest(
                                         title: controller.titleC.text,
                                         authorName: controller.authorC.text,
-                                        type: controller
-                                            .selectedPublicationType.value,
+                                        type: controller.getTypeValue(controller.selectedPublicationType.value),
                                         publisher: controller.publisherC.text,
                                         city: controller.cityC.text,
                                         publishDate: controller.formatDate(

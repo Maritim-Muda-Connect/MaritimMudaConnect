@@ -120,6 +120,34 @@ class OrganizationsController extends GetxController {
         DateTime.parse(organizationData.periodEndDate.toString());
   }
 
+  String? validateOrganization(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Organization name is required";
+    }
+    return null;
+  }
+
+  String? validatePosition(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Position is required";
+    }
+    return null;
+  }
+
+  String? validateStartDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Start date is required";
+    }
+    return null;
+  }
+
+  String? validateEndDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return "End date is required";
+    }
+    return null;
+  }
+
   Future<void> fetchOrganizations() async {
     try {
       isLoading.value = true;
@@ -191,7 +219,6 @@ class OrganizationsController extends GetxController {
         customSnackbar(
           'Success delete organization history!',
           null,
-          const Duration(milliseconds: 800),
         );
       } else {
         customSnackbar(

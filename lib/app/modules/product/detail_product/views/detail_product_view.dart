@@ -20,13 +20,13 @@ class DetailProductView extends GetView<DetailProductController> {
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Detail Product'),
+        title: const Text('Detail Product'),
         actions: [
           IconButton(
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
             onPressed: () async {
               await Share.share('${productData?.name}\n\n${productData?.link}');
             },
@@ -43,19 +43,20 @@ class DetailProductView extends GetView<DetailProductController> {
               productData?.category ?? '',
               style: regulerText14,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               productData?.name ?? '',
               style: boldText32,
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
+            // Menggunakan Image.asset untuk menampilkan gambar
             Image.network(
               '$baseUrlImage/${productData?.image}',
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
             Text(
               rupiahFormat.format(int.parse(productData?.price ?? '0')),
               style: boldText24,

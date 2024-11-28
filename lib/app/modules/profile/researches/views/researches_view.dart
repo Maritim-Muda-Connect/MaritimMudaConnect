@@ -22,7 +22,7 @@ class ResearchesView extends GetView<ResearchesController> {
         resizeToAvoidBottomInset: false,
         backgroundColor: neutral02Color,
         body: Obx(
-              () => GestureDetector(
+          () => GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
             },
@@ -163,13 +163,16 @@ class ResearchesView extends GetView<ResearchesController> {
                                           name: controller.researchTitleC.text,
                                           role: controller.roleC.text,
                                           institutionName:
-                                          controller.affiliationC.text,
+                                              controller.affiliationC.text,
                                           sponsorName: controller.sponsorC.text,
-                                          startDate: controller.formatDateRequest(
-                                              controller.selectedStartDate.value ??
+                                          startDate: controller
+                                              .formatDateRequest(controller
+                                                      .selectedStartDate
+                                                      .value ??
                                                   DateTime.now()),
                                           endDate: controller.formatDateRequest(
-                                              controller.selectedEndDate.value ??
+                                              controller
+                                                      .selectedEndDate.value ??
                                                   DateTime.now()),
                                         ),
                                         controller.idCard.value,
@@ -182,13 +185,16 @@ class ResearchesView extends GetView<ResearchesController> {
                                           name: controller.researchTitleC.text,
                                           role: controller.roleC.text,
                                           institutionName:
-                                          controller.affiliationC.text,
+                                              controller.affiliationC.text,
                                           sponsorName: controller.sponsorC.text,
-                                          startDate: controller.formatDateRequest(
-                                              controller.selectedStartDate.value ??
+                                          startDate: controller
+                                              .formatDateRequest(controller
+                                                      .selectedStartDate
+                                                      .value ??
                                                   DateTime.now()),
                                           endDate: controller.formatDateRequest(
-                                              controller.selectedEndDate.value ??
+                                              controller
+                                                      .selectedEndDate.value ??
                                                   DateTime.now()),
                                         ),
                                       );
@@ -206,14 +212,18 @@ class ResearchesView extends GetView<ResearchesController> {
                                 text: 'Clear',
                                 onTap: () {
                                   if (controller.checkField()) {
-                                    customSnackbar(
-                                      "All field already empty",
-                                      secondaryRedColor,
-                                    );
+                                    if (SnackbarController
+                                            .isSnackbarBeingShown ==
+                                        false) {
+                                      customSnackbar(
+                                        "All field already empty",
+                                        secondaryRedColor,
+                                      );
+                                    }
                                   } else {
                                     showCustomDialog(
                                       content:
-                                      'Are you sure you want to clear all data entered?',
+                                          'Are you sure you want to clear all data entered?',
                                       onConfirm: () {
                                         controller.clearAll();
                                         controller.isEdit(false);
@@ -237,18 +247,18 @@ class ResearchesView extends GetView<ResearchesController> {
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               separatorBuilder: (context, index) =>
-                              const SizedBox(height: 25),
+                                  const SizedBox(height: 25),
                               itemCount: controller.researcheLists.length,
                               itemBuilder: (context, index) {
                                 final researcheData =
-                                controller.researcheLists[index];
+                                    controller.researcheLists[index];
                                 return ProfileCard(
                                   title: researcheData.name ?? '',
                                   rightTitle: researcheData.role ?? '',
                                   leftSubTitle:
-                                  researcheData.institutionName ?? '',
+                                      researcheData.institutionName ?? '',
                                   rightSubTitle:
-                                  researcheData.sponsorName ?? '',
+                                      researcheData.sponsorName ?? '',
                                   startDate: controller
                                       .formatDate(researcheData.startDate),
                                   endDate: controller
@@ -261,18 +271,18 @@ class ResearchesView extends GetView<ResearchesController> {
                                     controller.scrollController.animateTo(
                                       0.0,
                                       duration:
-                                      const Duration(milliseconds: 300),
+                                          const Duration(milliseconds: 300),
                                       curve: Curves.easeInOut,
                                     );
                                   },
                                   onTap2: () {
                                     showCustomDialog(
                                       content:
-                                      'Are you sure you want to delete this data?',
+                                          'Are you sure you want to delete this data?',
                                       onConfirm: () {
                                         controller.deleteResearche(
                                             researcheData.id ?? 0);
-                                        Get.back();
+                                        Navigator.of(context).pop();
                                       },
                                       onCancel: () {
                                         Get.back();

@@ -45,7 +45,7 @@ class AchievementsController extends GetxController {
   var achievementsData = <AchievementsResponse>[].obs;
 
   String formatDate(DateTime? date) {
-    return DateFormat('yyyy-MM').format(date!);
+    return date != null ? DateFormat('MMMM yyyy').format(date) : '';
   }
 
   Rx<int?> selectedMonth = Rx<int?>(null);
@@ -204,7 +204,7 @@ class AchievementsController extends GetxController {
       if (success) {
         fetchAchievements();
         customSnackbar(
-          'Success delete achievements!',
+          'Success deleting education history!',
           null,
         );
       } else {

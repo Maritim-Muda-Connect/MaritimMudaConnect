@@ -66,12 +66,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                         CustomTextField(
                           controller: controller.organizationNameC,
                           hintText: 'Enter your organization name',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Organization name is required.';
-                            }
-                            return null;
-                          },
+                          validator: controller.validateOrganization,
                           focusNode: controller.focusNodes[0],
                           onFieldSubmitted: (_) {
                             FocusScope.of(context)
@@ -91,12 +86,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                         CustomTextField(
                           controller: controller.positionC,
                           hintText: 'Enter your position',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Position is required.';
-                            }
-                            return null;
-                          },
+                          validator: controller.validatePosition,
                           focusNode: controller.focusNodes[1],
                           onFieldSubmitted: (_) {
                             FocusScope.of(context)
@@ -121,12 +111,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                               hintText: 'Select start date',
                               suffixIcon: Icon(Icons.calendar_today,
                                   color: primaryDarkBlueColor),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Start date is required.';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateStartDate,
                             ),
                           ),
                         ),
@@ -148,12 +133,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                               hintText: 'Select end date',
                               suffixIcon: Icon(Icons.calendar_today,
                                   color: primaryDarkBlueColor),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'End date is required.';
-                                }
-                                return null;
-                              },
+                              validator: controller.validateEndDate,
                             ),
                           ),
                         ),
@@ -213,10 +193,14 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                 text: 'Clear',
                                 onTap: () {
                                   if (controller.checkField()) {
-                                    customSnackbar(
-                                      "All field already empty",
-                                      secondaryRedColor,
-                                    );
+                                    if (SnackbarController
+                                            .isSnackbarBeingShown ==
+                                        false) {
+                                      customSnackbar(
+                                        "All field already empty",
+                                        secondaryRedColor,
+                                      );
+                                    }
                                   } else {
                                     showCustomDialog(
                                       content:
@@ -224,10 +208,10 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                       onConfirm: () {
                                         controller.clearAll();
                                         controller.isEdit.value = false;
-                                        Get.back();
                                         customSnackbar(
                                           'All data has been deleted successfully',
                                         );
+                                        Navigator.of(context).pop();
                                       },
                                       onCancel: () {
                                         Get.back();
@@ -247,7 +231,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   padding: const EdgeInsets.only(bottom: 16.0),
                                   child: ProfileCard(
                                     title: activity.organizationName!,
-                                    rightTitle: activity.role!,
+                                    leftSubTitle: activity.role!,
                                     startDate: activity.periodStartDate != null
                                         ? controller.formatDate(
                                             activity.periodStartDate)
@@ -276,8 +260,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                         onCancel: () {
                                           Get.back();
                                         }),
-                                    onTap3:
-                                        () {},
+                                    onTap3: () {},
                                   ),
                                 );
                               }).toList(),

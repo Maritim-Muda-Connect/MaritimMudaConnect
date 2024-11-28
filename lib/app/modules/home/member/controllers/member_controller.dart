@@ -1,3 +1,4 @@
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/services/home_service.dart';
@@ -13,6 +14,7 @@ class MemberController extends GetxController {
   var searchQuery = ''.obs;
   final selectedItems = <String, String>{}.obs;
   var isDrawerVisible = false.obs;
+  DateTime? emailVerified;
 
   @override
   void onInit() {
@@ -20,7 +22,19 @@ class MemberController extends GetxController {
     getAllMember();
   }
 
-   Future <void> getAllMember() async {
+  Future<void> getEmail(String email) async {
+    isLoading.value = true;
+
+    try {
+      var response = await HomeService().getEmail(email);
+      emailVerified = response.user?.emailVerifiedAt;
+      isLoading.value = false;
+    } catch (e) {
+      print("Error fetching email: $e");
+    }
+  }
+
+  Future<void> getAllMember() async {
     try {
       isLoading.value = true;
       var response = await HomeService().getAllMembers();

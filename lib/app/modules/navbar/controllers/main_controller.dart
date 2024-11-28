@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/main_drawer/views/main_drawer_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
-
 import '../../analytics/controllers/analytics_controller.dart';
 import '../../analytics/views/analytics_view.dart';
 import '../../product/controllers/product_controller.dart';

@@ -11,8 +11,7 @@ import '../../../../data/models/response/scholarship_response.dart';
 
 class DetailScholarshipView extends GetView<ScholarshipController> {
   final Scholarship scholarshipData;
-  const DetailScholarshipView({Key? key, required this.scholarshipData})
-      : super(key: key);
+  const DetailScholarshipView({super.key, required this.scholarshipData});
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
@@ -34,7 +33,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -51,7 +50,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Image.network(
                 scholarshipData.posterLink!,
                 // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
@@ -60,7 +59,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 scholarshipData.name!,
                 style: boldText24,
@@ -76,40 +75,40 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
             //   ),
             // ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 style: boldText16,
                 'Penyelenggara',
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
               child: Text(style: regulerText14, scholarshipData.providerName!),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                   style: boldText16,
                   textAlign: TextAlign.start,
                   'Tanggal Penting'),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
               child: Text(style: regulerText14, date),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      backgroundColor: Color(0xFF086C9E)),
-                  child: Text(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      backgroundColor: const Color(0xFF086C9E)),
+                  child: const Text(
                       style: TextStyle(fontSize: 16.0, color: Colors.white),
                       'Daftar'),
                   onPressed: () {
@@ -126,7 +125,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
 }
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({Key? key}) : super(key: key);
+  const FavoriteButton({super.key});
 
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();

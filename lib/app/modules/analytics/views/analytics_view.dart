@@ -29,188 +29,81 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     children: [
                       const SizedBox(height: 16),
                       Text(
-                        'Total of All Members: ',
-                        style: regulerText16.copyWith(color: neutral04Color),
+                        'Growth Member',
+                        style: boldText20.copyWith(color: neutral04Color),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '32.110 ',
-                            style: boldText20.copyWith(color: neutral04Color),
-                          ),
-                          Obx(() {
-                            return Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: primaryDarkBlueColor,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: controller.selectedMonth.value,
-                                  items: controller.months.map((String month) {
-                                    return DropdownMenuItem<String>(
-                                      value: month,
-                                      child: Text(
-                                        month,
-                                        style: regulerText12.copyWith(
-                                            color: Colors.white),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? newValue) {
-                                    if (newValue != null) {
-                                      controller.selectedMonth.value = newValue;
-                                    }
-                                  },
-                                  dropdownColor: primaryDarkBlueColor,
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: Colors.white,
-                                  ),
-                                  style: regulerText12.copyWith(
-                                      color: Colors.white),
-                                  borderRadius: BorderRadius.circular(20),
-                                  elevation: 16,
+                      const SizedBox(height: 16),
+                      // Menampilkan grafik menggunakan ChartBar
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(controller.userCounts.length, (index) {
+                            return Obx(() {
+                              final userCount = controller.userCounts.isNotEmpty
+                                  ? controller.userCounts[index].toString()
+                                  : ''; // Tampilkan nilai userCount atau kosong jika tidak ada data
+
+                              final height = controller.userCounts.isNotEmpty
+                                  ? (controller.userCounts[index] / 10).clamp(10.0, 240.0)
+                                  : 10.0; // Normalisasi tinggi bar (misalnya max 240)
+
+                              final month = controller.months.isNotEmpty
+                                  ? controller.months[index].substring(0, 3)
+                                  : '';
+
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: ChartBar(
+                                  value: userCount,
+                                  height: height,
+                                  color: primaryBlueColor,
+                                  month: month, // Sesuaikan dengan bulan
                                 ),
-                              ),
-                            );
+                              );
+                            });
                           }),
-                        ],
+                        ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ChartBar(
-                            value: '',
-                            height: 80,
-                            color: primaryBlueColor,
-                            month: 'Jan',
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          ChartBar(
-                            value: '',
-                            height: 128,
-                            color: primaryBlueColor,
-                            month: 'Feb',
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          ChartBar(
-                            value: '456',
-                            height: 240,
-                            color: primaryDarkBlueColor,
-                            month: 'Mar',
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          ChartBar(
-                            value: '',
-                            height: 160,
-                            color: primaryBlueColor,
-                            month: 'Apr',
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          ChartBar(
-                            value: '',
-                            height: 128,
-                            color: primaryBlueColor,
-                            month: 'May',
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            TabBar(
-              physics: const BouncingScrollPhysics(),
-              controller: controller.tabController,
-              isScrollable: true,
-              tabAlignment: TabAlignment.start,
-              dividerColor: Colors.transparent,
-              indicatorPadding: EdgeInsets.zero,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelStyle: semiBoldText11.copyWith(color: neutral01Color),
-              indicator: BoxDecoration(
-                border: Border.all(color: Colors.transparent),
-              ),
-              tabs: List.generate(controller.title.length, (index) {
-                return Obx(() {
-                  bool isSelected = controller.selectedIndex.value == index;
-                  return Container(
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color: isSelected ? primaryDarkBlueColor : neutral01Color,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Tab(
-                      child: Text(
-                        controller.title[index],
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
-                });
-              }),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 500,
-              child: TabBarView(
-                physics: const PageScrollPhysics(),
-                controller: controller.tabController,
-                children: List.generate(controller.title.length, (index) {
-                  final tabData = controller.tabCardsData[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          controller.titleMenu[index],
-                          style: boldText20.copyWith(color: neutral04Color),
+            const SizedBox(height: 16),
+            // Menampilkan widget menggunakan AnalyticCard
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Analytics Overview',
+                    style: boldText20.copyWith(color: neutral04Color),
+                  ),
+                  
+                  const SizedBox(height: 16),
+                  // GridView atau ListView untuk menampilkan AnalyticCard
+                  Wrap(
+                    spacing: 16, // Jarak antar elemen dalam baris
+                    runSpacing: 4, // Jarak antar baris
+                    children: List.generate(controller.widgets.length, (index) {
+                      final widget = controller.widgets[index];
+                      final svgPath = controller.svgPaths[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8), // Mengurangi padding vertikal
+                        child: AnalyticCard(
+                          title: widget.label ?? 'No Title',
+                          value: widget.value?.toString() ?? 'No Value', 
+                          svgPath: svgPath,
                         ),
-                        const SizedBox(height: 16),
-                        Expanded(
-                          child: GridView.builder(
-                            padding: const EdgeInsets.only(top: 16),
-                            itemCount: tabData.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                            ),
-                            itemBuilder: (context, cardIndex) {
-                              final card = tabData[cardIndex];
-                              return AnalyticCard(
-                                title: card['title'],
-                                icon: card['icon'],
-                                image: card['image'],
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
+                      );
+                    }),
+                  )
+                ],
               ),
             ),
           ],

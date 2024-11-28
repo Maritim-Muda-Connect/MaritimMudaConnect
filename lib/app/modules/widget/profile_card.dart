@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -117,22 +116,12 @@ class ProfileCard extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: onTap1,
-                        child: SvgPicture.asset('assets/icons/edit.svg'),
+                        child: Image.asset('assets/icons/pen.png'),
                       ),
                       const SizedBox(width: 3),
                       InkWell(
                         onTap: onTap2,
-                        child: SvgPicture.asset('assets/icons/trashcan.svg'),
-                      ),
-                      FittedBox(
-                        child: InkWell(
-                          onTap: onTap3,
-                          child: Icon(
-                            Icons.menu,
-                            color: primaryDarkBlueColor,
-                            size: 30,
-                          ),
-                        ),
+                        child: Image.asset('assets/icons/trash.png'),
                       ),
                     ],
                   ),

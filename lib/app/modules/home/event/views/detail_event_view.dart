@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -73,14 +72,6 @@ class DetailEventView extends GetView<EventController> {
               ),
             ),
             SizedBox(height: 30,),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            //   child: Text(
-            //     "wkwwkwkwkwkwkwkwkwkwkwkwkw\nwkwkwkwkwkwwkw\nwkwkwkwkwkwkwkwkwkwk",
-            //     // eventData.descriptionDetail!,
-            //     style: regulerText14,
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(

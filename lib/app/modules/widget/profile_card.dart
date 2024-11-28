@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class ProfileCard extends StatelessWidget {

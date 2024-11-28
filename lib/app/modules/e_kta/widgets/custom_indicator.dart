@@ -18,7 +18,7 @@ class CustomIndicator extends StatelessWidget {
           children: List.generate(
             2, // Change this to the number of cards you have
             (index) => Container(
-              margin: EdgeInsets.symmetric(horizontal: 4),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
               width: 8,
               height: 8,
               decoration: BoxDecoration(

@@ -15,7 +15,8 @@ class ListEventView extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+          padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+          // child:Expanded(
           child: Obx(() {
             if (controller.isLoading.value) {
               return Expanded(
@@ -33,7 +34,8 @@ class ListEventView extends GetView<EventController> {
             } else {
               return ListView.builder(
                 shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
+                // scrollDirection: Axis.vertical,
                 itemCount: controller.filterEventList.length,
                 itemBuilder: (context, index) {
                   final event = controller.filterEventList[index];
@@ -50,7 +52,7 @@ class ListEventView extends GetView<EventController> {
                                   )));
                     },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: ProgramCard(
                         image:
                             event.posterLink,

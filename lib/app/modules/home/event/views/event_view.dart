@@ -22,7 +22,7 @@ class EventView extends GetView<EventController> {
             ),
             centerTitle: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -36,7 +36,7 @@ class EventView extends GetView<EventController> {
             Container(
               color: primaryBlueColor,
               child: Padding(
-                padding: EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(30.0),
                 child: SearchbarEventWidget(),
               ),
             ),

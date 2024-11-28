@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 String generalRequestToJson(GeneralRequest data) => json.encode(data.toJson());
 

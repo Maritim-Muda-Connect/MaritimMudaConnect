@@ -1,139 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AnalyticsController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+import '../../../data/services/analytic_service.dart';
+import '../../../data/models/response/analytic_response.dart';
+
+class AnalyticsController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
+  var isLoading = false.obs;
   var selectedIndex = 0.obs;
+  var selectedMonth = ''.obs;
+  var userCounts = <int>[].obs;
+  var months = <String>[].obs;
+  var widgets = <Widgets>[].obs;
+  var announcement = ''.obs;
 
-  var selectedMonth = 'January'.obs;
-
-  final List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+  var svgPaths = [
+    'assets/icons/member_icon.svg',
+    'assets/icons/event_icon.svg',
+    'assets/icons/scholarship_icon.svg',
+    'assets/icons/job_icon.svg',
   ];
 
-  final List<String> title = [
-    'Members',
-    'Events',
-    'Scholarships',
-    'Jobs',
-  ];
-
-  final List<String> titleMenu = [
-    'About Growth',
-    'About Events',
-    'About Scholarships',
-    'About Jobs',
-  ];
-
-  final List<List<Map<String, dynamic>>> tabCardsData = [
-    [
-      {
-        'title': 'Member Growth',
-        'icon': Icons.rocket_launch,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Member Retention',
-        'icon': Icons.bar_chart,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'New Members',
-        'icon': Icons.person_add,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Active Members',
-        'icon': Icons.groups,
-        'image': 'assets/images/chart.svg',
-      },
-    ],
-    [
-      {
-        'title': 'Event Attendance',
-        'icon': Icons.event,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Event Participation',
-        'icon': Icons.group_work,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Upcoming Events',
-        'icon': Icons.calendar_today,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Event Engagement',
-        'icon': Icons.handshake,
-        'image': 'assets/images/chart.svg',
-      },
-    ],
-    [
-      {
-        'title': 'Scholarship Applications',
-        'icon': Icons.school,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Scholarship Approval',
-        'icon': Icons.check_circle,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Scholarship Trends',
-        'icon': Icons.trending_up,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Scholarship Recipients',
-        'icon': Icons.emoji_events,
-        'image': 'assets/images/chart.svg',
-      },
-    ],
-    [
-      {
-        'title': 'Job Listings',
-        'icon': Icons.work,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Job Applications',
-        'icon': Icons.assignment_ind,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Job Offers',
-        'icon': Icons.how_to_reg,
-        'image': 'assets/images/chart.svg',
-      },
-      {
-        'title': 'Job Trends',
-        'icon': Icons.show_chart,
-        'image': 'assets/images/chart.svg',
-      },
-    ]
-  ];
+  late AnalyticService analyticService;
+  String? token;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    tabController = TabController(length: title.length, vsync: this);
+
+    // Inisialisasi AnalyticService dengan Get.put() atau Get.lazyPut()
+    analyticService = Get.put(AnalyticService());
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');  // Ambil token dari SharedPreferences
+
+    if (token == null || token!.isEmpty) {
+      // Token belum ada, mungkin tampilkan snackbar atau redirect ke login
+      Get.snackbar('Error', 'Token is required to fetch analytics data');
+      return;
+    }
+
+    tabController = TabController(length: 4, vsync: this);
     tabController.addListener(() {
       selectedIndex.value = tabController.index;
     });
+
+    // Set default bulan pertama
+    selectedMonth.value = months.isNotEmpty ? months[0] : ''; 
+
+    // Menunda eksekusi untuk fetchAnalytics
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchAnalytics();  // Menunggu hingga build selesai
+    });
+  }
+
+  Future<void> fetchAnalytics() async {
+    if (token == null || token!.isEmpty) {
+      Get.snackbar('Error', 'Token is required to fetch analytics data');
+      return;
+    }
+
+    isLoading.value = true;
+    try {
+      final response = await analyticService.fetchAnalytics();
+
+      // Set state dengan data yang diterima
+      months.value = response.months ?? [];
+      widgets.value = response.widgets ?? [];  
+      userCounts.value = response.userCounts!.values.toList();
+      announcement.value = response.announcement ?? "No announcement";
+
+      // Set default bulan jika belum dipilih
+      if (months.isNotEmpty && selectedMonth.value.isEmpty) {
+        selectedMonth.value = months[0];
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch analytics: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override

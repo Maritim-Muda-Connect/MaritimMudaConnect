@@ -48,9 +48,6 @@ class EducationsController extends GetxController {
     super.onInit();
     fetchEducations();
     focusNodes;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(0.0);
-    });
   }
 
   bool validateForm() {

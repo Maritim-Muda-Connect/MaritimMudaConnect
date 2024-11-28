@@ -22,10 +22,10 @@ class ChartBar extends StatelessWidget {
           style: semiBoldText16.copyWith(color: neutral04Color),
         ),
         Container(
-          width: 64,
+          width: 32,
           height: height,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
             color: color,
           ),
         ),

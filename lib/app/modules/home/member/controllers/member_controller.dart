@@ -1,12 +1,9 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/services/home_service.dart';
 import '../../../../data/models/response/member_response.dart';
-import '../../../../data/services/config.dart';
 import '../../../../data/utils/province.dart';
-import 'package:http/http.dart' as http;
 
 class MemberController extends GetxController {
   var isVisible = false.obs;

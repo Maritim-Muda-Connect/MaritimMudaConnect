@@ -23,9 +23,9 @@ class JobView extends GetView<JobController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (controller.jobs.isEmpty) {
-          return Text('tidak ada data');
+          return const Text('tidak ada data');
         } else {
           return ListView.builder(
             itemCount: controller.jobs.length,
@@ -46,18 +46,18 @@ class JobView extends GetView<JobController> {
       child: InkWell(
         onTap: () => _showJobDetails(context, job),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 job.positionTitle ?? '',
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(job.companyName ?? ''),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                   'Until ${DateFormat('dd MMMM yyyy').format(job.applicationClosedAt ?? DateTime.now())}'),
             ],
@@ -111,21 +111,21 @@ class JobView extends GetView<JobController> {
 
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             job.positionTitle ?? '',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Text(job.companyName ?? ''),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           InkWell(
             onTap: () async {
               await launchUrl(Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
             },
             child: Text('Job Link: ${job.link}'),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           const SizedBox(height: 16),
 
 

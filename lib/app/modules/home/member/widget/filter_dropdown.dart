@@ -6,7 +6,7 @@ import 'package:maritimmuda_connect/app/modules/home/member/controllers/member_c
 import 'package:maritimmuda_connect/themes.dart';
 
 class FilterDrawer extends GetView<MemberController> {
-  const FilterDrawer({Key? key}) : super(key: key);
+  const FilterDrawer({super.key});
 
   String getProvinceNameById(String id) {
     return provinceOptions[id] ?? 'Unknown Province';
@@ -88,12 +88,12 @@ class FilterSection extends GetView<MemberController> {
   final Function(String) onSelected;
 
   const FilterSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.items,
     required this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -121,11 +121,11 @@ class SectionHeader extends GetView<MemberController> {
   final List<MapEntry<String, String>> items;
 
   const SectionHeader({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -170,11 +170,11 @@ class SectionItems extends GetView<MemberController> {
   final Function(String) onSelected;
 
   const SectionItems({
-    Key? key,
+    super.key,
     required this.title,
     required this.items,
     required this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

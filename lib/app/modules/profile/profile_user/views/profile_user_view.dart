@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
+import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
 
 import '../../../../../themes.dart';
 import '../controllers/profile_user_controller.dart';
@@ -11,11 +11,12 @@ class ProfileUserView extends GetView<ProfileUserController> {
   const ProfileUserView({super.key});
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<ProfileController>();
+
     return Scaffold(
       backgroundColor: neutral02Color,
       body: SafeArea(
         child: SingleChildScrollView(
-          controller: controller.scrollController,
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
@@ -75,9 +76,10 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       ],
                     ),
                     Positioned(
-                      top: 75,
+                      top: -30,
                       left: 0,
                       right: 0,
+                      bottom: 0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -86,10 +88,16 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             width: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: AssetImage(
-                                        "assets/images/profile.png"))),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: profileController
+                                          .photoImage.value.isNotEmpty
+                                      ? NetworkImage(
+                                          profileController.photoImage.value)
+                                      : const AssetImage(
+                                              'assets/images/default_photo.jpg')
+                                          as ImageProvider,
+                                )),
                           ),
                         ],
                       ),
@@ -141,7 +149,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         Row(
                           children: [
                             Icon(
-                              Icons.calendar_month,
+                              Icons.email,
                               size: 20,
                               color: subTitleColor,
                             ),
@@ -204,6 +212,8 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       style: semiBoldText24.copyWith(color: neutral04Color),
                     ),
                     const SizedBox(height: 15),
+
+                    // Achievement List with Dot
                     Obx(() {
                       final achievements =
                           controller.achievmentsController.achievementsData;
@@ -219,7 +229,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(Icons.circle,
-                                  size: 8, color: neutral04Color),
+                                  size: 8, color: neutral04Color), // Dot icon
                               const SizedBox(width: 16),
                               Expanded(
                                 child: Column(
@@ -231,7 +241,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                           color: neutral04Color),
                                     ),
                                     Text(
-                                      "${achievement.eventName ?? ''} - ${achievement.achievedAt != null ? DateFormat('MMM yyyy').format(achievement.achievedAt!.toLocal()) : ''}",
+                                      "${achievement.eventName ?? ''} - ${achievement.achievedAt != null ? achievement.achievedAt!.toLocal().toString().split(' ')[0] : ''}",
                                       style: regulerText12.copyWith(
                                           color: subTitleColor),
                                     ),

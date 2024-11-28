@@ -1,46 +1,64 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class AnalyticCard extends StatelessWidget {
   final String title;
-  final IconData icon;
-  final String image;
-  const AnalyticCard(
-      {super.key,
-      required this.title,
-      required this.icon,
-      required this.image});
+  final String value;
+  final String svgPath;
+
+  const AnalyticCard({
+    super.key,
+    required this.title,
+    required this.value, required this.svgPath,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: neutral01Color,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return SizedBox(
+      width: 160,// Tentukan tinggi tetap
+      child: Container(
+        decoration: BoxDecoration(
+          color: neutral01Color, // Sesuaikan warna dengan tema Anda
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon as IconData?),
-              const SizedBox(
-                width: 8,
+              // Judul (Title) yang diambil dari label
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: mediumText12.copyWith(color: neutral04Color),
+                  ),
+                  SvgPicture.asset(
+                    svgPath, // Menampilkan ikon SVG berdasarkan path
+                    width: 16, // Ukuran ikon
+                    height: 16, // Ukuran ikon // Warna ikon
+                  ),
+                ],
               ),
+              const SizedBox(height: 8),
+              // Nilai (Value) yang diambil dari value
               Text(
-                title,
-                style: regulerText10.copyWith(color: neutral04Color),
+                value,
+                style: boldText24.copyWith(color: neutral04Color),
               ),
             ],
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          SvgPicture.asset(image)
-        ],
+        ),
       ),
     );
   }

@@ -36,6 +36,18 @@ class EventController extends GetxController
     const CategoryEvent(),
   ];
 
+  List<Event> getFiveLatestEvents() {
+    var sortedEvents = eventsList
+        .where((event) => event.posterLink != null && event.posterLink!.isNotEmpty)
+        .toList();
+
+    sortedEvents.sort((a, b) => (b.createdAt ?? DateTime.now())
+        .compareTo(a.createdAt ?? DateTime.now()));
+
+    return sortedEvents.take(5).toList();
+  }
+
+
   @override
   void onInit() {
     super.onInit();

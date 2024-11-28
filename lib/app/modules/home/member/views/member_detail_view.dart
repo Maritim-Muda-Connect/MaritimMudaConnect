@@ -88,28 +88,18 @@ class MemberDetailView extends GetView<MemberController> {
                       ],
                     ),
                     Positioned(
-                      // top: 75,
-                      // left: 140,
-                      top: -30,
+                      top: 75,
                       left: 0,
                       right: 0,
-                      bottom: 0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: memberList.photoLink != null
-                                    ? NetworkImage("${memberList.photoLink}")
-                                    : const AssetImage(
-                                        "assets/icons/person.png"),
-                              ),
-                            ),
+                          CircleAvatar(
+                            minRadius: 50,
+                            foregroundImage:
+                                NetworkImage(memberList.photoLink!),
+                            backgroundImage: const AssetImage(
+                                'assets/images/default_photo.jpg'),
                           ),
                         ],
                       ),
@@ -152,6 +142,7 @@ class MemberDetailView extends GetView<MemberController> {
                               const SizedBox(width: 7),
                               Text("Email",
                                   style: regulerText12.copyWith(
+
                                       color: subTitleColor)),
                             ],
                           ),
@@ -159,7 +150,7 @@ class MemberDetailView extends GetView<MemberController> {
                             child: Text(
                               "${memberList.email}",
                               style:
-                                  regulerText16.copyWith(color: neutral04Color),
+                                  regulerText14.copyWith(color: neutral04Color),
                               maxLines: 2,
                             ),
                           )
@@ -183,7 +174,7 @@ class MemberDetailView extends GetView<MemberController> {
                           ),
                           Text(
                               DateFormat('MMMM yyyy', 'id_ID').format(
-                                  controller.emailVerifiedAt ?? DateTime.now()),
+                                  controller.emailVerified ?? DateTime.now()),
                               style:
                                   regulerText16.copyWith(color: neutral04Color))
                         ],

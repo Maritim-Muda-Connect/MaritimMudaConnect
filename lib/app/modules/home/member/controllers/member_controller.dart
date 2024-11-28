@@ -17,7 +17,7 @@ class MemberController extends GetxController {
   var searchQuery = ''.obs;
   final selectedItems = <String, String>{}.obs;
   var isDrawerVisible = false.obs;
-  DateTime? emailVerifiedAt;
+  DateTime? emailVerified;
 
   @override
   void onInit() {
@@ -25,22 +25,15 @@ class MemberController extends GetxController {
     getAllMember();
   }
 
-  void getEmail(String email) async {
+  Future<void> getEmail(String email) async {
     isLoading.value = true;
-    final response =
-        await http.get(Uri.parse("$baseUrl/user/$email/check-uid"));
 
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['success'] == true) {
-        final emailVerifiedAtString = jsonResponse['user']['email_verified_at'];
-        emailVerifiedAt = DateTime.parse(emailVerifiedAtString);
-        isLoading.value = false;
-      } else {
-        print('Error: ${jsonResponse['error']}');
-      }
-    } else {
-      print('Error fetching data: ${response.statusCode}');
+    try {
+      var response = await HomeService().getEmail(email);
+      emailVerified = response.user?.emailVerifiedAt;
+      isLoading.value = false;
+    } catch (e) {
+      print("Error fetching email: $e");
     }
   }
 

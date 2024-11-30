@@ -25,7 +25,7 @@ class ProductController extends GetxController
     });
   }
 
-  List<String> title = ['All', 'Obat'];
+  List<String> title = ['All', 'Transport'];
 
   List<Widget> screens = [
     const AllProductView(),

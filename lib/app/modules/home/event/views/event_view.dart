@@ -15,6 +15,7 @@ class EventView extends GetView<EventController> {
         backgroundColor: neutral02Color,
 
         appBar: AppBar(
+          scrolledUnderElevation: 0,
             backgroundColor: neutral02Color,
             title: Text(
               'Event List',

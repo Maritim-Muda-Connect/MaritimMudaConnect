@@ -11,15 +11,18 @@ import '../controllers/job_controller.dart';
 
 class JobView extends GetView<JobController> {
   const JobView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
-        title: const Text('Available Job'),
-        actions: [
-
-        ],
+        backgroundColor: neutral02Color,
+        scrolledUnderElevation: 0,
+        title: Text(
+          'Available Job',
+          style: boldText24,
+        ),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -53,7 +56,8 @@ class JobView extends GetView<JobController> {
               Text(
                 job.positionTitle ?? '',
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(job.companyName ?? ''),
@@ -93,9 +97,15 @@ class JobView extends GetView<JobController> {
 
   Widget _buildJobDetailsContent(BuildContext context, JobResponse job) {
     return Container(
+      decoration: BoxDecoration(
+        color: neutral02Color,
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+      ),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,12 +113,10 @@ class JobView extends GetView<JobController> {
               const Text(
                 'Available Job',
               ),
-
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => Navigator.pop(context),
               ),
-
             ],
           ),
           const SizedBox(height: 8),
@@ -116,35 +124,33 @@ class JobView extends GetView<JobController> {
             job.positionTitle ?? '',
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Text(job.companyName ?? ''),
           const SizedBox(height: 8),
           InkWell(
             onTap: () async {
-              await launchUrl(Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
+              await launchUrl(
+                  Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
             },
             child: Text('Job Link: ${job.link}'),
           ),
-          const SizedBox(height: 16),
-          const SizedBox(height: 16),
-
-
-          const SizedBox(height: 16),
+          const SizedBox(height: 48),
           const Text('Job Details',
               style: TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-           Text(job.companyName ?? ''),
-           Chip(label: Text(job.type == 1 ? 'Full Time' : 'Contract')),
-          const SizedBox(height: 16),
-
-          const SizedBox(height: 16),
-          CustomButton(text: 'APPLY', onPressed: () async {
-            await launchUrl(Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
-          })
+          Text(job.companyName ?? ''),
+          Chip(label: Text(job.type == 1 ? 'Full Time' : 'Contract')),
+          const SizedBox(height: 32),
+          CustomButton(
+              text: 'APPLY',
+              onPressed: () async {
+                await launchUrl(
+                    Uri.parse(job.link ?? 'https://hub.maritimmuda.id'));
+              })
         ],
       ),
     );
   }
-
-
 }

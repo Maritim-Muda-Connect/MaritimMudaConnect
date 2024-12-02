@@ -200,10 +200,15 @@ class ProfileView extends GetView<ProfileController> {
                                               BorderRadius.circular(20),
                                           child: controller.photoPayment.value
                                                   .contains("via")
-                                              ? Image.asset(
-                                                  "assets/images/process_payment.png",
-                                                  fit: BoxFit.cover,
+                                              ? SizedBox(
                                                   width: double.infinity,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Input Payment Confirmation",
+                                                      style: boldText12,
+                                                    ),
+                                                  ),
                                                 )
                                               : Image.network(
                                                   controller.photoPayment.value,
@@ -394,6 +399,7 @@ class ProfileView extends GetView<ProfileController> {
                                         File(controller.photoImagePath.value),
                                         File(
                                             controller.identityImagePath.value),
+                                        File(controller.paymentImagePath.value),
                                       );
                                     } else {
                                       controller.updateGeneral(
@@ -424,6 +430,7 @@ class ProfileView extends GetView<ProfileController> {
                                         File(controller.photoImagePath.value),
                                         File(
                                             controller.identityImagePath.value),
+                                        File(controller.paymentImagePath.value),
                                       );
                                     }
                                   },

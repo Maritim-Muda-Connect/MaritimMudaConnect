@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_detail_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/widget/filter_dropdown.dart';
-import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
 import 'package:maritimmuda_connect/themes.dart';
 

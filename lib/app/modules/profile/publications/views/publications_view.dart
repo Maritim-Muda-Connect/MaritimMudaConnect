@@ -84,10 +84,10 @@ class PublicationsView extends GetView<PublicationsController> {
                             options: controller.publicationOptions,
                             validator: controller.validatePublicationType,
                             hintText: 'Choose your publications type',
-                            selectedOption: controller.publicationOptions[
-                                controller.selectedPublicationType.value - 1],
-                            onSelected: (String? newPublicationType) {
-                              controller.setPublicationType(newPublicationType);
+                            selectedOption:
+                                controller.selectedPublicationType.value,
+                            onSelected: (String? newType) {
+                              controller.setPubType(newType);
                             },
                           ),
                         ),
@@ -128,7 +128,7 @@ class PublicationsView extends GetView<PublicationsController> {
                               controller: controller.dateC,
                               hintText: 'Select date of publication',
                               suffixIcon: Icon(Icons.calendar_today,
-                                  color: primaryBlueColor),
+                                  color: primaryDarkBlueColor),
                               focusNode: controller.focusNodes[4],
                             ),
                           ),
@@ -160,7 +160,8 @@ class PublicationsView extends GetView<PublicationsController> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: neutral03Color,
-                                        border: Border.all(color: neutral02Color),
+                                        border:
+                                            Border.all(color: neutral02Color),
                                       ),
                                       child: Text('Choose File',
                                           style: regulerText12),
@@ -194,8 +195,9 @@ class PublicationsView extends GetView<PublicationsController> {
                                         PublicationRequest(
                                           title: controller.titleC.text,
                                           authorName: controller.authorC.text,
-                                          type: controller
-                                              .selectedPublicationType.value,
+                                          type: controller.getTypeValue(
+                                              controller.selectedPublicationType
+                                                  .value),
                                           publisher: controller.publisherC.text,
                                           city: controller.cityC.text,
                                           publishDate: controller.formatDate(
@@ -210,8 +212,8 @@ class PublicationsView extends GetView<PublicationsController> {
                                       PublicationRequest(
                                         title: controller.titleC.text,
                                         authorName: controller.authorC.text,
-                                        type: controller
-                                            .selectedPublicationType.value,
+                                        type: controller.getTypeValue(controller
+                                            .selectedPublicationType.value),
                                         publisher: controller.publisherC.text,
                                         city: controller.cityC.text,
                                         publishDate: controller.formatDate(
@@ -230,10 +232,13 @@ class PublicationsView extends GetView<PublicationsController> {
                               text: 'Clear',
                               onTap: () {
                                 if (controller.checkField()) {
-                                  customSnackbar(
-                                    "All field already empty",
-                                    secondaryRedColor,
-                                  );
+                                  if (SnackbarController.isSnackbarBeingShown ==
+                                      false) {
+                                    customSnackbar(
+                                      "All field already empty",
+                                      secondaryRedColor,
+                                    );
+                                  }
                                 } else {
                                   showCustomDialog(
                                     content:
@@ -256,47 +261,51 @@ class PublicationsView extends GetView<PublicationsController> {
                           ],
                         ),
                         const SizedBox(height: 30),
-                        Obx(() => Column(
-                              children:
-                                  controller.publicationData.map((activity) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 16.0),
-                                  child: ProfileCard(
-                                    title: activity.title!,
-                                    leftSubTitle: activity.authorName!,
-                                    rightTitle: activity.publisher,
-                                    startDate: activity.publishDate != null
-                                        ? controller
-                                            .formatDate(activity.publishDate!)
-                                        : 'N/A',
-                                    onTap1: () {
-                                      controller.isEdit.value = true;
-                                      controller.idCard.value = activity.id!;
-                                      controller.patchField(activity);
-                                      controller.scrollController.animateTo(
-                                        0.0,
-                                        duration:
-                                            const Duration(milliseconds: 300),
-                                        curve: Curves.easeInOut,
-                                      );
-                                    },
-                                    onTap2: () {
-                                      showCustomDialog(
-                                          content: 'Are you sure you want to delete this data?',
-                                          onConfirm: () {
-                                            controller.deletePublication(activity.id ?? 0);
-                                            Get.back();
-                                          },
-                                          onCancel: () {
-                                            Get.back();
-                                          }
-                                      );
-                                    },
-                                    onTap3: () {},
-                                  ),
-                                );
-                              }).toList(),
-                            )),
+                        Obx(
+                          () => Column(
+                            children:
+                                controller.publicationData.map((activity) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: ProfileCard(
+                                  title: activity.title!,
+                                  leftSubTitle: activity.authorName!,
+                                  rightTitle: activity.publisher,
+                                  startDate: activity.publishDate != null
+                                      ? controller
+                                          .formatDate(activity.publishDate!)
+                                      : 'N/A',
+                                  onTap1: () {
+                                    controller.isEdit.value = true;
+                                    controller.idCard.value = activity.id!;
+                                    controller.patchField(activity);
+                                    controller.scrollController.animateTo(
+                                      0.0,
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  onTap2: () {
+                                    showCustomDialog(
+                                      content:
+                                          'Are you sure you want to delete this data?',
+                                      onConfirm: () {
+                                        controller.deletePublication(
+                                            activity.id ?? 0);
+                                        Navigator.of(context).pop();
+                                      },
+                                      onCancel: () {
+                                        Get.back();
+                                      },
+                                    );
+                                  },
+                                  onTap3: () {},
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       ],
                     ),
                   ),

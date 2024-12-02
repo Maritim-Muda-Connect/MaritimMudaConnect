@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +32,8 @@ class CategoryEvent extends GetView<EventController> {
         } else {
           return ListView.builder(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
+            // scrollDirection: Axis.vertical,
             itemCount: controller.sortedEventList.length,
             itemBuilder: (context, index) {
               final event = controller.sortedEventList[index];
@@ -50,7 +50,7 @@ class CategoryEvent extends GetView<EventController> {
                               )));
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: ProgramCard(
                     image:
                         event.posterLink,

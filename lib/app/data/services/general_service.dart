@@ -69,7 +69,6 @@ class GeneralService {
     if (response.statusCode == 200) {
       return true;
     } else {
-      print("Gagal ${response.stream.bytesToString()}");
       return false;
     }
   }

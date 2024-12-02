@@ -1,7 +1,7 @@
-import 'dart:convert';
 
 import 'package:maritimmuda_connect/app/data/models/response/member_response.dart';
 import 'package:http/http.dart' as http;
+import 'package:maritimmuda_connect/app/data/models/response/uid_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 
@@ -24,6 +24,19 @@ class HomeService {
     } catch (e) {
       print("Error fetching members: $e");
       rethrow;
+    }
+  }
+
+  Future<UidResponse> getEmail(String email) async {
+    final response =
+        await http.get(Uri.parse("$baseUrl/user/$email/check-uid"));
+
+    if (response.statusCode == 200) {
+      var data = uidResponseFromJson(response.body);
+      return data;
+    } else {
+      throw Exception(
+          'Failed to fetch email: ${response.statusCode} - ${response.body}');
     }
   }
 }

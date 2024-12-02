@@ -1,15 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/job/views/job_view.dart';
-
 import 'package:maritimmuda_connect/app/modules/home/scholarship/views/scholarship_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/widget/home_card.dart';
-
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_view.dart';
 import 'package:maritimmuda_connect/app/modules/navbar/controllers/main_controller.dart';
-
+import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
 import '../controllers/home_controller.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
@@ -17,14 +16,9 @@ class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
-    List<String> listImage = [
-      "assets/images/eventimage.png",
-      "assets/images/eventimage.png",
-      "assets/images/eventimage.png",
-      "assets/images/eventimage.png",
-    ];
-
     final MainController mainController = Get.find();
+    final ProfileController profileController = Get.find();
+    final EventController eventController = Get.find();
 
     return Scaffold(
       backgroundColor: neutral02Color,
@@ -34,7 +28,7 @@ class HomeView extends GetView<HomeController> {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Column(
               children: [
-                const SizedBox(height: 8,),
+                const SizedBox(height: 8),
                 Row(
                   children: [
                     Image.asset("assets/images/logo_maritim_muda_connect.png"),
@@ -48,17 +42,17 @@ class HomeView extends GetView<HomeController> {
                   height: 24,
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     mainController.updateIndex(3);
                     mainController.pageController.animateToPage(
-                        3,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
+                      3,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
                     );
                   },
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 16),
                     decoration: BoxDecoration(
                       color: neutral01Color,
                       borderRadius: BorderRadius.circular(15),
@@ -67,9 +61,7 @@ class HomeView extends GetView<HomeController> {
                           color: neutral04Color.withOpacity(0.3),
                           spreadRadius: 1,
                           blurRadius: 5,
-                          offset:
-                              const Offset(3, 3),
-
+                          offset: const Offset(3, 3),
                         ),
                       ],
                     ),
@@ -89,8 +81,7 @@ class HomeView extends GetView<HomeController> {
                                     controller.name.value,
                                     style: semiBoldText24.copyWith(
                                         color: primaryBlueColor),
-                                    overflow: TextOverflow
-                                        .ellipsis,
+                                    overflow: TextOverflow.ellipsis,
                                   )),
                               const SizedBox(height: 8),
                               Row(
@@ -105,10 +96,17 @@ class HomeView extends GetView<HomeController> {
                             ],
                           ),
                         ),
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundImage:
-                              AssetImage("assets/images/profile.png"),
+                        Obx(
+                          () => CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                profileController.photoImage.value.isNotEmpty
+                                    ? NetworkImage(
+                                        profileController.photoImage.value)
+                                    : const AssetImage(
+                                            'assets/images/default_photo.jpg')
+                                        as ImageProvider,
+                          ),
                         ),
                       ],
                     ),
@@ -120,22 +118,72 @@ class HomeView extends GetView<HomeController> {
           const SizedBox(
             height: 32,
           ),
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 180,
-              autoPlay: true,
-              enlargeCenterPage: true,
-            ),
-            items: listImage.map((item) {
-              return ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                child: Image.asset(
-                  item,
-                  fit: BoxFit.cover,
-                ),
+          Obx(() {
+            var latestEvents = eventController.eventsList
+                .where((event) =>
+                    event.posterLink != null && event.posterLink!.isNotEmpty)
+                .toList();
+
+            latestEvents.sort((a, b) => (b.createdAt ?? DateTime.now())
+                .compareTo(a.createdAt ?? DateTime.now()));
+
+            latestEvents = latestEvents.take(5).toList();
+
+            if (eventController.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (latestEvents.isEmpty) {
+              return const Center(
+                child: Text('No events available'),
               );
-            }).toList(),
-          ),
+            }
+
+            return CarouselSlider(
+              options: CarouselOptions(
+                height: 180,
+                autoPlay: true,
+                enlargeCenterPage: true,
+              ),
+              items: latestEvents.map((event) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      width: 320,
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        child: Image.network(
+                          event.posterLink ?? 'https://via.placeholder.com/150',
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          (loadingProgress.expectedTotalBytes ??
+                                              1)
+                                      : null,
+                                ),
+                              );
+                            }
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset('assets/images/placeholder.png');
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            );
+          }),
           const SizedBox(
             height: 16,
           ),
@@ -146,8 +194,7 @@ class HomeView extends GetView<HomeController> {
               alignment: WrapAlignment.start,
               children: [
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width / 2) -
-                      24,
+                  width: (MediaQuery.of(context).size.width / 2) - 24,
                   child: HomeCard(
                     icon: 'assets/icons/member_icon.svg',
                     title: 'Member',
@@ -157,8 +204,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width / 2) -
-                      24,
+                  width: (MediaQuery.of(context).size.width / 2) - 24,
                   child: HomeCard(
                     icon: 'assets/icons/event_icon.svg',
                     title: 'Event',
@@ -171,8 +217,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width / 2) -
-                      24,
+                  width: (MediaQuery.of(context).size.width / 2) - 24,
                   child: HomeCard(
                     icon: 'assets/icons/scholarship_icon.svg',
                     title: 'Scholarship',

@@ -4,7 +4,6 @@ import "package:maritimmuda_connect/app/data/models/request/login_request.dart";
 import "package:maritimmuda_connect/app/data/models/request/register_request.dart";
 import "package:maritimmuda_connect/app/data/models/response/login_response.dart";
 import "package:maritimmuda_connect/app/data/services/config.dart";
-import "package:maritimmuda_connect/app/data/utils/expertise.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class AuthService {

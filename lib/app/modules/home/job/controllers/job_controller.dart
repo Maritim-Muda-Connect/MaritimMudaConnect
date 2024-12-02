@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/response/job_response.dart';

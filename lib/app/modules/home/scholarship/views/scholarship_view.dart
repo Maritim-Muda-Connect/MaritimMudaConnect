@@ -21,6 +21,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
         backgroundColor: neutral02Color,
 
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           backgroundColor: neutral02Color,
           title: Text(
             'Scholarship List',
@@ -28,7 +29,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
           ),
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -41,7 +42,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
           Container(
           color: primaryBlueColor,
           child: Padding(
-            padding: EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(30.0),
             child: SearchbarScholarWidget()),
           ),
         Expanded(
@@ -64,7 +65,8 @@ class ScholarshipView extends GetView<ScholarshipController> {
                   } else {
                     return ListView.builder(
                       shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
+                      // scrollDirection: Axis.vertical,
                       itemCount: controller.filteredList.length,
                       itemBuilder: (context, index) {
                         final scholarship = controller.filteredList[index];
@@ -80,7 +82,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
                                         )));
                           },
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: ProgramCard(
                               image:
                                   scholarship.posterLink,

@@ -24,31 +24,27 @@ class CustomDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
             child: Text(
               'Profile',
-              style: mediumText28,
+              style: semiBoldText28,
             ),
           ),
-          SizedBox(
-            height: 500,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              itemCount: controller.title.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    _buildDrawerItem(
-                      icon: controller.icon[index],
-                      text: controller.title[index],
-                      index: index,
-                      controller: controller,
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+          Divider(
+          height: 1,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: controller.drawerLists.map((drawer) {
+                return _buildDrawerItem(
+                  text: drawer["title"],
+                  index: controller.drawerLists.indexOf(drawer),
+                  controller: controller,
+                  icon: drawer['icon'],
                 );
-              },
+              }).toList(),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            padding: const EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
                 showCustomDialog(
@@ -65,18 +61,27 @@ class CustomDrawer extends StatelessWidget {
                   },
                 );
               },
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.logout,
+              child: Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                  decoration: BoxDecoration(
                     color: secondaryRedColor,
+                    borderRadius: BorderRadius.circular(10)
                   ),
-                  const SizedBox(width: 5),
-                  Text(
-                    'Logout',
-                    style: regulerText24.copyWith(color: secondaryRedColor),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.logout,
+                        color: neutral02Color,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'Logout',
+                        style: boldText16.copyWith(color: neutral02Color),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -93,28 +98,41 @@ class CustomDrawer extends StatelessWidget {
   }) {
     return Obx(
       () => InkWell(
+        borderRadius: BorderRadius.circular(10),
         onTap: () {
           controller.onItemTapped(index);
           Get.back();
         },
         child: Container(
-          color: controller.selectedIndex == index
-              ? primaryDarkBlueColor.withOpacity(0.2)
-              : Colors.transparent,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: controller.selectedIndex == index
+                ? primaryDarkBlueColor.withOpacity(0.2)
+                : Colors.transparent,
+          ),
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: [
-              Icon(icon,
-                  color: controller.selectedIndex == index
-                      ? primaryDarkBlueColor
-                      : neutral04Color),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Icon(icon,
+                    color: controller.selectedIndex == index
+                        ? primaryDarkBlueColor
+                        : neutral04Color.withOpacity(0.5)),
+              ),
               const SizedBox(width: 8),
               Text(
                 text,
-                style: regulerText16.copyWith(
+                style: controller.selectedIndex == index
+                  ?
+                boldText16.copyWith(
                     color: controller.selectedIndex == index
                         ? primaryDarkBlueColor
-                        : neutral04Color),
+                        : neutral04Color) :
+                regulerText16.copyWith(
+                    color: controller.selectedIndex == index
+                        ? primaryDarkBlueColor
+                        : neutral04Color.withOpacity(0.5))
               ),
             ],
           ),

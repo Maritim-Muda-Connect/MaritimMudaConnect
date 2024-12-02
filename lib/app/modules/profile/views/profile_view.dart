@@ -445,7 +445,7 @@ class ProfileView extends GetView<ProfileController> {
                                 onTap: () {
                                   showCustomDialog(
                                     content:
-                                        'Are you sure you want to clear all data entered?',
+                                        'Are you sure want to clear all data entered?',
                                     onConfirm: () {
                                       Get.back();
                                       controller.fetchGeneral();

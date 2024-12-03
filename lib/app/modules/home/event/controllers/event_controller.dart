@@ -64,6 +64,8 @@ class EventController extends GetxController
       isLoading.value = true;
       var response = await EventService().getAllEvents();
       eventsList.assignAll(response);
+      eventsList.sort((a, b) => (b.startDate ?? DateTime.now())
+          .compareTo(a.startDate ?? DateTime.now()));
       filterEventList.assignAll(eventsList);
     } catch (e) {
       print("Error fetching events: $e");

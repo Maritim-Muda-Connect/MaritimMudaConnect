@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
-import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/educations/controllers/educations_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/main_drawer/controllers/main_drawer_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/organizations/controllers/organizations_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/publications/controllers/publications_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/researches/controllers/researches_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/social_activity/controllers/social_activity_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/work_experiences/controllers/work_experiences_controller.dart';
-import 'package:maritimmuda_connect/app/modules/widget/custom_drawer.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../../e_kta/views/e_kta_view.dart';
@@ -18,39 +8,10 @@ import '../controllers/main_controller.dart';
 
 class MainView extends StatelessWidget {
   MainView({super.key});
-
   final MainController controller = Get.put(MainController());
-  final MainDrawerController controllerr = Get.put(MainDrawerController());
 
   @override
   Widget build(BuildContext context) {
-    final ProfileController profileController = Get.find<ProfileController>();
-    final EducationsController educationsController =
-        Get.find<EducationsController>();
-    final WorkExperiencesController workExperiencesController =
-        Get.find<WorkExperiencesController>();
-    final OrganizationsController organizationsController =
-        Get.find<OrganizationsController>();
-    final AchievementsController achievementsController =
-        Get.find<AchievementsController>();
-    final PublicationsController publicationController =
-        Get.find<PublicationsController>();
-    final SocialActivityController socialActivityController =
-        Get.find<SocialActivityController>();
-    final ResearchesController researchesController =
-        Get.find<ResearchesController>();
-
-    final List<GetxController> controllers = [
-      profileController,
-      educationsController,
-      workExperiencesController,
-      organizationsController,
-      achievementsController,
-      publicationController,
-      socialActivityController,
-      researchesController,
-    ];
-
     return SafeArea(
       child: Stack(
         alignment: Alignment.center,
@@ -59,23 +20,6 @@ class MainView extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             extendBody: true,
             backgroundColor: Colors.transparent,
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: Obx(
-                () => controller.bottomNavIndex.value == 3
-                    ? AppBar(
-                        scrolledUnderElevation: 0.0,
-                        backgroundColor: neutral02Color,
-                        title: Text(controllerr.currentTitle.value),
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ),
-            endDrawer: Obx(
-              () => controller.bottomNavIndex.value == 3
-                  ? CustomDrawer(controller: controllerr)
-                  : const SizedBox.shrink(),
-            ),
             bottomNavigationBar: ClipRRect(
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(32)),
@@ -160,55 +104,13 @@ class MainView extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
           ),
-          Obx(
-            () {
-              final isLoading = controllers.any(
-                (ctrl) {
-                  final dynamic dynamicController = ctrl;
-                  return dynamicController.isLoading.value;
-                },
-              );
-              if (controller.bottomNavIndex.value != 0 && isLoading) {
-                return Container(color: Colors.black.withOpacity(0.3));
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-          Obx(
-            () {
-              final isLoading = controllers.any(
-                (ctrl) {
-                  final dynamic dynamicController = ctrl;
-                  return dynamicController.isLoading.value;
-                },
-              );
-              if (controller.bottomNavIndex.value != 0 && isLoading) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 18,
-                    horizontal: 32,
-                  ),
-                  decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: CircularProgressIndicator(
-                    color: primaryDarkBlueColor,
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
         ],
       ),
     );
   }
 
   Widget _buildNavItem(IconData icon, String label, int index) {
-    int selectedIndex = controller.bottomNavIndex.value;
+    int selectedIndex = controller.bottomNavIndex;
     Color iconColor = selectedIndex == (index < 2 ? index : index - 1)
         ? primaryDarkBlueColor
         : neutral03Color;
@@ -217,7 +119,7 @@ class MainView extends StatelessWidget {
       onTap: () {
         controller.updateIndex(index < 2 ? index : index - 1);
         controller.pageController.animateToPage(
-          controller.bottomNavIndex.value,
+          controller.bottomNavIndex,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );

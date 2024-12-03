@@ -18,10 +18,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
-                ),
+                borderRadius: BorderRadius.circular(32),
                 color: primaryBlueColor.withOpacity(0.3),
               ),
               child: SafeArea(

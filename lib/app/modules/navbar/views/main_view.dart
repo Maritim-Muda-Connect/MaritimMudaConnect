@@ -51,11 +51,11 @@ class MainView extends StatelessWidget {
       researchesController,
     ];
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SafeArea(
-          child: Scaffold(
+    return SafeArea(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Scaffold(
             resizeToAvoidBottomInset: false,
             extendBody: true,
             backgroundColor: Colors.transparent,
@@ -71,9 +71,10 @@ class MainView extends StatelessWidget {
                     : const SizedBox.shrink(),
               ),
             ),
-            endDrawer: Container(
-              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: CustomDrawer(controller: controllerr),
+            endDrawer: Obx(
+              () => controller.bottomNavIndex.value == 3
+                  ? CustomDrawer(controller: controllerr)
+                  : const SizedBox.shrink(),
             ),
             bottomNavigationBar: ClipRRect(
               borderRadius:
@@ -159,50 +160,50 @@ class MainView extends StatelessWidget {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
           ),
-        ),
-        Obx(
-          () {
-            final isLoading = controllers.any(
-              (ctrl) {
-                final dynamic dynamicController = ctrl;
-                return dynamicController.isLoading.value;
-              },
-            );
-            if (controller.bottomNavIndex.value != 0 && isLoading) {
-              return Container(color: Colors.black.withOpacity(0.3));
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-        Obx(
-          () {
-            final isLoading = controllers.any(
-              (ctrl) {
-                final dynamic dynamicController = ctrl;
-                return dynamicController.isLoading.value;
-              },
-            );
-            if (controller.bottomNavIndex.value != 0 && isLoading) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 18,
-                  horizontal: 32,
-                ),
-                decoration: BoxDecoration(
-                  color: neutral01Color,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: CircularProgressIndicator(
-                  color: primaryDarkBlueColor,
-                ),
+          Obx(
+            () {
+              final isLoading = controllers.any(
+                (ctrl) {
+                  final dynamic dynamicController = ctrl;
+                  return dynamicController.isLoading.value;
+                },
               );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-      ],
+              if (controller.bottomNavIndex.value != 0 && isLoading) {
+                return Container(color: Colors.black.withOpacity(0.3));
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+          Obx(
+            () {
+              final isLoading = controllers.any(
+                (ctrl) {
+                  final dynamic dynamicController = ctrl;
+                  return dynamicController.isLoading.value;
+                },
+              );
+              if (controller.bottomNavIndex.value != 0 && isLoading) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 18,
+                    horizontal: 32,
+                  ),
+                  decoration: BoxDecoration(
+                    color: neutral01Color,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: CircularProgressIndicator(
+                    color: primaryDarkBlueColor,
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 

@@ -46,15 +46,21 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                       "assets/images/paternkartu.png"))),
                         ),
                         const SizedBox(height: 50),
-                        Text(controller.name.value, style: semiBoldText24),
+                        Obx(
+                          () => Text(
+                              controller.generalData.value.user?.name ?? '',
+                              style: semiBoldText24),
+                        ),
                         const SizedBox(height: 5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                provinceOptions[controller.provinceId.value] ??
-                                    '',
-                                style: regulerText16),
+                              provinceOptions[controller
+                                  .generalData.value.user?.provinceId
+                                  .toString()]!,
+                              style: regulerText16,
+                            ),
                             SizedBox(
                                 height: 20,
                                 child: VerticalDivider(color: neutral04Color)),
@@ -66,20 +72,22 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 63, top: 5, right: 63, bottom: 20),
-                          child: Text(
-                            controller.bio.value,
-                            style:
-                                regulerText10.copyWith(color: neutral04Color),
-                            textAlign: TextAlign.center,
+                          child: Obx(
+                            () => Text(
+                              controller.generalData.value.user?.bio ??
+                                  'No bio yet',
+                              style:
+                                  regulerText10.copyWith(color: neutral04Color),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         )
                       ],
                     ),
                     Positioned(
-                      top: -30,
+                      top: 75,
                       left: 0,
                       right: 0,
-                      bottom: 0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -90,8 +98,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                 borderRadius: BorderRadius.circular(50),
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: profileController
-                                          .photoImage.value.isNotEmpty
+                                  image: controller.generalData.value.user
+                                              ?.photoLink !=
+                                          null
                                       ? NetworkImage(
                                           profileController.photoImage.value)
                                       : const AssetImage(
@@ -174,9 +183,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             style:
                                 mediumText16.copyWith(color: neutral04Color)),
                         Text(
-                            expertiseOptions[
-                                    controller.firstExpertiseId.value] ??
-                                '',
+                            expertiseOptions[controller
+                                .generalData.value.user?.firstExpertiseId
+                                .toString()]!,
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
                     ),
@@ -188,9 +197,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             style:
                                 mediumText16.copyWith(color: neutral04Color)),
                         Text(
-                            expertiseOptions[
-                                    controller.secondExpertiseId.value] ??
-                                '',
+                            expertiseOptions[controller
+                                .generalData.value.user?.secondExpertiseId
+                                .toString()]!,
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
                     ),

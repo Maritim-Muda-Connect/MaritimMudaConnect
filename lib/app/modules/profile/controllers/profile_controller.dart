@@ -7,10 +7,16 @@ import 'package:maritimmuda_connect/app/data/models/response/general_response.da
 import 'package:maritimmuda_connect/app/data/services/general_service.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
+import 'package:maritimmuda_connect/app/modules/home/controllers/home_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class ProfileController extends GetxController {
+
+  final profileUserController = Get.find<ProfileUserController>();
+  final homeController = Get.find<HomeController>();
+
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
@@ -168,6 +174,10 @@ class ProfileController extends GetxController {
         identityImagePath.value = '';
         customSnackbar("Profile updated successfully");
         fetchGeneral();
+        Get.put(HomeController());
+        Get.put(ProfileUserController());
+        profileUserController.fetchGeneral();
+        homeController.fetchGeneral();
       } else {
         customSnackbar(
           "Profile update failed, please check your input field",

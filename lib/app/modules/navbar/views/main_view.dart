@@ -106,11 +106,7 @@ class MainView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         controller.updateIndex(index < 2 ? index : index - 1);
-        controller.pageController.animateToPage(
-          controller.bottomNavIndex,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
+        controller.pageController.jumpToPage(controller.bottomNavIndex);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,

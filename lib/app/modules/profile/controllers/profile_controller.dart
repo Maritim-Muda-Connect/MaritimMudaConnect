@@ -136,6 +136,7 @@ class ProfileController extends GetxController {
     photoIdentity.value = generalData.value.user?.identityCardLink ?? '';
     photoPayment.value = generalData.value.user?.paymentLink ?? '';
     photoStudent.value = generalData.value.user?.memberCardPreview ?? '';
+    photoPayment.value = generalData.value.user?.paymentLink ?? '';
     qrCodeBase64.value = generalData.value.qrCodeUrl ?? '';
     svgString =
         qrCodeBase64.value.replaceFirst("data:image/svg+xml;base64,", "");
@@ -159,6 +160,7 @@ class ProfileController extends GetxController {
     GeneralRequest request,
     File imagePhoto,
     File imageIdentity,
+    File imagePayment,
   ) async {
     try {
       isLoading(true);
@@ -166,12 +168,14 @@ class ProfileController extends GetxController {
         request,
         imagePhoto,
         imageIdentity,
+        imagePayment,
       );
 
       if (success) {
         await Future.delayed(const Duration(seconds: 2));
         photoImagePath.value = '';
         identityImagePath.value = '';
+        paymentImagePath.value = '';
         customSnackbar("Profile updated successfully");
         fetchGeneral();
         Get.put(HomeController());

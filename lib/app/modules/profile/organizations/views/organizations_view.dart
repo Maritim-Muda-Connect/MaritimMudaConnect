@@ -193,10 +193,14 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                 text: 'Clear',
                                 onTap: () {
                                   if (controller.checkField()) {
-                                    customSnackbar(
-                                      "All field already empty",
-                                      secondaryRedColor,
-                                    );
+                                    if (SnackbarController
+                                            .isSnackbarBeingShown ==
+                                        false) {
+                                      customSnackbar(
+                                        "All field already empty",
+                                        secondaryRedColor,
+                                      );
+                                    }
                                   } else {
                                     showCustomDialog(
                                       content:
@@ -204,10 +208,10 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                       onConfirm: () {
                                         controller.clearAll();
                                         controller.isEdit.value = false;
-                                        Get.back();
                                         customSnackbar(
                                           'All data has been deleted successfully',
                                         );
+                                        Navigator.of(context).pop();
                                       },
                                       onCancel: () {
                                         Get.back();
@@ -256,8 +260,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                         onCancel: () {
                                           Get.back();
                                         }),
-                                    onTap3:
-                                        () {},
+                                    onTap3: () {},
                                   ),
                                 );
                               }).toList(),

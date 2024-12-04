@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/educations/controllers/educations_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/organizations/controllers/organizations_controller.dart';
@@ -9,7 +10,6 @@ import 'package:maritimmuda_connect/app/modules/profile/social_activity/controll
 import 'package:maritimmuda_connect/app/modules/profile/work_experiences/controllers/work_experiences_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_drawer.dart';
 import 'package:maritimmuda_connect/themes.dart';
-import '../../achievements/controllers/achievements_controller.dart';
 import '../controllers/main_drawer_controller.dart';
 
 class MainDrawerView extends GetView<MainDrawerController> {
@@ -18,13 +18,20 @@ class MainDrawerView extends GetView<MainDrawerController> {
   @override
   Widget build(BuildContext context) {
     final ProfileController profileController = Get.find<ProfileController>();
-    final EducationsController educationsController = Get.find<EducationsController>();
-    final WorkExperiencesController workExperiencesController = Get.find<WorkExperiencesController>();
-    final OrganizationsController organizationsController = Get.find<OrganizationsController>();
-    final AchievementsController achievementsController = Get.find<AchievementsController>();
-    final PublicationsController publicationController = Get.find<PublicationsController>();
-    final SocialActivityController socialActivityController = Get.find<SocialActivityController>();
-    final ResearchesController researchesController = Get.find<ResearchesController>();
+    final EducationsController educationsController =
+        Get.find<EducationsController>();
+    final WorkExperiencesController workExperiencesController =
+        Get.find<WorkExperiencesController>();
+    final OrganizationsController organizationsController =
+        Get.find<OrganizationsController>();
+    final AchievementsController achievementsController =
+        Get.find<AchievementsController>();
+    final PublicationsController publicationController =
+        Get.find<PublicationsController>();
+    final SocialActivityController socialActivityController =
+        Get.find<SocialActivityController>();
+    final ResearchesController researchesController =
+        Get.find<ResearchesController>();
 
     final List<GetxController> controllers = [
       profileController,
@@ -53,7 +60,7 @@ class MainDrawerView extends GetView<MainDrawerController> {
             child: CustomDrawer(controller: controller),
           ),
           body: Obx(
-                () => IndexedStack(
+            () => IndexedStack(
               index: controller.selectedIndex.value,
               children: controller.screens,
             ),
@@ -75,18 +82,18 @@ class MainDrawerView extends GetView<MainDrawerController> {
           });
           return isLoading
               ? Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 18,
-              horizontal: 32,
-            ),
-            decoration: BoxDecoration(
-              color: neutral01Color,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: CircularProgressIndicator(
-              color: primaryDarkBlueColor,
-            ),
-          )
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 18,
+                    horizontal: 32,
+                  ),
+                  decoration: BoxDecoration(
+                    color: neutral01Color,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: CircularProgressIndicator(
+                    color: primaryDarkBlueColor,
+                  ),
+                )
               : const SizedBox.shrink();
         }),
       ],

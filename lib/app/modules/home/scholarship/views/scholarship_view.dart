@@ -21,6 +21,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
         backgroundColor: neutral02Color,
 
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           backgroundColor: neutral02Color,
           title: Text(
             'Scholarship List',

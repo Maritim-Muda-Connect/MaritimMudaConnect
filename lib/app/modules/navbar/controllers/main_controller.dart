@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/main_drawer/views/main_drawer_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
-
 import '../../analytics/controllers/analytics_controller.dart';
 import '../../analytics/views/analytics_view.dart';
 import '../../product/controllers/product_controller.dart';
@@ -15,6 +14,11 @@ import '../../home/views/home_view.dart';
 import '../../profile/main_drawer/controllers/main_drawer_controller.dart';
 
 class MainController extends GetxController with GetTickerProviderStateMixin {
+  final AutoSizeGroup autoSizeGroup = AutoSizeGroup();
+  PageController pageController = PageController();
+
+  int bottomNavIndex = 0;
+
   MainController() {
     Get.put(MainDrawerController());
     Get.put(AchievementsController());
@@ -24,10 +28,6 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
     Get.put(JobController());
     Get.put(ProfileUserController());
   }
-
-  PageController pageController = PageController();
-
-  int bottomNavIndex = 0;
 
   final List<String> iconTitles = [
     'Home',
@@ -43,8 +43,6 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
     Icons.person,
   ];
 
-  final AutoSizeGroup autoSizeGroup = AutoSizeGroup();
-
   final List<Widget> views = [
     const HomeView(),
     const AnalyticsView(),
@@ -55,11 +53,6 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
   void updateIndex(int index) {
     bottomNavIndex = index;
     update();
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
   }
 
   @override

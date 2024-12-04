@@ -103,7 +103,7 @@ class ProfileView extends GetView<ProfileController> {
                           Text('Identity Card', style: boldText12),
                           const SizedBox(height: 8),
                           Obx(
-                                () => DottedBorder(
+                            () => DottedBorder(
                               dashPattern: const [10],
                               borderType: BorderType.RRect,
                               radius: const Radius.circular(20),
@@ -111,13 +111,13 @@ class ProfileView extends GetView<ProfileController> {
                               child: InkWell(
                                 onTap: () async {
                                   FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles(
+                                      await FilePicker.platform.pickFiles(
                                     type: FileType.media,
                                     allowMultiple: false,
                                   );
                                   if (result != null) {
                                     controller.identityImagePath.value =
-                                    result.files.single.path!;
+                                        result.files.single.path!;
                                     controller.identityImageName.value =
                                         result.files.single.name;
                                   }
@@ -129,56 +129,62 @@ class ProfileView extends GetView<ProfileController> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: controller
-                                      .identityImagePath.value.isEmpty
+                                          .identityImagePath.value.isEmpty
                                       ? ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(20),
-                                    child: controller.photoIdentity.value
-                                        .contains("via")
-                                        ? Image.asset(
-                                      "assets/images/process_identity.png",
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    )
-                                        : Image.network(
-                                      controller
-                                          .photoIdentity.value,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  )
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: controller.photoIdentity.value
+                                                  .contains("via")
+                                              ? Image.asset(
+                                                  "assets/images/process_identity.png",
+                                                  fit: BoxFit.cover,
+                                                  width: double.infinity,
+                                                )
+                                              : Image.network(
+                                                  controller
+                                                      .photoIdentity.value,
+                                                  fit: BoxFit.cover,
+                                                  width: double.infinity,
+                                                ),
+                                        )
                                       : ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(20),
-                                    child: Image.file(
-                                      File(controller
-                                          .identityImagePath.value),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  ),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: Image.file(
+                                            File(controller
+                                                .identityImagePath.value),
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16,),
-                          Text('Payment Confirmation Receipt', style: boldText12),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text('Payment Confirmation Receipt',
+                              style: boldText12),
                           const SizedBox(height: 8),
                           Obx(
-                                () => DottedBorder(
+                            () => DottedBorder(
                               dashPattern: const [10],
                               borderType: BorderType.RRect,
                               radius: const Radius.circular(20),
                               padding: const EdgeInsets.all(6),
                               child: InkWell(
                                 onTap: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles(
                                     type: FileType.media,
                                     allowMultiple: false,
                                   );
                                   if (result != null) {
-                                    controller.paymentImagePath.value = result.files.single.path!;
-                                    controller.paymentImageName.value = result.files.single.name;
+                                    controller.paymentImagePath.value =
+                                        result.files.single.path!;
+                                    controller.paymentImageName.value =
+                                        result.files.single.name;
                                   }
                                 },
                                 child: Container(
@@ -187,29 +193,39 @@ class ProfileView extends GetView<ProfileController> {
                                     color: neutral02Color,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: controller.paymentImagePath.value.isEmpty
+                                  child: controller
+                                          .paymentImagePath.value.isEmpty
                                       ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: controller.photoPayment.value.contains("via")
-                                        ? Image.asset(
-                                      "assets/images/process_payment.png",
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    )
-                                        : Image.network(
-                                      controller.photoPayment.value,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  )
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: controller.photoPayment.value
+                                                  .contains("via")
+                                              ? SizedBox(
+                                                  width: double.infinity,
+                                                  child: Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      "Input Payment Confirmation",
+                                                      style: boldText12,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Image.network(
+                                                  controller.photoPayment.value,
+                                                  fit: BoxFit.cover,
+                                                  width: double.infinity,
+                                                ),
+                                        )
                                       : ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.file(
-                                      File(controller.paymentImagePath.value),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                    ),
-                                  ),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: Image.file(
+                                            File(controller
+                                                .paymentImagePath.value),
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),
@@ -383,6 +399,7 @@ class ProfileView extends GetView<ProfileController> {
                                         File(controller.photoImagePath.value),
                                         File(
                                             controller.identityImagePath.value),
+                                        File(controller.paymentImagePath.value),
                                       );
                                     } else {
                                       controller.updateGeneral(
@@ -413,6 +430,7 @@ class ProfileView extends GetView<ProfileController> {
                                         File(controller.photoImagePath.value),
                                         File(
                                             controller.identityImagePath.value),
+                                        File(controller.paymentImagePath.value),
                                       );
                                     }
                                   },
@@ -436,8 +454,8 @@ class ProfileView extends GetView<ProfileController> {
                                     content:
                                         'Are you sure you want to clear all data entered?',
                                     onConfirm: () {
-                                      controller.fetchGeneral();
                                       Get.back();
+                                      controller.fetchGeneral();
                                       customSnackbar(
                                           "All data has been cleared");
                                     },

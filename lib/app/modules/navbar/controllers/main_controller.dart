@@ -17,7 +17,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
   final AutoSizeGroup autoSizeGroup = AutoSizeGroup();
   PageController pageController = PageController();
 
-  var bottomNavIndex = 0.obs;
+  int bottomNavIndex = 0;
 
   MainController() {
     Get.put(MainDrawerController());
@@ -51,7 +51,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
   ];
 
   void updateIndex(int index) {
-    bottomNavIndex.value = index;
+    bottomNavIndex = index;
     update();
   }
 

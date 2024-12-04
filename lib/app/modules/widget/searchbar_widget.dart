@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/controllers/member_controller.dart';
+import 'package:maritimmuda_connect/app/modules/home/member/widget/filter_dropdown.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
+import '../../data/utils/expertise.dart';
+import '../../data/utils/province.dart';
 import '../home/event/controllers/event_controller.dart';
 import '../home/scholarship/controllers/scholarship_controller.dart';
 
@@ -93,9 +96,9 @@ class FilterSearchEventButton extends GetView<EventController> {
               },
             color: Colors.white,
 
-              onSelected: (selectedFilter) {
-                controller.updateFilter(selectedFilter);
-                },
+              // onSelected: (selectedFilter) {
+              //   controller.updateFilter(selectedFilter);
+              //   },
               child: Container(
                 decoration: BoxDecoration(
                   color: neutral01Color,
@@ -120,8 +123,6 @@ class FilterSearchEventButton extends GetView<EventController> {
 }
 
 class FilterSearchScholarButton extends GetView<ScholarshipController> {
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -168,15 +169,49 @@ class FilterSearchScholarButton extends GetView<ScholarshipController> {
   }
 }
 
-class FilterSearchButton extends StatelessWidget {
+class FilterSearchButton extends GetView<MemberController> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Scaffold.of(context).openEndDrawer();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: PopupMenuButton(
+          itemBuilder: (BuildContext context) {
+
+            return [
+              PopupMenuItem(
+                child: FilterSection(
+                  title: 'Province',
+                  icon: Icons.maps_home_work,
+                  items: provinceOptions.entries
+                      .map((e) => MapEntry(e.key, e.value))
+                      .toList(),
+                  onSelected: (key) {
+                    controller.setSelectedProvince(key);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: FilterSection(
+                  title: 'Expertise',
+                  icon: Icons.travel_explore_outlined,
+                  items: expertiseOptions.entries
+                      .map((e) => MapEntry(e.key, e.value))
+                      .toList(),
+                  onSelected: (key) {
+                    controller.setSelectedExpertise(key);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                  child: Text("Reset", style: regulerText16.copyWith(color: neutral04Color)),
+                onTap: controller.resetFilters,
+              )
+            ];
+          },
+        color: Colors.white,
+        onSelected: (selectedFilter) {
+            controller.applyFilters();
+        },
         child: Container(
           decoration: BoxDecoration(
             color: neutral01Color,
@@ -193,7 +228,42 @@ class FilterSearchButton extends StatelessWidget {
           ),
           child: Image.asset('assets/icons/filter_icon.png'),
         ),
+
       ),
+
+
+
     );
   }
 }
+
+
+// class FilterSearchButton extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         Scaffold.of(context).openEndDrawer();
+//       },
+//       child: Padding(
+//         padding: const EdgeInsets.all(8.0),
+//         child: Container(
+//           decoration: BoxDecoration(
+//             color: neutral01Color,
+//             shape: BoxShape.circle,
+//             border: Border.all(color: neutral02Color, width: 3),
+//             boxShadow: [
+//               BoxShadow(
+//                 color: Colors.grey.withOpacity(0.5),
+//                 spreadRadius: 2,
+//                 blurRadius: 4,
+//                 offset: Offset(0, 3),
+//               ),
+//             ],
+//           ),
+//           child: Image.asset('assets/icons/filter_icon.png'),
+//         ),
+//       ),
+//     );
+//   }
+// }

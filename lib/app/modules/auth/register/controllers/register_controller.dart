@@ -17,6 +17,7 @@ class RegisterController extends GetxController {
 
   var isLoading = false.obs;
   var obscureText = true.obs;
+  var confirmObscureText = true.obs;
   var selectedGender = 1.obs;
   var selectedProvince = 0.obs;
   var selectedProvinceReq = 1.obs;
@@ -28,6 +29,10 @@ class RegisterController extends GetxController {
 
   void toggleObscureText() {
     obscureText.value = !obscureText.value;
+  }
+
+  void toggleConfirmObscureText() {
+    confirmObscureText.value = !confirmObscureText.value;
   }
 
   void setSelectedGender(String? value) {
@@ -95,26 +100,24 @@ class RegisterController extends GetxController {
 
   String? validateEmailField(String? value) {
     if (value == null || value.isEmpty) {
-      return "Email is required";
+      return "Example : yourmail@example.com | Email is required";
     } else if (!isValidEmail(value)) {
-      return "Invalid email format";
+      return "Example : yourmail@example.com | Invalid email format";
     }
     return null;
   }
 
   String? validatePasswordField(String? value) {
     if (value == null || value.isEmpty) {
-      return "Password is required";
-    } else if (value.length < 4) {
-      return "Password must be more than 4 characters";
+      return "Password must be 8 or more characters";
+    } else if (value.length < 7){
+      return "Password must be 8 or more characters";
     }
     return null;
   }
 
   String? validateConfirmPassField(String? value) {
     if (value == null || value.isEmpty) {
-      return "Confirm password is required";
-    } else if (value != passwordC.text) {
       return "Password does not match";
     }
     return null;

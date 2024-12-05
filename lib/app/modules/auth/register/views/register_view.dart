@@ -188,7 +188,7 @@ class RegisterView extends GetView<RegisterController> {
                             controller: controller.confirmPassC,
                             hintText: "Confirm Password",
                             keyboardType: TextInputType.text,
-                            obscureText: controller.obscureText.value,
+                            obscureText: controller.confirmObscureText.value,
                             onChanged: (value) {
                               controller.validateConfirmPass(value);
                             },
@@ -199,10 +199,10 @@ class RegisterView extends GetView<RegisterController> {
                             ),
                             suffixIcon: IconButton(
                               onPressed: () {
-                                controller.toggleObscureText();
+                                controller.toggleConfirmObscureText();
                               },
                               icon: Icon(
-                                controller.obscureText.value
+                                controller.confirmObscureText.value
                                     ? Icons.visibility_off
                                     : Icons.visibility,
                                 color: neutral03Color,

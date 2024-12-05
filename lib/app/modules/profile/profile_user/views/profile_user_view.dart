@@ -50,7 +50,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         Obx(
                           () => Text(
                               controller.generalData.value.user?.name ?? '',
-                              style: semiBoldText24),
+                              style: semiBoldText24,
+                          textAlign: TextAlign.center,
+                          ),
                         ),
                         const SizedBox(height: 5),
                         Row(

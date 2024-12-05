@@ -63,35 +63,37 @@ class ScholarshipView extends GetView<ScholarshipController> {
                       style: extraLightText16,
                     );
                   } else {
-                    return Column(
-                      children: controller.filteredList.map((scholarship) {
-                        final String startDate = DateFormat('dd/MM/yyyy').format(scholarship.submissionDeadline!);
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DetailScholarshipView(
-                                          scholarshipData: scholarship,
-                                        )));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: ProgramCard(
-                              image:
-                              scholarship.posterLink,
-                              // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
-                              date: startDate,
-                              textTitle: scholarship.name,
-                              textSubTitle: scholarship.providerName,
-                              onShare: () {
-                                Share.share("Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}" , subject: "Scholarship Url");
-                              },
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: controller.filteredList.map((scholarship) {
+                          final String startDate = DateFormat('dd/MM/yyyy').format(scholarship.submissionDeadline!);
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailScholarshipView(
+                                            scholarshipData: scholarship,
+                                          )));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10.0),
+                              child: ProgramCard(
+                                image:
+                                scholarship.posterLink,
+                                // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
+                                date: startDate,
+                                textTitle: scholarship.name,
+                                textSubTitle: scholarship.providerName,
+                                onShare: () {
+                                  Share.share("Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}" , subject: "Scholarship Url");
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     );
 
                 }

@@ -13,12 +13,13 @@ class ProductController extends GetxController
   var isLoading = false.obs;
   var productList = <Product>[].obs;
   var filteredProductList = <Product>[].obs;
+  var searchQuery = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
     fetchProducts();
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 1, vsync: this);
     tabController.addListener(() {
       selectedIndex.value = tabController.index;
       filterProductsByCategory(selectedIndex.value, title[selectedIndex.value]);
@@ -39,6 +40,27 @@ class ProductController extends GetxController
       filteredProductList.assignAll(
           productList.where((product) => product.category == value).toList());
     }
+  }
+
+  void searchProducts(String query) {
+    searchQuery(query);
+    applyFilters();
+  }
+
+  void applyFilters() {
+    var filterList = List<Product>.from(productList);
+
+    if (searchQuery.value.isNotEmpty) {
+      filterList = filterList.where((products) {
+        final nameMatch = products.name
+                ?.toLowerCase()
+                .contains(searchQuery.value.toLowerCase()) ??
+            false;
+        return nameMatch;
+      }).toList();
+    }
+
+    filteredProductList.assignAll(filterList);
   }
 
   Future<void> fetchProducts() async {

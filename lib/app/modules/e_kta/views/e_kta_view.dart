@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/views/e_kta_detail_view.dart';
+import 'package:maritimmuda_connect/app/modules/e_kta/views/scan_qr_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/e_kta_controller.dart';
@@ -103,6 +104,28 @@ class EKtaView extends GetView<EKtaController> {
                   ),
                 ),
               ],
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: CustomButton(
+                text: "Scan QR",
+                textSize: boldText16.copyWith(color: neutral01Color),
+                radius: 50,
+                onPressed: () {
+                  Get.to(
+                    () => const ScanQrView(),
+                    transition: Transition.rightToLeft,
+                    duration: const Duration(milliseconds: 100),
+                  );
+                },
+                height: 43,
+                width: 130,
+                gradient: LinearGradient(
+                  colors: [primaryDarkBlueColor, primaryBlueColor],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
             ),
           ],
         ),

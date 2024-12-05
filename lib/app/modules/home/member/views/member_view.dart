@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_detail_view.dart';
-import 'package:maritimmuda_connect/app/modules/home/member/widget/filter_dropdown.dart';
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
 import 'package:maritimmuda_connect/themes.dart';
-
 import '../controllers/member_controller.dart';
 
 class MemberView extends GetView<MemberController> {
@@ -18,7 +15,6 @@ class MemberView extends GetView<MemberController> {
 
     return Scaffold(
       backgroundColor: neutral02Color,
-      // endDrawer: const SafeArea(child: FilterDrawer()),
       appBar: AppBar(
         title: Text(
           'Member List',

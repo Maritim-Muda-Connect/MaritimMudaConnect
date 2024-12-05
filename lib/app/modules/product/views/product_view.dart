@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/product/all_product/views/all_product_view.dart';
+import 'package:maritimmuda_connect/app/modules/product/widgets/custom_search.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/product_controller.dart';
 
@@ -27,7 +29,7 @@ class ProductView extends GetView<ProductController> {
                     children: [
                       const SizedBox(height: 50),
                       Text(
-                        "Work With",
+                        "We Serve",
                         style: regulerText15.copyWith(color: neutral01Color),
                       ),
                       Text(
@@ -36,7 +38,9 @@ class ProductView extends GetView<ProductController> {
                             color: neutral01Color, fontSize: 42),
                       ),
                       Text(
-                        "Partners",
+                        controller.productList.length > 1
+                            ? "Product(s)"
+                            : "Product",
                         style: regulerText15.copyWith(color: neutral01Color),
                       ),
                       Row(
@@ -81,53 +85,13 @@ class ProductView extends GetView<ProductController> {
               builder: (controller) {
                 return Column(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 20),
-                      color: Colors.transparent,
-                      child: TabBar(
-                        physics: const BouncingScrollPhysics(),
-                        controller: controller.tabController,
-                        isScrollable: true,
-                        tabAlignment: TabAlignment.start,
-                        dividerColor: Colors.transparent,
-                        indicatorPadding: EdgeInsets.zero,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        labelStyle: semiBoldText11.copyWith(
-                          color: neutral01Color,
-                        ),
-                        indicator: BoxDecoration(
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        tabs: List.generate(
-                          2,
-                          (index) {
-                            return Obx(
-                              () {
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        controller.selectedIndex.value == index
-                                            ? primaryDarkBlueColor
-                                            : neutral01Color,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  child: Tab(
-                                    text: controller.title[index],
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                    const CustomSearch(),
                     Expanded(
                       child: TabBarView(
                         controller: controller.tabController,
-                        children: controller.screens,
+                        children: const [
+                          AllProductView(),
+                        ],
                       ),
                     ),
                   ],

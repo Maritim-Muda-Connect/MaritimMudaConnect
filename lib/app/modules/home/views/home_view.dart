@@ -17,7 +17,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final MainController mainController = Get.find();
-    final ProfileController profileController = Get.find();
+    final profileController = Get.find<ProfileController>();
     final EventController eventController = Get.find();
 
     return Scaffold(
@@ -77,12 +77,14 @@ class HomeView extends GetView<HomeController> {
                                 style: regulerText16.copyWith(
                                     color: neutral04Color, fontSize: 20),
                               ),
-                              Obx(() => Text(
-                                    controller.name.value,
-                                    style: semiBoldText24.copyWith(
-                                        color: primaryBlueColor),
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
+                              Obx(
+                                () => Text(
+                                  controller.generalData.value.user?.name ?? '',
+                                  style: semiBoldText24.copyWith(
+                                      color: primaryBlueColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               Row(
                                 children: [
@@ -100,12 +102,14 @@ class HomeView extends GetView<HomeController> {
                           () => CircleAvatar(
                             radius: 50,
                             backgroundImage:
-                                profileController.photoImage.value.isNotEmpty
-                                    ? NetworkImage(
-                                        profileController.photoImage.value)
+                                (controller.generalData.value.user?.photoLink !=
+                                            null &&
+                                        controller.generalData.value.user!
+                                            .photoLink!.isNotEmpty)
+                                    ? NetworkImage(controller
+                                        .generalData.value.user!.photoLink!)
                                     : const AssetImage(
-                                            'assets/images/default_photo.jpg')
-                                        as ImageProvider,
+                                        'assets/images/default_photo.jpg'),
                           ),
                         ),
                       ],

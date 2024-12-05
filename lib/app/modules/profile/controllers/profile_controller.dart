@@ -7,10 +7,16 @@ import 'package:maritimmuda_connect/app/data/models/response/general_response.da
 import 'package:maritimmuda_connect/app/data/services/general_service.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
+import 'package:maritimmuda_connect/app/modules/home/controllers/home_controller.dart';
+import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class ProfileController extends GetxController {
+
+  final profileUserController = Get.find<ProfileUserController>();
+  final homeController = Get.find<HomeController>();
+
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
@@ -130,6 +136,7 @@ class ProfileController extends GetxController {
     photoIdentity.value = generalData.value.user?.identityCardLink ?? '';
     photoPayment.value = generalData.value.user?.paymentLink ?? '';
     photoStudent.value = generalData.value.user?.memberCardPreview ?? '';
+    photoPayment.value = generalData.value.user?.paymentLink ?? '';
     qrCodeBase64.value = generalData.value.qrCodeUrl ?? '';
     svgString =
         qrCodeBase64.value.replaceFirst("data:image/svg+xml;base64,", "");
@@ -153,6 +160,7 @@ class ProfileController extends GetxController {
     GeneralRequest request,
     File imagePhoto,
     File imageIdentity,
+    File imagePayment,
   ) async {
     try {
       isLoading(true);
@@ -160,14 +168,20 @@ class ProfileController extends GetxController {
         request,
         imagePhoto,
         imageIdentity,
+        imagePayment,
       );
 
       if (success) {
         await Future.delayed(const Duration(seconds: 2));
         photoImagePath.value = '';
         identityImagePath.value = '';
+        paymentImagePath.value = '';
         customSnackbar("Profile updated successfully");
         fetchGeneral();
+        Get.put(HomeController());
+        Get.put(ProfileUserController());
+        profileUserController.fetchGeneral();
+        homeController.fetchGeneral();
       } else {
         customSnackbar(
           "Profile update failed, please check your input field",

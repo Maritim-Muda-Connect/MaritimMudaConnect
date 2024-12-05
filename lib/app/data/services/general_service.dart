@@ -26,6 +26,7 @@ class GeneralService {
     GeneralRequest requests,
     File imagePhoto,
     File imageIdentity,
+    File imagePayment,
   ) async {
     String? token = await UserPreferences().getToken();
 
@@ -62,6 +63,14 @@ class GeneralService {
         filename: imageIdentity.path.split('/').last,
       );
       request.files.add(identity);
+    }
+    if (imagePayment.path.isNotEmpty) {
+      var payment = await http.MultipartFile.fromPath(
+        "payment_confirm",
+        imagePayment.path,
+        filename: imagePayment.path.split('/').last,
+      );
+      request.files.add(payment);
     }
 
     var response = await request.send();

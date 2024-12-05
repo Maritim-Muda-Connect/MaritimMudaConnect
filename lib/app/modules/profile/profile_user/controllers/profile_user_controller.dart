@@ -4,6 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 
+import '../../../../data/models/response/general_response.dart';
+import '../../../../data/services/general_service.dart';
+
 class ProfileUserController extends GetxController {
   final name = ''.obs;
   final email = ''.obs;
@@ -18,11 +21,28 @@ class ProfileUserController extends GetxController {
 
   final achievmentsController = Get.put(AchievementsController());
 
+  var generalData = GeneralResponse().obs;
+  var isLoading = false.obs;
+
   final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    fetchGeneral();
     loadUserData();
+  }
+
+  Future<void> fetchGeneral() async {
+    try {
+      isLoading(true);
+      var data = await GeneralService().fetchGeneral();
+      generalData.value = data;
+
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
+    }
   }
 
   Future<void> loadUserData() async {

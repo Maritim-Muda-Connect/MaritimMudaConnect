@@ -63,12 +63,8 @@ class ScholarshipView extends GetView<ScholarshipController> {
                       style: extraLightText16,
                     );
                   } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: controller.filteredList.length,
-                      itemBuilder: (context, index) {
-                        final scholarship = controller.filteredList[index];
+                    return Column(
+                      children: controller.filteredList.map((scholarship) {
                         final String startDate = DateFormat('dd/MM/yyyy').format(scholarship.submissionDeadline!);
                         return InkWell(
                           onTap: () {
@@ -84,7 +80,8 @@ class ScholarshipView extends GetView<ScholarshipController> {
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: ProgramCard(
                               image:
-                                  scholarship.posterLink,
+                              scholarship.posterLink,
+                              // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
                               date: startDate,
                               textTitle: scholarship.name,
                               textSubTitle: scholarship.providerName,
@@ -94,7 +91,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
                             ),
                           ),
                         );
-                      },
+                      }).toList(),
                     );
 
                 }

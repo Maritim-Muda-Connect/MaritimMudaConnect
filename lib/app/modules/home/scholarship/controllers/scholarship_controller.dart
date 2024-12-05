@@ -23,6 +23,9 @@ class ScholarshipController extends GetxController
       isLoading.value = true;
       var response = await ScholarshipService().getAllScholarship();
       scholarshipList.assignAll(response);
+      scholarshipList.sort((a,b) =>
+          (b.submissionDeadline ?? DateTime.now()).compareTo(a.submissionDeadline ?? DateTime.now())
+      );
       filteredList.assignAll(scholarshipList);
     } catch (e) {
       print("Error fetch Scholarships");

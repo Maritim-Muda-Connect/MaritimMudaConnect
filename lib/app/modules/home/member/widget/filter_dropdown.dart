@@ -187,9 +187,12 @@ class SectionItems extends GetView<MemberController> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: items
-            .map((item) => InkWell(
+            .map((item) =>
+
+            InkWell(
                   onTap: () => onSelected(item.key),
-                  child: Padding(
+                  child:
+                  Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Row(
                       children: [
@@ -207,7 +210,8 @@ class SectionItems extends GetView<MemberController> {
                       ],
                     ),
                   ),
-                ))
+                )
+        )
             .toList(),
       );
     });

@@ -20,25 +20,36 @@ class AllProductView extends GetView<AllProductController> {
               child: CircularProgressIndicator(color: primaryDarkBlueColor),
             ),
           );
-        } else if (controller.productList.isEmpty) {
+        } else if (controller.filteredProductList.isEmpty) {
           return Center(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 150),
-              child: Text("Produk belum tersedia", style: semiBoldText16),
+              child: Text("Produk tidak tersedia", style: semiBoldText16),
             ),
           );
         } else {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: controller.productList.length,
-            itemBuilder: (context, index) {
-              return CatalogCard(
-                onTap: () {
-                  Get.to(() =>  DetailProductView(productData: controller.productList[index],));
-                },
-                productList: controller.productList[index],
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              await controller.fetchProducts();
             },
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: controller.filteredProductList.length,
+              itemBuilder: (context, index) {
+                return CatalogCard(
+                  onTap: () {
+                    Get.to(
+                      () => DetailProductView(
+                        productData: controller.filteredProductList[index],
+                      ),
+                      transition: Transition.rightToLeft,
+                      duration: const Duration(milliseconds: 100),
+                    );
+                  },
+                  productList: controller.filteredProductList[index],
+                );
+              },
+            ),
           );
         }
       },

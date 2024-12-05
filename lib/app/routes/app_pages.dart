@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-import 'package:maritimmuda_connect/app/modules/profile/publications/bindings/publication_binding.dart';
-import 'package:maritimmuda_connect/app/modules/profile/publications/views/publications_view.dart';
+
 import '../modules/analytics/bindings/analytics_binding.dart';
 import '../modules/analytics/views/analytics_view.dart';
 import '../modules/auth/forgot_password/bindings/forgot_password_binding.dart';
@@ -11,14 +10,6 @@ import '../modules/auth/register/bindings/register_binding.dart';
 import '../modules/auth/register/views/register_view.dart';
 import '../modules/auth/splash/bindings/splash_binding.dart';
 import '../modules/auth/splash/views/splash_view.dart';
-import '../modules/product/all_product/bindings/all_product_binding.dart';
-import '../modules/product/all_product/views/all_product_view.dart';
-import '../modules/product/bindings/product_binding.dart';
-import '../modules/product/detail_product/bindings/detail_product_binding.dart';
-import '../modules/product/detail_product/views/detail_product_view.dart';
-import '../modules/product/sub_product/bindings/sub_product_binding.dart';
-import '../modules/product/sub_product/views/sub_product_view.dart';
-import '../modules/product/views/product_view.dart';
 import '../modules/e_kta/bindings/e_kta_binding.dart';
 import '../modules/e_kta/views/e_kta_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -33,6 +24,14 @@ import '../modules/home/scholarship/views/scholarship_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/navbar/bindings/main_binding.dart';
 import '../modules/navbar/views/main_view.dart';
+import '../modules/product/all_product/bindings/all_product_binding.dart';
+import '../modules/product/all_product/views/all_product_view.dart';
+import '../modules/product/bindings/product_binding.dart';
+import '../modules/product/detail_product/bindings/detail_product_binding.dart';
+import '../modules/product/detail_product/views/detail_product_view.dart';
+import '../modules/product/sub_product/bindings/sub_product_binding.dart';
+import '../modules/product/sub_product/views/sub_product_view.dart';
+import '../modules/product/views/product_view.dart';
 import '../modules/profile/achievements/bindings/achievement_binding.dart';
 import '../modules/profile/achievements/views/achievements_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -42,9 +41,13 @@ import '../modules/profile/organizations/bindings/organizations_binding.dart';
 import '../modules/profile/organizations/views/organizations_view.dart';
 import '../modules/profile/profile_user/bindings/profile_user_binding.dart';
 import '../modules/profile/profile_user/views/profile_user_view.dart';
+import '../modules/profile/publications/bindings/publication_binding.dart';
+import '../modules/profile/publications/views/publications_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile/work_experiences/bindings/work_experiences_binding.dart';
 import '../modules/profile/work_experiences/views/work_experiences_view.dart';
+import '../modules/e_kta/result_qr/bindings/result_qr_binding.dart';
+import '../modules/e_kta/result_qr/views/result_qr_view.dart';
 
 part 'app_routes.dart';
 
@@ -114,7 +117,6 @@ class AppPages {
       page: () => const ScholarshipView(),
       binding: ScholarshipBinding(),
     ),
-
     GetPage(
       name: _Paths.JOB,
       page: () => const JobView(),
@@ -162,13 +164,18 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_CATALOG,
-      page: () =>  DetailProductView(),
+      page: () => DetailProductView(),
       binding: DetailProductBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE_USER,
       page: () => const ProfileUserView(),
       binding: ProfileUserBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESULT_QR,
+      page: () => const ResultQrView(),
+      binding: ResultQrBinding(),
     ),
   ];
 }

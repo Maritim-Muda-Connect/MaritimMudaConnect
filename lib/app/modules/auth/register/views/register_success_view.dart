@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/auth/login/views/login_view.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 class RegisterSuccessView extends StatelessWidget {
@@ -46,34 +47,38 @@ class RegisterSuccessView extends StatelessWidget {
                   child: Column(
                     children: [
                       Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         child: Text(
-                          "Verify Your Email Address",
-                          style: semiBoldText22.copyWith(
-                              color: primaryDarkBlueColor),
+                          "Please Verify Your Email Address",
+                          textAlign: TextAlign.center,
+                          style:
+                              boldText20.copyWith(color: primaryDarkBlueColor),
                         ),
                       ),
-                      const SizedBox(height: 7),
-                      RichText(
-                        text: TextSpan(
-                          text:
-                              "Before proceeding, please check your email for a verification link",
-                          style: regulerText12.copyWith(color: neutral03Color),
-                          children: [
-                          ],
-                        ),
+                      const SizedBox(height: 20),
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Kindly review your email inbox for a verification link before proceeding.",
+                        style: regulerText14,
                       ),
-                      const SizedBox(height: 10),
-                      IconButton(
-                        onPressed: () {
-                          Get.back();
+                      const SizedBox(height: 20),
+                      InkWell(
+                        onTap: (){
+                          Get.to(() => const LoginView());
                         },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: primaryDarkBlueColor,
-                          size: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: primaryBlueColor,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Back to Login",
+                              style: boldText16.copyWith(color: neutral01Color),
+                            ),
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

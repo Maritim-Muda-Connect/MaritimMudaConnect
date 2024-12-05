@@ -204,7 +204,7 @@ class OrganizationsView extends GetView<OrganizationsController> {
                                   } else {
                                     showCustomDialog(
                                       content:
-                                          'Are you sure you want to clear all data entered?',
+                                          'Are you sure want to clear all data entered?',
                                       onConfirm: () {
                                         controller.clearAll();
                                         controller.isEdit.value = false;

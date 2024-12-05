@@ -172,7 +172,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                 } else {
                                   showCustomDialog(
                                     content:
-                                        'Are you sure you want to clear all data entered?',
+                                        'Are you sure want to clear all data entered?',
                                     onConfirm: () {
                                       controller.clearAll();
                                       Get.back();
@@ -231,7 +231,7 @@ class WorkExperiencesView extends GetView<WorkExperiencesController> {
                                     onTap2: () {
                                       showCustomDialog(
                                         content:
-                                            'Are you sure you want to delete this data?',
+                                            'Are you sure want to delete all data entered?',
                                         onConfirm: () {
                                           controller.deleteWorkExperience(
                                               activity.id ?? 0);

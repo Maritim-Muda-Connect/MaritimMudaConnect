@@ -11,7 +11,9 @@ void showCustomDialog({
 }) {
   Get.dialog(
     AlertDialog(
+      actionsAlignment: MainAxisAlignment.center,
       content: Text(
+        textAlign: TextAlign.center,
         content,
         style: regulerText12,
       ),

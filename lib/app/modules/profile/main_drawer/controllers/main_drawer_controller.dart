@@ -24,8 +24,9 @@ import '../../achievements/controllers/achievements_controller.dart';
 class MainDrawerController extends GetxController {
   var selectedIndex = 0.obs;
   var currentTitle = 'General'.obs;
+  List<Map<String, dynamic>> drawerLists;
 
-  MainDrawerController() {
+  MainDrawerController() : drawerLists = [] {
     currentTitle.value = title[selectedIndex.value];
 
     Get.put(ProfileUserController());
@@ -38,6 +39,14 @@ class MainDrawerController extends GetxController {
     Get.put(PublicationsController());
     Get.put(SocialActivityController());
     Get.put(ResearchesController());
+
+    drawerLists = List.generate(
+      title.length,
+      (index) => {
+        'title': title[index],
+        'icon': icon[index]
+      },
+    );
   }
 
   List<Widget> screens = [

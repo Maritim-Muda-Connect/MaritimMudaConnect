@@ -64,6 +64,8 @@ TextStyle semiBoldText22 =
     GoogleFonts.poppins(fontSize: 22, fontWeight: semiBold);
 TextStyle semiBoldText24 =
     GoogleFonts.poppins(fontSize: 24, fontWeight: semiBold);
+TextStyle semiBoldText28 =
+    GoogleFonts.poppins(fontSize: 28, fontWeight: semiBold);
 TextStyle semiBoldText32 =
     GoogleFonts.poppins(fontSize: 32, fontWeight: semiBold);
 

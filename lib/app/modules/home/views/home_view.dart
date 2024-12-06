@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/job/views/job_view.dart';
@@ -8,7 +9,7 @@ import 'package:maritimmuda_connect/app/modules/home/scholarship/views/scholarsh
 import 'package:maritimmuda_connect/app/modules/home/widget/home_card.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_view.dart';
 import 'package:maritimmuda_connect/app/modules/navbar/controllers/main_controller.dart';
-import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import '../controllers/home_controller.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
@@ -17,7 +18,6 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final MainController mainController = Get.find();
-    final profileController = Get.find<ProfileController>();
     final EventController eventController = Get.find();
 
     return Scaffold(
@@ -44,11 +44,7 @@ class HomeView extends GetView<HomeController> {
                 GestureDetector(
                   onTap: () {
                     mainController.updateIndex(3);
-                    mainController.pageController.animateToPage(
-                      3,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
+                    mainController.pageController.jumpToPage(3);
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -212,11 +208,20 @@ class HomeView extends GetView<HomeController> {
                   child: HomeCard(
                     icon: 'assets/icons/event_icon.svg',
                     title: 'Event',
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EventView()));
+                    onTap: () async {
+                      String? uid = await UserPreferences().getUid();
+                      if (uid == null || uid.isEmpty) {
+                        if (SnackbarController.isSnackbarBeingShown == false) {
+                          customSnackbar("This account doesn't have E-KTA",
+                              secondaryRedColor);
+                        }
+                      } else {
+                        Get.to(
+                          () => const EventView(),
+                          transition: Transition.rightToLeft,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -225,11 +230,20 @@ class HomeView extends GetView<HomeController> {
                   child: HomeCard(
                     icon: 'assets/icons/scholarship_icon.svg',
                     title: 'Scholarship',
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ScholarshipView()));
+                    onTap: () async {
+                      String? uid = await UserPreferences().getUid();
+                      if (uid == null || uid.isEmpty) {
+                        if (SnackbarController.isSnackbarBeingShown == false) {
+                          customSnackbar("This account doesn't have E-KTA",
+                              secondaryRedColor);
+                        }
+                      } else {
+                        Get.to(
+                          () => const ScholarshipView(),
+                          transition: Transition.rightToLeft,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -238,8 +252,20 @@ class HomeView extends GetView<HomeController> {
                   child: HomeCard(
                     icon: 'assets/icons/job_icon.svg',
                     title: 'Jobs',
-                    onTap: () {
-                      Get.to(() => const JobView());
+                    onTap: () async {
+                      String? uid = await UserPreferences().getUid();
+                      if (uid == null || uid.isEmpty) {
+                        if (SnackbarController.isSnackbarBeingShown == false) {
+                          customSnackbar("This account doesn't have E-KTA",
+                              secondaryRedColor);
+                        }
+                      } else {
+                        Get.to(
+                          () => const JobView(),
+                          transition: Transition.rightToLeft,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      }
                     },
                   ),
                 ),

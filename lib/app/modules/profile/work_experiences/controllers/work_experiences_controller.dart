@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_month_picker/flutter_custom_month_picker.dart';
 import 'package:maritimmuda_connect/app/data/models/request/work_experiences_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/work_experiences_response.dart';
-import 'package:maritimmuda_connect/app/data/services/work_experiences_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/work_experiences_service.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
@@ -210,7 +210,8 @@ class WorkExperiencesController extends GetxController {
         customSnackbar(
           'Success deleting work experience history!',
           null,
-        );;
+        );
+        ;
       } else {
         customSnackbar('Failed Deleting Work Experience!');
       }

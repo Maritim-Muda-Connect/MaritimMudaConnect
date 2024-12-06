@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../data/models/response/general_response.dart';
-import '../../../../data/services/general_service.dart';
+import '../../../../data/services/profile/general_service.dart';
 
 class ProfileUserController extends GetxController {
   final name = ''.obs;
@@ -32,12 +33,17 @@ class ProfileUserController extends GetxController {
     loadUserData();
   }
 
+  void setAllController() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? uid = generalData.value.user?.uid ?? "";
+    await prefs.setString("uid", uid);
+  }
+
   Future<void> fetchGeneral() async {
     try {
       isLoading(true);
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
-
     } catch (e) {
       print(e);
     } finally {

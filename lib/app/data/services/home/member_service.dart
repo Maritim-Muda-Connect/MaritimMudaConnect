@@ -1,11 +1,10 @@
-
 import 'package:maritimmuda_connect/app/data/models/response/member_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/response/uid_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 
-class HomeService {
+class MemberService {
   Future<MemberResponse> getAllMembers() async {
     try {
       String? token = await UserPreferences().getToken();

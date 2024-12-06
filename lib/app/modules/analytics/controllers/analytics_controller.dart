@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../data/services/analytic_service.dart';
+import '../../../data/services/analytics/analytic_service.dart';
 import '../../../data/models/response/analytic_response.dart';
 
-class AnalyticsController extends GetxController with GetSingleTickerProviderStateMixin {
+class AnalyticsController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   late TabController tabController;
   var isLoading = false.obs;
   var selectedIndex = 0.obs;
@@ -33,7 +34,7 @@ class AnalyticsController extends GetxController with GetSingleTickerProviderSta
     analyticService = Get.put(AnalyticService());
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');  // Ambil token dari SharedPreferences
+    token = prefs.getString('token'); // Ambil token dari SharedPreferences
 
     if (token == null || token!.isEmpty) {
       // Token belum ada, mungkin tampilkan snackbar atau redirect ke login
@@ -47,11 +48,11 @@ class AnalyticsController extends GetxController with GetSingleTickerProviderSta
     });
 
     // Set default bulan pertama
-    selectedMonth.value = months.isNotEmpty ? months[0] : ''; 
+    selectedMonth.value = months.isNotEmpty ? months[0] : '';
 
     // Menunda eksekusi untuk fetchAnalytics
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchAnalytics();  // Menunggu hingga build selesai
+      fetchAnalytics(); // Menunggu hingga build selesai
     });
   }
 
@@ -67,7 +68,7 @@ class AnalyticsController extends GetxController with GetSingleTickerProviderSta
 
       // Set state dengan data yang diterima
       months.value = response.months ?? [];
-      widgets.value = response.widgets ?? [];  
+      widgets.value = response.widgets ?? [];
       userCounts.value = response.userCounts!.values.toList();
       announcement.value = response.announcement ?? "No announcement";
 

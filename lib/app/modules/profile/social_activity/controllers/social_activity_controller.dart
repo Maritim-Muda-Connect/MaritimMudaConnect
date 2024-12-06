@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/social_activity_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/social_activity_response.dart';
-import 'package:maritimmuda_connect/app/data/services/social_activity_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/social_activity_service.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';

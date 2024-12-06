@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/response/organizations_response.dart';
-import 'package:maritimmuda_connect/app/data/services/organizations_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/organizations_service.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';

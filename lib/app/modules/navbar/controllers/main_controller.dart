@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/e_kta/controllers/e_kta_controller.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/result_qr/controllers/result_qr_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/main_drawer/views/main_drawer_view.dart';
@@ -29,6 +30,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
     Get.put(JobController());
     Get.put(ProfileUserController());
     Get.put(ResultQrController());
+    Get.put(EKtaController());
   }
 
   final List<String> iconTitles = [

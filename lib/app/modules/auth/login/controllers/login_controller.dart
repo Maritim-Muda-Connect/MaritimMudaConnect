@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/request/login_request.dart';
-import 'package:maritimmuda_connect/app/data/services/auth_service.dart';
+import 'package:maritimmuda_connect/app/data/services/auth/auth_service.dart';
 import 'package:maritimmuda_connect/app/modules/navbar/bindings/main_binding.dart';
 import 'package:maritimmuda_connect/app/modules/navbar/views/main_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
@@ -35,7 +35,8 @@ class LoginController extends GetxController {
   }
 
   void checkField() {
-    if (validateEmailField(emailC.text) == null && validatePasswordField(passwordC.text) == null) {
+    if (validateEmailField(emailC.text) == null &&
+        validatePasswordField(passwordC.text) == null) {
       isCheckField.value = true;
     } else {
       isCheckField.value = false;

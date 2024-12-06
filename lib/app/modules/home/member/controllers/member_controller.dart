@@ -1,7 +1,6 @@
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:maritimmuda_connect/app/data/services/home_service.dart';
+import 'package:maritimmuda_connect/app/data/services/home/member_service.dart';
 import '../../../../data/models/response/member_response.dart';
 import '../../../../data/utils/province.dart';
 
@@ -26,7 +25,7 @@ class MemberController extends GetxController {
     isLoading.value = true;
 
     try {
-      var response = await HomeService().getEmail(email);
+      var response = await MemberService().getEmail(email);
       emailVerified = response.user?.emailVerifiedAt;
       isLoading.value = false;
     } catch (e) {
@@ -37,7 +36,7 @@ class MemberController extends GetxController {
   Future<void> getAllMember() async {
     try {
       isLoading.value = true;
-      var response = await HomeService().getAllMembers();
+      var response = await MemberService().getAllMembers();
       memberList.assignAll(response.members!);
       filteredMemberList.assignAll(memberList);
     } catch (e) {

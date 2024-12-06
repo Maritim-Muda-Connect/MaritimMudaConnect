@@ -15,42 +15,79 @@ class _ScanQrViewState extends State<ScanQrView> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
+  bool isFlashOn = false;
 
-  void _onQRViewCreated(QRViewController controller) {
+  void _createQrView(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        controller.pauseCamera();
         RegExp regExp = RegExp(r'user/(\d+)/membership-status');
         Match? match = regExp.firstMatch(result?.code ?? "");
         String uid = match?.group(1) ?? "";
-        Get.to(
-          () => ResultQrView(uid: uid),
-          transition: Transition.rightToLeft,
-          duration: const Duration(milliseconds: 100),
-        );
+        if (RegExp(r'^\d+$').hasMatch(uid)) {
+          Get.to(
+            () => ResultQrView(uid: uid),
+            transition: Transition.rightToLeft,
+            duration: const Duration(milliseconds: 100),
+          );
+        }
       });
     });
   }
 
+  void _toggleFlash() {
+    if (controller != null) {
+      controller!.toggleFlash();
+      setState(() {
+        isFlashOn = !isFlashOn;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 200.0
+        : 350.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: neutral02Color,
-        title: Text('Scan QR',
-            style: semiBoldText16.copyWith(color: neutral04Color)),
+        title: Text(
+          'Scan QR',
+          style: semiBoldText16.copyWith(color: neutral04Color),
+        ),
         centerTitle: true,
         scrolledUnderElevation: 0.0,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            flex: 5,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+          Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: QRView(
+                  key: qrKey,
+                  onQRViewCreated: _createQrView,
+                  overlay: QrScannerOverlayShape(
+                    borderColor: primaryDarkBlueColor,
+                    borderRadius: 10,
+                    borderLength: 30,
+                    borderWidth: 10,
+                    cutOutSize: scanArea,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: IconButton(
+              icon: Icon(isFlashOn ? Icons.flash_on : Icons.flash_off),
+              color: Colors.white,
+              onPressed: _toggleFlash,
             ),
           ),
         ],

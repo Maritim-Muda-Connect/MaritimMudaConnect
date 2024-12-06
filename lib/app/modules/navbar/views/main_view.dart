@@ -84,8 +84,10 @@ class MainView extends StatelessWidget {
               onPressed: () async {
                 String? uid = await UserPreferences().getUid();
                 if (uid == null || uid.isEmpty) {
-                  customSnackbar(
-                      "Akun ini belum memiliki E-KTA", secondaryRedColor);
+                  if (SnackbarController.isSnackbarBeingShown == false) {
+                    customSnackbar(
+                        "This account doesn't have E-KTA", secondaryRedColor);
+                  }
                 } else {
                   Get.to(
                     () => const EKtaView(),
@@ -116,7 +118,17 @@ class MainView extends StatelessWidget {
         : neutral03Color;
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        if (index == 1) {
+          String? uid = await UserPreferences().getUid();
+          if (uid == null || uid.isEmpty) {
+            if (SnackbarController.isSnackbarBeingShown == false) {
+              customSnackbar(
+                  "This account doesn't have E-KTA", secondaryRedColor);
+            }
+            return;
+          }
+        }
         controller.updateIndex(index < 2 ? index : index - 1);
         controller.pageController.jumpToPage(controller.bottomNavIndex);
       },

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/publication_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/publication_response.dart';
-import 'package:maritimmuda_connect/app/data/services/publication_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/publication_service.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';

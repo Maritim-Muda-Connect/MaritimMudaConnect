@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/response/event_response.dart';
-import 'package:maritimmuda_connect/app/data/services/event_service.dart';
+import 'package:maritimmuda_connect/app/data/services/home/event_service.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/category_event.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/list_event_view.dart';
 
@@ -38,7 +38,8 @@ class EventController extends GetxController
 
   List<Event> getFiveLatestEvents() {
     var sortedEvents = eventsList
-        .where((event) => event.posterLink != null && event.posterLink!.isNotEmpty)
+        .where(
+            (event) => event.posterLink != null && event.posterLink!.isNotEmpty)
         .toList();
 
     sortedEvents.sort((a, b) => (b.createdAt ?? DateTime.now())
@@ -46,7 +47,6 @@ class EventController extends GetxController
 
     return sortedEvents.take(5).toList();
   }
-
 
   @override
   void onInit() {

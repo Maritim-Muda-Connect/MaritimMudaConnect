@@ -49,9 +49,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         const SizedBox(height: 50),
                         Obx(
                           () => Text(
-                              controller.generalData.value.user?.name ?? '',
-                              style: semiBoldText24,
-                          textAlign: TextAlign.center,
+                            controller.generalData.value.user?.name ?? '',
+                            style: semiBoldText24,
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         const SizedBox(height: 5),
@@ -60,8 +60,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                           children: [
                             Text(
                               provinceOptions[controller
-                                  .generalData.value.user?.provinceId
-                                  .toString()]!,
+                                      .generalData.value.user?.provinceId
+                                      .toString()] ??
+                                  '',
                               style: regulerText16,
                             ),
                             SizedBox(
@@ -187,8 +188,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                 mediumText16.copyWith(color: neutral04Color)),
                         Text(
                             expertiseOptions[controller
-                                .generalData.value.user?.firstExpertiseId
-                                .toString()]!,
+                                    .generalData.value.user?.firstExpertiseId
+                                    .toString()] ??
+                                "",
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
                     ),
@@ -201,8 +203,9 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                 mediumText16.copyWith(color: neutral04Color)),
                         Text(
                             expertiseOptions[controller
-                                .generalData.value.user?.secondExpertiseId
-                                .toString()]!,
+                                    .generalData.value.user?.secondExpertiseId
+                                    .toString()] ??
+                                "",
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
                     ),

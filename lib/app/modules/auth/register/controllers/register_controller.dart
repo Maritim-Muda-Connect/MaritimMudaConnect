@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/request/register_request.dart';
-import 'package:maritimmuda_connect/app/data/services/auth_service.dart';
+import 'package:maritimmuda_connect/app/data/services/auth/auth_service.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/auth/register/views/register_success_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
@@ -110,7 +110,7 @@ class RegisterController extends GetxController {
   String? validatePasswordField(String? value) {
     if (value == null || value.isEmpty) {
       return "Password must be 8 or more characters";
-    } else if (value.length < 7){
+    } else if (value.length < 7) {
       return "Password must be 8 or more characters";
     }
     return null;

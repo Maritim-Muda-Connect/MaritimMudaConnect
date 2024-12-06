@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/response/result_qr_response.dart';
-import 'package:maritimmuda_connect/app/data/services/result_qr_service.dart';
+import 'package:maritimmuda_connect/app/data/services/ekta/result_qr_service.dart';
 
 class ResultQrController extends GetxController {
   var isLoading = true.obs;

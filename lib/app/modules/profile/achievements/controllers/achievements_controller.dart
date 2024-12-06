@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/achievements_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/achievements_response.dart';
-import 'package:maritimmuda_connect/app/data/services/achievements_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/achievements_service.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
 import '../../../widget/custom_snackbar.dart';

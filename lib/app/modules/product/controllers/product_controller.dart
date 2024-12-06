@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/response/product_response.dart';
-import 'package:maritimmuda_connect/app/data/services/product_service.dart';
+import 'package:maritimmuda_connect/app/data/services/products/product_service.dart';
 import 'package:maritimmuda_connect/app/modules/product/all_product/views/all_product_view.dart';
 import 'package:maritimmuda_connect/app/modules/product/sub_product/views/sub_product_view.dart';
 

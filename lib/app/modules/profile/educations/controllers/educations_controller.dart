@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/educations_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/educations_response.dart';
-import 'package:maritimmuda_connect/app/data/services/educations_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/educations_service.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 

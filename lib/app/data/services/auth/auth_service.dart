@@ -19,27 +19,26 @@ class AuthService {
 
       String token = loginResponseFromJson(response.body).token!;
       int userId = loginResponseFromJson(response.body).user!.id!;
-      String? uid = loginResponseFromJson(response.body).user?.uid ?? "";
       String uuid = loginResponseFromJson(response.body).user!.uuid!;
       String name = loginResponseFromJson(response.body).user!.name!;
       String email = loginResponseFromJson(response.body).user!.email!;
       String placeOfBirth =
-          loginResponseFromJson(response.body).user!.placeOfBirth!;
+          loginResponseFromJson(response.body).user?.placeOfBirth ?? "";
       String bio =
-          loginResponseFromJson(response.body).user!.bio ?? "No bio yet";
+          loginResponseFromJson(response.body).user?.bio ?? "No bio yet";
       DateTime emailVerifiedAt =
-          loginResponseFromJson(response.body).user!.emailVerifiedAt!;
+          loginResponseFromJson(response.body).user?.emailVerifiedAt ??
+              DateTime.now();
       int serialNumber =
           loginResponseFromJson(response.body).user?.serialNumber ?? 0;
       int provinceId = loginResponseFromJson(response.body).user!.provinceId!;
       int firstExpertiseId =
-          loginResponseFromJson(response.body).user!.firstExpertiseId!;
+          loginResponseFromJson(response.body).user?.firstExpertiseId ?? 0;
       int secondExpertiseId =
-          loginResponseFromJson(response.body).user!.secondExpertiseId!;
+          loginResponseFromJson(response.body).user?.secondExpertiseId ?? 0;
 
       await prefs.setString("token", token);
       await prefs.setString("userId", userId.toString());
-      await prefs.setString("uid", uid);
       await prefs.setString("uuid", uuid);
       await prefs.setString("name", name);
       await prefs.setInt("serial_number", serialNumber);

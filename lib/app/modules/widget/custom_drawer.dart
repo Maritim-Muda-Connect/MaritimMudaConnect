@@ -27,9 +27,7 @@ class CustomDrawer extends StatelessWidget {
               style: semiBoldText28,
             ),
           ),
-          Divider(
-          height: 1,
-          ),
+          const Divider(height: 1),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -54,6 +52,8 @@ class CustomDrawer extends StatelessWidget {
                     Get.offAll(
                       () => const LoginView(),
                       binding: LoginBinding(),
+                      transition: Transition.leftToRight,
+                      duration: const Duration(milliseconds: 100),
                     );
                   },
                   onCancel: () {
@@ -61,26 +61,24 @@ class CustomDrawer extends StatelessWidget {
                   },
                 );
               },
-              child: Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-                  decoration: BoxDecoration(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                decoration: BoxDecoration(
                     color: secondaryRedColor,
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: neutral02Color,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Logout',
-                        style: boldText16.copyWith(color: neutral02Color),
-                      ),
-                    ],
-                  ),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.logout,
+                      color: neutral02Color,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Logout',
+                      style: boldText16.copyWith(color: neutral02Color),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -124,15 +122,15 @@ class CustomDrawer extends StatelessWidget {
               Text(
                 text,
                 style: controller.selectedIndex == index
-                  ?
-                boldText16.copyWith(
-                    color: controller.selectedIndex == index
-                        ? primaryDarkBlueColor
-                        : neutral04Color) :
-                regulerText16.copyWith(
-                    color: controller.selectedIndex == index
-                        ? primaryDarkBlueColor
-                        : neutral04Color.withOpacity(0.5))
+                    ? boldText16.copyWith(
+                        color: controller.selectedIndex == index
+                            ? primaryDarkBlueColor
+                            : neutral04Color)
+                    : regulerText16.copyWith(
+                        color: controller.selectedIndex == index
+                            ? primaryDarkBlueColor
+                            : neutral04Color.withOpacity(0.5),
+                      ),
               ),
             ],
           ),

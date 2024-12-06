@@ -4,18 +4,20 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
-import 'package:maritimmuda_connect/app/data/services/general_service.dart';
+import 'package:maritimmuda_connect/app/data/services/profile/general_service.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
+import 'package:maritimmuda_connect/app/modules/e_kta/controllers/e_kta_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/controllers/home_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileController extends GetxController {
-
   final profileUserController = Get.find<ProfileUserController>();
   final homeController = Get.find<HomeController>();
+  final ektaController = Get.find<EKtaController>();
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -112,16 +114,21 @@ class ProfileController extends GetxController {
     }
   }
 
-  void setAllController() {
+  void setAllController() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     String provinceId = generalData.value.user?.provinceId?.toString() ?? '1';
     String provinceName = provinceOptions[provinceId] ?? '';
+    String? uid = generalData.value.user?.uid ?? "";
+    await prefs.setString("uid", uid);
 
     nameController.text = generalData.value.user?.name ?? '';
     emailController.text = generalData.value.user?.email ?? '';
     provincialOrgController.text = provinceName;
     placeOfBirthController.text = generalData.value.user?.placeOfBirth ?? '';
-    dateOfBirthController.text = DateFormat('yyyy-MM-dd')
-        .format(DateTime.parse(generalData.value.user!.dateOfBirth.toString()));
+    dateOfBirthController.text = generalData.value.user?.dateOfBirth != null
+        ? DateFormat('yyyy-MM-dd').format(generalData.value.user!.dateOfBirth!)
+        : '';
     linkedInController.text = generalData.value.user?.linkedinProfile ?? '';
     instagramController.text = generalData.value.user?.instagramProfile ?? '';
     addressController.text = generalData.value.user?.permanentAddress ?? '';
@@ -180,8 +187,10 @@ class ProfileController extends GetxController {
         fetchGeneral();
         Get.put(HomeController());
         Get.put(ProfileUserController());
+        Get.put(EKtaController());
         profileUserController.fetchGeneral();
         homeController.fetchGeneral();
+        ektaController.getEkta();
       } else {
         customSnackbar(
           "Profile update failed, please check your input field",

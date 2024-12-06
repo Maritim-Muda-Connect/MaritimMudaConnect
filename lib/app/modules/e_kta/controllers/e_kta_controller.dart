@@ -28,22 +28,23 @@ class EKtaController extends GetxController {
     getEkta();
   }
 
-  void getEkta() async {
+  Future<void> getEkta() async {
     try {
       String? token = await UserPreferences().getToken();
-      String? name = await UserPreferences().getName();
 
-      displayName.value = name!;
       final response = await http.get(
         Uri.parse("$baseUrl/profile/general"),
         headers: headerWithToken(token!),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final membercard = data['user']['member-card-preview_link'];
-        ektaImage.value = membercard;
 
+        final membercard = data['user']['member-card-preview_link'];
         final urlLink = data['user']['member-card-document_link'];
+        final name = data['user']['name'];
+
+        displayName.value = name;
+        ektaImage.value = membercard;
         urlDownloaded.value = urlLink;
       }
     } catch (e) {

@@ -134,7 +134,9 @@ class ProfileView extends GetView<ProfileController> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           child: controller.photoIdentity.value
-                                                  .contains("via")
+                                                      .contains("via") ||
+                                                  controller.photoIdentity.value
+                                                      .contains("cloudinary")
                                               ? Image.asset(
                                                   "assets/images/process_identity.png",
                                                   fit: BoxFit.cover,
@@ -199,7 +201,9 @@ class ProfileView extends GetView<ProfileController> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           child: controller.photoPayment.value
-                                                  .contains("via")
+                                                      .contains("via") ||
+                                                  controller.photoIdentity.value
+                                                      .contains("cloudinary")
                                               ? SizedBox(
                                                   width: double.infinity,
                                                   child: Align(

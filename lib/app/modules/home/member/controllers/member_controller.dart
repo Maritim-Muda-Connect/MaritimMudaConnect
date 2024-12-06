@@ -1,19 +1,23 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:maritimmuda_connect/app/data/models/response/uid_response.dart';
 import 'package:maritimmuda_connect/app/data/services/home/member_service.dart';
 import '../../../../data/models/response/member_response.dart';
 import '../../../../data/utils/province.dart';
 
 class MemberController extends GetxController {
+  final expandedSections = <String, bool>{}.obs;
+  final selectedItems = <String, String>{}.obs;
+  DateTime? emailVerified;
+
   var isVisible = false.obs;
   var isLoading = false.obs;
-  final expandedSections = <String, bool>{}.obs;
   var memberList = <Member>[].obs;
   var filteredMemberList = <Member>[].obs;
+  var memberData = UidResponse().obs;
   var searchQuery = ''.obs;
-  final selectedItems = <String, String>{}.obs;
   var isDrawerVisible = false.obs;
-  DateTime? emailVerified;
+  var dateOfBirth = ''.obs;
 
   @override
   void onInit() {
@@ -22,14 +26,18 @@ class MemberController extends GetxController {
   }
 
   Future<void> getEmail(String email) async {
-    isLoading.value = true;
-
+    isLoading(true);
     try {
       var response = await MemberService().getEmail(email);
+      memberData(response);
       emailVerified = response.user?.emailVerifiedAt;
-      isLoading.value = false;
+      dateOfBirth(response.user?.dateOfBirth != null
+          ? DateFormat('dd MMMM yyyy').format(response.user!.dateOfBirth!)
+          : '');
     } catch (e) {
       print("Error fetching email: $e");
+    } finally {
+      isLoading(false);
     }
   }
 

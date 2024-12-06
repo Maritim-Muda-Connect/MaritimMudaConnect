@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/controllers/e_kta_controller.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/result_qr/controllers/result_qr_controller.dart';
+import 'package:maritimmuda_connect/app/modules/home/member/controllers/member_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/achievements/controllers/achievements_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/main_drawer/views/main_drawer_view.dart';
 import 'package:maritimmuda_connect/app/modules/profile/profile_user/controllers/profile_user_controller.dart';
@@ -31,6 +32,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
     Get.put(ProfileUserController());
     Get.put(ResultQrController());
     Get.put(EKtaController());
+    Get.put(MemberController());
   }
 
   final List<String> iconTitles = [

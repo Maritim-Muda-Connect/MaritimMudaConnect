@@ -36,22 +36,28 @@ class EKtaView extends GetView<EKtaController> {
               Column(
                 children: [
                   const SizedBox(height: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Hello,",
-                          style: regulerText26.copyWith(color: neutral04Color)),
-                      Obx(() {
-                        if (controller.displayName.value.isNotEmpty) {
-                          return Text(
-                            controller.displayName.value,
-                            style:
-                                semiBoldText32.copyWith(color: neutral04Color),
-                          );
-                        } else {
-                          return const Text("");
-                        }
-                      }),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Hello,",
+                              style: regulerText26.copyWith(
+                                  color: neutral04Color)),
+                          Obx(() {
+                            if (controller.displayName.value.isNotEmpty) {
+                              return Text(
+                                controller.displayName.value,
+                                style: semiBoldText32.copyWith(
+                                    color: neutral04Color),
+                              );
+                            } else {
+                              return const Text("");
+                            }
+                          }),
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(height: 50),

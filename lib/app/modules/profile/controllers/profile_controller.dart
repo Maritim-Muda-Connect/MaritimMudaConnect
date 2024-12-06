@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileController extends GetxController {
   final profileUserController = Get.find<ProfileUserController>();
   final homeController = Get.find<HomeController>();
-  final ektaController = Get.find<EKtaController>();
+  final ektaController = Get.put(EKtaController());
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();

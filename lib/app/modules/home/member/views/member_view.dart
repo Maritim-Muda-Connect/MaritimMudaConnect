@@ -11,8 +11,6 @@ class MemberView extends GetView<MemberController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(MemberController());
-
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
@@ -50,7 +48,7 @@ class MemberView extends GetView<MemberController> {
                           child: ListView(children: const [
                             Center(
                               child: Column(
-                                children: [Text("data tidak ditemukan cuy")],
+                                children: [Text("No member found")],
                               ),
                             ),
                           ]),
@@ -60,47 +58,42 @@ class MemberView extends GetView<MemberController> {
                         ),
                       );
                     } else {
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: controller.filteredMemberList.length,
-                          itemBuilder: (context, index) {
-                            final memberList =
-                                controller.filteredMemberList[index];
-                            return Card(
-                              margin: const EdgeInsets.symmetric(vertical: 7.5),
-                              color: neutral01Color,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              child: ListTile(
-                                onTap: () {
-                                  controller.getEmail(memberList.email!);
-                                  Get.to(() =>
-                                      MemberDetailView(memberList: memberList));
-                                },
-                                leading: CircleAvatar(
-                                  foregroundImage:
-                                      NetworkImage(memberList.photoLink!),
-                                  backgroundImage: const AssetImage(
-                                      'assets/images/default_photo.jpg'),
-                                ),
-                                title: Text(
-                                  memberList.name ?? "",
-                                  style: regulerText24,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                    provinceOptions[
-                                        memberList.provinceId.toString()]!,
-                                    style: extraLightText16),
-                                trailing: CircleAvatar(
-                                    backgroundColor: primaryDarkBlueColor,
-                                    maxRadius: 15,
-                                    child: Icon(Icons.chevron_right,
-                                        color: neutral01Color)),
+                      return Column(
+                        children: controller.filteredMemberList.map((members) {
+                          return Card(
+                            margin: const EdgeInsets.symmetric(vertical: 7.5),
+                            color: neutral01Color,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            child: ListTile(
+                              onTap: () {
+                                controller.getEmail(members.email!);
+                                Get.to(() =>
+                                    MemberDetailView(memberList: members));
+                              },
+                              leading: CircleAvatar(
+                                foregroundImage:
+                                    NetworkImage(members.photoLink!),
+                                backgroundImage: const AssetImage(
+                                    'assets/images/default_photo.jpg'),
                               ),
-                            );
-                          },
-                        ),
+                              title: Text(
+                                members.name ?? "",
+                                style: regulerText24,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
+                                  provinceOptions[
+                                      members.provinceId.toString()]!,
+                                  style: extraLightText16),
+                              trailing: CircleAvatar(
+                                  backgroundColor: primaryDarkBlueColor,
+                                  maxRadius: 15,
+                                  child: Icon(Icons.chevron_right,
+                                      color: neutral01Color)),
+                            ),
+                          );
+                        }).toList(),
                       );
                     }
                   }),

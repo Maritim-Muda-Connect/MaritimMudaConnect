@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
+import 'package:maritimmuda_connect/app/modules/widget/social_media.dart';
 import 'package:maritimmuda_connect/themes.dart';
-
 import '../../../../data/models/response/member_response.dart';
 import '../controllers/member_controller.dart';
 
 class MemberDetailView extends GetView<MemberController> {
-  MemberDetailView({super.key, required this.memberList});
-  Member memberList;
+  const MemberDetailView({super.key, required this.memberList});
+  final Member memberList;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,8 +71,62 @@ class MemberDetailView extends GetView<MemberController> {
                             SizedBox(
                                 height: 20,
                                 child: VerticalDivider(color: neutral04Color)),
-                            Text("${memberList.email}")
+                            Obx(() {
+                              if (controller.dateOfBirth.value.isNotEmpty) {
+                                return Text(
+                                  controller.dateOfBirth.value,
+                                  style: regulerText12,
+                                );
+                              } else {
+                                return const Text("");
+                              }
+                            }),
                           ],
+                        ),
+                        const SizedBox(height: 10),
+                        Obx(
+                          () {
+                            if (controller.isLoading.value) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: primaryDarkBlueColor,
+                                ),
+                              );
+                            } else if (controller.memberData.value.user ==
+                                null) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icons/gmail.svg",
+                                    color: subTitleColor,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  SvgPicture.asset(
+                                    "assets/icons/linkedin.svg",
+                                    color: subTitleColor,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  SvgPicture.asset(
+                                    "assets/icons/instagram.svg",
+                                    color: subTitleColor,
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return SocialMedia(
+                                gmail:
+                                    controller.memberData.value.user?.email ??
+                                        "",
+                                linkedin: controller.memberData.value.user
+                                        ?.linkedinProfile ??
+                                    "",
+                                instagram: controller.memberData.value.user
+                                        ?.instagramProfile ??
+                                    "",
+                              );
+                            }
+                          },
                         ),
                         const SizedBox(height: 6),
                         Padding(
@@ -135,15 +189,13 @@ class MemberDetailView extends GetView<MemberController> {
                         children: [
                           Row(
                             children: [
-                              Icon(
-                                Icons.email,
-                                color: subTitleColor,
-                              ),
+                              Icon(Icons.email, color: subTitleColor),
                               const SizedBox(width: 7),
-                              Text("Email",
-                                  style: regulerText12.copyWith(
-
-                                      color: subTitleColor)),
+                              Text(
+                                "Email",
+                                style: regulerText12.copyWith(
+                                    color: subTitleColor),
+                              ),
                             ],
                           ),
                           Flexible(
@@ -162,21 +214,22 @@ class MemberDetailView extends GetView<MemberController> {
                         children: [
                           Row(
                             children: [
-                              Icon(
-                                Icons.calendar_month,
-                                color: subTitleColor,
-                              ),
+                              Icon(Icons.calendar_month, color: subTitleColor),
                               const SizedBox(width: 7),
-                              Text("Joined",
-                                  style: regulerText12.copyWith(
-                                      color: subTitleColor)),
+                              Text(
+                                "Joined",
+                                style: regulerText12.copyWith(
+                                    color: subTitleColor),
+                              ),
                             ],
                           ),
                           Text(
-                              DateFormat('MMMM yyyy', 'id_ID').format(
-                                  controller.emailVerified ?? DateTime.now()),
-                              style:
-                                  regulerText16.copyWith(color: neutral04Color))
+                            DateFormat('MMMM yyyy').format(controller
+                                    .memberData.value.user?.emailVerifiedAt ??
+                                DateTime.now()),
+                            style:
+                                regulerText16.copyWith(color: neutral04Color),
+                          )
                         ],
                       ),
                       const SizedBox(height: 27),

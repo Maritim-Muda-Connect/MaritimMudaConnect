@@ -57,7 +57,7 @@ class JobView extends GetView<JobController> {
                 job.positionTitle ?? '',
                 overflow: TextOverflow.ellipsis,
                 style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                boldText16
               ),
               const SizedBox(height: 8),
               Text(job.companyName ?? ''),
@@ -110,8 +110,9 @@ class JobView extends GetView<JobController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Available Job',
+                style: regulerText14,
               ),
               IconButton(
                 icon: const Icon(Icons.close),
@@ -122,7 +123,7 @@ class JobView extends GetView<JobController> {
           const SizedBox(height: 8),
           Text(
             job.positionTitle ?? '',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: boldText20,
           ),
           const SizedBox(
             height: 10,

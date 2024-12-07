@@ -14,6 +14,7 @@ class ProfileUserController extends GetxController {
   final placeOfBirth = ''.obs;
   final bio = ''.obs;
   final createdAt = ''.obs;
+  final dateOfBirth = ''.obs;
   final provinceId = ''.obs;
   final firstExpertiseId = ''.obs;
   final secondExpertiseId = ''.obs;
@@ -58,6 +59,7 @@ class ProfileUserController extends GetxController {
     placeOfBirth.value =
         (await userPreferences.getPlaceOfBirth())?.toString() ?? 'Tempat Lahir';
     bio.value = (await userPreferences.getBio())?.toString() ?? 'No bio yet';
+    dateOfBirth.value = (await userPreferences.getCreatedAt()).toString();
     createdAt.value = (await userPreferences.getCreatedAt()).toString();
     provinceId.value = (await userPreferences.getProvinceId()).toString();
     firstExpertiseId.value =

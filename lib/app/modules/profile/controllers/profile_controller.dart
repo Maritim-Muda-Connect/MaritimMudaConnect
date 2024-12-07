@@ -33,7 +33,7 @@ class ProfileController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
   final focusNodes = List.generate(7, (_) => FocusNode());
-  final List<String> genderOptions = ["Choose your gender", 'Male', 'Female'];
+  final List<String> genderOptions = ['Male', 'Female'];
   final RxString photoImagePath = ''.obs;
   final RxString photoImageName = ''.obs;
   final RxString identityImagePath = ''.obs;
@@ -50,7 +50,7 @@ class ProfileController extends GetxController {
   var generalData = GeneralResponse().obs;
   var selectedFirstExpertise = 0.obs;
   var selectedSecondExpertise = 0.obs;
-  var selectedGender = 1.obs;
+  var selectedGender = 0.obs;
   var province = 1.obs;
   var photoImage = ''.obs;
   var photoIdentity = ''.obs;

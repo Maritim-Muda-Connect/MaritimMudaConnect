@@ -116,6 +116,9 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 237,
+            )
           ],
         ),
       ),

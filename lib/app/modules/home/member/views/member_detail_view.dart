@@ -29,10 +29,12 @@ class MemberDetailView extends GetView<MemberController> {
                 margin: const EdgeInsets.symmetric(horizontal: 14),
                 width: 403,
                 decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16))),
+                  color: neutral01Color,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                ),
                 child: Stack(
                   children: [
                     Column(
@@ -41,14 +43,16 @@ class MemberDetailView extends GetView<MemberController> {
                         Container(
                           height: 135,
                           decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(16),
-                                  bottomRight: Radius.circular(16)),
-                              color: primaryDarkBlueColor,
-                              image: const DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                      "assets/images/paternkartu.png"))),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(16),
+                                bottomRight: Radius.circular(16)),
+                            color: primaryDarkBlueColor,
+                            image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  AssetImage("assets/images/paternkartu.png"),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 50),
                         Text(
@@ -69,8 +73,9 @@ class MemberDetailView extends GetView<MemberController> {
                               ),
                             ),
                             SizedBox(
-                                height: 20,
-                                child: VerticalDivider(color: neutral04Color)),
+                              height: 20,
+                              child: VerticalDivider(color: neutral04Color),
+                            ),
                             Obx(() {
                               if (controller.dateOfBirth.value.isNotEmpty) {
                                 return Text(
@@ -99,17 +104,20 @@ class MemberDetailView extends GetView<MemberController> {
                                 children: [
                                   SvgPicture.asset(
                                     "assets/icons/gmail.svg",
-                                    color: subTitleColor,
+                                    colorFilter: ColorFilter.mode(
+                                        subTitleColor, BlendMode.srcIn),
                                   ),
                                   const SizedBox(width: 20),
                                   SvgPicture.asset(
                                     "assets/icons/linkedin.svg",
-                                    color: subTitleColor,
+                                    colorFilter: ColorFilter.mode(
+                                        subTitleColor, BlendMode.srcIn),
                                   ),
                                   const SizedBox(width: 20),
                                   SvgPicture.asset(
                                     "assets/icons/instagram.svg",
-                                    color: subTitleColor,
+                                    colorFilter: ColorFilter.mode(
+                                        subTitleColor, BlendMode.srcIn),
                                   ),
                                 ],
                               );
@@ -165,8 +173,9 @@ class MemberDetailView extends GetView<MemberController> {
               Obx(() {
                 if (controller.isLoading.value) {
                   return Center(
-                      child: CircularProgressIndicator(
-                          color: primaryDarkBlueColor));
+                    child:
+                        CircularProgressIndicator(color: primaryDarkBlueColor),
+                  );
                 }
                 return Container(
                   margin:
@@ -242,32 +251,33 @@ class MemberDetailView extends GetView<MemberController> {
                               style:
                                   mediumText16.copyWith(color: neutral04Color)),
                           Text(
-                              expertiseOptions[
-                                      memberList.firstExpertiseId.toString()] ??
-                                  "Not set",
-                              style:
-                                  regulerText10.copyWith(color: subTitleColor))
+                            expertiseOptions[
+                                    memberList.firstExpertiseId.toString()] ??
+                                "Not set",
+                            style: regulerText10.copyWith(color: subTitleColor),
+                          )
                         ],
                       ),
                       const SizedBox(height: 7),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Second Expertise",
-                              style:
-                                  mediumText16.copyWith(color: neutral04Color)),
                           Text(
-                              expertiseOptions[memberList.secondExpertiseId
-                                      .toString()] ??
-                                  "Not set",
-                              style:
-                                  regulerText10.copyWith(color: subTitleColor))
+                            "Second Expertise",
+                            style: mediumText16.copyWith(color: neutral04Color),
+                          ),
+                          Text(
+                            expertiseOptions[
+                                    memberList.secondExpertiseId.toString()] ??
+                                "Not set",
+                            style: regulerText10.copyWith(color: subTitleColor),
+                          )
                         ],
                       ),
                     ],
                   ),
                 );
-              })
+              }),
             ],
           ),
         ),

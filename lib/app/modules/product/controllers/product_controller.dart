@@ -8,12 +8,14 @@ import 'package:maritimmuda_connect/app/modules/product/sub_product/views/sub_pr
 class ProductController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;
+  final scrollController = ScrollController();
 
   var selectedIndex = 0.obs;
   var isLoading = false.obs;
   var productList = <Product>[].obs;
   var filteredProductList = <Product>[].obs;
   var searchQuery = ''.obs;
+  var isFabVisible = false.obs;
 
   @override
   void onInit() {
@@ -23,6 +25,13 @@ class ProductController extends GetxController
     tabController.addListener(() {
       selectedIndex.value = tabController.index;
       filterProductsByCategory(selectedIndex.value, title[selectedIndex.value]);
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.pixels > 210) {
+        isFabVisible(true);
+      } else {
+        isFabVisible(false);
+      }
     });
   }
 
@@ -79,6 +88,7 @@ class ProductController extends GetxController
   @override
   void onClose() {
     tabController.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 }

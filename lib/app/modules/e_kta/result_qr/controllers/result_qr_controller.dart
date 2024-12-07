@@ -5,6 +5,8 @@ import 'package:maritimmuda_connect/app/data/services/ekta/result_qr_service.dar
 class ResultQrController extends GetxController {
   var isLoading = true.obs;
   var memberQrData = ResultQrResponse().obs;
+  final String defaultAvatar =
+      "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
 
   Future<void> fetchMemberQr(String uid) async {
     try {

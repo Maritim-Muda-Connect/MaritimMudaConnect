@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/product/all_product/widget/product_card.dart';
@@ -32,23 +33,26 @@ class AllProductView extends GetView<AllProductController> {
             onRefresh: () async {
               await controller.fetchProducts();
             },
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: controller.filteredProductList.length,
-              itemBuilder: (context, index) {
-                return CatalogCard(
-                  onTap: () {
-                    Get.to(
-                      () => DetailProductView(
-                        productData: controller.filteredProductList[index],
-                      ),
-                      transition: Transition.rightToLeft,
-                      duration: const Duration(milliseconds: 100),
-                    );
-                  },
-                  productList: controller.filteredProductList[index],
-                );
-              },
+            color: primaryDarkBlueColor,
+            child: CupertinoScrollbar(
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: controller.filteredProductList.length,
+                itemBuilder: (context, index) {
+                  return CatalogCard(
+                    onTap: () {
+                      Get.to(
+                        () => DetailProductView(
+                          productData: controller.filteredProductList[index],
+                        ),
+                        transition: Transition.rightToLeft,
+                        duration: const Duration(milliseconds: 100),
+                      );
+                    },
+                    productList: controller.filteredProductList[index],
+                  );
+                },
+              ),
             ),
           );
         }

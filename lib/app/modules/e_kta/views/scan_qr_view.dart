@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/result_qr/views/result_qr_view.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -31,6 +32,10 @@ class _ScanQrViewState extends State<ScanQrView> {
             transition: Transition.rightToLeft,
             duration: const Duration(milliseconds: 100),
           );
+        } else {
+          if (SnackbarController.isSnackbarBeingShown == false) {
+            customSnackbar("Not an E-KTA Qr Code");
+          }
         }
       });
     });
@@ -49,7 +54,7 @@ class _ScanQrViewState extends State<ScanQrView> {
   Widget build(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 200.0
+        ? 300.0
         : 350.0;
     return Scaffold(
       appBar: AppBar(

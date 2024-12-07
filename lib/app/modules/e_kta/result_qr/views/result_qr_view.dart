@@ -122,20 +122,34 @@ class ResultQrView extends GetView<ResultQrController> {
                         ),
                       ],
                     ),
-                    const Positioned(
+                    Positioned(
                       top: 75,
                       left: 0,
                       right: 0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircleAvatar(
-                            minRadius: 50,
-                            foregroundImage: NetworkImage(
-                                "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"),
-                            backgroundImage: const AssetImage(
-                                'assets/images/default_photo.jpg'),
-                          ),
+                          Obx(() {
+                            if (controller.memberQrData.value.user!.photoLink!
+                                .isNotEmpty) {
+                              return CircleAvatar(
+                                minRadius: 50,
+                                foregroundImage: NetworkImage(controller
+                                        .memberQrData.value.user?.photoLink ??
+                                    controller.defaultAvatar),
+                                backgroundImage: const AssetImage(
+                                    'assets/images/default_photo.jpg'),
+                              );
+                            } else {
+                              return CircleAvatar(
+                                minRadius: 50,
+                                foregroundImage:
+                                    NetworkImage(controller.defaultAvatar),
+                                backgroundImage: const AssetImage(
+                                    'assets/images/default_photo.jpg'),
+                              );
+                            }
+                          }),
                         ],
                       ),
                     ),

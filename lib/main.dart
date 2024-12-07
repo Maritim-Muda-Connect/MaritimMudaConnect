@@ -24,7 +24,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Application",
+      title: "Maritim Muda Connect",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

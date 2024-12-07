@@ -64,6 +64,7 @@ class User {
   String? identityCardLink;
   String? paymentLink;
   String? memberCardPreview;
+  String? memberCardDocument;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -92,6 +93,7 @@ class User {
     this.identityCardLink,
     this.paymentLink,
     this.memberCardPreview,
+    this.memberCardDocument,
     this.createdAt,
     this.updatedAt,
   });
@@ -125,6 +127,7 @@ class User {
         identityCardLink: json["identity_card_link"],
         paymentLink: json["payment_link"],
         memberCardPreview: json["member-card-preview_link"],
+        memberCardDocument: json["member-card-document_link"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -158,6 +161,7 @@ class User {
         "identity_card_link": identityCardLink,
         "payment_link": paymentLink,
         "member-card-preview_link": memberCardPreview,
+        "member-card-document_link": memberCardDocument,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };

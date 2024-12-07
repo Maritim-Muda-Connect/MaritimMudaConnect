@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maritimmuda_connect/themes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SocialMedia extends StatelessWidget {
@@ -28,7 +27,8 @@ class SocialMedia extends StatelessWidget {
           },
           child: SvgPicture.asset(
             "assets/icons/gmail.svg",
-            color: gmail == "" ? subTitleColor : null,
+            width: 18,
+            height: 18,
           ),
         ),
         const SizedBox(width: 20),
@@ -39,8 +39,11 @@ class SocialMedia extends StatelessWidget {
             }
           },
           child: SvgPicture.asset(
-            "assets/icons/linkedin.svg",
-            color: linkedin == "" ? subTitleColor : null,
+            linkedin == ""
+                ? "assets/icons/linkedin_disable.svg"
+                : "assets/icons/linkedin.svg",
+            width: 24,
+            height: 24,
           ),
         ),
         const SizedBox(width: 20),
@@ -51,8 +54,11 @@ class SocialMedia extends StatelessWidget {
             }
           },
           child: SvgPicture.asset(
-            "assets/icons/instagram.svg",
-            color: instagram == "" ? subTitleColor : null,
+            instagram == ""
+                ? "assets/icons/instagram_disable.svg"
+                : "assets/icons/instagram.svg",
+            width: 24,
+            height: 24,
           ),
         ),
       ],

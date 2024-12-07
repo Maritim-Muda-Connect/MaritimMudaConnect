@@ -39,30 +39,34 @@ class EKtaView extends GetView<EKtaController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Hello,",
-                              style: regulerText26.copyWith(
-                                  color: neutral04Color)),
-                          Obx(() {
-                            if (controller.displayName.value.isNotEmpty) {
-                              return Text(
-                                controller.displayName.value,
-                                style: semiBoldText32.copyWith(
-                                    color: neutral04Color),
-                              );
-                            } else {
-                              return const Text("");
-                            }
-                          }),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Hello,",
+                                style: regulerText26.copyWith(
+                                    color: neutral04Color)),
+                            Obx(() {
+                              if (controller
+                                  .ektaData.value.user!.name!.isNotEmpty) {
+                                return Text(
+                                  controller.ektaData.value.user?.name ?? "",
+                                  style: semiBoldText32.copyWith(
+                                      color: neutral04Color),
+                                );
+                              } else {
+                                return const Text("");
+                              }
+                            }),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 50),
                   Obx(() {
-                    if (controller.ektaImage.value.isNotEmpty) {
+                    if (controller
+                        .ektaData.value.user!.memberCardPreview!.isNotEmpty) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -72,8 +76,9 @@ class EKtaView extends GetView<EKtaController> {
                               onPageChanged: controller.onPageChanged,
                               children: [
                                 CustomCardSlider(
-                                    image: NetworkImage(
-                                        controller.ektaImage.value)),
+                                  image: NetworkImage(controller
+                                      .ektaData.value.user!.memberCardPreview!),
+                                ),
                                 const CustomCardSlider(
                                   image: AssetImage("assets/images/ekta.png"),
                                 ),
@@ -97,10 +102,11 @@ class EKtaView extends GetView<EKtaController> {
                         textSize: boldText16.copyWith(color: neutral01Color),
                         radius: 50,
                         onPressed: () {
-                          if (!controller.urlDownloaded.value
+                          if (!controller
+                              .ektaData.value.user!.memberCardDocument!
                               .contains("cloudinary")) {
-                            controller
-                                .launchURL(controller.urlDownloaded.value);
+                            controller.launchURL(controller
+                                .ektaData.value.user!.memberCardDocument!);
                           } else {
                             if (SnackbarController.isSnackbarBeingShown ==
                                 false) {

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
@@ -58,42 +59,63 @@ class MemberView extends GetView<MemberController> {
                         ),
                       );
                     } else {
-                      return Column(
-                        children: controller.filteredMemberList.map((members) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 7.5),
-                            color: neutral01Color,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            child: ListTile(
-                              onTap: () {
-                                controller.getEmail(members.email!);
-                                Get.to(() =>
-                                    MemberDetailView(memberList: members));
+                      return Expanded(
+                        child: RefreshIndicator(
+                          color: primaryDarkBlueColor,
+                          onRefresh: () async {
+                            await controller.getAllMember();
+                          },
+                          child: CupertinoScrollbar(
+                            child: ListView.builder(
+                              controller: controller.scrollController,
+                              itemCount: controller.filteredMemberList.length,
+                              itemBuilder: (context, index) {
+                                final memberList =
+                                    controller.filteredMemberList[index];
+                                return Card(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 7.5),
+                                  color: neutral01Color,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16)),
+                                  child: ListTile(
+                                    onTap: () {
+                                      controller.getEmail(memberList.email!);
+                                      Get.to(
+                                        () => MemberDetailView(
+                                          memberList: memberList,
+                                        ),
+                                        transition: Transition.rightToLeft,
+                                        duration:
+                                            const Duration(milliseconds: 100),
+                                      );
+                                    },
+                                    leading: CircleAvatar(
+                                      foregroundImage:
+                                          NetworkImage(memberList.photoLink!),
+                                      backgroundImage: const AssetImage(
+                                          'assets/images/default_photo.jpg'),
+                                    ),
+                                    title: Text(
+                                      memberList.name ?? "",
+                                      style: regulerText24,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Text(
+                                        provinceOptions[
+                                            memberList.provinceId.toString()]!,
+                                        style: extraLightText16),
+                                    trailing: CircleAvatar(
+                                        backgroundColor: primaryDarkBlueColor,
+                                        maxRadius: 15,
+                                        child: Icon(Icons.chevron_right,
+                                            color: neutral01Color)),
+                                  ),
+                                );
                               },
-                              leading: CircleAvatar(
-                                foregroundImage:
-                                    NetworkImage(members.photoLink!),
-                                backgroundImage: const AssetImage(
-                                    'assets/images/default_photo.jpg'),
-                              ),
-                              title: Text(
-                                members.name ?? "",
-                                style: regulerText24,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                  provinceOptions[
-                                      members.provinceId.toString()]!,
-                                  style: extraLightText16),
-                              trailing: CircleAvatar(
-                                  backgroundColor: primaryDarkBlueColor,
-                                  maxRadius: 15,
-                                  child: Icon(Icons.chevron_right,
-                                      color: neutral01Color)),
                             ),
-                          );
-                        }).toList(),
+                          ),
+                        ),
                       );
                     }
                   }),
@@ -102,6 +124,24 @@ class MemberView extends GetView<MemberController> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: Obx(
+        () => controller.isFabVisible.value
+            ? FloatingActionButton(
+                backgroundColor: primaryDarkBlueColor,
+                onPressed: () {
+                  controller.scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Icon(
+                  Icons.keyboard_double_arrow_up_rounded,
+                  color: neutral01Color,
+                ),
+              )
+            : const SizedBox.shrink(),
       ),
     );
   }

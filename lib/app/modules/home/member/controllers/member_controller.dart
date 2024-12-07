@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/models/response/uid_response.dart';
@@ -6,6 +7,7 @@ import '../../../../data/models/response/member_response.dart';
 import '../../../../data/utils/province.dart';
 
 class MemberController extends GetxController {
+  final scrollController = ScrollController();
   final expandedSections = <String, bool>{}.obs;
   final selectedItems = <String, String>{}.obs;
   DateTime? emailVerified;
@@ -18,11 +20,19 @@ class MemberController extends GetxController {
   var searchQuery = ''.obs;
   var isDrawerVisible = false.obs;
   var dateOfBirth = ''.obs;
+  var isFabVisible = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     getAllMember();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels > 1000) {
+        isFabVisible(true);
+      } else {
+        isFabVisible(false);
+      }
+    });
   }
 
   Future<void> getEmail(String email) async {
@@ -123,5 +133,11 @@ class MemberController extends GetxController {
   String getFormattedDate(DateTime? date) {
     if (date == null) return '-';
     return DateFormat('MMMM yyyy', 'id_ID').format(date);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    scrollController.dispose();
   }
 }

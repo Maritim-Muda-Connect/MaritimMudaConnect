@@ -163,11 +163,16 @@ class ProfileView extends GetView<ProfileController> {
                               ),
                             ),
                           ),
+                          Text(
+                            "Upload Your KTP With Max size 3MB",
+                            style: boldText12.copyWith(
+                                color: neutral03Color,
+                                fontStyle: FontStyle.italic),
+                          ),
                           const SizedBox(
                             height: 16,
                           ),
-                          Text('Payment Confirmation Receipt',
-                              style: boldText12),
+                          Text('Student Card', style: boldText12),
                           const SizedBox(height: 8),
                           Obx(
                             () => DottedBorder(
@@ -202,8 +207,8 @@ class ProfileView extends GetView<ProfileController> {
                                               BorderRadius.circular(20),
                                           child: controller.photoPayment.value
                                                       .contains("via") ||
-                                                  controller.photoIdentity.value
-                                                      .contains("cloudinary")
+                                                  controller.photoPayment.value
+                                                      .contains('cloudinary')
                                               ? SizedBox(
                                                   width: double.infinity,
                                                   child: Align(
@@ -232,6 +237,13 @@ class ProfileView extends GetView<ProfileController> {
                                         ),
                                 ),
                               ),
+                            ),
+                          ),
+                          Text(
+                            'Upload Your Student Card With Max Size 3MB',
+                            style: semiBoldText12.copyWith(
+                              fontStyle: FontStyle.italic,
+                              color: neutral03Color
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -383,7 +395,7 @@ class ProfileView extends GetView<ProfileController> {
                                           instagramProfile: controller
                                               .instagramController.text,
                                           gender:
-                                              controller.selectedGender.value,
+                                              controller.selectedGender.value + 1,
                                           placeOfBirth: controller
                                               .placeOfBirthController.text,
                                           dateOfBirth: controller
@@ -452,7 +464,7 @@ class ProfileView extends GetView<ProfileController> {
                                   color: neutral01Color,
                                 ),
                                 color: secondaryRedColor,
-                                text: 'Clear',
+                                text: 'Discard Changes',
                                 onTap: () {
                                   showCustomDialog(
                                     content:

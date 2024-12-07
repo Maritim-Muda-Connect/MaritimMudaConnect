@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
@@ -9,6 +10,7 @@ import '../controllers/profile_user_controller.dart';
 
 class ProfileUserView extends GetView<ProfileUserController> {
   const ProfileUserView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final profileController = Get.find<ProfileController>();
@@ -48,11 +50,12 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         ),
                         const SizedBox(height: 50),
                         Obx(
-                          () => Text(
-                            controller.generalData.value.user?.name ?? '',
-                            style: semiBoldText24,
-                            textAlign: TextAlign.center,
-                          ),
+                              () =>
+                              Text(
+                                controller.generalData.value.user?.name ?? '',
+                                style: semiBoldText24,
+                                textAlign: TextAlign.center,
+                              ),
                         ),
                         const SizedBox(height: 5),
                         Row(
@@ -60,15 +63,18 @@ class ProfileUserView extends GetView<ProfileUserController> {
                           children: [
                             Text(
                               provinceOptions[controller
-                                      .generalData.value.user?.provinceId
-                                      .toString()] ??
+                                  .generalData.value.user?.provinceId
+                                  .toString()] ??
                                   '',
                               style: regulerText16,
                             ),
                             SizedBox(
                                 height: 20,
                                 child: VerticalDivider(color: neutral04Color)),
-                            Text(controller.createdAt.value,
+                            Text(
+                                DateFormat("dd MMMM yyyy").format(
+                                    controller.generalData.value.user
+                                        ?.dateOfBirth ?? DateTime.now()),
                                 style: regulerText16),
                           ],
                         ),
@@ -77,13 +83,14 @@ class ProfileUserView extends GetView<ProfileUserController> {
                           padding: const EdgeInsets.only(
                               left: 63, top: 5, right: 63, bottom: 20),
                           child: Obx(
-                            () => Text(
-                              controller.generalData.value.user?.bio ??
-                                  'No bio yet',
-                              style:
+                                () =>
+                                Text(
+                                  controller.generalData.value.user?.bio ??
+                                      'No bio yet',
+                                  style:
                                   regulerText10.copyWith(color: neutral04Color),
-                              textAlign: TextAlign.center,
-                            ),
+                                  textAlign: TextAlign.center,
+                                ),
                           ),
                         )
                       ],
@@ -103,13 +110,13 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: controller.generalData.value.user
-                                              ?.photoLink !=
-                                          null
+                                      ?.photoLink !=
+                                      null
                                       ? NetworkImage(
-                                          profileController.photoImage.value)
+                                      profileController.photoImage.value)
                                       : const AssetImage(
-                                              'assets/images/default_photo.jpg')
-                                          as ImageProvider,
+                                      'assets/images/default_photo.jpg')
+                                  as ImageProvider,
                                 )),
                           ),
                         ],
@@ -152,7 +159,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         ),
                         Text(controller.email.value,
                             style:
-                                regulerText12.copyWith(color: neutral04Color))
+                            regulerText12.copyWith(color: neutral04Color))
                       ],
                     ),
                     const SizedBox(height: 27),
@@ -162,7 +169,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         Row(
                           children: [
                             Icon(
-                              Icons.email,
+                              Icons.calendar_month,
                               size: 20,
                               color: subTitleColor,
                             ),
@@ -174,7 +181,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         ),
                         Text(controller.createdAt.value,
                             style:
-                                regulerText12.copyWith(color: neutral04Color))
+                            regulerText12.copyWith(color: neutral04Color))
                       ],
                     ),
                     const SizedBox(height: 27),
@@ -185,11 +192,11 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       children: [
                         Text("First Expertise",
                             style:
-                                mediumText16.copyWith(color: neutral04Color)),
+                            mediumText16.copyWith(color: neutral04Color)),
                         Text(
                             expertiseOptions[controller
-                                    .generalData.value.user?.firstExpertiseId
-                                    .toString()] ??
+                                .generalData.value.user?.firstExpertiseId
+                                .toString()] ??
                                 "",
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
@@ -200,11 +207,11 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       children: [
                         Text("Second Expertise",
                             style:
-                                mediumText16.copyWith(color: neutral04Color)),
+                            mediumText16.copyWith(color: neutral04Color)),
                         Text(
                             expertiseOptions[controller
-                                    .generalData.value.user?.secondExpertiseId
-                                    .toString()] ??
+                                .generalData.value.user?.secondExpertiseId
+                                .toString()] ??
                                 "",
                             style: regulerText10.copyWith(color: subTitleColor))
                       ],
@@ -256,7 +263,13 @@ class ProfileUserView extends GetView<ProfileUserController> {
                                           color: neutral04Color),
                                     ),
                                     Text(
-                                      "${achievement.eventName ?? ''} - ${achievement.achievedAt != null ? achievement.achievedAt!.toLocal().toString().split(' ')[0] : ''}",
+                                      "${achievement.eventName ??
+                                          ''} - ${achievement.achievedAt != null
+                                          ? achievement.achievedAt!
+                                          .toLocal()
+                                          .toString()
+                                          .split(' ')[0]
+                                          : ''}",
                                       style: regulerText12.copyWith(
                                           color: subTitleColor),
                                     ),

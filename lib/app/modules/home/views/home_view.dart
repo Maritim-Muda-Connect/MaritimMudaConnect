@@ -5,6 +5,7 @@ import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/job/views/job_view.dart';
+import 'package:maritimmuda_connect/app/modules/home/member/controllers/member_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/scholarship/views/scholarship_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/widget/home_card.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_view.dart';
@@ -199,6 +200,9 @@ class HomeView extends GetView<HomeController> {
                     icon: 'assets/icons/member_icon.svg',
                     title: 'Member',
                     onTap: () {
+                      Get.find<MemberController>().searchQuery("");
+                      Get.find<MemberController>().applyFilters();
+                      Get.find<MemberController>().isFabVisible(false);
                       Get.to(() => const MemberView());
                     },
                   ),

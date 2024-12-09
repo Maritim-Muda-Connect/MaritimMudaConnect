@@ -13,6 +13,9 @@ class CustomButton extends StatelessWidget {
     this.textSize,
     this.gradient,
     this.isLoading,
+    this.borderColor,
+    this.textColor,
+    this.shadowColor,
   });
 
   final String text;
@@ -24,6 +27,9 @@ class CustomButton extends StatelessWidget {
   final TextStyle? textSize;
   final LinearGradient? gradient;
   final bool? isLoading;
+  final Color? borderColor;
+  final Color? textColor;
+  final Color? shadowColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +39,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          shadowColor: shadowColor ?? null,
           padding: EdgeInsets.zero,
           backgroundColor: color ?? primaryBlueColor,
           shape: RoundedRectangleBorder(
@@ -43,6 +50,10 @@ class CustomButton extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             gradient: gradient,
+            border: Border.all(
+              color: borderColor ?? primaryBlueColor,
+              width: 2
+            ),
             borderRadius: BorderRadius.circular(radius ?? 10),
           ),
           child: Container(
@@ -60,7 +71,7 @@ class CustomButton extends StatelessWidget {
                   : Text(
                       text,
                       style: textSize ??
-                          boldText20.copyWith(color: neutral01Color),
+                          boldText20.copyWith(color: textColor ?? neutral01Color),
                     ),
             ),
           ),

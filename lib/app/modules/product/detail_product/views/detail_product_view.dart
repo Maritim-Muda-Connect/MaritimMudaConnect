@@ -12,63 +12,98 @@ import 'package:url_launcher/url_launcher.dart';
 import '../controllers/detail_catalog_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
-  DetailProductView({super.key,  this.productData});
+  DetailProductView({super.key, this.productData});
+
   Product? productData;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text('Detail Product'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () async {
-              await Share.share('${productData?.name}\n\n${productData?.link}');
-            },
+        backgroundColor: neutral02Color,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: neutral02Color,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              productData?.category ?? '',
-              style: regulerText14,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              productData?.name ?? '',
-              style: boldText32,
-            ),
-            const SizedBox(height: 60),
-            // Menggunakan Image.asset untuk menampilkan gambar
-            Image.network(
-              '$baseUrlImage/${productData?.image}',
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: 200,
-            ),
-            const SizedBox(height: 60),
-            Text(
-              rupiahFormat.format(int.parse(productData?.price ?? '0')),
-              style: boldText24,
-            ),
-            const SizedBox(height: 200,),
-            CustomButton(text: 'BUY', onPressed: () async {
-              await launchUrl(Uri.parse(productData?.link ?? 'https://hub.maritimmuda.id'));
-            }
-            )
-          ],
+          title: const Text('Detail Product'),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                '$baseUrlImage/${productData?.image}',
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                productData?.name ?? '',
+                style: semiBoldText24,
+                textAlign: TextAlign.justify,
+              ),
+              const SizedBox(height: 8),
+              Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: primaryBlueColor),
+                    color: neutral01Color,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Text(
+                  productData?.category ?? '',
+                  style: regulerText14,
+                ),
+              ),
+              const SizedBox(height: 60),
+              Row(
+                children: [
+                  Text(
+                    "Price : ",
+                    style: boldText20,
+                  ),
+                  Text(
+                    rupiahFormat.format(int.parse(productData?.price ?? '0')),
+                    style: boldText20,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: neutral02Color,
+          padding: EdgeInsets.zero,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButton(
+                shadowColor: Colors.transparent,
+                radius: 0,
+                color: neutral01Color,
+                width: MediaQuery.of(context).size.width / 2,
+                text: 'SHARE',
+                textColor: primaryBlueColor,
+                onPressed: () async {
+                  await Share.share(
+                      '${productData?.name}\n\n${productData?.link}');
+                },
+              ),
+              CustomButton(
+                  shadowColor: Colors.transparent,
+                  radius: 0,
+                  width: MediaQuery.of(context).size.width / 2,
+                  text: 'BUY',
+                  onPressed: () async {
+                    await launchUrl(Uri.parse(
+                        productData?.link ?? 'https://hub.maritimmuda.id'));
+                  })
+            ],
+          ),
+        ));
   }
 }

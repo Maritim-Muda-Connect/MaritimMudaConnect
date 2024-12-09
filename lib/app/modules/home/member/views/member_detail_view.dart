@@ -80,7 +80,7 @@ class MemberDetailView extends GetView<MemberController> {
                               if (controller.dateOfBirth.value.isNotEmpty) {
                                 return Text(
                                   controller.dateOfBirth.value,
-                                  style: regulerText12,
+                                  style: regulerText16,
                                 );
                               } else {
                                 return const Text("");
@@ -193,54 +193,60 @@ class MemberDetailView extends GetView<MemberController> {
                         style: semiBoldText24.copyWith(color: neutral04Color),
                       ),
                       const SizedBox(height: 21),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      Column(
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.email, color: subTitleColor),
-                              const SizedBox(width: 7),
-                              Text(
-                                "Email",
-                                style: regulerText12.copyWith(
-                                    color: subTitleColor),
+                              Icon(Icons.email, color: subTitleColor, size: 32,),
+                              const SizedBox(width: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Email",
+                                    style: regulerText12.copyWith(
+                                        color: subTitleColor),
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  Text(
+                                    "${memberList.email}",
+                                    style:
+                                    regulerText14.copyWith(color: neutral04Color),
+                                    maxLines: 2,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          Flexible(
-                            child: Text(
-                              "${memberList.email}",
-                              style:
-                                  regulerText14.copyWith(color: neutral04Color),
-                              maxLines: 2,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 27),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                          const SizedBox(height: 16,),
                           Row(
                             children: [
-                              Icon(Icons.calendar_month, color: subTitleColor),
-                              const SizedBox(width: 7),
-                              Text(
-                                "Joined",
-                                style: regulerText12.copyWith(
-                                    color: subTitleColor),
-                              ),
+                              Icon(Icons.calendar_month, color: subTitleColor, size: 32,),
+                              const SizedBox(width: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Joined",
+                                    style: regulerText12.copyWith(
+                                        color: subTitleColor),
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  Text(
+                                    DateFormat('MMMM yyyy').format(controller
+                                        .memberData.value.user?.emailVerifiedAt ??
+                                        DateTime.now()),
+                                    style:
+                                    regulerText14.copyWith(color: neutral04Color),
+                                  )
+                                ],
+                              )
                             ],
-                          ),
-                          Text(
-                            DateFormat('MMMM yyyy').format(controller
-                                    .memberData.value.user?.emailVerifiedAt ??
-                                DateTime.now()),
-                            style:
-                                regulerText16.copyWith(color: neutral04Color),
                           )
                         ],
                       ),
+
                       const SizedBox(height: 27),
                       Divider(color: neutral04Color),
                       const SizedBox(height: 15),

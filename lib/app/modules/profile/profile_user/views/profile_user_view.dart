@@ -141,50 +141,54 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       style: semiBoldText24.copyWith(color: neutral04Color),
                     ),
                     const SizedBox(height: 21),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    Column(
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.email,
-                              size: 20,
-                              color: subTitleColor,
+                            Icon(Icons.email, color: subTitleColor, size: 32,),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Email",
+                                  style: regulerText12.copyWith(
+                                      color: subTitleColor),
+                                ),
+                                const SizedBox(height: 4,),
+                                Text(controller.email.value,
+                                    style:
+                                    regulerText12.copyWith(color: neutral04Color))
+                              ],
                             ),
-                            const SizedBox(width: 7),
-                            Text("Email",
-                                style: regulerText12.copyWith(
-                                    color: subTitleColor)),
                           ],
                         ),
-                        Text(controller.email.value,
-                            style:
-                            regulerText12.copyWith(color: neutral04Color))
-                      ],
-                    ),
-                    const SizedBox(height: 27),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                        const SizedBox(height: 16,),
                         Row(
                           children: [
-                            Icon(
-                              Icons.calendar_month,
-                              size: 20,
-                              color: subTitleColor,
-                            ),
-                            const SizedBox(width: 7),
-                            Text("Joined",
-                                style: regulerText12.copyWith(
-                                    color: subTitleColor)),
+                            Icon(Icons.calendar_month, color: subTitleColor, size: 32,),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Joined",
+                                  style: regulerText12.copyWith(
+                                      color: subTitleColor),
+                                ),
+                                const SizedBox(height: 4,),
+                                Text(controller.createdAt.value,
+                                    style:
+                                    regulerText14.copyWith(color: neutral04Color))
+                              ],
+                            )
                           ],
-                        ),
-                        Text(controller.createdAt.value,
-                            style:
-                            regulerText12.copyWith(color: neutral04Color))
+                        )
                       ],
                     ),
-                    const SizedBox(height: 27),
+
+                    const SizedBox(height: 16),
                     Divider(color: neutral04Color),
                     const SizedBox(height: 15),
                     Column(

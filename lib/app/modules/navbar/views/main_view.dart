@@ -12,102 +12,100 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Scaffold(
-            resizeToAvoidBottomInset: false,
-            extendBody: true,
-            backgroundColor: Colors.transparent,
-            bottomNavigationBar: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(32)),
-              child: BottomAppBar(
-                color: neutral01Color,
-                shape: const CircularNotchedRectangle(),
-                notchMargin: 8,
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      controller.iconList.length + 1,
-                      (index) {
-                        if (index == 2) return const SizedBox(width: 40);
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
+          backgroundColor: Colors.transparent,
+          bottomNavigationBar: ClipRRect(
+            borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(32)),
+            child: BottomAppBar(
+              color: neutral01Color,
+              shape: const CircularNotchedRectangle(),
+              notchMargin: 8,
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    controller.iconList.length + 1,
+                    (index) {
+                      if (index == 2) return const SizedBox(width: 40);
 
-                        return GetBuilder<MainController>(
-                          builder: (_) => _buildNavItem(
-                            controller.iconList[index < 2 ? index : index - 1],
-                            controller
-                                .iconTitles[index < 2 ? index : index - 1],
-                            index,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            body: Stack(
-              children: [
-                PageView(
-                  controller: controller.pageController,
-                  onPageChanged: (index) {
-                    controller.updateIndex(index);
-                  },
-                  physics: const ClampingScrollPhysics(),
-                  children: controller.views,
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 75,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 5,
-                          blurRadius: 10,
-                          offset: const Offset(0, 3),
+                      return GetBuilder<MainController>(
+                        builder: (_) => _buildNavItem(
+                          controller.iconList[index < 2 ? index : index - 1],
+                          controller
+                              .iconTitles[index < 2 ? index : index - 1],
+                          index,
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                String? uid = await UserPreferences().getUid();
-                if (uid == null || uid.isEmpty) {
-                  if (SnackbarController.isSnackbarBeingShown == false) {
-                    customSnackbar(
-                        "This account doesn't have E-KTA", secondaryRedColor);
-                  }
-                } else {
-                  Get.to(
-                    () => const EKtaView(),
-                    transition: Transition.rightToLeft,
-                    duration: const Duration(milliseconds: 100),
-                  );
-                }
-              },
-              backgroundColor: primaryDarkBlueColor,
-              shape: const CircleBorder(),
-              child: Icon(
-                Icons.credit_card,
-                color: neutral01Color,
               ),
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
           ),
-        ],
-      ),
+          body: Stack(
+            children: [
+              PageView(
+                controller: controller.pageController,
+                onPageChanged: (index) {
+                  controller.updateIndex(index);
+                },
+                physics: const ClampingScrollPhysics(),
+                children: controller.views,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 75,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 5,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              String? uid = await UserPreferences().getUid();
+              if (uid == null || uid.isEmpty) {
+                if (SnackbarController.isSnackbarBeingShown == false) {
+                  customSnackbar(
+                      "This account doesn't have E-KTA", secondaryRedColor);
+                }
+              } else {
+                Get.to(
+                  () => const EKtaView(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 100),
+                );
+              }
+            },
+            backgroundColor: primaryDarkBlueColor,
+            shape: const CircleBorder(),
+            child: Icon(
+              Icons.credit_card,
+              color: neutral01Color,
+            ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+        ),
+      ],
     );
   }
 

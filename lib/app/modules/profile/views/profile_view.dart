@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
+import 'package:maritimmuda_connect/app/modules/profile/widgets/avatar_general.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../../widget/custom_dialog.dart';
@@ -40,54 +41,7 @@ class ProfileView extends GetView<ProfileController> {
                   children: [
                     const SizedBox(height: 30),
                     Center(
-                      child: Stack(
-                        children: [
-                          Obx(
-                            () {
-                              if (controller.photoImagePath.value.isEmpty) {
-                                return CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage:
-                                      Image.network(controller.photoImage.value)
-                                          .image,
-                                );
-                              } else {
-                                return CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage: FileImage(
-                                    File(controller.photoImagePath.value),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: () async {
-                                FilePickerResult? result =
-                                    await FilePicker.platform.pickFiles(
-                                  type: FileType.media,
-                                  allowMultiple: false,
-                                );
-                                if (result != null) {
-                                  controller.photoImagePath.value =
-                                      result.files.single.path!;
-                                  controller.photoImageName.value =
-                                      result.files.single.name;
-                                }
-                              },
-                              child: CircleAvatar(
-                                backgroundColor: primaryBlueColor,
-                                radius: 18,
-                                child: Icon(Icons.edit,
-                                    color: neutral01Color, size: 18),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: AvatarGeneral(controller: controller),
                     ),
                     const SizedBox(height: 24),
                     Container(
@@ -242,9 +196,8 @@ class ProfileView extends GetView<ProfileController> {
                           Text(
                             'Upload Your Student Card With Max Size 3MB',
                             style: semiBoldText12.copyWith(
-                              fontStyle: FontStyle.italic,
-                              color: neutral03Color
-                            ),
+                                fontStyle: FontStyle.italic,
+                                color: neutral03Color),
                           ),
                           const SizedBox(height: 16),
                           Text('Name', style: boldText12),
@@ -383,72 +336,41 @@ class ProfileView extends GetView<ProfileController> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ProfileButton(
                                   onTap: () async {
-                                    if (controller
-                                            .selectedFirstExpertise.value ==
-                                        controller
-                                            .selectedSecondExpertise.value) {
-                                      controller.updateGeneral(
-                                        GeneralRequest(
-                                          name: controller.nameController.text,
-                                          linkedinProfile: controller
-                                              .linkedInController.text,
-                                          instagramProfile: controller
-                                              .instagramController.text,
-                                          gender:
-                                              controller.selectedGender.value + 1,
-                                          placeOfBirth: controller
-                                              .placeOfBirthController.text,
-                                          dateOfBirth: controller
-                                              .dateOfBirthController.text,
-                                          firstExpertiseId: controller
-                                              .selectedFirstExpertise.value,
-                                          secondExpertiseId: controller
-                                                  .selectedSecondExpertise
-                                                  .value +
-                                              25,
-                                          permanentAddress:
-                                              controller.addressController.text,
-                                          residenceAddress: controller
-                                              .residenceAddressController.text,
-                                          bio: controller.bioController.text,
-                                        ),
-                                        File(controller.photoImagePath.value),
-                                        File(
-                                            controller.identityImagePath.value),
-                                        File(controller.paymentImagePath.value),
-                                      );
-                                    } else {
-                                      controller.updateGeneral(
-                                        GeneralRequest(
-                                          name: controller.nameController.text,
-                                          linkedinProfile: controller
-                                              .linkedInController.text,
-                                          instagramProfile: controller
-                                              .instagramController.text,
-                                          gender:
-                                              controller.selectedGender.value,
-                                          placeOfBirth: controller
-                                              .placeOfBirthController.text,
-                                          dateOfBirth: controller
-                                              .dateOfBirthController.text,
-                                          firstExpertiseId: controller
-                                              .selectedFirstExpertise.value,
-                                          secondExpertiseId: controller
-                                                  .selectedSecondExpertise
-                                                  .value +
-                                              25,
-                                          permanentAddress:
-                                              controller.addressController.text,
-                                          residenceAddress: controller
-                                              .residenceAddressController.text,
-                                          bio: controller.bioController.text,
-                                        ),
-                                        File(controller.photoImagePath.value),
-                                        File(
-                                            controller.identityImagePath.value),
-                                        File(controller.paymentImagePath.value),
-                                      );
-                                    }
+                                    final generalRequest = GeneralRequest(
+                                      name: controller.nameController.text,
+                                      linkedinProfile:
+                                          controller.linkedInController.text,
+                                      instagramProfile:
+                                          controller.instagramController.text,
+                                      gender:
+                                          controller.selectedGender.value + 1,
+                                      placeOfBirth: controller
+                                          .placeOfBirthController.text,
+                                      dateOfBirth:
+                                          controller.dateOfBirthController.text,
+                                      firstExpertiseId: controller
+                                          .selectedFirstExpertise.value,
+                                      secondExpertiseId: controller
+                                              .selectedSecondExpertise.value +
+                                          (controller.selectedFirstExpertise
+                                                      .value ==
+                                                  controller
+                                                      .selectedSecondExpertise
+                                                      .value
+                                              ? 25
+                                              : 0),
+                                      permanentAddress:
+                                          controller.addressController.text,
+                                      residenceAddress: controller
+                                          .residenceAddressController.text,
+                                      bio: controller.bioController.text,
+                                    );
+                                    controller.updateGeneral(
+                                      generalRequest,
+                                      File(controller.photoImagePath.value),
+                                      File(controller.identityImagePath.value),
+                                      File(controller.paymentImagePath.value),
+                                    );
                                   },
                                   icon: Icon(
                                     Icons.save_outlined,
@@ -470,13 +392,17 @@ class ProfileView extends GetView<ProfileController> {
                                     content:
                                         'Are you sure want to clear all data entered?',
                                     onConfirm: () {
-                                      Get.back();
+                                      Navigator.of(context).pop();
                                       controller.fetchGeneral();
-                                      customSnackbar(
-                                          "All data has been cleared");
+                                      if (SnackbarController
+                                              .isSnackbarBeingShown ==
+                                          false) {
+                                        customSnackbar(
+                                            "All data has been cleared");
+                                      }
                                     },
                                     onCancel: () {
-                                      Get.back();
+                                      Navigator.of(context).pop();
                                     },
                                   );
                                 },
@@ -486,9 +412,7 @@ class ProfileView extends GetView<ProfileController> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 200,
-                    ),
+                    const SizedBox(height: 200),
                   ],
                 ),
               ),

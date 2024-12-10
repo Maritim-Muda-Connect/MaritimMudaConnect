@@ -21,7 +21,8 @@ class DetailEventView extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
-    final String startDate = DateFormat('dd/MM/yyyy').format(eventData.startDate!);
+    final String startDate =
+        DateFormat('dd/MM/yyyy').format(eventData.startDate!);
     final String endDate = DateFormat('dd/MM/yyyy').format(eventData.endDate!);
     return Scaffold(
       backgroundColor: neutral02Color,
@@ -39,11 +40,17 @@ class DetailEventView extends GetView<EventController> {
             Navigator.pop(context);
           },
         ),
-        actions: [IconButton(
-          icon: Icon(Icons.send, color: primaryDarkBlueColor,),
-          onPressed: () {
-            Share.share("Check this out: \n${eventData.externalUrl ?? "Sorry, this event does not have a URL available!"}" , subject: "Event Url");
-          }),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.send,
+                color: primaryDarkBlueColor,
+              ),
+              onPressed: () {
+                Share.share(
+                    "Check this out: \n${eventData.externalUrl ?? "Sorry, this event does not have a URL available!"}",
+                    subject: "Event Url");
+              }),
         ],
       ),
       body: SingleChildScrollView(
@@ -66,16 +73,7 @@ class DetailEventView extends GetView<EventController> {
                 style: boldText24,
               ),
             ),
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Text(
-                "Dalam rangka memperingati Hari Maritim Nasional, kami mengundang para pemuda Indonesia untuk berpartisipasi dalam Lomba Mikroblog sebagai bagian dari Pekan Literasi Maritim 2021. Tuangkan ide kreatifmu mengenai pentingnya peran pemuda dalam menjaga, memajukan, dan menghargai potensi maritim Indonesia melalui karya mikroblog yang inspiratif!",
-                textAlign: TextAlign.justify,
-                style: regulerText14,
-              ),
-            ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
@@ -104,16 +102,14 @@ class DetailEventView extends GetView<EventController> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child:
-                  Text(style: boldText16, textAlign: TextAlign.start, 'Waktu Selesai'),
+              child: Text(
+                  style: boldText16,
+                  textAlign: TextAlign.start,
+                  'Waktu Selesai'),
             ),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                    style: regulerText14,
-                    endDate
-
-                ),
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(style: regulerText14, endDate),
             ),
             Padding(
               padding: EdgeInsets.all(16.0),
@@ -156,9 +152,6 @@ Widget _BenefitRowItem(IconData icon, String text) {
     ],
   );
 }
-
-
-
 
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton({Key? key}) : super(key: key);

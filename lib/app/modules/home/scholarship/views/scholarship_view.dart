@@ -18,90 +18,92 @@ class ScholarshipView extends GetView<ScholarshipController> {
     Get.put(ScholarshipController());
 
     return Scaffold(
+      backgroundColor: neutral02Color,
+      appBar: AppBar(
+        elevation: 0,
+        scrolledUnderElevation: 0,
         backgroundColor: neutral02Color,
-
-        appBar: AppBar(
-          scrolledUnderElevation: 0,
-          backgroundColor: neutral02Color,
-          title: Text(
-            'Scholarship List',
-            style: boldText24,
-          ),
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            Container()
-          ],
+        title: Text('Scholarship List', style: boldText24),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: Column(children: <Widget>[
+        actions: [Container()],
+      ),
+      body: Column(
+        children: [
           Container(
-          color: primaryBlueColor,
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: SearchbarScholarWidget()),
-          ),
-        Expanded(
+            color: primaryBlueColor,
             child: Padding(
-                padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
-                child: Obx(() {
-                  if (controller.isLoading.value) {
-                    return Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: primaryDarkBlueColor,
-                        ),
-                      ),
-                    );
-                  } else if (controller.scholarshipList.isEmpty) {
-                    return Text(
-                      'Data belum tersedia',
-                      style: extraLightText16,
-                    );
-                  } else {
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: controller.filteredList.map((scholarship) {
-                          final String startDate = DateFormat('dd/MM/yyyy').format(scholarship.submissionDeadline!);
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailScholarshipView(
-                                            scholarshipData: scholarship,
-                                          )));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: ProgramCard(
-                                image:
-                                scholarship.posterLink,
-                                // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
-                                date: startDate,
-                                textTitle: scholarship.name,
-                                textSubTitle: scholarship.providerName,
-                                onShare: () {
-                                  Share.share("Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}" , subject: "Scholarship Url");
-                                },
+              padding: const EdgeInsets.all(30.0),
+              child: SearchbarScholarWidget(),
+            ),
+          ),
+          Expanded(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: primaryDarkBlueColor,
+                  ),
+                );
+              } else if (controller.scholarshipList.isEmpty) {
+                return Text(
+                  'Data belum tersedia',
+                  style: extraLightText16,
+                );
+              } else {
+                return RefreshIndicator(
+                  color: primaryDarkBlueColor,
+                  onRefresh: () async {
+                    await controller.getAllScholarships();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: controller.filteredList.length,
+                      itemBuilder: (context, index) {
+                        final scholarship = controller.filteredList[index];
+                        final String startDate = DateFormat('dd/MM/yyyy')
+                            .format(scholarship.submissionDeadline!);
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => DetailScholarshipView(
+                                scholarshipData: scholarship,
                               ),
+                              transition: Transition.rightToLeft,
+                              duration: const Duration(milliseconds: 100),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: ProgramCard(
+                              image: scholarship.posterLink,
+                              date: startDate,
+                              textTitle: scholarship.name,
+                              textSubTitle: scholarship.providerName,
+                              onShare: () {
+                                Share.share(
+                                    "Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}",
+                                    subject: "Scholarship Url");
+                              },
                             ),
-                          );
-                        }).toList(),
-                      ),
-                    );
-
-                }
-                })
-            )
-        )
-        ]
-        )
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
+            }),
+          ),
+        ],
+      ),
     );
   }
 }

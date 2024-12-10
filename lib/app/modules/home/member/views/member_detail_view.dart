@@ -156,12 +156,31 @@ class MemberDetailView extends GetView<MemberController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircleAvatar(
-                            minRadius: 50,
-                            foregroundImage:
-                                NetworkImage(memberList.photoLink!),
-                            backgroundImage: const AssetImage(
-                                'assets/images/default_photo.jpg'),
+                          GestureDetector(
+                            onTap: () {
+                              Get.dialog(
+                                Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(200),
+                                  ),
+                                  child: CircleAvatar(
+                                    maxRadius: 180,
+                                    foregroundImage:
+                                        NetworkImage(memberList.photoLink!),
+                                    backgroundImage: const AssetImage(
+                                        'assets/images/default_photo.jpg'),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: CircleAvatar(
+                              minRadius: 50,
+                              foregroundImage:
+                                  NetworkImage(memberList.photoLink!),
+                              backgroundImage: const AssetImage(
+                                  'assets/images/default_photo.jpg'),
+                            ),
                           ),
                         ],
                       ),
@@ -193,12 +212,15 @@ class MemberDetailView extends GetView<MemberController> {
                         style: semiBoldText24.copyWith(color: neutral04Color),
                       ),
                       const SizedBox(height: 21),
-
                       Column(
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.email, color: subTitleColor, size: 32,),
+                              Icon(
+                                Icons.email,
+                                color: subTitleColor,
+                                size: 32,
+                              ),
                               const SizedBox(width: 16),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,21 +230,29 @@ class MemberDetailView extends GetView<MemberController> {
                                     style: regulerText12.copyWith(
                                         color: subTitleColor),
                                   ),
-                                  const SizedBox(height: 4,),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
                                   Text(
                                     "${memberList.email}",
-                                    style:
-                                    regulerText14.copyWith(color: neutral04Color),
+                                    style: regulerText14.copyWith(
+                                        color: neutral04Color),
                                     maxLines: 2,
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16,),
+                          const SizedBox(
+                            height: 16,
+                          ),
                           Row(
                             children: [
-                              Icon(Icons.calendar_month, color: subTitleColor, size: 32,),
+                              Icon(
+                                Icons.calendar_month,
+                                color: subTitleColor,
+                                size: 32,
+                              ),
                               const SizedBox(width: 16),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,13 +262,18 @@ class MemberDetailView extends GetView<MemberController> {
                                     style: regulerText12.copyWith(
                                         color: subTitleColor),
                                   ),
-                                  const SizedBox(height: 4,),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
                                   Text(
                                     DateFormat('MMMM yyyy').format(controller
-                                        .memberData.value.user?.emailVerifiedAt ??
+                                            .memberData
+                                            .value
+                                            .user
+                                            ?.emailVerifiedAt ??
                                         DateTime.now()),
-                                    style:
-                                    regulerText14.copyWith(color: neutral04Color),
+                                    style: regulerText14.copyWith(
+                                        color: neutral04Color),
                                   )
                                 ],
                               )
@@ -246,7 +281,6 @@ class MemberDetailView extends GetView<MemberController> {
                           )
                         ],
                       ),
-
                       const SizedBox(height: 27),
                       Divider(color: neutral04Color),
                       const SizedBox(height: 15),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
+import 'package:maritimmuda_connect/app/modules/home/event/views/detail_event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/job/views/job_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/controllers/member_controller.dart';
@@ -151,32 +152,37 @@ class HomeView extends GetView<HomeController> {
                   builder: (BuildContext context) {
                     return SizedBox(
                       width: 320,
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0)),
-                        child: Image.network(
-                          event.posterLink ?? 'https://via.placeholder.com/150',
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          (loadingProgress.expectedTotalBytes ??
-                                              1)
-                                      : null,
-                                ),
-                              );
-                            }
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset('assets/images/placeholder.png');
-                          },
+                      child: InkWell(
+                        onTap: (){
+                          Get.to(() => DetailEventView(eventData: event,));
+                        },
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10.0)),
+                          child: Image.network(
+                            event.posterLink ?? 'https://via.placeholder.com/150',
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                            (loadingProgress.expectedTotalBytes ??
+                                                1)
+                                        : null,
+                                  ),
+                                );
+                              }
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset('assets/images/placeholder.png');
+                            },
+                          ),
                         ),
                       ),
                     );

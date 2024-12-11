@@ -31,69 +31,71 @@ class EKtaDetailView extends GetView<EKtaController> {
             ),
           ),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Hero(
-                  tag: 'Hero',
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            ektaController.ektaData.value.user?.photoLink ??
-                                controller.defaultAvatar),
-                        fit: BoxFit.cover,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: 'Hero',
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              ektaController.ektaData.value.user?.photoLink ??
+                                  controller.defaultAvatar),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
-                  margin: const EdgeInsets.fromLTRB(30, 30, 30, 30),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: neutral04Color.withOpacity(0.1),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(40, 30, 40, 20),
+                    margin: const EdgeInsets.fromLTRB(50, 40, 50, 30),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: neutral04Color.withOpacity(0.1),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: neutral01Color,
+                          ),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return SvgPicture.string(
+                                String.fromCharCodes(
+                                    base64Decode(ektaController.svgString)),
+                                width: constraints.maxWidth * 0.95,
+                                height: constraints.maxWidth * 0.95,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Hero(
+                          tag: 'herotag',
+                          child: Text(
+                            ektaController.ektaData.value.user?.name ?? "",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: semiBoldText22.copyWith(color: neutral01Color),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: neutral01Color,
-                        ),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            return SvgPicture.string(
-                              String.fromCharCodes(
-                                  base64Decode(ektaController.svgString)),
-                              width: constraints.maxWidth * 0.95,
-                              height: constraints.maxWidth * 0.95,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Hero(
-                        tag: 'herotag',
-                        child: Text(
-                          ektaController.ektaData.value.user?.name ?? "",
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: semiBoldText22.copyWith(color: neutral01Color),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

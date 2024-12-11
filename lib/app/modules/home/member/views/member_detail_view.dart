@@ -27,7 +27,6 @@ class MemberDetailView extends GetView<MemberController> {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 14),
-                width: 403,
                 decoration: BoxDecoration(
                   color: neutral01Color,
                   borderRadius: const BorderRadius.only(

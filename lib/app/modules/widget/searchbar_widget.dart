@@ -76,8 +76,6 @@ class SearchbarScholarWidget extends StatelessWidget {
 }
 
 class FilterSearchEventButton extends GetView<EventController> {
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -88,17 +86,13 @@ class FilterSearchEventButton extends GetView<EventController> {
                 return controller.filterOptions.map((String filter) {
                   return PopupMenuItem(
                       value: filter,
-                      child: filter == "Urutkan Berdasarkan:" ?
+                      child: filter == "Sort By:" ?
                       Text(filter, style: boldText14.copyWith(color: neutral04Color),):
                       Text(filter )
                   );
                 }).toList();
               },
             color: Colors.white,
-
-              // onSelected: (selectedFilter) {
-              //   controller.updateFilter(selectedFilter);
-              //   },
               child: Container(
                 decoration: BoxDecoration(
                   color: neutral01Color,
@@ -117,7 +111,6 @@ class FilterSearchEventButton extends GetView<EventController> {
                 child: Image.asset('assets/icons/filter_icon.png'),
               ),
             )
-
     ));
     }
 }
@@ -134,7 +127,7 @@ class FilterSearchScholarButton extends GetView<ScholarshipController> {
                 return controller.filterOptions.map((String filter) {
                   return PopupMenuItem(
                       value: filter,
-                      child: filter == "Urutkan Berdasarkan:" ?
+                      child: filter == "Sort By:" ?
                       Text(filter, style: boldText14.copyWith(color: neutral04Color),):
                       Text(filter )
                   );
@@ -228,42 +221,7 @@ class FilterSearchButton extends GetView<MemberController> {
           ),
           child: Image.asset('assets/icons/filter_icon.png'),
         ),
-
       ),
-
-
-
     );
   }
 }
-
-
-// class FilterSearchButton extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () {
-//         Scaffold.of(context).openEndDrawer();
-//       },
-//       child: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Container(
-//           decoration: BoxDecoration(
-//             color: neutral01Color,
-//             shape: BoxShape.circle,
-//             border: Border.all(color: neutral02Color, width: 3),
-//             boxShadow: [
-//               BoxShadow(
-//                 color: Colors.grey.withOpacity(0.5),
-//                 spreadRadius: 2,
-//                 blurRadius: 4,
-//                 offset: Offset(0, 3),
-//               ),
-//             ],
-//           ),
-//           child: Image.asset('assets/icons/filter_icon.png'),
-//         ),
-//       ),
-//     );
-//   }
-// }

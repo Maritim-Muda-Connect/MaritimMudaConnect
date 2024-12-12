@@ -1,20 +1,30 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/response/scholarship_response.dart';
 import 'package:maritimmuda_connect/app/data/services/home/scholarship_service.dart';
 
 class ScholarshipController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  final scrollController = ScrollController();
   final count = 0.obs;
   var isLoading = false.obs;
   var scholarshipList = <Scholarship>[].obs;
   var searchQuery = "".obs;
   var filteredList = <Scholarship>[].obs;
   var selectedFilter = "A - Z".obs;
+  var isFabVisible = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     getAllScholarships();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels > 1000) {
+        isFabVisible(true);
+      } else {
+        isFabVisible(false);
+      }
+    });
   }
 
   Future<void> getAllScholarships() async {
@@ -51,10 +61,10 @@ class ScholarshipController extends GetxController
   }
 
   final filterOptions = [
-    "Urutkan Berdasarkan:",
+    "Sort By:",
     "A - Z",
-    "Terdekat",
-    "Terlama"
+    "Newest",
+    "Oldest"
   ];
   void updateFilter(String filter) {
     selectedFilter.value = filter;
@@ -65,10 +75,10 @@ class ScholarshipController extends GetxController
     var sortedList = List<Scholarship>.from(filteredList);
     if (selectedFilter.value == "A - Z") {
       sortedList.sort((a, b) => (a.name ?? "").compareTo(b.name ?? ""));
-    } else if (selectedFilter.value == "Terdekat") {
+    } else if (selectedFilter.value == "Newest") {
       sortedList.sort((a, b) => (b.submissionDeadline ?? DateTime.now())
           .compareTo(a.submissionDeadline ?? DateTime.now()));
-    } else if (selectedFilter.value == "Terlama") {
+    } else if (selectedFilter.value == "Oldest") {
       sortedList.sort((a, b) => (a.submissionDeadline ?? DateTime.now())
           .compareTo(b.submissionDeadline ?? DateTime.now()));
     }

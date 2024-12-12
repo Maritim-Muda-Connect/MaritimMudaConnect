@@ -43,7 +43,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
         actions: [
           IconButton(
               icon: Icon(
-                Icons.send,
+                Icons.share,
                 color: primaryDarkBlueColor,
               ),
               onPressed: () {
@@ -89,7 +89,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 style: boldText16,
-                'Penyelenggara',
+                'Organizer',
               ),
             ),
             Padding(
@@ -104,7 +104,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
               child: Text(
                   style: boldText16,
                   textAlign: TextAlign.start,
-                  'Tanggal Penting'),
+                  'Submission Deadline'),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(

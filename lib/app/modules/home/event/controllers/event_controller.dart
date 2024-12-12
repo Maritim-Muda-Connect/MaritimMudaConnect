@@ -8,6 +8,7 @@ import 'package:maritimmuda_connect/app/modules/home/event/views/list_event_view
 class EventController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;
+  final scrollController = ScrollController();
   var selectedIndex = 0.obs;
   var isLoading = false.obs;
   var eventsList = <Event>[].obs;
@@ -15,6 +16,7 @@ class EventController extends GetxController
   var filterEventList = <Event>[].obs;
   var sortedEventList = <Event>[].obs;
   var selectedFilter = 'A - Z'.obs;
+  var isFabVisible = false.obs;
 
   List<String> title = [
     'All',
@@ -57,6 +59,13 @@ class EventController extends GetxController
       sortEventsByType(getTypeForTab(selectedIndex.value));
     });
     getAllEvents();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels > 400) {
+        isFabVisible(true);
+      } else {
+        isFabVisible(false);
+      }
+    });
   }
 
   void getAllEvents() async {
@@ -121,7 +130,7 @@ class EventController extends GetxController
     sortedEventList.assignAll(type == 0 ? eventsList : sortedList);
   }
 
-  final filterOptions = ['Urutkan Berdasarkan:', 'A - Z', 'Terbaru', 'Terlama'];
+  final filterOptions = ['Sort By:', 'A - Z', 'Newest', 'Oldest'];
   dynamic updateFilter(String filter) {
     selectedFilter.value = filter;
     applyFilter();
@@ -139,10 +148,10 @@ class EventController extends GetxController
 
     if (selectedFilter.value == 'A - Z') {
       sortedList.sort((a, b) => ((a.name) ?? "").compareTo(b.name ?? ""));
-    } else if (selectedFilter.value == 'Terbaru') {
+    } else if (selectedFilter.value == 'Newest') {
       sortedList.sort((a, b) => (b.startDate ?? DateTime.now())
           .compareTo(a.startDate ?? DateTime.now()));
-    } else if (selectedFilter.value == 'Terlama') {
+    } else if (selectedFilter.value == 'Oldest') {
       sortedList.sort((a, b) => (a.startDate ?? DateTime.now())
           .compareTo(b.startDate ?? DateTime.now()));
     }

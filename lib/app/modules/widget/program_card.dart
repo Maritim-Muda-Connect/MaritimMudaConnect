@@ -68,7 +68,7 @@ class ProgramCard extends StatelessWidget {
                     ],
                   ),
                   IconButton(
-                      icon: Icon(Icons.send, color: primaryDarkBlueColor),
+                      icon: Icon(Icons.share, color: primaryDarkBlueColor),
                       onPressed: onShare,
                   ),
                 ],

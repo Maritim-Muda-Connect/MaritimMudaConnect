@@ -7,111 +7,143 @@ import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/event_controller.dart';
 
 class EventView extends GetView<EventController> {
-
-  const EventView( {super.key});
+  const EventView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: neutral02Color,
-
         appBar: AppBar(
           scrolledUnderElevation: 0,
-            backgroundColor: neutral02Color,
-            title: Text(
-              'Event List',
-              style: boldText24,
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            actions: [
-              Container()
-          ],
+          backgroundColor: neutral02Color,
+          title: Text(
+            'Event List',
+            style: boldText24,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: [Container()],
         ),
         body: SingleChildScrollView(
-          child: Column(children: <Widget>[
-            Container(
-              color: primaryBlueColor,
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: SearchbarEventWidget(),
-              ),
-            ),
-
-            Container(
-              width: double.infinity,
-              color: primaryDarkBlueColor,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: neutral02Color,
+          physics: NeverScrollableScrollPhysics(),
+          child: Stack(alignment: Alignment.bottomRight, children: [
+            Column(
+              children: <Widget>[
+                Container(
+                  color: primaryBlueColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: SearchbarEventWidget(),
+                  ),
                 ),
-                child: GetBuilder<EventController>(
-                  builder: (controller) {
-                    return Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          color: Colors.transparent,
-                          child: TabBar(
-                            physics: const BouncingScrollPhysics(),
-                            controller: controller.tabController,
-                            isScrollable: true,
-                            tabAlignment: TabAlignment.start,
-                            dividerColor: Colors.transparent,
-                            indicatorPadding: EdgeInsets.zero,
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            labelStyle:
-                                semiBoldText11.copyWith(color: neutral01Color),
-                            indicator: BoxDecoration(
-                              border: Border.all(color: Colors.transparent),
-                            ),
-                            tabs: List.generate(
-                              7,
-                              (index) {
-                                return Obx(
-                                  () {
-                                    return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                      ),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              controller.selectedIndex.value ==
+                Container(
+                  width: double.infinity,
+                  color: primaryDarkBlueColor,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: neutral02Color,
+                    ),
+                    child: GetBuilder<EventController>(
+                      builder: (controller) {
+                        return Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              color: Colors.transparent,
+                              child: TabBar(
+                                physics: const BouncingScrollPhysics(),
+                                controller: controller.tabController,
+                                isScrollable: true,
+                                tabAlignment: TabAlignment.start,
+                                dividerColor: Colors.transparent,
+                                indicatorPadding: EdgeInsets.zero,
+                                indicatorSize: TabBarIndicatorSize.tab,
+                                labelStyle: semiBoldText11.copyWith(
+                                    color: neutral01Color),
+                                indicator: BoxDecoration(
+                                  border: Border.all(color: Colors.transparent),
+                                ),
+                                tabs: List.generate(
+                                  7,
+                                  (index) {
+                                    return Obx(
+                                      () {
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 20,
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: controller.selectedIndex
+                                                          .value ==
                                                       index
                                                   ? primaryDarkBlueColor
                                                   : neutral01Color,
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          border: Border.all(
-                                              width: 1.0,
-                                              color: primaryDarkBlueColor)),
-                                      child: Tab(
-                                        text: controller.title[index],
-                                      ),
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  width: 1.0,
+                                                  color: primaryDarkBlueColor)),
+                                          child: Tab(
+                                            text: controller.title[index],
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: Get.height - 100,
+                              child: TabBarView(
+                                controller: controller.tabController,
+                                children: controller.screens,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
+            Obx(
+              () => controller.isFabVisible.value
+                  ? Positioned(
+                      right: MediaQuery.of(context).size.width * 0.05,
+                      bottom: MediaQuery.of(context).size.height * 0.30,
+                      child: IconButton(
+                        onPressed: () {
+                          controller.scrollController.animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.keyboard_double_arrow_up,
+                          color: neutral01Color,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll<Color>(
+                              primaryDarkBlueColor),
+                          shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: Get.height - 100,
-                          child: TabBarView(
-                            controller: controller.tabController,
-                            children: controller.screens,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ),
+
           ]),
         ));
   }

@@ -21,6 +21,8 @@ class AnalyticsController extends GetxController
     'assets/icons/job_icon.svg',
   ];
 
+
+
   late AnalyticService analyticService;
   String? token;
 

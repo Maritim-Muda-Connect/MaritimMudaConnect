@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -16,7 +17,6 @@ class ScholarshipView extends GetView<ScholarshipController> {
   @override
   Widget build(BuildContext context) {
     Get.put(ScholarshipController());
-
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
@@ -52,7 +52,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
                 );
               } else if (controller.scholarshipList.isEmpty) {
                 return Text(
-                  'Data belum tersedia',
+                  'No data available',
                   style: extraLightText16,
                 );
               } else {
@@ -61,41 +61,43 @@ class ScholarshipView extends GetView<ScholarshipController> {
                   onRefresh: () async {
                     await controller.getAllScholarships();
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: controller.filteredList.length,
-                      itemBuilder: (context, index) {
-                        final scholarship = controller.filteredList[index];
-                        final String startDate = DateFormat('dd/MM/yyyy')
-                            .format(scholarship.submissionDeadline!);
-                        return InkWell(
-                          onTap: () {
-                            Get.to(
-                              () => DetailScholarshipView(
-                                scholarshipData: scholarship,
+                  child: CupertinoScrollbar(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: controller.filteredList.length,
+                        itemBuilder: (context, index) {
+                          final scholarship = controller.filteredList[index];
+                          final String startDate = DateFormat('dd/MM/yyyy')
+                              .format(scholarship.submissionDeadline!);
+                          return InkWell(
+                            onTap: () {
+                              Get.to(
+                                () => DetailScholarshipView(
+                                  scholarshipData: scholarship,
+                                ),
+                                transition: Transition.rightToLeft,
+                                duration: const Duration(milliseconds: 100),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10.0),
+                              child: ProgramCard(
+                                image: scholarship.posterLink,
+                                date: startDate,
+                                textTitle: scholarship.name,
+                                textSubTitle: scholarship.providerName,
+                                onShare: () {
+                                  Share.share(
+                                      "Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}",
+                                      subject: "Scholarship Url");
+                                },
                               ),
-                              transition: Transition.rightToLeft,
-                              duration: const Duration(milliseconds: 100),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: ProgramCard(
-                              image: scholarship.posterLink,
-                              date: startDate,
-                              textTitle: scholarship.name,
-                              textSubTitle: scholarship.providerName,
-                              onShare: () {
-                                Share.share(
-                                    "Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}",
-                                    subject: "Scholarship Url");
-                              },
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 );

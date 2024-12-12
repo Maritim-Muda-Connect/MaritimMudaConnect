@@ -153,14 +153,17 @@ class HomeView extends GetView<HomeController> {
                     return SizedBox(
                       width: 320,
                       child: InkWell(
-                        onTap: (){
-                          Get.to(() => DetailEventView(eventData: event,));
+                        onTap: () {
+                          Get.to(() => DetailEventView(
+                                eventData: event,
+                              ));
                         },
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10.0)),
                           child: Image.network(
-                            event.posterLink ?? 'https://via.placeholder.com/150',
+                            event.posterLink ??
+                                'https://via.placeholder.com/150',
                             fit: BoxFit.cover,
                             loadingBuilder: (BuildContext context, Widget child,
                                 ImageChunkEvent? loadingProgress) {
@@ -171,8 +174,10 @@ class HomeView extends GetView<HomeController> {
                                   child: CircularProgressIndicator(
                                     value: loadingProgress.expectedTotalBytes !=
                                             null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                            (loadingProgress.expectedTotalBytes ??
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            (loadingProgress
+                                                    .expectedTotalBytes ??
                                                 1)
                                         : null,
                                   ),
@@ -180,7 +185,8 @@ class HomeView extends GetView<HomeController> {
                               }
                             },
                             errorBuilder: (context, error, stackTrace) {
-                              return Image.asset('assets/images/placeholder.png');
+                              return Image.asset(
+                                  'assets/images/placeholder.png');
                             },
                           ),
                         ),

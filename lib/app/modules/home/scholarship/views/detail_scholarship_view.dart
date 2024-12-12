@@ -22,11 +22,13 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
 
   @override
   Widget build(BuildContext context) {
-    final String date = DateFormat('dd/MM/yyyy').format(scholarshipData.submissionDeadline!);
+    final String date =
+        DateFormat('dd/MM/yyyy').format(scholarshipData.submissionDeadline!);
 
     return Scaffold(
       backgroundColor: neutral02Color,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: Text(
           'Detail Scholarship',
           style: boldText24,
@@ -38,11 +40,17 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
             Navigator.pop(context);
           },
         ),
-        actions: [IconButton(
-            icon: Icon(Icons.send, color: primaryDarkBlueColor,),
-            onPressed: () {
-              Share.share("Check this out: \n${scholarshipData.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}" , subject: "Scholarship Url");
-            }),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.send,
+                color: primaryDarkBlueColor,
+              ),
+              onPressed: () {
+                Share.share(
+                    "Check this out: \n${scholarshipData.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}",
+                    subject: "Scholarship Url");
+              }),
         ],
       ),
       body: SingleChildScrollView(
@@ -50,7 +58,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.only(bottom: 16),
               child: Image.network(
                 scholarshipData.posterLink!,
                 // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
@@ -65,7 +73,9 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
                 style: boldText24,
               ),
             ),
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
 
             // Padding(
             //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -75,7 +85,8 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
             //   ),
             // ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 style: boldText16,
                 'Penyelenggara',
@@ -88,7 +99,8 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
               child: Text(style: regulerText14, scholarshipData.providerName!),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                   style: boldText16,
                   textAlign: TextAlign.start,

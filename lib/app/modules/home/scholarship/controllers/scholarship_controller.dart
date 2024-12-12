@@ -17,7 +17,7 @@ class ScholarshipController extends GetxController
     getAllScholarships();
   }
 
-  void getAllScholarships() async {
+  Future<void> getAllScholarships() async {
     try {
       isLoading.value = true;
       var response = await ScholarshipService().getAllScholarship();
@@ -25,8 +25,6 @@ class ScholarshipController extends GetxController
       scholarshipList.sort((a, b) => (b.submissionDeadline ?? DateTime.now())
           .compareTo(a.submissionDeadline ?? DateTime.now()));
       filteredList.assignAll(scholarshipList);
-    } catch (e) {
-      print("Error fetch Scholarships");
     } finally {
       isLoading.value = false;
     }

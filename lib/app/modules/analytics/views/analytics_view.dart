@@ -36,44 +36,46 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         style: boldText20.copyWith(color: neutral04Color),
                       ),
                       const SizedBox(height: 16),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            controller.userCounts.length,
-                            (index) {
-                              return Obx(
-                                () {
-                                  final userCount = controller
-                                          .userCounts.isNotEmpty
-                                      ? controller.userCounts[index].toString()
-                                      : '';
+                      Center(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(
+                              controller.userCounts.length,
+                              (index) {
+                                return Obx(
+                                  () {
+                                    final userCount = controller
+                                            .userCounts.isNotEmpty
+                                        ? controller.userCounts[index].toString()
+                                        : '';
 
-                                  final height =
-                                      controller.userCounts.isNotEmpty
-                                          ? (controller.userCounts[index] / 10)
-                                              .clamp(10.0, 240.0)
-                                          : 10.0;
+                                    final height =
+                                        controller.userCounts.isNotEmpty
+                                            ? (controller.userCounts[index] / 10)
+                                                .clamp(10.0, 240.0)
+                                            : 10.0;
 
-                                  final month = controller.months.isNotEmpty
-                                      ? controller.months[index].substring(0, 3)
-                                      : '';
+                                    final month = controller.months.isNotEmpty
+                                        ? controller.months[index].substring(0, 3)
+                                        : '';
 
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4),
-                                    child: ChartBar(
-                                      value: userCount,
-                                      height: height,
-                                      color: primaryBlueColor,
-                                      month: month,
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
+                                      child: ChartBar(
+                                        value: userCount,
+                                        height: height,
+                                        color: primaryBlueColor,
+                                        month: month,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

@@ -130,22 +130,19 @@ class ResultQrView extends GetView<ResultQrController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Obx(() {
-                            if (controller.memberQrData.value.user!.photoLink!
-                                .isNotEmpty) {
+                            if (!controller.isLoading.value) {
                               return CircleAvatar(
                                 minRadius: 50,
-                                foregroundImage: NetworkImage(controller
+                                backgroundImage: NetworkImage(controller
                                         .memberQrData.value.user?.photoLink ??
                                     controller.defaultAvatar),
-                                backgroundImage: const AssetImage(
-                                    'assets/images/default_photo.jpg'),
                               );
                             } else {
-                              return CircleAvatar(
+                              return const CircleAvatar(
                                 minRadius: 50,
-                                foregroundImage:
-                                    NetworkImage(controller.defaultAvatar),
-                                backgroundImage: const AssetImage(
+                                foregroundImage: AssetImage(
+                                    'assets/images/default_photo.jpg'),
+                                backgroundImage: AssetImage(
                                     'assets/images/default_photo.jpg'),
                               );
                             }

@@ -35,23 +35,24 @@ class AllProductView extends GetView<AllProductController> {
             },
             color: primaryDarkBlueColor,
             child: CupertinoScrollbar(
-              child: ListView.builder(
+              child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                itemCount: controller.filteredProductList.length,
-                itemBuilder: (context, index) {
-                  return CatalogCard(
-                    onTap: () {
-                      Get.to(
-                        () => DetailProductView(
-                          productData: controller.filteredProductList[index],
-                        ),
-                        transition: Transition.rightToLeft,
-                        duration: const Duration(milliseconds: 100),
-                      );
-                    },
-                    productList: controller.filteredProductList[index],
-                  );
-                },
+                child: Column(
+                  children: controller.filteredProductList.map((products) {
+                    return CatalogCard(
+                      onTap: () {
+                        Get.to(
+                          () => DetailProductView(
+                            productData: products,
+                          ),
+                          transition: Transition.rightToLeft,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      },
+                      productList: products,
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           );

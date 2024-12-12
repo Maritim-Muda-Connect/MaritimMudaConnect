@@ -66,6 +66,7 @@ class MemberView extends GetView<MemberController> {
                             await controller.getAllMember();
                           },
                           child: CupertinoScrollbar(
+                            controller: controller.scrollController,
                             child: ListView.builder(
                               controller: controller.scrollController,
                               itemCount: controller.filteredMemberList.length,

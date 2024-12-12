@@ -14,9 +14,9 @@ class ListEventView extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return CupertinoScrollbar(
+      controller: controller.scrollController,
       child: Padding(
         padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 200),
-        // child:Expanded(
         child: Obx(() {
           if (controller.isLoading.value) {
             return Expanded(

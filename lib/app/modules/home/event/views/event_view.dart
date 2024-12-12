@@ -29,7 +29,7 @@ class EventView extends GetView<EventController> {
           actions: [Container()],
         ),
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Stack(alignment: Alignment.bottomRight, children: [
             Column(
               children: <Widget>[
@@ -110,7 +110,6 @@ class EventView extends GetView<EventController> {
                     ),
                   ),
                 ),
-
               ],
             ),
             Obx(
@@ -143,7 +142,6 @@ class EventView extends GetView<EventController> {
                     )
                   : const SizedBox.shrink(),
             ),
-
           ]),
         ));
   }

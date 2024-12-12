@@ -83,6 +83,30 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Divider(
+                  color: neutral04Color,
+                  height: 1,
+                  indent: 5,
+                  endIndent: 5,
+                ),
+              ),
+              Text("version 1.0"),
+              Expanded(
+                child: Divider(
+                  color: neutral04Color,
+                  height: 1,
+                  indent: 5,
+                  endIndent: 5,
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

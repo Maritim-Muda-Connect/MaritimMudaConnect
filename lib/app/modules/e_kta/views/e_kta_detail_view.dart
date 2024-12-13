@@ -52,7 +52,9 @@ class EKtaDetailView extends GetView<EKtaController> {
                     ),
                   ),
                   Container(
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width > 600
+                        ? 330
+                        : double.infinity,
                     padding: const EdgeInsets.fromLTRB(40, 30, 40, 20),
                     margin: const EdgeInsets.fromLTRB(50, 40, 50, 30),
                     decoration: BoxDecoration(
@@ -88,7 +90,8 @@ class EKtaDetailView extends GetView<EKtaController> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style: semiBoldText22.copyWith(color: neutral01Color),
+                            style:
+                                semiBoldText22.copyWith(color: neutral01Color),
                           ),
                         ),
                       ],

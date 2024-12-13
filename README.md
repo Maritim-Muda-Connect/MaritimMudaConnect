@@ -51,7 +51,7 @@ Kami menyambut kontribusi dari siapa saja yang ingin meningkatkan aplikasi ini. 
 
 ## Lisensi 📜
 
-Aplikasi ini dilisensikan di bawah [MIT License](LICENSE).
+Aplikasi ini dilisensikan di bawah apa yaa....
 
 ---
 

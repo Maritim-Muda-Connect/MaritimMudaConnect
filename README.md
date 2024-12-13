@@ -9,14 +9,11 @@
 - **Informasi Terkini**: Mendapatkan berita, peluang, dan tren terbaru dalam dunia maritim.
 - **Event & Workshop**: Akses ke acara, pelatihan, dan workshop terkait industri maritim.
 - **Peta Jaringan**: Visualisasi jaringan pemuda maritim di seluruh Indonesia.
-- **Notifikasi Realtime**: Tetap terinformasi dengan pembaruan penting melalui notifikasi yang dikirim secara realtime.
 
 ## Teknologi yang Digunakan 🧑‍💻
 
 - **Flutter**: Framework utama untuk pengembangan aplikasi multiplatform.
 - **GetX**: State management, dependency injection, dan route management.
-- **Firebase**: Penyimpanan data realtime, otentikasi, dan notifikasi push.
-- **Lottie Animations**: Animasi interaktif yang memperkaya pengalaman pengguna.
 
 ## Struktur Proyek 📂
 
@@ -43,11 +40,10 @@
    ```bash
    flutter run
    ```
-
-4. Pastikan Anda memiliki koneksi ke Firebase dengan mengonfigurasi `google-services.json` untuk Android dan `GoogleService-Info.plist` untuk iOS.
-
+   
 ## Screenshot Aplikasi 📸
 
+![Explore Maritime World at Your Fingertips](https://github.com/user-attachments/assets/59f78be7-03b0-4f5f-a468-ebb931377a86)
 
 ## Kontribusi 🤝
 

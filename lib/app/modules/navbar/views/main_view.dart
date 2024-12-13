@@ -20,15 +20,16 @@ class MainView extends StatelessWidget {
           extendBody: true,
           backgroundColor: Colors.transparent,
           bottomNavigationBar: ClipRRect(
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(32)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
             child: BottomAppBar(
               color: neutral01Color,
               shape: const CircularNotchedRectangle(),
               notchMargin: 8,
               elevation: 4,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: MediaQuery.of(context).size.width > 600
+                    ? const EdgeInsets.symmetric(horizontal: 350)
+                    : const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(
@@ -39,8 +40,7 @@ class MainView extends StatelessWidget {
                       return GetBuilder<MainController>(
                         builder: (_) => _buildNavItem(
                           controller.iconList[index < 2 ? index : index - 1],
-                          controller
-                              .iconTitles[index < 2 ? index : index - 1],
+                          controller.iconTitles[index < 2 ? index : index - 1],
                           index,
                         ),
                       );

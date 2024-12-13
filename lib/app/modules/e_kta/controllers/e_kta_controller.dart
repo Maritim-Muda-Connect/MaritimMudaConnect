@@ -37,8 +37,6 @@ class EKtaController extends GetxController {
       qrCodeBase64.value = ektaData.value.qrCodeUrl ?? '';
       svgString =
           qrCodeBase64.value.replaceFirst("data:image/svg+xml;base64,", "");
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }

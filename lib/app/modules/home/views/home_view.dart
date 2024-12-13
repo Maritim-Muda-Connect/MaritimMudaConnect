@@ -25,6 +25,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       backgroundColor: neutral02Color,
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -288,6 +289,8 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
+          if (MediaQuery.of(context).size.width > 600)
+            const SizedBox(height: 60)
         ],
       ),
     );

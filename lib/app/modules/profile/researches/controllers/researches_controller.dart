@@ -171,8 +171,6 @@ class ResearchesController extends GetxController {
       isLoading(true);
       var data = await ResearchesService().fetchResearches();
       researcheLists.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }
@@ -195,8 +193,6 @@ class ResearchesController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }
@@ -219,8 +215,6 @@ class ResearchesController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }
@@ -243,8 +237,6 @@ class ResearchesController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }

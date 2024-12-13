@@ -39,8 +39,6 @@ class HomeController extends GetxController {
       isLoading(true);
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }
@@ -51,8 +49,6 @@ class HomeController extends GetxController {
       isLoading(true);
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }

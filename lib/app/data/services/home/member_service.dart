@@ -21,7 +21,6 @@ class MemberService {
             'Failed to fetch members: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
-      print("Error fetching members: $e");
       rethrow;
     }
   }

@@ -141,8 +141,6 @@ class AchievementsController extends GetxController {
       isLoading.value = true;
       var data = await AchievementsService().fetchAchievements();
       achievementsData.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -164,8 +162,6 @@ class AchievementsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -189,8 +185,6 @@ class AchievementsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -213,8 +207,6 @@ class AchievementsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }

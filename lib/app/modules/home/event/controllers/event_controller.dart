@@ -76,8 +76,6 @@ class EventController extends GetxController
       eventsList.sort((a, b) => (b.startDate ?? DateTime.now())
           .compareTo(a.startDate ?? DateTime.now()));
       filterEventList.assignAll(eventsList);
-    } catch (e) {
-      print("Error fetching events: $e");
     } finally {
       isLoading.value = false;
     }
@@ -121,7 +119,6 @@ class EventController extends GetxController
     }
 
     filterEventList.assignAll(tempList);
-
     sortedEventList.assignAll(tempList);
   }
 

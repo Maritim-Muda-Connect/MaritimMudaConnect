@@ -163,8 +163,6 @@ class SocialActivityController extends GetxController {
       isLoading.value = true;
       var data = await SocialActivityService().fetchSocialActivity();
       socialActivityLists.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -187,8 +185,6 @@ class SocialActivityController extends GetxController {
           'Failed adding social activity history!',
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -209,8 +205,6 @@ class SocialActivityController extends GetxController {
       } else {
         customSnackbar('Failed updating social activity history !');
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -233,8 +227,6 @@ class SocialActivityController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }

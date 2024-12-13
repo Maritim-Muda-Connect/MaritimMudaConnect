@@ -10,7 +10,6 @@ class ProgramCard extends StatelessWidget {
     this.textTitle,
     this.textSubTitle,
     this.onShare,
-
   });
 
   final String? image;
@@ -28,23 +27,29 @@ class ProgramCard extends StatelessWidget {
         child: Container(
           width: 378,
           decoration: BoxDecoration(
-              color: neutral01Color,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: primaryBlueColor, width: 2.0)),
-          padding:
-              const EdgeInsets.only(left: 23, top: 19, right: 23, bottom: 19),
+            color: neutral01Color,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: primaryBlueColor, width: 2.0),
+          ),
+          padding: const EdgeInsets.fromLTRB(23, 19, 23, 19),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: 200,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                        image: NetworkImage(image!), fit: BoxFit.cover)),
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                      image: NetworkImage(image!), fit: BoxFit.cover),
+                ),
               ),
               const SizedBox(height: 10),
-              Text(textTitle!, style: boldText12),
+              Text(
+                textTitle!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: boldText12,
+              ),
               const SizedBox(height: 5),
               Opacity(
                 opacity: 0.76,
@@ -61,15 +66,12 @@ class ProgramCard extends StatelessWidget {
                     children: [
                       Icon(Icons.calendar_month, color: primaryDarkBlueColor),
                       const SizedBox(width: 4),
-                      Text(
-                        date!,
-                        style: regulerText10,
-                      )
+                      Text(date!, style: regulerText10)
                     ],
                   ),
                   IconButton(
-                      icon: Icon(Icons.share, color: primaryDarkBlueColor),
-                      onPressed: onShare,
+                    icon: Icon(Icons.share, color: primaryDarkBlueColor),
+                    onPressed: onShare,
                   ),
                 ],
               )

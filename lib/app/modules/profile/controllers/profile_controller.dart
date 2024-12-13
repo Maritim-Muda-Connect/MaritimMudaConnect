@@ -156,8 +156,6 @@ class ProfileController extends GetxController {
       generalData.value = data;
 
       setAllController();
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }
@@ -197,8 +195,6 @@ class ProfileController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print("Error controller profil $e");
     } finally {
       isLoading(false);
     }

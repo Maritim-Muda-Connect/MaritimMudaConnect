@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../../../../themes.dart';
 import '../../../widget/program_card.dart';
 import 'detail_event_view.dart';
@@ -17,7 +16,9 @@ class CategoryEvent extends GetView<EventController> {
     return CupertinoScrollbar(
       controller: controller.scrollController,
       child: Padding(
-        padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 200),
+        padding: MediaQuery.of(context).size.width > 600
+            ? const EdgeInsets.fromLTRB(30, 0, 30, 170)
+            : const EdgeInsets.fromLTRB(30, 0, 30, 195),
         child: Obx(() {
           if (controller.isLoading.value) {
             return Expanded(
@@ -33,42 +34,45 @@ class CategoryEvent extends GetView<EventController> {
               style: extraLightText16,
             );
           } else {
-            return ListView.builder(
-              shrinkWrap: true,
-              controller: controller.scrollController,
+            return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              itemCount: controller.sortedEventList.length,
-              itemBuilder: (context, index) {
-                final event = controller.sortedEventList[index];
-                final String startDate =
-                    DateFormat('dd/MM/yyyy').format(event.startDate!);
+              controller: controller.scrollController,
+              child: Wrap(
+                spacing: 30,
+                runSpacing: 4,
+                children: List.generate(
+                  controller.sortedEventList.length,
+                  (index) {
+                    var events = controller.sortedEventList[index];
+                    final String startDate =
+                        DateFormat('dd/MM/yyyy').format(events.startDate!);
 
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailEventView(
-                                  eventData: event,
-                                )));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: ProgramCard(
-                      image: event.posterLink,
-                      // "https://lh3.googleusercontent.com/9uRdrnXVbm8VHdRBA7iu0n5BLUBARZVtJw3-u25b7V2d8MEHVqEgfiuJqvTxg6ePAWuylzpRMhF403srp3ogy52--yUue2YcFsTa85N98jVm4V-xglUz8EuvFv0PTSRnyg=w3374",
-                      date: startDate,
-                      textTitle: event.name,
-                      textSubTitle: "",
-                      onShare: () {
-                        Share.share(
-                            "Check this out: \n${event.externalUrl ?? "Sorry, this event does not have a URL available!"}",
-                            subject: "Event Url");
+                    return InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => DetailEventView(eventData: events),
+                          transition: Transition.rightToLeft,
+                          duration: const Duration(milliseconds: 100),
+                        );
                       },
-                    ),
-                  ),
-                );
-              },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: ProgramCard(
+                          image: events.posterLink,
+                          date: startDate,
+                          textTitle: events.name,
+                          textSubTitle: "",
+                          onShare: () {
+                            Share.share(
+                                "Check this out: \n${events.externalUrl ?? "Sorry, this event does not have a URL available!"}",
+                                subject: "Event Url");
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             );
           }
         }),

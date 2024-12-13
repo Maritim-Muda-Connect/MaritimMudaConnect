@@ -43,7 +43,7 @@ class DetailEventView extends GetView<EventController> {
         actions: [
           IconButton(
               icon: Icon(
-                Icons.send,
+                Icons.share,
                 color: primaryDarkBlueColor,
               ),
               onPressed: () {

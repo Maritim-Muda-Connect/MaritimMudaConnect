@@ -152,8 +152,6 @@ class WorkExperiencesController extends GetxController {
       isLoading.value = true;
       var data = await WorkExperiencesService().fetchWorkExperiences();
       workExperienceLists.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -172,8 +170,6 @@ class WorkExperiencesController extends GetxController {
       } else {
         customSnackbar('Failed Adding Work Experience!');
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -192,8 +188,6 @@ class WorkExperiencesController extends GetxController {
       } else {
         customSnackbar('Failed Updating Work Experience!');
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -215,8 +209,6 @@ class WorkExperiencesController extends GetxController {
       } else {
         customSnackbar('Failed Deleting Work Experience!');
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }

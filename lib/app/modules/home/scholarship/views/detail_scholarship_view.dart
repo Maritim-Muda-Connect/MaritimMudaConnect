@@ -29,6 +29,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
       backgroundColor: neutral02Color,
       appBar: AppBar(
         scrolledUnderElevation: 0,
+        backgroundColor: neutral02Color,
         title: Text(
           'Detail Scholarship',
           style: boldText24,

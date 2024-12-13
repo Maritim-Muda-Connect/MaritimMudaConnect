@@ -219,8 +219,6 @@ class PublicationsController extends GetxController {
       var data = await PublicationService().fetchPublication();
       selectedPublicationType("");
       publicationData.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -228,7 +226,6 @@ class PublicationsController extends GetxController {
 
   void createPublication(PublicationRequest request) async {
     try {
-      print(request.type);
       isLoading.value = true;
       bool success = await PublicationService().createPublication(request);
       if (success) {
@@ -243,8 +240,6 @@ class PublicationsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -267,8 +262,6 @@ class PublicationsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -291,8 +284,6 @@ class PublicationsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -327,7 +318,6 @@ class PublicationsController extends GetxController {
     if (level != null) {
       selectedPublicationType.value = level;
       pubTypeC.text = level;
-      print(selectedPublicationType.value);
     }
   }
 }

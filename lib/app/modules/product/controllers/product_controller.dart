@@ -78,8 +78,6 @@ class ProductController extends GetxController
       var data = await ProductService().fetchProducts();
       productList.assignAll(data.data ?? []);
       filterProductsByCategory(selectedIndex.value, title[selectedIndex.value]);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }

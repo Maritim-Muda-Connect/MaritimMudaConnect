@@ -64,39 +64,46 @@ class ScholarshipView extends GetView<ScholarshipController> {
                   child: CupertinoScrollbar(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-                      child: ListView.builder(
+                      child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        itemCount: controller.filteredList.length,
-                        itemBuilder: (context, index) {
-                          final scholarship = controller.filteredList[index];
-                          final String startDate = DateFormat('dd/MM/yyyy')
-                              .format(scholarship.submissionDeadline!);
-                          return InkWell(
-                            onTap: () {
-                              Get.to(
-                                () => DetailScholarshipView(
-                                  scholarshipData: scholarship,
+                        child: Wrap(
+                          spacing: 30,
+                          runSpacing: 4,
+                          children: List.generate(
+                            controller.filteredList.length,
+                            (index) {
+                              var scolarships = controller.filteredList[index];
+                              final String startDate = DateFormat('dd/MM/yyyy')
+                                  .format(scolarships.submissionDeadline!);
+
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => DetailScholarshipView(
+                                        scholarshipData: scolarships),
+                                    transition: Transition.rightToLeft,
+                                    duration: const Duration(milliseconds: 100),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: ProgramCard(
+                                    image: scolarships.posterLink,
+                                    date: startDate,
+                                    textTitle: scolarships.name,
+                                    textSubTitle: "",
+                                    onShare: () {
+                                      Share.share(
+                                          "Check this out: \n${scolarships.registrationLink ?? "Sorry, this event does not have a URL available!"}",
+                                          subject: "Event Url");
+                                    },
+                                  ),
                                 ),
-                                transition: Transition.rightToLeft,
-                                duration: const Duration(milliseconds: 100),
                               );
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: ProgramCard(
-                                image: scholarship.posterLink,
-                                date: startDate,
-                                textTitle: scholarship.name,
-                                textSubTitle: scholarship.providerName,
-                                onShare: () {
-                                  Share.share(
-                                      "Check this out: \n${scholarship.registrationLink ?? "Sorry, this scholarship does not have a URL available!"}",
-                                      subject: "Scholarship Url");
-                                },
-                              ),
-                            ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -44,8 +44,6 @@ class MemberController extends GetxController {
       dateOfBirth(response.user?.dateOfBirth != null
           ? DateFormat('dd MMMM yyyy').format(response.user!.dateOfBirth!)
           : '');
-    } catch (e) {
-      print("Error fetching email: $e");
     } finally {
       isLoading(false);
     }
@@ -57,8 +55,6 @@ class MemberController extends GetxController {
       var response = await MemberService().getAllMembers();
       memberList.assignAll(response.members!);
       filteredMemberList.assignAll(memberList);
-    } catch (e) {
-      print("Error fetching members: $e");
     } finally {
       isLoading.value = false;
     }

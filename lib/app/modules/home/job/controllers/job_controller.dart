@@ -18,8 +18,6 @@ class JobController extends GetxController {
       var response = await JobService().fetchJob();
 
       jobs.assignAll(response);
-    } catch (e) {
-      print('Error fetching jobs: $e');
     } finally {
       isLoading(false);
     }

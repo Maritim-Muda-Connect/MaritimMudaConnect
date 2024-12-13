@@ -153,8 +153,6 @@ class OrganizationsController extends GetxController {
       isLoading.value = true;
       var data = await OrganizationsService().fetchOrganizations();
       organizationList.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -177,8 +175,6 @@ class OrganizationsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -202,8 +198,6 @@ class OrganizationsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -226,8 +220,6 @@ class OrganizationsController extends GetxController {
           secondaryRedColor,
         );
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }

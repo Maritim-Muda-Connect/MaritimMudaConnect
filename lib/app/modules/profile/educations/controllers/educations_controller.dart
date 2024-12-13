@@ -196,8 +196,6 @@ class EducationsController extends GetxController {
       isLoading.value = true;
       var data = await EducationsService().fetchEducations();
       educationList.assignAll(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -215,8 +213,6 @@ class EducationsController extends GetxController {
       } else {
         customSnackbar('Failed adding education history!');
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -234,8 +230,6 @@ class EducationsController extends GetxController {
       } else {
         customSnackbar('Failed updating education history!');
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -256,8 +250,6 @@ class EducationsController extends GetxController {
       } else {
         customSnackbar('Failed deleting education history!', secondaryRedColor);
       }
-    } catch (e) {
-      print(e);
     } finally {
       isLoading.value = false;
     }
@@ -286,7 +278,6 @@ class EducationsController extends GetxController {
     if (level != null) {
       selectedLevel.value = level;
       levelController.text = level;
-      print(selectedLevel.value);
     }
   }
 }

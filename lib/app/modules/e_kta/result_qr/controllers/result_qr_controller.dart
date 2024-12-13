@@ -13,8 +13,6 @@ class ResultQrController extends GetxController {
       isLoading(true);
       var data = await ResultQrService().fetchMemberQr(uid);
       memberQrData(data);
-    } catch (e) {
-      print(e);
     } finally {
       isLoading(false);
     }

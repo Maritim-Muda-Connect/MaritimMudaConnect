@@ -16,7 +16,9 @@ class ListEventView extends GetView<EventController> {
     return CupertinoScrollbar(
       controller: controller.scrollController,
       child: Padding(
-        padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 200),
+        padding: MediaQuery.of(context).size.width > 600
+            ? const EdgeInsets.fromLTRB(30, 0, 30, 170)
+            : const EdgeInsets.fromLTRB(30, 0, 30, 195),
         child: Obx(() {
           if (controller.isLoading.value) {
             return Expanded(
@@ -33,36 +35,43 @@ class ListEventView extends GetView<EventController> {
             );
           } else {
             return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               controller: controller.scrollController,
-              child: Column(
-                children: controller.filterEventList.map((events) {
-                  final String startDate =
-                      DateFormat('dd/MM/yyyy').format(events.startDate!);
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailEventView(
-                                    eventData: events,
-                                  )));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: ProgramCard(
-                        image: events.posterLink,
-                        date: startDate,
-                        textTitle: events.name,
-                        textSubTitle: "",
-                        onShare: () {
-                          Share.share(
-                              "Check this out: \n${events.externalUrl ?? "Sorry, this event does not have a URL available!"}",
-                              subject: "Event Url");
-                        },
+              child: Wrap(
+                spacing: 30,
+                runSpacing: 4,
+                children: List.generate(
+                  controller.filterEventList.length,
+                  (index) {
+                    var events = controller.filterEventList[index];
+                    final String startDate =
+                        DateFormat('dd/MM/yyyy').format(events.startDate!);
+
+                    return InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => DetailEventView(eventData: events),
+                          transition: Transition.rightToLeft,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: ProgramCard(
+                          image: events.posterLink,
+                          date: startDate,
+                          textTitle: events.name,
+                          textSubTitle: "",
+                          onShare: () {
+                            Share.share(
+                                "Check this out: \n${events.externalUrl ?? "Sorry, this event does not have a URL available!"}",
+                                subject: "Event Url");
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  },
+                ),
               ),
             );
           }

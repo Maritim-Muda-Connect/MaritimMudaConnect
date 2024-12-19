@@ -1,4 +1,4 @@
-package com.maritimmuda.maritimmuda_connect
+package com.maritimmuda.maritimmudaconnect
 
 import io.flutter.embedding.android.FlutterActivity
 

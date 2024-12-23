@@ -30,7 +30,7 @@ class EKtaView extends GetView<EKtaController> {
         color: primaryDarkBlueColor,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 21, top: 20, right: 21, bottom: 21),
+              const EdgeInsets.only(left: 21, top: 20, right: 21, bottom: 11),
           child: ListView(
             children: [
               Column(

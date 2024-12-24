@@ -76,8 +76,14 @@ class EKtaView extends GetView<EKtaController> {
                               onPageChanged: controller.onPageChanged,
                               children: [
                                 CustomCardSlider(
-                                  image: NetworkImage(controller
-                                      .ektaData.value.user!.memberCardPreview!),
+                                  image: controller.ektaData.value.user
+                                              ?.memberCardPreview !=
+                                          null
+                                      ? NetworkImage(controller.ektaData.value
+                                              .user?.memberCardPreview ??
+                                          controller.defaultAvatar)
+                                      : const AssetImage(
+                                          "assets/images/ekta.png"),
                                 ),
                                 const CustomCardSlider(
                                   image: AssetImage("assets/images/ekta.png"),

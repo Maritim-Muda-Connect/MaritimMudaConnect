@@ -223,7 +223,7 @@ class ResultQrView extends GetView<ResultQrController> {
                               ],
                             ),
                             Text(
-                              DateFormat('MMMM yyyy', 'id_ID').format(
+                              DateFormat('MMMM yyyy').format(
                                 controller.memberQrData.value.user
                                         ?.emailVerifiedAt ??
                                     DateTime.now(),

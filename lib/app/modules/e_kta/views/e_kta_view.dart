@@ -30,7 +30,7 @@ class EKtaView extends GetView<EKtaController> {
         color: primaryDarkBlueColor,
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 21, top: 20, right: 21, bottom: 21),
+              const EdgeInsets.only(left: 21, top: 20, right: 21, bottom: 11),
           child: ListView(
             children: [
               Column(
@@ -76,8 +76,14 @@ class EKtaView extends GetView<EKtaController> {
                               onPageChanged: controller.onPageChanged,
                               children: [
                                 CustomCardSlider(
-                                  image: NetworkImage(controller
-                                      .ektaData.value.user!.memberCardPreview!),
+                                  image: controller.ektaData.value.user
+                                              ?.memberCardPreview !=
+                                          null
+                                      ? NetworkImage(controller.ektaData.value
+                                              .user?.memberCardPreview ??
+                                          controller.defaultAvatar)
+                                      : const AssetImage(
+                                          "assets/images/ekta.png"),
                                 ),
                                 const CustomCardSlider(
                                   image: AssetImage("assets/images/ekta.png"),

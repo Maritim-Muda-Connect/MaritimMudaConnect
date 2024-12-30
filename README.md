@@ -36,7 +36,12 @@
    flutter pub get
    ```
 
-3. Run aplikasi di emulator atau perangkat fisik:
+3. Install GetX CLI Tools di sistem:
+   ```bash
+   flutter pub global activate get_cli
+   ```
+
+4. Run aplikasi di emulator atau perangkat fisik:
    ```bash
    flutter run
    ```

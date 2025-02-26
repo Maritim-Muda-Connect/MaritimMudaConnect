@@ -17,11 +17,13 @@ class MemberService {
         var data = memberResponseFromJson(response.body);
         return data;
       } else {
-        throw Exception(
-            'Failed to fetch members: ${response.statusCode} - ${response.body}');
+        // throw Exception(
+        //     'Failed to fetch members: ${response.statusCode} - ${response.body}');
+        return MemberResponse();
       }
     } catch (e) {
-      rethrow;
+      // rethrow;
+      return MemberResponse();
     }
   }
 

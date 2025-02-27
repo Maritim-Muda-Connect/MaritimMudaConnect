@@ -17,6 +17,7 @@ class MemberService {
         var data = memberResponseFromJson(response.body);
         return data;
       } else {
+        //TODO: remove comments and delete the return statement
         // throw Exception(
         //     'Failed to fetch members: ${response.statusCode} - ${response.body}');
         return MemberResponse();

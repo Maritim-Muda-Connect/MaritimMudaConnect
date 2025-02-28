@@ -42,7 +42,7 @@ android/.gradle/
 android/app/build/
 android/local.properties
 android/.idea/
-android/.cxx/
+android/app/.cxx
 
 # Android Studio will place build artifacts here
 /android/app/debug

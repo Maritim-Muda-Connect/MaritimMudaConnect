@@ -17,14 +17,15 @@ class MemberService {
         var data = memberResponseFromJson(response.body);
         return data;
       } else {
-        //TODO: remove comments and delete the return statement
-        // throw Exception(
-        //     'Failed to fetch members: ${response.statusCode} - ${response.body}');
-        return MemberResponse();
+        throw Exception(
+            'Failed to fetch members: ${response.statusCode} - ${response.body}');
+        // return MemberResponse();
+        //comment throw exception and return MemberResponse() to avoid crash if api is down
       }
     } catch (e) {
-      // rethrow;
-      return MemberResponse();
+      rethrow;
+      // return MemberResponse();
+      //comment rethrow and return MemberResponse() to avoid crash if api is down
     }
   }
 

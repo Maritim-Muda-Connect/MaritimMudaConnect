@@ -53,7 +53,7 @@ class MemberController extends GetxController {
     try {
       isLoading.value = true;
       var response = await MemberService().getAllMembers();
-      memberList.assignAll(response.members!);
+      memberList.assignAll(response.members?? []);
       filteredMemberList.assignAll(memberList);
     } finally {
       isLoading.value = false;

@@ -10,6 +10,8 @@ class ProductController extends GetxController
   late TabController tabController;
   final scrollController = ScrollController();
 
+  final isScrolled = false.obs;
+
   var selectedIndex = 0.obs;
   var isLoading = false.obs;
   var productList = <Product>[].obs;

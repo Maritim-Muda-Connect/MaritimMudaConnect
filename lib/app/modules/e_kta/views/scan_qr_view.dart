@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/e_kta/result_qr/views/result_qr_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScanQrView extends StatefulWidget {
   const ScanQrView({super.key});
@@ -13,49 +13,41 @@ class ScanQrView extends StatefulWidget {
 }
 
 class _ScanQrViewState extends State<ScanQrView> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? result;
-  QRViewController? controller;
+  final MobileScannerController controller = MobileScannerController();
   bool isFlashOn = false;
 
-  void _createQrView(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        RegExp regExp = RegExp(r'user/(\d+)/membership-status');
-        Match? match = regExp.firstMatch(result?.code ?? "");
+  void _onDetect(BarcodeCapture capture) {
+    for (final barcode in capture.barcodes) {
+      final String? code = barcode.rawValue;
+      if (code != null) {
+        RegExp regExp = RegExp(r'user\/(\d+)\/membership-status');
+        Match? match = regExp.firstMatch(code);
         String uid = match?.group(1) ?? "";
-        if (RegExp(r'^\d+$').hasMatch(uid)) {
+
+        if (RegExp(r'^\d+\$').hasMatch(uid)) {
           Get.to(
             () => ResultQrView(uid: uid),
             transition: Transition.rightToLeft,
             duration: const Duration(milliseconds: 100),
           );
         } else {
-          if (SnackbarController.isSnackbarBeingShown == false) {
-            customSnackbar("Not an E-KTA Qr Code");
+          if (!SnackbarController.isSnackbarBeingShown) {
+            customSnackbar("Not an E-KTA QR Code");
           }
         }
-      });
-    });
+      }
+    }
   }
 
   void _toggleFlash() {
-    if (controller != null) {
-      controller!.toggleFlash();
-      setState(() {
-        isFlashOn = !isFlashOn;
-      });
-    }
+    controller.toggleTorch();
+    setState(() {
+      isFlashOn = !isFlashOn;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 300.0
-        : 350.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: neutral02Color,
@@ -68,23 +60,9 @@ class _ScanQrViewState extends State<ScanQrView> {
       ),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Expanded(
-                flex: 5,
-                child: QRView(
-                  key: qrKey,
-                  onQRViewCreated: _createQrView,
-                  overlay: QrScannerOverlayShape(
-                    borderColor: primaryDarkBlueColor,
-                    borderRadius: 10,
-                    borderLength: 30,
-                    borderWidth: 10,
-                    cutOutSize: scanArea,
-                  ),
-                ),
-              ),
-            ],
+          MobileScanner(
+            controller: controller,
+            onDetect: _onDetect,
           ),
           Positioned(
             top: 16,
@@ -102,7 +80,7 @@ class _ScanQrViewState extends State<ScanQrView> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

@@ -55,6 +55,8 @@ class AppPages {
   AppPages._();
 
   static const INITIAL = Routes.SPLASH;
+  //TODO DELETE DEBUG
+  static const ALL_CATALOG = Routes.ALL_CATALOG;
 
   static final routes = [
     GetPage(

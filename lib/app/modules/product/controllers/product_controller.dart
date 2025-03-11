@@ -16,6 +16,9 @@ class ProductController extends GetxController
   var filteredProductList = <Product>[].obs;
   var searchQuery = ''.obs;
   var isFabVisible = false.obs;
+  var isCardView = true.obs;
+  var sortCriteria = 'name'.obs;
+  var isAscending = true.obs;
 
   @override
   void onInit() {
@@ -33,6 +36,36 @@ class ProductController extends GetxController
         isFabVisible(false);
       }
     });
+  }
+
+  void toggleSortOrder() {
+    isAscending.value = !isAscending.value;
+    applyFilters();
+  }
+
+  List<Product> sortProducts(List<Product> products) {
+    var sortedList = List<Product>.from(products);
+    switch (sortCriteria.value) {
+      case 'name':
+        sortedList.sort((a, b) => a.name!.compareTo(b.name!));
+        break;
+      case 'price':
+        sortedList.sort((a, b) => int.parse(a.price!).compareTo(int.parse(b.price!)));
+        break;
+      case 'newest':
+        sortedList.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        break;
+    }
+    return isAscending.value ? sortedList : sortedList.reversed.toList();
+}
+
+  void toggleViewMode() {
+    isCardView.value = !isCardView.value;
+  }
+
+  void setSortCriteria(String value) {
+    sortCriteria.value = value;
+    applyFilters();
   }
 
   List<String> title = ['All', 'Transport'];
@@ -68,6 +101,8 @@ class ProductController extends GetxController
         return nameMatch;
       }).toList();
     }
+
+    filterList = sortProducts(filterList);
 
     filteredProductList.assignAll(filterList);
   }

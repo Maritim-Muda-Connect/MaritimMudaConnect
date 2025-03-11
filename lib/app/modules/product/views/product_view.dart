@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/modules/product/all_product/views/all_product_view.dart';
+import 'package:maritimmuda_connect/app/modules/product/all_product/views/all_product_list.dart';
 import 'package:maritimmuda_connect/app/modules/product/widgets/custom_search.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/product_controller.dart';
@@ -100,8 +101,64 @@ class ProductView extends GetView<ProductController> {
                                 ? const SizedBox(height: 60)
                                 : const SizedBox.shrink()),
                             const CustomSearch(),
-                            const Expanded(
-                              child: AllProductView(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24.0, vertical: 8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Obx(
+                                        () => DropdownButton<String>(
+                                          value: controller.sortCriteria.value,
+                                          items: const [
+                                            DropdownMenuItem(
+                                              value: "name",
+                                              child: Text("Sort by Name"),
+                                            ),
+                                            DropdownMenuItem(
+                                              value: "price",
+                                              child: Text("Sort by Price"),
+                                            ),
+                                            DropdownMenuItem(
+                                              value: "newest",
+                                              child: Text("Sort by Newest"),
+                                            ),
+                                          ],
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              controller.setSortCriteria(value);
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                      Obx(() => IconButton(
+                                            icon: controller.isAscending.value
+                                                ? const Icon(Icons.arrow_upward)
+                                                : const Icon(
+                                                    Icons.arrow_downward),
+                                            onPressed:
+                                                controller.toggleSortOrder,
+                                          )),
+                                    ],
+                                  ),
+                                  Obx(() => IconButton(
+                                        icon: controller.isCardView.value
+                                            ? const Icon(Icons.view_list)
+                                            : const Icon(Icons.view_module),
+                                        onPressed: controller.toggleViewMode,
+                                      )),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Obx(() {
+                                return controller.isCardView.value
+                                    ? const AllProductView()
+                                    : const CatalogList();
+                              }),
                             ),
                           ],
                         );

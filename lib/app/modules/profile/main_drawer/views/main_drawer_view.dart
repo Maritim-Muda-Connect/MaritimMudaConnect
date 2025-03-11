@@ -72,26 +72,21 @@ class MainDrawerView extends GetView<MainDrawerController> {
             return dynamicController.isLoading.value;
           });
           return isLoading
-              ? Container(color: Colors.black.withOpacity(0.3))
-              : const SizedBox.shrink();
-        }),
-        Obx(() {
-          final isLoading = controllers.any((ctrl) {
-            final dynamic dynamicController = ctrl;
-            return dynamicController.isLoading.value;
-          });
-          return isLoading
               ? Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 18,
-                    horizontal: 32,
-                  ),
-                  decoration: BoxDecoration(
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: CircularProgressIndicator(
-                    color: primaryDarkBlueColor,
+                  color: Colors.black.withOpacity(0.3),
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 18,
+                      horizontal: 32,
+                    ),
+                    decoration: BoxDecoration(
+                      color: neutral01Color,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: CircularProgressIndicator(
+                      color: primaryDarkBlueColor,
+                    ),
                   ),
                 )
               : const SizedBox.shrink();

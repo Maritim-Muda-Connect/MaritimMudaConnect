@@ -172,29 +172,6 @@ class ProfileView extends GetView<ProfileController> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Aksi untuk edit profil atau lainnya
-          },
-          backgroundColor: primaryDarkBlueColor,
-          shape: const CircleBorder(),
-          child: Icon(Icons.edit, color: neutral01Color),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 6.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(icon: Icon(Icons.home), onPressed: () {}),
-              IconButton(icon: Icon(Icons.analytics), onPressed: () {}),
-              const SizedBox(width: 48), // Beri ruang untuk FAB di tengah
-              IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {}),
-              IconButton(icon: Icon(Icons.person), onPressed: () {}),
-            ],
-          ),
-        ),
       ),
     );
   }

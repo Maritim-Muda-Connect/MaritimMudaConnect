@@ -115,6 +115,9 @@ class ProductView extends GetView<ProductController> {
                                           value: controller.sortCriteria.value,
                                           items: const [
                                             DropdownMenuItem(
+                                                value: "id",
+                                                child: Text("Default")),
+                                            DropdownMenuItem(
                                               value: "name",
                                               child: Text("Sort by Name"),
                                             ),

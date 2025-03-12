@@ -38,7 +38,7 @@ class CatalogListItem extends StatelessWidget {
             children: [
               Text(
                 product.name ?? "",
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: semiBoldText16,
               ),

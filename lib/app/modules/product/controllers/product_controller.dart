@@ -17,7 +17,7 @@ class ProductController extends GetxController
   var searchQuery = ''.obs;
   var isFabVisible = false.obs;
   var isCardView = true.obs;
-  var sortCriteria = 'name'.obs;
+  var sortCriteria = 'id'.obs;
   var isAscending = true.obs;
 
   @override
@@ -46,6 +46,9 @@ class ProductController extends GetxController
   List<Product> sortProducts(List<Product> products) {
     var sortedList = List<Product>.from(products);
     switch (sortCriteria.value) {
+      case 'id':
+        sortedList.sort((a, b) => a.id!.compareTo(b.id!));
+        break;
       case 'name':
         sortedList.sort((a, b) => a.name!.compareTo(b.name!));
         break;
@@ -113,6 +116,7 @@ class ProductController extends GetxController
       var data = await ProductService().fetchProducts();
       productList.assignAll(data.data ?? []);
       filterProductsByCategory(selectedIndex.value, title[selectedIndex.value]);
+      applyFilters();
     } finally {
       isLoading(false);
     }

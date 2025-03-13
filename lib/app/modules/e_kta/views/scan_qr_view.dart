@@ -13,8 +13,31 @@ class ScanQrView extends StatefulWidget {
 }
 
 class _ScanQrViewState extends State<ScanQrView> {
-  MobileScannerController controller = MobileScannerController();
+  final MobileScannerController controller = MobileScannerController();
   bool isFlashOn = false;
+
+  void _onDetect(BarcodeCapture capture) {
+    for (final barcode in capture.barcodes) {
+      final String? code = barcode.rawValue;
+      if (code != null) {
+        RegExp regExp = RegExp(r'user\/(\d+)\/membership-status');
+        Match? match = regExp.firstMatch(code);
+        String uid = match?.group(1) ?? "";
+
+        if (RegExp(r'^\d+\$').hasMatch(uid)) {
+          Get.to(
+            () => ResultQrView(uid: uid),
+            transition: Transition.rightToLeft,
+            duration: const Duration(milliseconds: 100),
+          );
+        } else {
+          if (!SnackbarController.isSnackbarBeingShown) {
+            customSnackbar("Not an E-KTA QR Code");
+          }
+        }
+      }
+    }
+  }
 
   void _toggleFlash() {
     controller.toggleTorch();
@@ -25,10 +48,6 @@ class _ScanQrViewState extends State<ScanQrView> {
 
   @override
   Widget build(BuildContext context) {
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 300.0
-        : 350.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: neutral02Color,
@@ -41,32 +60,9 @@ class _ScanQrViewState extends State<ScanQrView> {
       ),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Expanded(
-                flex: 5,
-                child: MobileScanner(
-                  controller: controller,
-                  onDetect: (barcodeCapture) {
-                    final String code = barcodeCapture.barcodes.first.rawValue ?? '---';
-                    RegExp regExp = RegExp(r'user/(\d+)/membership-status');
-                    Match? match = regExp.firstMatch(code);
-                    String uid = match?.group(1) ?? "";
-                    if (RegExp(r'^\d+$').hasMatch(uid)) {
-                      Get.to(
-                        () => ResultQrView(uid: uid),
-                        transition: Transition.rightToLeft,
-                        duration: const Duration(milliseconds: 100),
-                      );
-                    } else {
-                      if (SnackbarController.isSnackbarBeingShown == false) {
-                        customSnackbar("Not an E-KTA Qr Code");
-                      }
-                    }
-                  },
-                ),
-              ),
-            ],
+          MobileScanner(
+            controller: controller,
+            onDetect: _onDetect,
           ),
           Positioned(
             top: 16,

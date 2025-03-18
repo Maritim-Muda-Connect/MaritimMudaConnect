@@ -9,9 +9,11 @@ import '../controllers/all_product_controller.dart';
 
 class AllProductView extends GetView<AllProductController> {
   const AllProductView({super.key});
+
   @override
   Widget build(BuildContext context) {
     ProductController controller = Get.find<ProductController>();
+
     return Obx(
       () {
         if (controller.isLoading.value) {
@@ -35,24 +37,23 @@ class AllProductView extends GetView<AllProductController> {
             },
             color: primaryDarkBlueColor,
             child: CupertinoScrollbar(
-              child: SingleChildScrollView(
+              child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: controller.filteredProductList.map((products) {
-                    return CatalogCard(
-                      onTap: () {
-                        Get.to(
-                          () => DetailProductView(
-                            productData: products,
-                          ),
-                          transition: Transition.rightToLeft,
-                          duration: const Duration(milliseconds: 100),
-                        );
-                      },
-                      productList: products,
-                    );
-                  }).toList(),
-                ),
+                padding: const EdgeInsets.only(bottom: 100), // Ruang buat FAB
+                itemCount: controller.filteredProductList.length,
+                itemBuilder: (context, index) {
+                  final product = controller.filteredProductList[index];
+                  return CatalogCard(
+                    onTap: () {
+                      Get.to(
+                        () => DetailProductView(productData: product),
+                        transition: Transition.rightToLeft,
+                        duration: const Duration(milliseconds: 100),
+                      );
+                    },
+                    productList: product,
+                  );
+                },
               ),
             ),
           );

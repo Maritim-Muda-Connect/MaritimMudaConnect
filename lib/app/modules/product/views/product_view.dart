@@ -49,18 +49,75 @@ class ProductView extends GetView<ProductController> {
               Obx(() {
                 return Column(
                   children: [
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       height: controller.isScrolled.value ? 50 : 0,
                       curve: Curves.easeInOut,
                     ),
                     const CustomSearch(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Obx(
+                                () => DropdownButton<String>(
+                                  value: controller.sortCriteria.value,
+                                  items: const [
+                                    DropdownMenuItem(
+                                      value: "id",
+                                      child: Text("Default"),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: "name",
+                                      child: Text("Sort by Name"),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: "price",
+                                      child: Text("Sort by Price"),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: "newest",
+                                      child: Text("Sort by Newest"),
+                                    ),
+                                  ],
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      controller.setSortCriteria(value);
+                                    }
+                                  },
+                                ),
+                              ),
+                              Obx(() => IconButton(
+                                    icon: controller.isAscending.value
+                                        ? const Icon(Icons.arrow_upward)
+                                        : const Icon(Icons.arrow_downward),
+                                    onPressed: controller.toggleSortOrder,
+                                  )),
+                            ],
+                          ),
+                          Obx(() => IconButton(
+                                icon: controller.isCardView.value
+                                    ? const Icon(Icons.view_list)
+                                    : const Icon(Icons.view_module),
+                                onPressed: controller.toggleViewMode,
+                              )),
+                        ],
+                      ),
+                    ),
                   ],
                 );
               }),
-              const Expanded(
-                child: AllProductView(),
+              Expanded(
+                child: Obx(() {
+                  return controller.isCardView.value
+                      ? const AllProductView()
+                      : const CatalogList();
+                }),
               ),
             ],
           ),

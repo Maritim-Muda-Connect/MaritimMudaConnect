@@ -8,13 +8,14 @@ import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:maritimmuda_connect/app/modules/product/widgets/custom_image_view.dart';
 
 import '../controllers/detail_catalog_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
   DetailProductView({super.key, this.productData});
 
-  Product? productData;
+  final Product? productData;
 
   @override
   Widget build(BuildContext context) {
@@ -29,48 +30,92 @@ class DetailProductView extends GetView<DetailProductController> {
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: const Text('Detail Product'),
+          title: const Text('Product Detail'),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                '$baseUrlImage/${productData?.image}',
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                productData?.name ?? '',
-                style: semiBoldText24,
-                textAlign: TextAlign.justify,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: neutral01Color,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x0D000000),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => ZoomableImageView(
+                        imageUrl: '$baseUrlImage/${productData?.image}',
+                      ),
+                      transition: Transition.fadeIn,
+                    );
+                  },
+                  child: Hero(
+                    tag: 'productImage${productData?.id}',
+                    child: Image.network(
+                      '$baseUrlImage/${productData?.image}',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 8),
               Container(
-                padding: EdgeInsets.all(5),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 decoration: BoxDecoration(
-                    border: Border.all(color: primaryBlueColor),
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  productData?.category ?? '',
-                  style: regulerText14,
+                  color: neutral01Color,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              const SizedBox(height: 60),
-              Row(
-                children: [
-                  Text(
-                    "Price : ",
-                    style: boldText20,
-                  ),
-                  Text(
-                    rupiahFormat.format(int.parse(productData?.price ?? '0')),
-                    style: boldText20,
-                  ),
-                ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      productData?.name ?? '',
+                      style: semiBoldText28,
+                      textAlign: TextAlign.start,
+                    ),
+                    const SizedBox(height: 8.0),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: primaryBlueColor),
+                          color: neutral01Color,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Text(
+                        productData?.category ?? '',
+                        style: regulerText16,
+                      ),
+                    ),
+                    const SizedBox(height: 8.0),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Price : ",
+                          style: boldText20,
+                        ),
+                        Text(
+                          rupiahFormat
+                              .format(int.parse(productData?.price ?? '0')),
+                          style: boldText20,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8.0),
+                  ],
+                ),
               ),
             ],
           ),

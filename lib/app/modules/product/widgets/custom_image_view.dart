@@ -6,9 +6,9 @@ class ZoomableImageView extends StatelessWidget {
   final String imageUrl;
 
   const ZoomableImageView({
-    Key? key,
+    super.key,
     required this.imageUrl,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +21,24 @@ class ZoomableImageView extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: PhotoView(
-        imageProvider: NetworkImage(imageUrl),
-        minScale: PhotoViewComputedScale.contained,
-        maxScale: PhotoViewComputedScale.covered * 2,
-        backgroundDecoration: const BoxDecoration(
-          color: Colors.black,
-        ),
-        loadingBuilder: (context, event) => Center(
-          child: CircularProgressIndicator(
-            color: primaryDarkBlueColor,
-            value: event == null
-                ? 0
-                : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+      body: Center(
+        // Added Center widget
+        child: PhotoView(
+          imageProvider: NetworkImage(imageUrl),
+          minScale: PhotoViewComputedScale.contained,
+          maxScale: PhotoViewComputedScale.covered * 2,
+          backgroundDecoration: const BoxDecoration(
+            color: Colors.black,
+          ),
+          initialScale: PhotoViewComputedScale.contained, // Added initial scale
+          basePosition: Alignment.center, // Added base position
+          loadingBuilder: (context, event) => Center(
+            child: CircularProgressIndicator(
+              color: primaryDarkBlueColor,
+              value: event == null
+                  ? 0
+                  : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+            ),
           ),
         ),
       ),

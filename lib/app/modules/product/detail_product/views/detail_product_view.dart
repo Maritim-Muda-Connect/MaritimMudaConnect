@@ -4,106 +4,188 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/models/response/product_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/price.dart';
-import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
+// import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:maritimmuda_connect/app/modules/product/widgets/custom_image_view.dart';
 
 import '../controllers/detail_catalog_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
-  DetailProductView({super.key, this.productData});
+  const DetailProductView({super.key, this.productData});
 
-  Product? productData;
+  final Product? productData;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: neutral02Color,
-        extendBody: true,
-        appBar: AppBar(
-          backgroundColor: neutral02Color,
-          scrolledUnderElevation: 0,
-          centerTitle: true,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(),
+      backgroundColor: neutral02Color,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.9),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.arrow_back, color: Colors.black87),
           ),
-          title: const Text('Detail Product'),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.network(
-                '$baseUrlImage/${productData?.image}',
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                productData?.name ?? '',
-                style: semiBoldText24,
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    border: Border.all(color: primaryBlueColor),
-                    color: neutral01Color,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  productData?.category ?? '',
-                  style: regulerText14,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Hero(
+              tag: 'productImage${productData?.id}',
+              child: GestureDetector(
+                onTap: () => Get.to(
+                  () => ZoomableImageView(
+                      imageUrl: '$baseUrlImage/${productData?.image}'),
+                  transition: Transition.fadeIn,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    top: AppBar().preferredSize.height +
+                        MediaQuery.of(context).padding.top,
+                  ),
+                  child: Image.network(
+                    '$baseUrlImage/${productData?.image}',
+                    fit: BoxFit.contain,
+                    alignment: Alignment.topCenter,
+                  ),
                 ),
               ),
-              const SizedBox(height: 60),
-              Row(
-                children: [
-                  Text(
-                    "Price : ",
-                    style: boldText20,
+            ),
+            Transform.translate(
+              offset: const Offset(0, 0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: neutral01Color,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      offset: const Offset(
+                          0, 4), 
+                      blurRadius: 12,
+                      spreadRadius: -2
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: primaryBlueColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          productData?.category ?? '',
+                          style:
+                              regulerText14.copyWith(color: primaryBlueColor),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        productData?.name ?? '',
+                        style: semiBoldText28,
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: neutral02Color,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 4),
+                                Text(
+                                  rupiahFormat.format(
+                                      int.parse(productData?.price ?? '0')),
+                                  style: boldText24.copyWith(
+                                      color: primaryDarkBlueColor),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    rupiahFormat.format(int.parse(productData?.price ?? '0')),
-                    style: boldText20,
-                  ),
-                ],
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: neutral02Color,
-          padding: EdgeInsets.zero,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomButton(
-                shadowColor: Colors.transparent,
-                radius: 0,
-                color: neutral01Color,
-                width: MediaQuery.of(context).size.width / 2,
-                text: 'SHARE',
-                textColor: primaryBlueColor,
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: neutral01Color,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: (0.05)),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
                 onPressed: () async {
                   await Share.share(
                       '${productData?.name}\n\n${productData?.link}');
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: neutral02Color,
+                  foregroundColor: primaryBlueColor,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('SHARE'),
               ),
-              CustomButton(
-                  shadowColor: Colors.transparent,
-                  radius: 0,
-                  width: MediaQuery.of(context).size.width / 2,
-                  text: 'BUY',
-                  onPressed: () async {
-                    await launchUrl(Uri.parse(
-                        productData?.link ?? 'https://hub.maritimmuda.id'));
-                  })
-            ],
-          ),
-        ));
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () async {
+                  await launchUrl(Uri.parse(
+                      productData?.link ?? 'https://hub.maritimmuda.id'));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryDarkBlueColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('BUY NOW'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

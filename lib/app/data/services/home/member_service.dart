@@ -20,12 +20,12 @@ class MemberService {
         throw Exception(
             'Failed to fetch members: ${response.statusCode} - ${response.body}');
         // return MemberResponse();
-        //comment throw exception and return MemberResponse() to avoid crash if api is down
+        //comment throw exception and return MemberResponse() to avoid crash if api is down (comment and uncomment is vice versa)
       }
     } catch (e) {
       rethrow;
       // return MemberResponse();
-      //comment rethrow and return MemberResponse() to avoid crash if api is down
+      //comment rethrow and return MemberResponse() to avoid crash if api is down (comment and uncomment is vice versa)
     }
   }
 

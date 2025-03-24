@@ -25,10 +25,6 @@ class _ScanQrViewState extends State<ScanQrView> {
 
   @override
   Widget build(BuildContext context) {
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 300.0
-        : 350.0;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: neutral02Color,

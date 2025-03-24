@@ -3,7 +3,7 @@ import 'package:maritimmuda_connect/app/data/models/response/product_response.da
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/price.dart';
 import 'package:maritimmuda_connect/themes.dart';
-import 'package:timeago/timeago.dart' as timeago;
+// import 'package:timeago/timeago.dart' as timeago;
 
 class CatalogCard extends StatefulWidget {
   const CatalogCard({
@@ -41,6 +41,10 @@ class _CatalogCardState extends State<CatalogCard> {
     });
   }
 
+  void onPressed() {
+    widget.onTap();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
@@ -62,22 +66,6 @@ class _CatalogCardState extends State<CatalogCard> {
               ),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: primaryDarkBlueColor),
-                      ),
-                      child: Text(
-                        rupiahFormat
-                            .format(int.parse(widget.productList.price ?? "0")),
-                        style: boldText14.copyWith(color: primaryDarkBlueColor),
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 25),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
@@ -101,24 +89,49 @@ class _CatalogCardState extends State<CatalogCard> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_time_sharp,
-                            color: primaryDarkBlueColor,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            timeago.format(
-                                widget.productList.updatedAt ?? DateTime.now()),
-                            style:
-                                regulerText12.copyWith(color: neutral03Color),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Icon(
+                      //       Icons.access_time_sharp,
+                      //       color: primaryDarkBlueColor,
+                      //       size: 20,
+                      //     ),
+                      //     const SizedBox(width: 5),
+                      //     Text(
+                      //       timeago.format(
+                      //           widget.productList.updatedAt ?? DateTime.now()),
+                      //       style:
+                      //           regulerText12.copyWith(color: neutral03Color),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
+                  const SizedBox(height: 10),
+                  Row(children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: primaryDarkBlueColor),
+                        ),
+                        child: Text(
+                          rupiahFormat.format(
+                              int.parse(widget.productList.price ?? "0")),
+                          style:
+                              boldText14.copyWith(color: primaryDarkBlueColor),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    IconButton(
+                        onPressed: onPressed,
+                        icon: const Icon(Icons.shopping_cart)) //unimplemented onPressed
+                        //for when we have a checkout/payment system
+                  ]),
                 ],
               ),
             ),

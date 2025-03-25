@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DetailEventView extends GetView<EventController> {
   final Event eventData;
-  const DetailEventView({Key? key, required this.eventData}) : super(key: key);
+  const DetailEventView({super.key, required this.eventData});
 
   Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);

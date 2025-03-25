@@ -28,7 +28,27 @@ class JobView extends GetView<JobController> {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         } else if (controller.jobs.isEmpty) {
-          return const Text('tidak ada data');
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.work_off,
+                  size: 80,
+                  color: Colors.grey,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Sorry, we don\'t have any job data at the moment.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
         } else {
           return ListView.builder(
             itemCount: controller.jobs.length,
@@ -53,12 +73,8 @@ class JobView extends GetView<JobController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                job.positionTitle ?? '',
-                overflow: TextOverflow.ellipsis,
-                style:
-                boldText16
-              ),
+              Text(job.positionTitle ?? '',
+                  overflow: TextOverflow.ellipsis, style: boldText16),
               const SizedBox(height: 8),
               Text(job.companyName ?? ''),
               const SizedBox(height: 8),

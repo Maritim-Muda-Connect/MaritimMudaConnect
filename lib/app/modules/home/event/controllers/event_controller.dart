@@ -20,7 +20,7 @@ class EventController extends GetxController
 
   List<String> title = [
     'All',
-    'Competetion',
+    'Competition',
     'Seminar',
     'Environment Action',
     'Forum',

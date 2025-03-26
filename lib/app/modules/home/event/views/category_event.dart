@@ -29,9 +29,23 @@ class CategoryEvent extends GetView<EventController> {
               ),
             );
           } else if (controller.eventsList.isEmpty) {
-            return Text(
-              'Data belum tersedia',
-              style: extraLightText16,
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.event_busy,
+                    color: Colors.grey,
+                    size: 50,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Data belum tersedia, silahkan coba lagi nanti',
+                    style: extraLightText16.copyWith(color: Colors.grey),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             );
           } else {
             return SingleChildScrollView(

@@ -35,11 +35,11 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? double.infinity,
-      height: height ?? 55,
+      height: height ?? 48,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          shadowColor: shadowColor ?? null,
+          shadowColor: shadowColor,
           padding: EdgeInsets.zero,
           backgroundColor: color ?? primaryBlueColor,
           shape: RoundedRectangleBorder(
@@ -58,10 +58,10 @@ class CustomButton extends StatelessWidget {
           ),
           child: Container(
             constraints:
-                const BoxConstraints(minWidth: double.infinity, minHeight: 55),
+                const BoxConstraints(minWidth: double.infinity, minHeight: 48),
             alignment: Alignment.center,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
               child: isLoading == true
                   ? SizedBox(
                       width: 16,

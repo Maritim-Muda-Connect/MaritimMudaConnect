@@ -35,7 +35,7 @@ class DetailEventView extends GetView<EventController> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -58,7 +58,7 @@ class DetailEventView extends GetView<EventController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Image.network(
                 eventData.posterLink!,
                 width: double.infinity,
@@ -66,7 +66,7 @@ class DetailEventView extends GetView<EventController> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 eventData.name!,
                 textAlign: TextAlign.justify,
@@ -75,51 +75,53 @@ class DetailEventView extends GetView<EventController> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 'Penyelenggara',
                 style: boldText16,
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
               child: Text(style: regulerText14, eventData.organizerName!),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 style: boldText16,
                 'Waktu Mulai',
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
               child: Text(style: regulerText14, startDate),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                   style: boldText16,
                   textAlign: TextAlign.start,
                   'Waktu Selesai'),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(style: regulerText14, endDate),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
                       backgroundColor: primaryDarkBlueColor),
-                  child: Text(
+                  child: const Text(
                       style: TextStyle(fontSize: 16.0, color: Colors.white),
                       'Daftar'),
                   onPressed: () {
@@ -142,7 +144,7 @@ Widget _BenefitRowItem(IconData icon, String text) {
         icon,
         color: primaryBlueColor,
       ),
-      SizedBox(
+      const SizedBox(
         width: 8.0,
       ),
       Text(
@@ -154,7 +156,7 @@ Widget _BenefitRowItem(IconData icon, String text) {
 }
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({Key? key}) : super(key: key);
+  const FavoriteButton({super.key});
 
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();

@@ -19,77 +19,93 @@ class CategoryEvent extends GetView<EventController> {
         padding: MediaQuery.of(context).size.width > 600
             ? const EdgeInsets.fromLTRB(30, 0, 30, 170)
             : const EdgeInsets.fromLTRB(30, 0, 30, 195),
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return Expanded(
-              child: Center(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.getAllEvents();
+          },
+          color: primaryDarkBlueColor,
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(
                 child: CircularProgressIndicator(
                   color: primaryDarkBlueColor,
                 ),
-              ),
-            );
-          } else if (controller.eventsList.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.event_busy,
-                    color: Colors.grey,
-                    size: 50,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Data belum tersedia, silahkan coba lagi nanti',
-                    style: extraLightText16.copyWith(color: Colors.grey),
-                    textAlign: TextAlign.center,
+              );
+            } else if (controller.eventsList.isEmpty) {
+              return CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: controller.scrollController,
+                slivers: [
+                  SliverFillRemaining(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.event_busy,
+                            color: Colors.grey,
+                            size: 50,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Data belum tersedia, silahkan coba lagi nanti',
+                            style: extraLightText16.copyWith(color: Colors.grey),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
-              ),
-            );
-          } else {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              controller: controller.scrollController,
-              child: Wrap(
-                spacing: 30,
-                runSpacing: 4,
-                children: List.generate(
-                  controller.sortedEventList.length,
-                  (index) {
-                    var events = controller.sortedEventList[index];
-                    final String startDate =
-                        DateFormat('dd/MM/yyyy').format(events.startDate!);
+              );
+            }
 
-                    return InkWell(
-                      onTap: () {
-                        Get.to(
-                          () => DetailEventView(eventData: events),
-                          transition: Transition.rightToLeft,
-                          duration: const Duration(milliseconds: 100),
+            return CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: controller.scrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Wrap(
+                    spacing: 30,
+                    runSpacing: 4,
+                    children: List.generate(
+                      controller.sortedEventList.length,
+                      (index) {
+                        var events = controller.sortedEventList[index];
+                        final String startDate =
+                            DateFormat('dd/MM/yyyy').format(events.startDate!);
+
+                        return InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => DetailEventView(eventData: events),
+                              transition: Transition.rightToLeft,
+                              duration: const Duration(milliseconds: 100),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: ProgramCard(
+                              image: events.posterLink,
+                              date: startDate,
+                              textTitle: events.name,
+                              textSubTitle: "",
+                              onShare: () {
+                                Share.share(
+                                    "Check this out: \n${events.externalUrl ?? "Sorry, this event does not have a URL available!"}",
+                                    subject: "Event Url");
+                              },
+                            ),
+                          ),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: ProgramCard(
-                          image: events.posterLink,
-                          date: startDate,
-                          textTitle: events.name,
-                          textSubTitle: "",
-                          onShare: () {
-                            Share.share(
-                                "Check this out: \n${events.externalUrl ?? "Sorry, this event does not have a URL available!"}",
-                                subject: "Event Url");
-                          },
-                        ),
-                      ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
+              ],
             );
-          }
-        }),
+          }),
+        ),
       ),
     );
   }

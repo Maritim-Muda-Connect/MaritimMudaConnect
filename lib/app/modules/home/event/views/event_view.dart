@@ -143,6 +143,7 @@ class EventView extends GetView<EventController> {
                   : const SizedBox.shrink(),
             ),
           ]),
-        ));
+        )
+        );
   }
 }

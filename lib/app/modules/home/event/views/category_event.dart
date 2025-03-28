@@ -24,20 +24,20 @@ class CategoryEvent extends GetView<EventController> {
             await controller.getAllEvents();
           },
           color: primaryDarkBlueColor,
-          child: Obx(() {
-            if (controller.isLoading.value) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: primaryDarkBlueColor,
-                ),
-              );
-            } else if (controller.eventsList.isEmpty) {
-              return CustomScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller: controller.scrollController,
-                slivers: [
-                  SliverFillRemaining(
-                    child: Center(
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: controller.scrollController,
+            slivers: [
+              SliverFillRemaining(
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: primaryDarkBlueColor,
+                      ),
+                    );
+                  } else if (controller.eventsList.isEmpty) {
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -54,18 +54,10 @@ class CategoryEvent extends GetView<EventController> {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
-              );
-            }
+                    );
+                  }
 
-            return CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              controller: controller.scrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Wrap(
+                  return Wrap(
                     spacing: 30,
                     runSpacing: 4,
                     children: List.generate(
@@ -100,11 +92,11 @@ class CategoryEvent extends GetView<EventController> {
                         );
                       },
                     ),
-                  ),
-                ),
-              ],
-            );
-          }),
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );

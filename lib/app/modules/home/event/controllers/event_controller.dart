@@ -18,7 +18,7 @@ class EventController extends GetxController
   var selectedFilter = 'A - Z'.obs;
   var isFabVisible = false.obs;
 
-  static const _cacheDuration = Duration(minutes: 5);
+  static const _fetchDuration = Duration(seconds: 1);
   DateTime? _lastFetch;
   var _isTransactionInProgress = false;
   final _eventService = EventService();
@@ -80,7 +80,7 @@ class EventController extends GetxController
 
     if (!forceRefresh && _lastFetch != null) {
       final difference = DateTime.now().difference(_lastFetch!);
-      if (difference < _cacheDuration && eventsList.isNotEmpty) {
+      if (difference < _fetchDuration && eventsList.isNotEmpty) {
         return;
       }
     }

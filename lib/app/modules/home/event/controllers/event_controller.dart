@@ -18,9 +18,14 @@ class EventController extends GetxController
   var selectedFilter = 'A - Z'.obs;
   var isFabVisible = false.obs;
 
+  static const _fetchDuration = Duration(seconds: 1);
+  DateTime? _lastFetch;
+  var _isTransactionInProgress = false;
+  final _eventService = EventService();
+
   List<String> title = [
     'All',
-    'Competetion',
+    'Competition',
     'Seminar',
     'Environment Action',
     'Forum',
@@ -68,17 +73,52 @@ class EventController extends GetxController
     });
   }
 
-  void getAllEvents() async {
+  Future<void> getAllEvents({bool forceRefresh = false}) async {
+    if (_isTransactionInProgress) {
+      return;
+    }
+
+    if (!forceRefresh && _lastFetch != null) {
+      final difference = DateTime.now().difference(_lastFetch!);
+      if (difference < _fetchDuration && eventsList.isNotEmpty) {
+        return;
+      }
+    }
+
     try {
+      _isTransactionInProgress = true;
       isLoading.value = true;
-      var response = await EventService().getAllEvents();
-      eventsList.assignAll(response);
-      eventsList.sort((a, b) => (b.startDate ?? DateTime.now())
-          .compareTo(a.startDate ?? DateTime.now()));
-      filterEventList.assignAll(eventsList);
+
+      var response = await _eventService.getAllEvents();
+
+      if (response.isNotEmpty) {
+        eventsList.assignAll(response);
+        eventsList.sort((a, b) => (b.startDate ?? DateTime.now())
+            .compareTo(a.startDate ?? DateTime.now()));
+        filterEventList.assignAll(eventsList);
+        applyFilter();
+        if (selectedIndex.value > 0) {
+          sortEventsByType(getTypeForTab(selectedIndex.value));
+        }
+
+        _lastFetch = DateTime.now();
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to load events. Please try again later.',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 3),
+        backgroundColor: Colors.red.withValues(alpha: 0.1),
+      );
     } finally {
       isLoading.value = false;
+      _isTransactionInProgress = false;
     }
+  }
+
+  Future<void> refreshEvents() async {
+    await getAllEvents(forceRefresh: true);
   }
 
   int getTypeForTab(int tabIndex) {

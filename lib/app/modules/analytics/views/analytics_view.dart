@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 import 'package:maritimmuda_connect/app/modules/analytics/widget/analytic_card.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/analytics_controller.dart';
@@ -16,7 +15,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildMemberGrowthChart(),
+            _buildMemberGrowthChart(context),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -47,7 +46,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         );
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -57,7 +56,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
     );
   }
 
-  Widget _buildMemberGrowthChart() {
+  Widget _buildMemberGrowthChart(BuildContext context) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -65,15 +64,15 @@ class AnalyticsView extends GetView<AnalyticsController> {
           bottomLeft: Radius.circular(32),
           bottomRight: Radius.circular(32),
         ),
-        color: primaryBlueColor.withOpacity(0.1),
+        color: primaryBlueColor.withValues(alpha: 0.1),
       ),
       child: SafeArea(
-        bottom: false, // Prevent bottom padding
+        bottom: false,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min, // Prevent expansion
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,6 +80,92 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   Text(
                     'Member Growth',
                     style: boldText20.copyWith(color: neutral04Color),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: primaryBlueColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 4,
+                                    margin: const EdgeInsets.only(bottom: 32),
+                                    decoration: BoxDecoration(
+                                      color: neutral03Color,
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 16),
+                                    child: Text(
+                                      'Select Time Range',
+                                      style: boldText16,
+                                    ),
+                                  ),
+                                  ...controller.timeRanges.map((range) {
+                                    return ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      title: Text(
+                                        range,
+                                        style: regulerText16.copyWith(
+                                          color: controller.selectedRange.value == range 
+                                            ? primaryBlueColor 
+                                            : neutral04Color,
+                                        ),
+                                      ),
+                                      leading: Radio<String>(
+                                        value: range,
+                                        groupValue: controller.selectedRange.value,
+                                        activeColor: primaryBlueColor,
+                                        onChanged: (value) {
+                                          controller.changeTimeRange(value!);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  }),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Obx(() => Text(
+                            controller.selectedRange.value,
+                            style: regulerText12.copyWith(color: primaryBlueColor),
+                          )),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            size: 20,
+                            color: primaryBlueColor,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -95,13 +180,11 @@ class AnalyticsView extends GetView<AnalyticsController> {
                       ),
                     );
                   }
-                  
+
                   // Calculate max value more efficiently
-                  final maxCount = controller.userCounts.fold<int>(
-                    0, 
-                    (prev, curr) => prev > curr ? prev : curr
-                  );
-                  
+                  final maxCount = controller.userCounts
+                      .fold<int>(0, (prev, curr) => prev > curr ? prev : curr);
+
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
@@ -111,15 +194,16 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         controller.userCounts.length,
                         (index) {
                           final userCount = controller.userCounts[index];
-                          final height = maxCount > 0 
-                            ? 120 * (userCount / maxCount) + 32 
-                            : 32.0;
-                          
-                          final dateComponents = controller.months[index].split(' ');
+                          final height = maxCount > 0
+                              ? 120 * (userCount / maxCount) + 32
+                              : 32.0;
+
+                          final dateComponents =
+                              controller.months[index].split(' ');
                           final month = dateComponents[0].substring(0, 3);
                           final year = dateComponents[1];
                           final displayDate = '$month\n${year.substring(2)}';
-                              
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: ChartBar(
@@ -146,7 +230,8 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     const SizedBox(width: 8),
                     Text(
                       'Scroll horizontally to view more',
-                      style: regulerText12.copyWith(color: neutral04Color.withValues(alpha: 0.3)),
+                      style: regulerText12.copyWith(
+                          color: neutral04Color.withValues(alpha: 0.3)),
                     ),
                   ],
                 ),

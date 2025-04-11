@@ -195,7 +195,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         (index) {
                           final userCount = controller.userCounts[index];
                           final height = maxCount > 0
-                              ? 120 * (userCount / maxCount) + 32
+                              ? 80 * (userCount / maxCount) + 32
                               : 32.0;
 
                           final dateComponents =
@@ -220,7 +220,6 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   );
                 }),
               ),
-              // Info row at bottom
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Row(

@@ -170,8 +170,8 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 ],
               ),
               const SizedBox(height: 24),
-              AspectRatio(
-                aspectRatio: 16 / 9,
+              SizedBox(
+                height: 240,
                 child: Obx(() {
                   if (controller.userCounts.isEmpty) {
                     return Center(
@@ -181,10 +181,13 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     );
                   }
 
-                  // Calculate max value more efficiently
                   final maxCount = controller.userCounts
                       .fold<int>(0, (prev, curr) => prev > curr ? prev : curr);
-
+                  
+                  final availableWidth = MediaQuery.of(context).size.width - 32;
+                  final itemCount = controller.userCounts.length;
+                  final barWidth = (availableWidth / itemCount).clamp(40.0, 60.0);
+                  
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
@@ -194,24 +197,29 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         controller.userCounts.length,
                         (index) {
                           final userCount = controller.userCounts[index];
-                          final height = maxCount > 0
-                              ? 80 * (userCount / maxCount) + 32
-                              : 32.0;
+                          
+                          final heightPercentage = maxCount > 0 ? userCount / maxCount : 0;
+                          const maxBarHeight = 120.0; 
+                          const minHeight = 24.0;
+                          final height = (heightPercentage * maxBarHeight)
+                              .clamp(minHeight, maxBarHeight);
 
-                          final dateComponents =
-                              controller.months[index].split(' ');
+                          final dateComponents = controller.months[index].split(' ');
                           final month = dateComponents[0].substring(0, 3);
                           final year = dateComponents[1];
                           final displayDate = '$month\n${year.substring(2)}';
 
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: ChartBar(
-                              value: userCount.toString(),
-                              height: height,
-                              color: primaryBlueColor.withValues(alpha: 0.6),
-                              month: displayDate,
-                              isSelected: index == 0,
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: SizedBox(
+                              width: barWidth,
+                              child: ChartBar(
+                                value: userCount.toString(),
+                                height: height,
+                                color: primaryBlueColor.withValues(alpha: 0.6),
+                                month: displayDate,
+                                isSelected: index == 0,
+                              ),
                             ),
                           );
                         },

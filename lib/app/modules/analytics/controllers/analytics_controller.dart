@@ -53,15 +53,12 @@ class AnalyticsController extends GetxController
     try {
       final response = await analyticService.fetchAnalytics();
 
-      // Store full data
       _allMonths.value = response.months ?? [];
       _allUserCounts.value = response.userCounts!.values.toList();
 
-      // Store other data
       widgets.value = response.widgets ?? [];
       announcement.value = response.announcement ?? "No announcement";
 
-      // Apply initial filtering
       changeTimeRange(selectedRange.value);
     } finally {
       isLoading.value = false;

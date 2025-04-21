@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/widget/social_media.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
+import 'package:maritimmuda_connect/app/modules/chat/views/chat_view.dart';
+import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../../../../data/models/response/member_response.dart';
 import '../controllers/member_controller.dart';
@@ -19,6 +23,34 @@ class MemberDetailView extends GetView<MemberController> {
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
         backgroundColor: neutral02Color,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryDarkBlueColor,
+        onPressed: () async {
+          String? uid = await UserPreferences().getUid();
+          if (uid == null || uid.isEmpty) {
+            if (SnackbarController.isSnackbarBeingShown == false) {
+              customSnackbar(
+                "Please login to start chatting",
+                secondaryRedColor
+              );
+            }
+            return;
+          }
+          Get.to(
+            () => ChatView(
+              // recipientId: memberList.id,
+              // recipientName: memberList.name ?? "",
+              // recipientPhoto: memberList.photoLink,
+            ),
+            transition: Transition.rightToLeft,
+            duration: const Duration(milliseconds: 100),
+          );
+        },
+        child: Icon(
+          Icons.chat_bubble_outline,
+          color: neutral01Color,
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -98,44 +130,92 @@ class MemberDetailView extends GetView<MemberController> {
                               );
                             } else if (controller.memberData.value.user ==
                                 null) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/icons/gmail.svg",
-                                    colorFilter: ColorFilter.mode(
-                                        subTitleColor, BlendMode.srcIn),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  SvgPicture.asset(
-                                    "assets/icons/linkedin.svg",
-                                    colorFilter: ColorFilter.mode(
-                                        subTitleColor, BlendMode.srcIn),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  SvgPicture.asset(
-                                    "assets/icons/instagram.svg",
-                                    colorFilter: ColorFilter.mode(
-                                        subTitleColor, BlendMode.srcIn),
-                                  ),
-                                ],
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (memberList.email != null &&
+                                        memberList.email!.isNotEmpty)
+                                      IconButton(
+                                        onPressed: () => launchUrl(
+                                            Uri.parse('mailto:${memberList.email}')),
+                                        icon: SvgPicture.asset(
+                                          "assets/icons/gmail.svg",
+                                          colorFilter: ColorFilter.mode(
+                                            primaryDarkBlueColor,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        tooltip: 'Send email',
+                                      ),
+                                  ],
+                                ),
                               );
                             } else {
-                              return SocialMedia(
-                                gmail:
-                                    controller.memberData.value.user?.email ??
-                                        "",
-                                linkedin: controller.memberData.value.user
-                                        ?.linkedinProfile ??
-                                    "",
-                                instagram: controller.memberData.value.user
-                                        ?.instagramProfile ??
-                                    "",
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (controller.memberData.value.user?.email
+                                            ?.isNotEmpty ??
+                                        false)
+                                      IconButton(
+                                        onPressed: () => launchUrl(
+                                            Uri.parse(
+                                                'mailto:${controller.memberData.value.user!.email}')),
+                                        icon: SvgPicture.asset(
+                                          "assets/icons/gmail.svg",
+                                          colorFilter: ColorFilter.mode(
+                                            primaryDarkBlueColor,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        tooltip: 'Send email',
+                                      ),
+                                    if (controller.memberData.value.user
+                                            ?.linkedinProfile?.isNotEmpty ??
+                                        false) ...[
+                                      const SizedBox(width: 12),
+                                      IconButton(
+                                        onPressed: () => launchUrl(Uri.parse(
+                                            controller.memberData.value.user!
+                                                .linkedinProfile!)),
+                                        icon: SvgPicture.asset(
+                                          "assets/icons/linkedin.svg",
+                                          colorFilter: ColorFilter.mode(
+                                            primaryDarkBlueColor,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        tooltip: 'View LinkedIn profile',
+                                      ),
+                                    ],
+                                    if (controller.memberData.value.user
+                                            ?.instagramProfile?.isNotEmpty ??
+                                        false) ...[
+                                      const SizedBox(width: 12),
+                                      IconButton(
+                                        onPressed: () => launchUrl(Uri.parse(
+                                            controller.memberData.value.user!
+                                                .instagramProfile!)),
+                                        icon: SvgPicture.asset(
+                                          "assets/icons/instagram.svg",
+                                          colorFilter: ColorFilter.mode(
+                                            primaryDarkBlueColor,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        tooltip: 'View Instagram profile',
+                                      ),
+                                    ],
+                                  ],
+                                ),
                               );
                             }
                           },
                         ),
-                        const SizedBox(height: 6),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 63, top: 5, right: 63, bottom: 20),
@@ -175,8 +255,9 @@ class MemberDetailView extends GetView<MemberController> {
                             },
                             child: CircleAvatar(
                               minRadius: 50,
-                              foregroundImage:
-                                  NetworkImage(memberList.photoLink!),
+                              foregroundImage: memberList.photoLink != null
+                                  ? NetworkImage(memberList.photoLink!)
+                                  : null,
                               backgroundImage: const AssetImage(
                                   'assets/images/default_photo.jpg'),
                             ),

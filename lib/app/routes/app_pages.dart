@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:maritimmuda_connect/app/modules/chat/bindings/chat_list_binding.dart';
+import 'package:maritimmuda_connect/app/modules/chat/views/chat_list_view.dart';
 
 import '../modules/analytics/bindings/analytics_binding.dart';
 import '../modules/analytics/views/analytics_view.dart';
@@ -10,7 +12,11 @@ import '../modules/auth/register/bindings/register_binding.dart';
 import '../modules/auth/register/views/register_view.dart';
 import '../modules/auth/splash/bindings/splash_binding.dart';
 import '../modules/auth/splash/views/splash_view.dart';
+import '../modules/chat/bindings/chat_binding.dart';
+import '../modules/chat/views/chat_view.dart';
 import '../modules/e_kta/bindings/e_kta_binding.dart';
+import '../modules/e_kta/result_qr/bindings/result_qr_binding.dart';
+import '../modules/e_kta/result_qr/views/result_qr_view.dart';
 import '../modules/e_kta/views/e_kta_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/event/bindings/event_binding.dart';
@@ -46,8 +52,6 @@ import '../modules/profile/publications/views/publications_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile/work_experiences/bindings/work_experiences_binding.dart';
 import '../modules/profile/work_experiences/views/work_experiences_view.dart';
-import '../modules/e_kta/result_qr/bindings/result_qr_binding.dart';
-import '../modules/e_kta/result_qr/views/result_qr_view.dart';
 
 part 'app_routes.dart';
 
@@ -55,8 +59,6 @@ class AppPages {
   AppPages._();
 
   static const INITIAL = Routes.SPLASH;
-  //TODO DELETE DEBUG
-  static const ALL_CATALOG = Routes.ALL_CATALOG;
 
   static final routes = [
     GetPage(
@@ -98,6 +100,7 @@ class AppPages {
       name: _Paths.MEMBER,
       page: () => const MemberView(),
       binding: MemberBinding(),
+      children: [],
     ),
     GetPage(
       name: _Paths.ACHIEVEMENT,
@@ -179,5 +182,14 @@ class AppPages {
       page: () => const ResultQrView(),
       binding: ResultQrBinding(),
     ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => const ChatView(),
+      binding: ChatBinding(),
+    ),
+    GetPage(
+        name: _Paths.CHAT_LIST,
+        page: () => const ChatListView(),
+        binding: ChatListBinding()),
   ];
 }

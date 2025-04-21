@@ -48,4 +48,13 @@ class EKtaController extends GetxController {
       throw Exception("Could not launch $url)");
     }
   }
+
+  User? get currentUser => ektaData.value.user;
+  bool get isLoggedIn => ektaData.value.user != null;
+  String? get userId => ektaData.value.user?.uid;
+  String? get userName => ektaData.value.user?.name;
+  String? get userEmail => ektaData.value.user?.email;
+  String? get userPhoto => ektaData.value.user?.photoLink ?? defaultAvatar;
+  bool get isAdmin => ektaData.value.user?.isAdmin == 1;
+  int? get provinceId => ektaData.value.user?.provinceId;
 }

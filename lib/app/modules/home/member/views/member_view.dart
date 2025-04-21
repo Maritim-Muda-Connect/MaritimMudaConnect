@@ -6,6 +6,7 @@ import 'package:maritimmuda_connect/app/modules/home/member/views/member_detail_
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/member_controller.dart';
+import 'package:maritimmuda_connect/app/modules/chat/views/chat_view.dart';
 
 class MemberView extends GetView<MemberController> {
   const MemberView({super.key});
@@ -74,43 +75,99 @@ class MemberView extends GetView<MemberController> {
                                 final memberList =
                                     controller.filteredMemberList[index];
                                 return Card(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 7.5),
+                                  margin: const EdgeInsets.symmetric(vertical: 7.5),
                                   color: neutral01Color,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
-                                  child: ListTile(
+                                    borderRadius: BorderRadius.circular(16)
+                                  ),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(16),
                                     onTap: () {
-                                      controller.getEmail(memberList.email!);
                                       Get.to(
                                         () => MemberDetailView(
                                           memberList: memberList,
                                         ),
                                         transition: Transition.rightToLeft,
-                                        duration:
-                                            const Duration(milliseconds: 100),
+                                        duration: const Duration(milliseconds: 100),
                                       );
                                     },
-                                    leading: CircleAvatar(
-                                      foregroundImage:
-                                          NetworkImage(memberList.photoLink!),
-                                      backgroundImage: const AssetImage(
-                                          'assets/images/default_photo.jpg'),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Row(
+                                        children: [
+                                          // Profile Picture
+                                          CircleAvatar(
+                                            radius: 28,
+                                            foregroundImage: memberList.photoLink != null
+                                                ? NetworkImage(memberList.photoLink!)
+                                                : null,
+                                            backgroundImage: const AssetImage(
+                                                'assets/images/default_photo.jpg'),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          // Member Info
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  memberList.name ?? "",
+                                                  style: boldText16,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                  provinceOptions[memberList.provinceId.toString()]!,
+                                                  style: regulerText14.copyWith(color: neutral04Color),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // Action Buttons
+                                          Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              // Chat Button
+                                              IconButton(
+                                                onPressed: () {
+                                                  // Add chat functionality
+                                                  Get.to(
+                                                    () => ChatView(
+                                                      // recipientId: memberList.id,
+                                                      // recipientName: memberList.name ?? "",
+                                                    ),
+                                                    transition: Transition.rightToLeft,
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.chat_bubble_outline,
+                                                  color: primaryDarkBlueColor,
+                                                  size: 24,
+                                                ),
+                                                tooltip: 'Chat with ${memberList.name}',
+                                              ),
+                                              // Profile Button
+                                              IconButton(
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => MemberDetailView(
+                                                      memberList: memberList,
+                                                    ),
+                                                    transition: Transition.rightToLeft,
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: primaryDarkBlueColor,
+                                                  size: 20,
+                                                ),
+                                                tooltip: 'View Profile',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    title: Text(
-                                      memberList.name ?? "",
-                                      style: regulerText24,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    subtitle: Text(
-                                        provinceOptions[
-                                            memberList.provinceId.toString()]!,
-                                        style: extraLightText16),
-                                    trailing: CircleAvatar(
-                                        backgroundColor: primaryDarkBlueColor,
-                                        maxRadius: 15,
-                                        child: Icon(Icons.chevron_right,
-                                            color: neutral01Color)),
                                   ),
                                 );
                               },

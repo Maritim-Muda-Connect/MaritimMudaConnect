@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
+import 'package:maritimmuda_connect/app/modules/chat/controllers/chat_list_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/controllers/event_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/detail_event_view.dart';
 import 'package:maritimmuda_connect/app/modules/home/event/views/event_view.dart';
@@ -12,6 +13,7 @@ import 'package:maritimmuda_connect/app/modules/home/widget/home_card.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_view.dart';
 import 'package:maritimmuda_connect/app/modules/navbar/controllers/main_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
+import 'package:maritimmuda_connect/app/modules/chat/views/chat_list_view.dart';
 import '../controllers/home_controller.dart';
 import 'package:maritimmuda_connect/themes.dart';
 
@@ -21,6 +23,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final MainController mainController = Get.find();
     final EventController eventController = Get.find();
+    final ChatListController chatListController = Get.find();
 
     return Scaffold(
       backgroundColor: neutral02Color,
@@ -33,12 +36,72 @@ class HomeView extends GetView<HomeController> {
               children: [
                 const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset("assets/images/logo_maritim_muda_connect.png"),
-                    const SizedBox(
-                      width: 16,
+                    Row(
+                      children: [
+                        Image.asset("assets/images/logo_maritim_muda_connect.png"),
+                        const SizedBox(width: 16),
+                        Image.asset("assets/images/logo_maritim.png"),
+                      ],
                     ),
-                    Image.asset("assets/images/logo_maritim.png"),
+                    Stack(
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            String? uid = await UserPreferences().getUid();
+                            if (uid == null || uid.isEmpty) {
+                              if (SnackbarController.isSnackbarBeingShown == false) {
+                                customSnackbar(
+                                  "This account doesn't have E-KTA",
+                                  secondaryRedColor
+                                );
+                              }
+                            } else {
+                              Get.to(
+                                () => const ChatListView(),
+                                transition: Transition.rightToLeft,
+                                duration: const Duration(milliseconds: 100),
+                              );
+                            }
+                          },
+                          icon: Icon(
+                            Icons.forum_outlined,
+                            color: primaryDarkBlueColor,
+                            size: 32,
+                          ),
+                        ),
+                        Obx(() {
+                          if (chatListController.totalUnreadCount > 0) {
+                            return Positioned(
+                              right: 0,
+                              top: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: secondaryRedColor,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: neutral01Color,
+                                    width: 2,
+                                  ),
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 20,
+                                  minHeight: 20,
+                                ),
+                                child: Text(
+                                  chatListController.totalUnreadCount.toString(),
+                                  style: boldText12.copyWith(color: neutral01Color),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        }),
+                      ],
+                    ),
                   ],
                 ),
                 const SizedBox(

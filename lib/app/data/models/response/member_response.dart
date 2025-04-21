@@ -32,6 +32,12 @@ class MemberResponse {
             ? []
             : List<dynamic>.from(members!.map((x) => x.toJson())),
       };
+
+  // Getters
+  bool get isSuccess => success ?? false;
+  List<Member> get memberList => members ?? [];
+  bool get hasMembers => members != null && members!.isNotEmpty;
+  int get memberCount => members?.length ?? 0;
 }
 
 class Member {
@@ -76,4 +82,21 @@ class Member {
         "bio": bio,
         "photo_link": photoLink,
       };
+
+  // Getters
+  int get memberId => id ?? 0;
+  String get memberName => name ?? '';
+  String get memberEmail => email ?? '';
+  int get province => provinceId ?? 0;
+  int get firstExpertise => firstExpertiseId ?? 0;
+  int get secondExpertise => secondExpertiseId ?? 0;
+  String get memberBio => bio?.toString() ?? '';
+  String get memberPhoto => photoLink ?? '';
+  bool get hasPhoto => photoLink != null && photoLink!.isNotEmpty;
+
+  // Convenience methods
+  bool get hasValidEmail => email != null && email!.isNotEmpty;
+  bool get hasValidName => name != null && name!.isNotEmpty;
+  bool get hasValidProvince => provinceId != null && provinceId! > 0;
+  bool get hasExpertise => firstExpertiseId != null || secondExpertiseId != null;
 }

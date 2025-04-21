@@ -32,6 +32,8 @@ abstract class Routes {
   static const DETAIL_CATALOG = _Paths.DETAIL_CATALOG;
   static const PROFILE_USER = _Paths.PROFILE_USER;
   static const RESULT_QR = _Paths.RESULT_QR;
+  static const CHAT = _Paths.CHAT;
+  static const CHAT_LIST = _Paths.CHAT_LIST;
 }
 
 abstract class _Paths {
@@ -63,4 +65,6 @@ abstract class _Paths {
   static const DETAIL_CATALOG = '/detail-catalog';
   static const PROFILE_USER = '/profile-user';
   static const RESULT_QR = '/result-qr';
+  static const CHAT = '/chat';
+  static const CHAT_LIST = '/chat-list';
 }

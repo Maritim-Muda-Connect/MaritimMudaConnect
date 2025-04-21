@@ -35,30 +35,75 @@ class MemberController extends GetxController {
     });
   }
 
-  Future<void> getEmail(String email) async {
-    isLoading(true);
-    try {
-      var response = await MemberService().getEmail(email);
-      memberData(response);
-      emailVerified = response.user?.emailVerifiedAt;
-      dateOfBirth(response.user?.dateOfBirth != null
-          ? DateFormat('dd MMMM yyyy').format(response.user!.dateOfBirth!)
-          : '');
-    } finally {
-      isLoading(false);
-    }
-  }
+  // Future<void> getEmail(String email) async {
+  //   isLoading(true);
+  //   try {
+  //     var response = await MemberService().getEmail(email);
+  //     memberData(response);
+  //     emailVerified = response.user?.emailVerifiedAt;
+  //     dateOfBirth(response.user?.dateOfBirth != null
+  //         ? DateFormat('dd MMMM yyyy').format(response.user!.dateOfBirth!)
+  //         : '');
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
   Future<void> getAllMember() async {
     try {
       isLoading.value = true;
-      var response = await MemberService().getAllMembers();
-      memberList.assignAll(response.members?? []);
+      // For testing: Comment out actual API call
+      // var response = await MemberService().getAllMembers();
+
+      // Add mock data
+      final mockMembers = [
+        Member(
+          id: 1,
+          name: "John Doe",
+          email: "john@example.com",
+          provinceId: 11, // Jakarta
+          firstExpertiseId: 1,
+          secondExpertiseId: 2,
+        ),
+        Member(
+          id: 2,
+          name: "Jane Smith",
+          email: "jane@example.com",
+          provinceId: 12, // West Java
+          firstExpertiseId: 3,
+          secondExpertiseId: 4,
+        ),
+        ...List.generate(
+            20,
+            (index) => Member(
+                  id: index + 3,
+                  name: "Test Member ${index + 1}",
+                  email: "test${index + 1}@example.com",
+                  provinceId: (index % 34) + 1, // Cycle through provinces
+                  firstExpertiseId: (index % 5) + 1,
+                  secondExpertiseId: ((index + 2) % 5) + 1,
+                )),
+      ];
+
+      memberList.assignAll(mockMembers);
       filteredMemberList.assignAll(memberList);
+
+      await Future.delayed(const Duration(milliseconds: 800));
     } finally {
       isLoading.value = false;
     }
   }
+
+  // Future<void> getAllMember() async {
+  //   try {
+  //     isLoading.value = true;
+  //     var response = await MemberService().getAllMembers();
+  //     memberList.assignAll(response.members?? []);
+  //     filteredMemberList.assignAll(memberList);
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 
   void searchMembers(String query) {
     searchQuery.value = query;

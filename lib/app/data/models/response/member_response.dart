@@ -83,7 +83,6 @@ class Member {
         "photo_link": photoLink,
       };
 
-  // Getters
   int get memberId => id ?? 0;
   String get memberName => name ?? '';
   String get memberEmail => email ?? '';
@@ -94,7 +93,6 @@ class Member {
   String get memberPhoto => photoLink ?? '';
   bool get hasPhoto => photoLink != null && photoLink!.isNotEmpty;
 
-  // Convenience methods
   bool get hasValidEmail => email != null && email!.isNotEmpty;
   bool get hasValidName => name != null && name!.isNotEmpty;
   bool get hasValidProvince => provinceId != null && provinceId! > 0;

@@ -5,6 +5,7 @@ import 'package:maritimmuda_connect/app/data/models/response/uid_response.dart';
 import 'package:maritimmuda_connect/app/data/services/home/member_service.dart';
 import '../../../../data/models/response/member_response.dart';
 import '../../../../data/utils/province.dart';
+import 'dart:developer';
 
 class MemberController extends GetxController {
   final scrollController = ScrollController();
@@ -52,10 +53,10 @@ class MemberController extends GetxController {
   Future<void> getAllMember() async {
     try {
       isLoading.value = true;
+      //TODO
       // For testing: Comment out actual API call
       // var response = await MemberService().getAllMembers();
 
-      // Add mock data
       final mockMembers = [
         Member(
           id: 1,
@@ -94,15 +95,27 @@ class MemberController extends GetxController {
     }
   }
 
-  // Future<void> getAllMember() async {
+  Member? getMemberById(int id) {
+    isLoading.value = true;
+    try {
+      return memberList.firstWhere((m) => m.id == id);
+    } catch (e) {
+      log('Error getting mock member: $e');
+      return null;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+
+  //   Future<void> getAllMember() async {
   //   try {
-  //     isLoading.value = true;
-  //     var response = await MemberService().getAllMembers();
+  //         isLoading.value = true;  //     var response = await MemberService().getAllMembers();
   //     memberList.assignAll(response.members?? []);
   //     filteredMemberList.assignAll(memberList);
   //   } finally {
-  //     isLoading.value = false;
-  //   }
+  //           isLoading.value = false;
+//   }
   // }
 
   void searchMembers(String query) {

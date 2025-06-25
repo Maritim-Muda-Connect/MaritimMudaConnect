@@ -48,7 +48,7 @@ class CategoryEvent extends GetView<EventController> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Data belum tersedia, silahkan coba lagi nanti',
+                            'Tidak ada data event yang tersedia saat ini.\nTarik ke bawah untuk refresh atau coba lagi nanti.',
                             style: extraLightText16.copyWith(color: Colors.grey),
                             textAlign: TextAlign.center,
                           ),

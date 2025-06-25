@@ -127,10 +127,10 @@ class _CatalogCardState extends State<CatalogCard> {
                       ),
                     ),
                     const SizedBox(width: 5),
-                    IconButton(
-                        onPressed: onPressed,
-                        icon: const Icon(Icons.shopping_cart)) //unimplemented onPressed
-                        //for when we have a checkout/payment system
+                    // IconButton(
+                    //     onPressed: onPressed,
+                    //     icon: const Icon(Icons.shopping_cart)) //unimplemented onPressed
+                    //     //for when we have a checkout/payment system
                   ]),
                 ],
               ),

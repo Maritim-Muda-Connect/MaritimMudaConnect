@@ -133,28 +133,16 @@ class LoginView extends GetView<LoginController> {
                           ),
                         ),
                         const SizedBox(height: 35),
-                        Obx(
-                          () {
-                            if (controller.isCheckField.value) {
-                              return CustomButton(
-                                text: "Login",
-                                isLoading: controller.isLoading.value,
-                                onPressed: () async {
-                                  if (controller.validateForm()) {
-                                    controller.login(
-                                      LoginRequest(
-                                        email: controller.emailC.text,
-                                        password: controller.passwordC.text,
-                                      ),
-                                    );
-                                  }
-                                },
-                              );
-                            } else {
-                              return CustomButton(
-                                onPressed: () {},
-                                text: "Login",
-                                color: neutral03Color,
+                        CustomButton(
+                          text: "Login",
+                          isLoading: controller.isLoading.value,
+                          onPressed: () async {
+                            if (controller.validateForm()) {
+                              controller.login(
+                                LoginRequest(
+                                  email: controller.emailC.text,
+                                  password: controller.passwordC.text,
+                                ),
                               );
                             }
                           },

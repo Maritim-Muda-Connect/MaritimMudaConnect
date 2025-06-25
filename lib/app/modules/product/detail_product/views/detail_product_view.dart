@@ -46,7 +46,8 @@ class DetailProductView extends GetView<DetailProductController> {
               child: GestureDetector(
                 onTap: () => Get.to(
                   () => ZoomableImageView(
-                      imageUrl: '$baseUrlImage/${productData?.image}'),
+                    imageUrl: '$baseUrlImage/${productData?.image}',
+                  ),
                   transition: Transition.fadeIn,
                 ),
                 child: Container(
@@ -70,12 +71,10 @@ class DetailProductView extends GetView<DetailProductController> {
                   color: neutral01Color,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      offset: const Offset(
-                          0, 4), 
-                      blurRadius: 12,
-                      spreadRadius: -2
-                    ),
+                        color: Colors.black.withValues(alpha: 0.05),
+                        offset: const Offset(0, 4),
+                        blurRadius: 12,
+                        spreadRadius: -2),
                   ],
                 ),
                 child: Padding(

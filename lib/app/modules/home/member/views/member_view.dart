@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/views/member_detail_view.dart';
 import 'package:maritimmuda_connect/app/modules/widget/searchbar_widget.dart';
+import 'package:maritimmuda_connect/app/routes/app_pages.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/member_controller.dart';
-import 'package:maritimmuda_connect/app/modules/chat/views/chat_view.dart';
 
 class MemberView extends GetView<MemberController> {
   const MemberView({super.key});
@@ -95,7 +95,6 @@ class MemberView extends GetView<MemberController> {
                                       padding: const EdgeInsets.all(12),
                                       child: Row(
                                         children: [
-                                          // Profile Picture
                                           CircleAvatar(
                                             radius: 28,
                                             foregroundImage: memberList.photoLink != null
@@ -105,7 +104,6 @@ class MemberView extends GetView<MemberController> {
                                                 'assets/images/default_photo.jpg'),
                                           ),
                                           const SizedBox(width: 12),
-                                          // Member Info
                                           Expanded(
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,20 +121,18 @@ class MemberView extends GetView<MemberController> {
                                               ],
                                             ),
                                           ),
-                                          // Action Buttons
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              // Chat Button
                                               IconButton(
                                                 onPressed: () {
-                                                  // Add chat functionality
-                                                  Get.to(
-                                                    () => ChatView(
-                                                      // recipientId: memberList.id,
-                                                      // recipientName: memberList.name ?? "",
-                                                    ),
-                                                    transition: Transition.rightToLeft,
+                                                  Get.toNamed(
+                                                    Routes.CHAT,
+                                                    arguments: {
+                                                      'recipientId': memberList.id,
+                                                      'recipientName': memberList.name,
+                                                      'recipientPhoto': memberList.photoLink,
+                                                    },
                                                   );
                                                 },
                                                 icon: Icon(
@@ -146,7 +142,6 @@ class MemberView extends GetView<MemberController> {
                                                 ),
                                                 tooltip: 'Chat with ${memberList.name}',
                                               ),
-                                              // Profile Button
                                               IconButton(
                                                 onPressed: () {
                                                   Get.to(

@@ -106,7 +106,7 @@ class EventController extends GetxController
     } catch (e) {
       Get.snackbar(
         'Error',
-        'Failed to load events. Please try again later.',
+        'Failed to load exvents. Please try again later.',
         snackPosition: SnackPosition.BOTTOM,
         duration: const Duration(seconds: 3),
         backgroundColor: Colors.red.withValues(alpha: 0.1),

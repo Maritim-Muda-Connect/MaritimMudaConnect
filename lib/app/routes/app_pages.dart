@@ -184,7 +184,11 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CHAT,
-      page: () => const ChatView(),
+      page: () => ChatView(
+        recipientId: Get.arguments['recipientId'],
+        recipientName: Get.arguments['recipientName'],
+        recipientPhoto: Get.arguments['recipientPhoto'],
+      ),
       binding: ChatBinding(),
     ),
     GetPage(

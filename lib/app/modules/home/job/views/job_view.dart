@@ -39,7 +39,7 @@ class JobView extends GetView<JobController> {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Sorry, we don\'t have any job data at the moment.',
+                  'Tidak ada data pekerjaan saat ini, mohon coba kembali Lagi Nanti',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,

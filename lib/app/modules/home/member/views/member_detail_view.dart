@@ -5,17 +5,18 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
-import 'package:maritimmuda_connect/app/modules/widget/social_media.dart';
+// import 'package:maritimmuda_connect/app/modules/widget/social_media.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
-import 'package:maritimmuda_connect/app/modules/chat/views/chat_view.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../../../../data/models/response/member_response.dart';
 import '../controllers/member_controller.dart';
+import 'package:maritimmuda_connect/app/routes/app_pages.dart';
 
 class MemberDetailView extends GetView<MemberController> {
   const MemberDetailView({super.key, required this.memberList});
   final Member memberList;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,20 +32,17 @@ class MemberDetailView extends GetView<MemberController> {
           if (uid == null || uid.isEmpty) {
             if (SnackbarController.isSnackbarBeingShown == false) {
               customSnackbar(
-                "Please login to start chatting",
-                secondaryRedColor
-              );
+                  "Please login to start chatting", secondaryRedColor);
             }
             return;
           }
-          Get.to(
-            () => ChatView(
-              // recipientId: memberList.id,
-              // recipientName: memberList.name ?? "",
-              // recipientPhoto: memberList.photoLink,
-            ),
-            transition: Transition.rightToLeft,
-            duration: const Duration(milliseconds: 100),
+          Get.toNamed(
+            Routes.CHAT,
+            arguments: {
+              'recipientId': memberList.id,
+              'recipientName': memberList.name,
+              'recipientPhoto': memberList.photoLink,
+            },
           );
         },
         child: Icon(
@@ -131,15 +129,16 @@ class MemberDetailView extends GetView<MemberController> {
                             } else if (controller.memberData.value.user ==
                                 null) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     if (memberList.email != null &&
                                         memberList.email!.isNotEmpty)
                                       IconButton(
-                                        onPressed: () => launchUrl(
-                                            Uri.parse('mailto:${memberList.email}')),
+                                        onPressed: () => launchUrl(Uri.parse(
+                                            'mailto:${memberList.email}')),
                                         icon: SvgPicture.asset(
                                           "assets/icons/gmail.svg",
                                           colorFilter: ColorFilter.mode(
@@ -154,7 +153,8 @@ class MemberDetailView extends GetView<MemberController> {
                               );
                             } else {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -162,9 +162,8 @@ class MemberDetailView extends GetView<MemberController> {
                                             ?.isNotEmpty ??
                                         false)
                                       IconButton(
-                                        onPressed: () => launchUrl(
-                                            Uri.parse(
-                                                'mailto:${controller.memberData.value.user!.email}')),
+                                        onPressed: () => launchUrl(Uri.parse(
+                                            'mailto:${controller.memberData.value.user!.email}')),
                                         icon: SvgPicture.asset(
                                           "assets/icons/gmail.svg",
                                           colorFilter: ColorFilter.mode(

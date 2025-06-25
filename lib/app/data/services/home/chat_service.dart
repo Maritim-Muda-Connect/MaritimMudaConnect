@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/modules/e_kta/controllers/e_kta_controller.dart';
 import 'package:maritimmuda_connect/app/modules/home/member/controllers/member_controller.dart';
 import '../../models/request/chat_message_request.dart';
 import '../../models/response/chat_message_response.dart';
 import '../../models/response/member_response.dart';
-import '../config.dart';
-import '../../utils/user_preference.dart';
 
 // class ChatService {
 //   final _unreadCountController = StreamController<int>.broadcast();

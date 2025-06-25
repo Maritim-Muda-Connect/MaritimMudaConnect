@@ -107,6 +107,7 @@ class MemberController extends GetxController {
     }
   }
 
+//TODO: Uncomment when actual API is available
 
   //   Future<void> getAllMember() async {
   //   try {

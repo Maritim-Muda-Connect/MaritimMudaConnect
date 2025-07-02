@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -366,7 +367,12 @@ class ChatMessageBubble extends StatelessWidget {
             ..onTap = () async {
               final uri = Uri.parse(url);
               if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.platformDefault);
+                final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+                if (!launched) {
+                  log('Could not launch $url');
+                }
+              } else {
+                log('Cannot launch $url on outer if');
               }
             },
         ),

@@ -372,7 +372,7 @@ class ChatMessageBubble extends StatelessWidget {
                   log('Could not launch $url');
                 }
               } else {
-                log('Cannot launch $url on outer if');
+                log('Cannot launch $url');
               }
             },
         ),

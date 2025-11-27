@@ -289,8 +289,7 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
-          if (MediaQuery.of(context).size.width > 600)
-            const SizedBox(height: 60)
+          const SizedBox(height: 50)
         ],
       ),
     );

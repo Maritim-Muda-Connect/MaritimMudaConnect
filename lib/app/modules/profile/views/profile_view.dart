@@ -19,7 +19,8 @@ class ProfileView extends GetView<ProfileController> {
       },
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        resizeToAvoidBottomInset: false, // Mencegah tampilan naik saat keyboard muncul
+        resizeToAvoidBottomInset:
+            false, // Mencegah tampilan naik saat keyboard muncul
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
@@ -90,7 +91,8 @@ class ProfileView extends GetView<ProfileController> {
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.file(
-                                        File(controller.identityImagePath.value),
+                                        File(
+                                            controller.identityImagePath.value),
                                         fit: BoxFit.cover,
                                         width: double.infinity,
                                       ),
@@ -167,7 +169,8 @@ class ProfileView extends GetView<ProfileController> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 100), // Ruang untuk FAB agar tidak tertutup
+                const SizedBox(
+                    height: 100), // Ruang untuk FAB agar tidak tertutup
               ],
             ),
           ),

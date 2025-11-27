@@ -36,7 +36,7 @@ class EventView extends GetView<EventController> {
                 Container(
                   color: primaryBlueColor,
                   child: Padding(
-                    padding: const EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: SearchbarEventWidget(),
                   ),
                 ),
@@ -52,8 +52,8 @@ class EventView extends GetView<EventController> {
                         return Column(
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              color: Colors.transparent,
+                              padding: const EdgeInsets.only(bottom: 10),
+                              color: primaryBlueColor,
                               child: TabBar(
                                 physics: const BouncingScrollPhysics(),
                                 controller: controller.tabController,
@@ -143,7 +143,6 @@ class EventView extends GetView<EventController> {
                   : const SizedBox.shrink(),
             ),
           ]),
-        )
-        );
+        ));
   }
 }

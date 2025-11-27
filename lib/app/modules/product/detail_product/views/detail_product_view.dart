@@ -70,12 +70,10 @@ class DetailProductView extends GetView<DetailProductController> {
                   color: neutral01Color,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      offset: const Offset(
-                          0, 4), 
-                      blurRadius: 12,
-                      spreadRadius: -2
-                    ),
+                        color: Colors.black.withValues(alpha: 0.05),
+                        offset: const Offset(0, 4),
+                        blurRadius: 12,
+                        spreadRadius: -2),
                   ],
                 ),
                 child: Padding(
@@ -145,7 +143,12 @@ class DetailProductView extends GetView<DetailProductController> {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 16,
+          bottom: MediaQuery.of(context).padding.bottom + 16,
+        ),
         child: Row(
           children: [
             Expanded(

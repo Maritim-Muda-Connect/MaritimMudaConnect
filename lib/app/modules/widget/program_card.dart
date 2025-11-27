@@ -29,7 +29,7 @@ class ProgramCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: neutral01Color,
             borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: primaryBlueColor, width: 2.0),
+            // border: Border.all(color: primaryBlueColor, width: 2.0),
           ),
           padding: const EdgeInsets.fromLTRB(23, 19, 23, 19),
           child: Column(
@@ -46,7 +46,7 @@ class ProgramCard extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 textTitle!,
-                maxLines: 1,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: boldText12,
               ),
@@ -58,7 +58,7 @@ class ProgramCard extends StatelessWidget {
                   style: regulerText8.copyWith(color: neutral04Color),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

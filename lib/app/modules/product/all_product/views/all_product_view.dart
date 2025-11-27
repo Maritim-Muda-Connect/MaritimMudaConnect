@@ -27,7 +27,7 @@ class AllProductView extends GetView<AllProductController> {
           return Center(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 150),
-              child: Text("Produk tidak tersedia", style: semiBoldText16),
+              child: Text("Product is not available.", style: semiBoldText16),
             ),
           );
         } else {

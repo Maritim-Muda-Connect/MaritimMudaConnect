@@ -56,8 +56,9 @@ class ListEventView extends GetView<EventController> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Data belum tersedia, silahkan coba lagi nanti',
-                            style: extraLightText16.copyWith(color: Colors.grey),
+                            'Data is not available, please try again later.',
+                            style:
+                                extraLightText16.copyWith(color: Colors.grey),
                             textAlign: TextAlign.center,
                           ),
                         ],

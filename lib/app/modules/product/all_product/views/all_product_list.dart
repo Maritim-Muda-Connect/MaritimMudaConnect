@@ -24,7 +24,7 @@ class CatalogList extends StatelessWidget {
           return Center(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 150),
-              child: Text("Produk tidak tersedia", style: semiBoldText16),
+              child: Text("Product is not available.", style: semiBoldText16),
             ),
           );
         } else {
@@ -39,7 +39,8 @@ class CatalogList extends StatelessWidget {
               itemBuilder: (context, index) {
                 var product = controller.filteredProductList[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 2.0, horizontal: 16.0),
                   child: CatalogListItem(
                     product: product,
                     onTap: () {

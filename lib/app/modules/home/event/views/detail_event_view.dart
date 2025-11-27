@@ -75,7 +75,8 @@ class DetailEventView extends GetView<EventController> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 'Penyelenggara',
                 style: boldText16,
@@ -114,7 +115,12 @@ class DetailEventView extends GetView<EventController> {
               child: Text(style: regulerText14, endDate),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: MediaQuery.of(context).padding.bottom + 16,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

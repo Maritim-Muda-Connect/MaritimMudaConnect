@@ -24,7 +24,7 @@ class SubProductView extends GetView<SubProductController> {
           return Center(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 150),
-              child: Text("Produk belum tersedia", style: semiBoldText16),
+              child: Text("Product is not available.", style: semiBoldText16),
             ),
           );
         } else {
@@ -34,7 +34,9 @@ class SubProductView extends GetView<SubProductController> {
             itemBuilder: (context, index) {
               return ListCatalog(
                 onTap: () {
-                  Get.to(() => DetailProductView(productData: controller.filteredProductList[index],));
+                  Get.to(() => DetailProductView(
+                        productData: controller.filteredProductList[index],
+                      ));
                 },
                 productList: controller.filteredProductList[index],
               );

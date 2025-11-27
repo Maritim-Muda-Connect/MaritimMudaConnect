@@ -29,7 +29,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   ),
                   const SizedBox(height: 16),
                   Wrap(
-                    spacing: 32,
+                    spacing: 16,
                     runSpacing: 4,
                     children: List.generate(
                       controller.widgets.length,
@@ -95,13 +95,11 @@ class AnalyticsView extends GetView<AnalyticsController> {
                       ),
                     );
                   }
-                  
+
                   // Calculate max value more efficiently
-                  final maxCount = controller.userCounts.fold<int>(
-                    0, 
-                    (prev, curr) => prev > curr ? prev : curr
-                  );
-                  
+                  final maxCount = controller.userCounts
+                      .fold<int>(0, (prev, curr) => prev > curr ? prev : curr);
+
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
@@ -111,15 +109,16 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         controller.userCounts.length,
                         (index) {
                           final userCount = controller.userCounts[index];
-                          final height = maxCount > 0 
-                            ? 120 * (userCount / maxCount) + 32 
-                            : 32.0;
-                          
-                          final dateComponents = controller.months[index].split(' ');
+                          final height = maxCount > 0
+                              ? 120 * (userCount / maxCount) + 32
+                              : 32.0;
+
+                          final dateComponents =
+                              controller.months[index].split(' ');
                           final month = dateComponents[0].substring(0, 3);
                           final year = dateComponents[1];
                           final displayDate = '$month\n${year.substring(2)}';
-                              
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: ChartBar(
@@ -146,7 +145,8 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     const SizedBox(width: 8),
                     Text(
                       'Scroll horizontally to view more',
-                      style: regulerText12.copyWith(color: neutral04Color.withValues(alpha: 0.3)),
+                      style: regulerText12.copyWith(
+                          color: neutral04Color.withValues(alpha: 0.3)),
                     ),
                   ],
                 ),

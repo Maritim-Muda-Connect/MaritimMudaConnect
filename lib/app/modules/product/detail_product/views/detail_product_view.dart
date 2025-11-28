@@ -97,7 +97,7 @@ class DetailProductView extends GetView<DetailProductController> {
                       const SizedBox(height: 16),
                       Text(
                         productData?.name ?? '',
-                        style: semiBoldText28,
+                        style: semiBoldText22,
                       ),
                       const SizedBox(height: 16),
                       Container(
@@ -116,7 +116,7 @@ class DetailProductView extends GetView<DetailProductController> {
                                 Text(
                                   rupiahFormat.format(
                                       int.parse(productData?.price ?? '0')),
-                                  style: boldText24.copyWith(
+                                  style: boldText16.copyWith(
                                       color: primaryDarkBlueColor),
                                 ),
                               ],

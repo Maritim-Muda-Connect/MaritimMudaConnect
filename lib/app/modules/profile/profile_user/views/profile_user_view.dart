@@ -88,8 +88,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         () => Text(
                           controller.generalData.value.user?.bio ??
                               'No bio yet',
-                          style:
-                              regulerText10.copyWith(color: neutral04Color),
+                          style: regulerText10.copyWith(color: neutral04Color),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -128,8 +127,8 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             borderRadius: BorderRadius.circular(50),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: controller.generalData.value.user
-                                          ?.photoLink !=
+                              image: controller
+                                          .generalData.value.user?.photoLink !=
                                       null
                                   ? NetworkImage(
                                       profileController.photoImage.value)
@@ -149,7 +148,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
           const SizedBox(height: 15),
           _buildInfoSection(),
           _buildAchievementSection(),
-          const SizedBox(height: 70),
+          const SizedBox(height: 30),
         ],
       ),
     );
@@ -280,4 +279,3 @@ class ProfileUserView extends GetView<ProfileUserController> {
     );
   }
 }
-

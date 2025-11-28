@@ -61,16 +61,21 @@ class _HomeCardState extends State<HomeCard> {
               SvgPicture.asset(widget.icon, width: 32, height: 32),
               const SizedBox(height: 32),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    widget.title,
-                    style: regulerText16.copyWith(
-                        fontSize: 18, color: neutral04Color),
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: regulerText16.copyWith(
+                        color: neutral04Color,
+                      ),
+                    ),
                   ),
-                  Icon(Icons.chevron_right, color: neutral03Color)
+                  Icon(Icons.chevron_right, color: neutral03Color, size: 22),
                 ],
-              )
+              ),
             ],
           ),
         ),

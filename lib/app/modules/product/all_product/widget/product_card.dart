@@ -89,22 +89,6 @@ class _CatalogCardState extends State<CatalogCard> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      // Row(
-                      //   children: [
-                      //     Icon(
-                      //       Icons.access_time_sharp,
-                      //       color: primaryDarkBlueColor,
-                      //       size: 20,
-                      //     ),
-                      //     const SizedBox(width: 5),
-                      //     Text(
-                      //       timeago.format(
-                      //           widget.productList.updatedAt ?? DateTime.now()),
-                      //       style:
-                      //           regulerText12.copyWith(color: neutral03Color),
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                   const SizedBox(height: 10),

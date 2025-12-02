@@ -44,11 +44,14 @@ class ProgramCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(
-                textTitle!,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: boldText12,
+              Center(
+                child: Text(
+                  textTitle!,
+                  textAlign: TextAlign.center,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: boldText12,
+                ),
               ),
               const SizedBox(height: 5),
               Opacity(
@@ -58,7 +61,7 @@ class ProgramCard extends StatelessWidget {
                   style: regulerText8.copyWith(color: neutral04Color),
                 ),
               ),
-              const SizedBox(height: 15),
+              // const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

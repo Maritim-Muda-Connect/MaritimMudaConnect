@@ -7,7 +7,7 @@ class AnalyticService {
   Future<AnalyticResponse> fetchAnalytics() async {
     String? token = await UserPreferences().getToken();
     final response = await http.get(
-      Uri.parse('$baseUrl/dashboard'),  // Replace with your actual API endpoint for analytics
+      Uri.parse('$baseUrl/dashboard'),
       headers: headerWithToken(token!),
     );
     if (response.statusCode == 200) {

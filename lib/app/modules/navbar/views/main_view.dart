@@ -66,6 +66,9 @@ class MainView extends StatelessWidget {
                   height: 75,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(32),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),

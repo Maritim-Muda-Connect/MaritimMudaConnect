@@ -31,7 +31,7 @@ class DetailEventView extends GetView<EventController> {
         backgroundColor: neutral02Color,
         title: Text(
           'Detail Event',
-          style: boldText24,
+          style: boldText20,
         ),
         centerTitle: true,
         leading: IconButton(
@@ -44,7 +44,7 @@ class DetailEventView extends GetView<EventController> {
           IconButton(
               icon: Icon(
                 Icons.share,
-                color: primaryDarkBlueColor,
+                color: neutral04Color,
               ),
               onPressed: () {
                 Share.share(
@@ -69,8 +69,7 @@ class DetailEventView extends GetView<EventController> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
                 eventData.name!,
-                textAlign: TextAlign.justify,
-                style: boldText24,
+                style: boldText20,
               ),
             ),
             const SizedBox(height: 10),
@@ -78,7 +77,7 @@ class DetailEventView extends GetView<EventController> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
-                'Penyelenggara',
+                'Organizer',
                 style: boldText16,
               ),
             ),
@@ -93,7 +92,7 @@ class DetailEventView extends GetView<EventController> {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
                 style: boldText16,
-                'Waktu Mulai',
+                'Start Time',
               ),
             ),
             Padding(
@@ -106,9 +105,7 @@ class DetailEventView extends GetView<EventController> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Text(
-                  style: boldText16,
-                  textAlign: TextAlign.start,
-                  'Waktu Selesai'),
+                  style: boldText16, textAlign: TextAlign.start, 'End Time'),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -129,7 +126,7 @@ class DetailEventView extends GetView<EventController> {
                       backgroundColor: primaryDarkBlueColor),
                   child: const Text(
                       style: TextStyle(fontSize: 16.0, color: Colors.white),
-                      'Daftar'),
+                      'REGISTER'),
                   onPressed: () {
                     _launchURL(eventData.externalUrl ?? " ");
                   },

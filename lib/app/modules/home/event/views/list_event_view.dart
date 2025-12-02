@@ -93,7 +93,7 @@ class ListEventView extends GetView<EventController> {
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.only(top: 10.0),
                             child: ProgramCard(
                               image: events.posterLink,
                               date: startDate,

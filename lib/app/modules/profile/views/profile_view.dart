@@ -165,12 +165,10 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
-                const SizedBox(
-                    height: 100), // Ruang untuk FAB agar tidak tertutup
+                const SizedBox(height: 150),
               ],
             ),
           ),

@@ -69,8 +69,6 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
-
-          // Header overlay menempel kiri/kanan/atas + animasi slide+fade
           Positioned(
             top: 0,
             left: 0,

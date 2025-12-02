@@ -310,7 +310,7 @@ class PublicationsView extends GetView<PublicationsController> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 200),
+                const SizedBox(height: 170),
               ],
             ),
           ),

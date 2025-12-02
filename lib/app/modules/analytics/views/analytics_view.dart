@@ -27,7 +27,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     'Analytics Overview',
                     style: boldText20.copyWith(color: neutral04Color),
                   ),
-                  const SizedBox(height: 16),
+                  // const SizedBox(height: 16),
                   Wrap(
                     spacing: 16,
                     runSpacing: 4,
@@ -40,7 +40,8 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: AnalyticCard(
-                            title: widget.label ?? 'No Title',
+                            // title: widget.label ?? 'No Title',
+                            title: widget.englishLabel,
                             value: widget.value?.toString() ?? 'No Value',
                             svgPath: svgPath,
                           ),
@@ -51,6 +52,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 ],
               ),
             ),
+            // const SizedBox(height: 180),
           ],
         ),
       ),
@@ -85,8 +87,8 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 ],
               ),
               const SizedBox(height: 24),
-              AspectRatio(
-                aspectRatio: 16 / 9,
+              SizedBox(
+                height: 220,
                 child: Obx(() {
                   if (controller.userCounts.isEmpty) {
                     return Center(
@@ -96,7 +98,6 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     );
                   }
 
-                  // Calculate max value more efficiently
                   final maxCount = controller.userCounts
                       .fold<int>(0, (prev, curr) => prev > curr ? prev : curr);
 
@@ -135,7 +136,6 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   );
                 }),
               ),
-              // Info row at bottom
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Row(

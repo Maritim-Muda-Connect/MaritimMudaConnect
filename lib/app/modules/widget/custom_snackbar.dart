@@ -7,7 +7,7 @@ SnackbarController customSnackbar(String text, [Color? color]) {
     "",
     text,
     titleText: const SizedBox.shrink(),
-    duration: const Duration(seconds: 1),
+    duration: const Duration(seconds: 2),
     messageText: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

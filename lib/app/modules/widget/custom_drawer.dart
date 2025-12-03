@@ -22,14 +22,7 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-            child: Text(
-              'Profile',
-              style: semiBoldText28,
-            ),
-          ),
-          const Divider(height: 1),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(

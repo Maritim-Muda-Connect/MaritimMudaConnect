@@ -49,6 +49,7 @@ class User {
   String? permanentAddress;
   String? residenceAddress;
   String? bio;
+  String? citizenship;
   int? isAdmin;
 
   User({
@@ -71,6 +72,7 @@ class User {
     this.permanentAddress,
     this.residenceAddress,
     this.bio,
+    this.citizenship,
     this.isAdmin,
   });
 

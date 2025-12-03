@@ -53,6 +53,7 @@ class User {
   String? permanentAddress;
   String? residenceAddress;
   String? bio;
+  String? citizenship;
   int? isAdmin;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -77,6 +78,7 @@ class User {
     this.permanentAddress,
     this.residenceAddress,
     this.bio,
+    this.citizenship,
     this.isAdmin,
     this.createdAt,
     this.updatedAt,

@@ -251,7 +251,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
       children: [
         Text(title, style: mediumText16.copyWith(color: neutral04Color)),
         Text(
-          expertiseOptions[expertiseId?.toString()] ?? "",
+          expertiseOptions[expertiseId?.toString()] ?? "-",
           style: regulerText10.copyWith(color: subTitleColor),
         )
       ],

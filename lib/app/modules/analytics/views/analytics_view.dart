@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 import 'package:maritimmuda_connect/app/modules/analytics/widget/analytic_card.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/analytics_controller.dart';

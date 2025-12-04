@@ -6,7 +6,6 @@ import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
 import '../../../../../themes.dart';
 import '../controllers/profile_user_controller.dart';
-import 'dart:ui';
 
 class ProfileUserView extends GetView<ProfileUserController> {
   const ProfileUserView({super.key});

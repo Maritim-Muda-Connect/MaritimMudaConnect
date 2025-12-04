@@ -25,6 +25,7 @@ class MainView extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           extendBody: true,
           backgroundColor: Colors.transparent,
+          endDrawerEnableOpenDragGesture: false,
           endDrawer: Container(
             margin: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top,

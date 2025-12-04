@@ -102,7 +102,7 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text('Student Card', style: boldText12),
+                      Text('Student Card / Business Card', style: boldText12),
                       const SizedBox(height: 8),
                       Obx(
                         () => DottedBorder(
@@ -142,8 +142,8 @@ class ProfileView extends GetView<ProfileController> {
                                               child: Align(
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                  "Input Payment Confirmation",
-                                                  style: boldText12,
+                                                  "Input Academic or Professional ID",
+                                                  style: semiBoldText12,
                                                 ),
                                               ),
                                             )

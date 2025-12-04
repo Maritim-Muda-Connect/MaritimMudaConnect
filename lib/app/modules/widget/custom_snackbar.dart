@@ -28,7 +28,10 @@ SnackbarController customSnackbar(String text, [Color? color]) {
           },
           child: Text(
             "Close",
-            style: mediumText12.copyWith(fontSize: 14),
+            style: mediumText12.copyWith(
+              fontSize: 14,
+              color: neutral01Color,
+            ),
           ),
         ),
       ],

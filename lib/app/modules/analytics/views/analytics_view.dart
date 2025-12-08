@@ -39,8 +39,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: AnalyticCard(
-                            // title: widget.label ?? 'No Title',
-                            title: widget.englishLabel,
+                            title: widget.label ?? 'No Title',
                             value: widget.value?.toString() ?? 'No Value',
                             svgPath: svgPath,
                           ),

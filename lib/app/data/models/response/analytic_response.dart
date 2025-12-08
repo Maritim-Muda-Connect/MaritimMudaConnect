@@ -167,23 +167,12 @@ class Widgets {
   String? icon;
   String? action;
 
-  static final Map<String, String> labelTranslations = {
-    'Anggota': 'Member',
-    'Kegiatan': 'Event',
-    'Beasiswa': 'Scholarship',
-    'Lowongan Kerja': 'Job',
-  };
-
   Widgets({
     this.label,
     this.value,
     this.icon,
     this.action,
   });
-
-  String get englishLabel {
-    return labelTranslations[label] ?? label ?? 'No Title';
-  }
 
   factory Widgets.fromJson(Map<String, dynamic> json) => Widgets(
         label: json["label"],

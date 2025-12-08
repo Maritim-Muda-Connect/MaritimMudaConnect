@@ -72,12 +72,17 @@ class ProfileUserView extends GetView<ProfileUserController> {
                           child: VerticalDivider(color: neutral04Color),
                         ),
                         Text(
-                          DateFormat("dd MMMM yyyy").format(
-                              controller.generalData.value.user?.dateOfBirth ??
-                                  DateTime.now()),
+                          controller.generalData.value.user?.citizenship ?? '',
                           style: regulerText16,
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      DateFormat("dd MMMM yyyy").format(
+                          controller.generalData.value.user?.dateOfBirth ??
+                              DateTime.now()),
+                      style: regulerText16,
                     ),
                     const SizedBox(height: 6),
                     Padding(

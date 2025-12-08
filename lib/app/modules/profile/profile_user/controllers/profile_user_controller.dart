@@ -18,6 +18,7 @@ class ProfileUserController extends GetxController {
   final provinceId = ''.obs;
   final firstExpertiseId = ''.obs;
   final secondExpertiseId = ''.obs;
+  final citizenship = ''.obs;
   final userPreferences = UserPreferences();
   final ScrollController scrollController = ScrollController();
 
@@ -57,6 +58,7 @@ class ProfileUserController extends GetxController {
     placeOfBirth.value =
         (await userPreferences.getPlaceOfBirth())?.toString() ?? 'Tempat Lahir';
     bio.value = (await userPreferences.getBio())?.toString() ?? 'No bio yet';
+    citizenship.value = (await userPreferences.getName()).toString();
     dateOfBirth.value = (await userPreferences.getCreatedAt()).toString();
     createdAt.value = (await userPreferences.getCreatedAt()).toString();
     provinceId.value = (await userPreferences.getProvinceId()).toString();

@@ -79,12 +79,47 @@ class LoginController extends GetxController {
         );
       } else if (statusCode == 400) {
         customSnackbar(
-          "Login failed, your account is not verified please check your email",
+          "Login failed, your account is not verified please check your email.",
+          secondaryRedColor,
+        );
+      } else if (statusCode == 401) {
+        customSnackbar(
+          "Login failed, invalid email or password.",
+          secondaryRedColor,
+        );
+      } else if (statusCode == 404) {
+        customSnackbar(
+          "Login failed, account not found.",
+          secondaryRedColor,
+        );
+      } else if (statusCode == 500) {
+        customSnackbar(
+          "Server error, please try again later.",
+          secondaryRedColor,
+        );
+      } else if (statusCode == 503) {
+        customSnackbar(
+          "Service unavailable, server is under maintenance. Please try again later.",
           secondaryRedColor,
         );
       } else {
         customSnackbar(
-          "Login failed, please check your email and password",
+          "Login failed, please check your email and password.",
+          secondaryRedColor,
+        );
+      }
+    } catch (e) {
+      String errorMessage = e.toString();
+
+      if (errorMessage.contains("SocketException") ||
+          errorMessage.contains("Failed host lookup")) {
+        customSnackbar(
+          "No internet connection or server is unreachable.",
+          secondaryRedColor,
+        );
+      } else {
+        customSnackbar(
+          "An unexpected error occurred.",
           secondaryRedColor,
         );
       }

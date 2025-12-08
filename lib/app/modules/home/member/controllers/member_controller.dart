@@ -21,6 +21,10 @@ class MemberController extends GetxController {
   var isDrawerVisible = false.obs;
   var dateOfBirth = ''.obs;
   var isFabVisible = false.obs;
+  var currentPage = 1.obs;
+  var totalPages = 1.obs;
+  var totalMembers = 0.obs;
+  var perPage = 25.obs;
 
   @override
   void onInit() {
@@ -49,14 +53,46 @@ class MemberController extends GetxController {
     }
   }
 
-  Future<void> getAllMember() async {
+  Future<void> getAllMember({int page = 1}) async {
     try {
       isLoading.value = true;
-      var response = await MemberService().getAllMembers();
-      memberList.assignAll(response.members?? []);
+      var response = await MemberService().getAllMembers(page: page);
+
+      memberList.assignAll(response.members ?? []);
       filteredMemberList.assignAll(memberList);
+
+      if (response.meta != null) {
+        currentPage.value = response.meta!.currentPage ?? 1;
+        totalPages.value = response.meta!.lastPage ?? 1;
+        totalMembers.value = response.meta!.total ?? 0;
+        perPage.value = response.meta!.perPage ?? 25;
+      }
+
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void goToPage(int page) {
+    if (page >= 1 && page <= totalPages.value && page != currentPage.value) {
+      getAllMember(page: page);
+    }
+  }
+
+  void nextPage() {
+    if (currentPage.value < totalPages.value) {
+      goToPage(currentPage.value + 1);
+    }
+  }
+
+  void previousPage() {
+    if (currentPage.value > 1) {
+      goToPage(currentPage.value - 1);
     }
   }
 

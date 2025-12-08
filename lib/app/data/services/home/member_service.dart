@@ -5,11 +5,15 @@ import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 
 class MemberService {
-  Future<MemberResponse> getAllMembers() async {
+  Future<MemberResponse> getAllMembers(
+      {int page = 1,
+      String sortBy = 'serial_number',
+      String order = 'asc'}) async {
     try {
       String? token = await UserPreferences().getToken();
       final response = await http.get(
-        Uri.parse("$baseUrl/find-member"),
+        Uri.parse(
+            "$baseUrl/find-member? page=$page&sort_by=$sortBy&order=$order"),
         headers: headerWithToken(token!),
       );
 
@@ -19,13 +23,9 @@ class MemberService {
       } else {
         throw Exception(
             'Failed to fetch members: ${response.statusCode} - ${response.body}');
-        // return MemberResponse();
-        //comment throw exception and return MemberResponse() to avoid crash if api is down (comment and uncomment is vice versa)
       }
     } catch (e) {
       rethrow;
-      // return MemberResponse();
-      //comment rethrow and return MemberResponse() to avoid crash if api is down (comment and uncomment is vice versa)
     }
   }
 

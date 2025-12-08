@@ -140,10 +140,10 @@ class MemberDetailView extends GetView<MemberController> {
                           padding: const EdgeInsets.only(
                               left: 63, top: 5, right: 63, bottom: 20),
                           child: Text(
-                            memberList.bio ?? "no bio yet",
+                            memberList.bio ?? "No bio yet",
                             style:
                                 regulerText10.copyWith(color: neutral04Color),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.justify,
                           ),
                         )
                       ],

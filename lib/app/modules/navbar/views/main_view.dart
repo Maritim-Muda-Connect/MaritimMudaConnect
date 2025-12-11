@@ -70,7 +70,8 @@ class MainView extends StatelessWidget {
                 onPageChanged: (index) {
                   controller.updateIndex(index);
                 },
-                physics: const ClampingScrollPhysics(),
+                // physics: const ClampingScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: controller.views,
               ),
               Align(

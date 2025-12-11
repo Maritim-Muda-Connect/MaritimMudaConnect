@@ -67,13 +67,27 @@ class ProfileUserView extends GetView<ProfileUserController> {
                               '',
                           style: regulerText16,
                         ),
-                        SizedBox(
-                          height: 20,
-                          child: VerticalDivider(color: neutral04Color),
-                        ),
-                        Text(
-                          controller.generalData.value.user?.citizenship ?? '',
-                          style: regulerText16,
+                        Builder(
+                          builder: (_) {
+                            final citizenship = controller
+                                    .generalData.value.user?.citizenship ??
+                                '';
+                            if (citizenship.isEmpty) {
+                              return const SizedBox.shrink();
+                            }
+                            return Row(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                  child: VerticalDivider(color: neutral04Color),
+                                ),
+                                Text(
+                                  citizenship,
+                                  style: regulerText16,
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),

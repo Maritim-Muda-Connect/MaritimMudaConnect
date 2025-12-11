@@ -79,54 +79,49 @@ class MemberView extends GetView<MemberController> {
                                           controller.filteredMemberList[index];
                                       return Card(
                                         margin: const EdgeInsets.symmetric(
-                                            vertical: 7.5),
+                                            vertical: 2.5),
                                         color: neutral01Color,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(16)),
                                         child: ListTile(
-                                          onTap: () {
-                                            controller
-                                                .getEmail(memberList.email!);
-                                            Get.to(
-                                              () => MemberDetailView(
-                                                memberList: memberList,
-                                              ),
-                                              transition:
-                                                  Transition.rightToLeft,
-                                              duration: const Duration(
-                                                  milliseconds: 100),
-                                            );
-                                          },
-                                          leading: CircleAvatar(
-                                            foregroundImage: NetworkImage(
-                                                memberList.photoLink!),
-                                            backgroundImage: const AssetImage(
-                                                'assets/images/default_photo.jpg'),
-                                          ),
-                                          title: Text(
-                                            memberList.name ?? "",
-                                            style: regulerText20,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          subtitle: Text(
-                                              provinceOptions[memberList
-                                                  .provinceId
-                                                  .toString()]!,
-                                              style: extraLightText16),
-                                          trailing: CircleAvatar(
-                                              backgroundColor:
-                                                  primaryDarkBlueColor,
-                                              maxRadius: 15,
-                                              child: Icon(Icons.chevron_right,
-                                                  color: neutral01Color)),
-                                        ),
+                                            onTap: () {
+                                              controller
+                                                  .getEmail(memberList.email!);
+                                              Get.to(
+                                                () => MemberDetailView(
+                                                  memberList: memberList,
+                                                ),
+                                                transition:
+                                                    Transition.rightToLeft,
+                                                duration: const Duration(
+                                                    milliseconds: 100),
+                                              );
+                                            },
+                                            leading: CircleAvatar(
+                                              foregroundImage: NetworkImage(
+                                                  memberList.photoLink!),
+                                              backgroundImage: const AssetImage(
+                                                  'assets/images/default_photo.jpg'),
+                                            ),
+                                            title: Text(
+                                              memberList.name ?? "",
+                                              style: regulerText16,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            subtitle: Text(
+                                                provinceOptions[memberList
+                                                    .provinceId
+                                                    .toString()]!,
+                                                style: extraLightText16
+                                                    .copyWith(fontSize: 14)),
+                                            trailing: Icon(Icons.chevron_right,
+                                                color: primaryDarkBlueColor)),
                                       );
                                     },
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 16),
                               _buildPaginationControls(),
                               const SizedBox(height: 16),
                             ],

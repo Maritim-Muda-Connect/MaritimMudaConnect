@@ -26,6 +26,8 @@ class MainDrawerController extends GetxController {
   var currentTitle = 'General'.obs;
   List<Map<String, dynamic>> drawerLists;
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   MainDrawerController() : drawerLists = [] {
     currentTitle.value = title[selectedIndex.value];
 
@@ -42,11 +44,12 @@ class MainDrawerController extends GetxController {
 
     drawerLists = List.generate(
       title.length,
-      (index) => {
-        'title': title[index],
-        'icon': icon[index]
-      },
+      (index) => {'title': title[index], 'icon': icon[index]},
     );
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState?.openEndDrawer();
   }
 
   List<Widget> screens = [

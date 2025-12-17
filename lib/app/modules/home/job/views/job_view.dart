@@ -160,19 +160,25 @@ class JobView extends GetView<JobController> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (BuildContext context) {
+      backgroundColor: Colors.transparent,
+      builder: (context) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.5,
-          minChildSize: 0.3,
-          maxChildSize: 0.6,
-          expand: false,
-          builder: (_, controller) {
-            return SingleChildScrollView(
-              controller: controller,
-              child: _buildJobDetailsContent(context, job),
+          initialChildSize: 1,
+          maxChildSize: 1,
+          minChildSize: 0.5,
+          expand: true,
+          builder: (_, scrollController) {
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              padding:
+                  EdgeInsets.only(top: MediaQuery.of(context).padding.top + 12),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                child: _buildJobDetailsContent(context, job),
+              ),
             );
           },
         );

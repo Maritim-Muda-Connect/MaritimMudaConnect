@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
+import 'package:maritimmuda_connect/app/modules/profile/main_drawer/controllers/main_drawer_controller.dart';
+import 'package:maritimmuda_connect/app/modules/widget/custom_drawer.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_snackbar.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../../e_kta/views/e_kta_view.dart';
@@ -12,13 +14,24 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MainDrawerController drawerController =
+        Get.find<MainDrawerController>();
+
     return Stack(
       alignment: Alignment.center,
       children: [
         Scaffold(
+          key: drawerController.scaffoldKey,
           resizeToAvoidBottomInset: false,
           extendBody: true,
           backgroundColor: Colors.transparent,
+          endDrawerEnableOpenDragGesture: false,
+          endDrawer: Container(
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+                bottom: MediaQuery.of(context).padding.bottom),
+            child: CustomDrawer(controller: drawerController),
+          ),
           bottomNavigationBar: ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
             child: BottomAppBar(
@@ -57,7 +70,8 @@ class MainView extends StatelessWidget {
                 onPageChanged: (index) {
                   controller.updateIndex(index);
                 },
-                physics: const ClampingScrollPhysics(),
+                // physics: const ClampingScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: controller.views,
               ),
               Align(
@@ -66,6 +80,9 @@ class MainView extends StatelessWidget {
                   height: 75,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(32),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),

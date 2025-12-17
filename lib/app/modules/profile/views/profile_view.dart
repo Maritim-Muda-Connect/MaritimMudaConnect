@@ -19,7 +19,8 @@ class ProfileView extends GetView<ProfileController> {
       },
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        resizeToAvoidBottomInset: false, // Mencegah tampilan naik saat keyboard muncul
+        resizeToAvoidBottomInset:
+            false, // Mencegah tampilan naik saat keyboard muncul
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
@@ -90,7 +91,8 @@ class ProfileView extends GetView<ProfileController> {
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(20),
                                       child: Image.file(
-                                        File(controller.identityImagePath.value),
+                                        File(
+                                            controller.identityImagePath.value),
                                         fit: BoxFit.cover,
                                         width: double.infinity,
                                       ),
@@ -100,7 +102,7 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text('Student Card', style: boldText12),
+                      Text('Student Card / Business Card', style: boldText12),
                       const SizedBox(height: 8),
                       Obx(
                         () => DottedBorder(
@@ -140,8 +142,8 @@ class ProfileView extends GetView<ProfileController> {
                                               child: Align(
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                  "Input Payment Confirmation",
-                                                  style: boldText12,
+                                                  "Input Academic or Professional ID",
+                                                  style: semiBoldText12,
                                                 ),
                                               ),
                                             )
@@ -163,11 +165,10 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
-                const SizedBox(height: 100), // Ruang untuk FAB agar tidak tertutup
+                const SizedBox(height: 150),
               ],
             ),
           ),

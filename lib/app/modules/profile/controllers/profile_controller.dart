@@ -30,6 +30,7 @@ class ProfileController extends GetxController {
   final addressController = TextEditingController();
   final residenceAddressController = TextEditingController();
   final bioController = TextEditingController();
+  final citizenshipController = TextEditingController();
   final ScrollController scrollController = ScrollController();
 
   final focusNodes = List.generate(7, (_) => FocusNode());
@@ -147,6 +148,7 @@ class ProfileController extends GetxController {
     qrCodeBase64.value = generalData.value.qrCodeUrl ?? '';
     svgString =
         qrCodeBase64.value.replaceFirst("data:image/svg+xml;base64,", "");
+    citizenshipController.text = generalData.value.user?.citizenship ?? '';
   }
 
   Future<void> fetchGeneral() async {
@@ -213,6 +215,7 @@ class ProfileController extends GetxController {
     addressController.dispose();
     residenceAddressController.dispose();
     bioController.dispose();
+    citizenshipController.dispose();
     scrollController.dispose();
     super.onClose();
   }

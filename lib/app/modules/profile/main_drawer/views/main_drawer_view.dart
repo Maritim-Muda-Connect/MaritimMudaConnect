@@ -8,7 +8,6 @@ import 'package:maritimmuda_connect/app/modules/profile/publications/controllers
 import 'package:maritimmuda_connect/app/modules/profile/researches/controllers/researches_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/social_activity/controllers/social_activity_controller.dart';
 import 'package:maritimmuda_connect/app/modules/profile/work_experiences/controllers/work_experiences_controller.dart';
-import 'package:maritimmuda_connect/app/modules/widget/custom_drawer.dart';
 import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/main_drawer_controller.dart';
 
@@ -54,10 +53,14 @@ class MainDrawerView extends GetView<MainDrawerController> {
             scrolledUnderElevation: 0.0,
             backgroundColor: neutral02Color,
             title: Obx(() => Text(controller.currentTitle.value)),
-          ),
-          endDrawer: Container(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            child: CustomDrawer(controller: controller),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  controller.openDrawer();
+                },
+              ),
+            ],
           ),
           body: Obx(
             () => IndexedStack(

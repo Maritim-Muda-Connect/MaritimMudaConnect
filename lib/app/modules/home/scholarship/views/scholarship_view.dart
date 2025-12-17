@@ -38,7 +38,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
           Container(
             color: primaryBlueColor,
             child: Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(15.0),
               child: SearchbarScholarWidget(),
             ),
           ),
@@ -86,8 +86,7 @@ class ScholarshipView extends GetView<ScholarshipController> {
                                   );
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
+                                  padding: const EdgeInsets.only(top: 10.0),
                                   child: ProgramCard(
                                     image: scolarships.posterLink,
                                     date: startDate,

@@ -6,7 +6,6 @@ import 'package:maritimmuda_connect/app/data/utils/province.dart';
 import 'package:maritimmuda_connect/app/modules/profile/controllers/profile_controller.dart';
 import '../../../../../themes.dart';
 import '../controllers/profile_user_controller.dart';
-import 'dart:ui';
 
 class ProfileUserView extends GetView<ProfileUserController> {
   const ProfileUserView({super.key});
@@ -68,17 +67,36 @@ class ProfileUserView extends GetView<ProfileUserController> {
                               '',
                           style: regulerText16,
                         ),
-                        SizedBox(
-                          height: 20,
-                          child: VerticalDivider(color: neutral04Color),
-                        ),
-                        Text(
-                          DateFormat("dd MMMM yyyy").format(
-                              controller.generalData.value.user?.dateOfBirth ??
-                                  DateTime.now()),
-                          style: regulerText16,
+                        Builder(
+                          builder: (_) {
+                            final citizenship = controller
+                                    .generalData.value.user?.citizenship ??
+                                '';
+                            if (citizenship.isEmpty) {
+                              return const SizedBox.shrink();
+                            }
+                            return Row(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                  child: VerticalDivider(color: neutral04Color),
+                                ),
+                                Text(
+                                  citizenship,
+                                  style: regulerText16,
+                                ),
+                              ],
+                            );
+                          },
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      DateFormat("dd MMMM yyyy").format(
+                          controller.generalData.value.user?.dateOfBirth ??
+                              DateTime.now()),
+                      style: regulerText16,
                     ),
                     const SizedBox(height: 6),
                     Padding(
@@ -88,8 +106,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
                         () => Text(
                           controller.generalData.value.user?.bio ??
                               'No bio yet',
-                          style:
-                              regulerText10.copyWith(color: neutral04Color),
+                          style: regulerText10.copyWith(color: neutral04Color),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -128,8 +145,8 @@ class ProfileUserView extends GetView<ProfileUserController> {
                             borderRadius: BorderRadius.circular(50),
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: controller.generalData.value.user
-                                          ?.photoLink !=
+                              image: controller
+                                          .generalData.value.user?.photoLink !=
                                       null
                                   ? NetworkImage(
                                       profileController.photoImage.value)
@@ -149,7 +166,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
           const SizedBox(height: 15),
           _buildInfoSection(),
           _buildAchievementSection(),
-          const SizedBox(height: 70),
+          const SizedBox(height: 30),
         ],
       ),
     );
@@ -252,7 +269,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
       children: [
         Text(title, style: mediumText16.copyWith(color: neutral04Color)),
         Text(
-          expertiseOptions[expertiseId?.toString()] ?? "",
+          expertiseOptions[expertiseId?.toString()] ?? "-",
           style: regulerText10.copyWith(color: subTitleColor),
         )
       ],
@@ -280,4 +297,3 @@ class ProfileUserView extends GetView<ProfileUserController> {
     );
   }
 }
-

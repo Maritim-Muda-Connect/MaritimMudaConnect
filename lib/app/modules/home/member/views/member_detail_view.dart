@@ -71,18 +71,23 @@ class MemberDetailView extends GetView<MemberController> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            SizedBox(
-                              height: 20,
-                              child: VerticalDivider(color: neutral04Color),
-                            ),
                             Obx(() {
                               if (controller.dateOfBirth.value.isNotEmpty) {
-                                return Text(
-                                  controller.dateOfBirth.value,
-                                  style: regulerText16,
+                                return Row(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                      child: VerticalDivider(
+                                          color: neutral04Color),
+                                    ),
+                                    Text(
+                                      controller.dateOfBirth.value,
+                                      style: regulerText16,
+                                    ),
+                                  ],
                                 );
                               } else {
-                                return const Text("");
+                                return const SizedBox.shrink();
                               }
                             }),
                           ],
@@ -138,12 +143,12 @@ class MemberDetailView extends GetView<MemberController> {
                         const SizedBox(height: 6),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 63, top: 5, right: 63, bottom: 20),
+                              left: 30, top: 5, right: 30, bottom: 20),
                           child: Text(
-                            memberList.bio ?? "no bio yet",
+                            memberList.bio ?? "No bio yet",
                             style:
                                 regulerText10.copyWith(color: neutral04Color),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.justify,
                           ),
                         )
                       ],

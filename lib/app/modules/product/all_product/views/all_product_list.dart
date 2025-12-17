@@ -16,15 +16,15 @@ class CatalogList extends StatelessWidget {
         if (controller.isLoading.value) {
           return Center(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 150),
+              padding: const EdgeInsets.only(bottom: 100),
               child: CircularProgressIndicator(color: primaryDarkBlueColor),
             ),
           );
         } else if (controller.filteredProductList.isEmpty) {
           return Center(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 150),
-              child: Text("Produk tidak tersedia", style: semiBoldText16),
+              padding: const EdgeInsets.only(bottom: 100),
+              child: Text("Product is not available.", style: semiBoldText16),
             ),
           );
         } else {
@@ -34,12 +34,13 @@ class CatalogList extends StatelessWidget {
             },
             color: primaryDarkBlueColor,
             child: ListView.builder(
-              padding: EdgeInsets.zero,
+              padding: const EdgeInsets.only(bottom: 100),
               itemCount: controller.filteredProductList.length,
               itemBuilder: (context, index) {
                 var product = controller.filteredProductList[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 2.0, horizontal: 16.0),
                   child: CatalogListItem(
                     product: product,
                     onTap: () {

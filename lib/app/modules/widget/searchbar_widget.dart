@@ -192,9 +192,9 @@ class FilterSearchButton extends GetView<MemberController> {
               ),
             ),
             PopupMenuItem(
+              onTap: controller.resetFilters,
               child: Text("Reset",
                   style: regulerText16.copyWith(color: neutral04Color)),
-              onTap: controller.resetFilters,
             )
           ];
         },

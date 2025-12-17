@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   final name = ''.obs;
   final serialNumber = ''.obs;
   final userPreferences = UserPreferences();
+  final showHeader = false.obs;
 
   var generalData = GeneralResponse().obs;
   var photoImage = ''.obs;

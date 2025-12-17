@@ -32,7 +32,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
         backgroundColor: neutral02Color,
         title: Text(
           'Detail Scholarship',
-          style: boldText24,
+          style: boldText20,
         ),
         centerTitle: true,
         leading: IconButton(
@@ -45,7 +45,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
           IconButton(
               icon: Icon(
                 Icons.share,
-                color: primaryDarkBlueColor,
+                color: neutral04Color,
               ),
               onPressed: () {
                 Share.share(
@@ -74,14 +74,13 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
                 style: boldText24,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-
             // Padding(
             //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             //   child: Text(
-            //     "ga ada deskripsi wkwkw",
+            // "ga ada deskripsi wkwkw",
             //     style: regulerText14,
             //   ),
             // ),
@@ -114,7 +113,12 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
               child: Text(style: regulerText14, date),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: MediaQuery.of(context).padding.bottom + 16,
+              ),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -123,7 +127,7 @@ class DetailScholarshipView extends GetView<ScholarshipController> {
                       backgroundColor: const Color(0xFF086C9E)),
                   child: const Text(
                       style: TextStyle(fontSize: 16.0, color: Colors.white),
-                      'Daftar'),
+                      'REGISTER'),
                   onPressed: () {
                     _launchURL(scholarshipData.registrationLink!);
                   },

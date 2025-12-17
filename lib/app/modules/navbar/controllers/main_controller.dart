@@ -21,6 +21,7 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
   PageController pageController = PageController();
 
   int bottomNavIndex = 0;
+  int previousIndex = 0;
 
   MainController() {
     Get.put(MainDrawerController());
@@ -57,6 +58,12 @@ class MainController extends GetxController with GetTickerProviderStateMixin {
   ];
 
   void updateIndex(int index) {
+    if (previousIndex == 3 && index != 3) {
+      Get.find<MainDrawerController>().selectedIndex.value = 0;
+      Get.find<MainDrawerController>().currentTitle.value = 'Profile';
+    }
+
+    previousIndex = bottomNavIndex;
     bottomNavIndex = index;
     update();
   }

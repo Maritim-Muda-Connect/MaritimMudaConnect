@@ -67,6 +67,7 @@ class User {
   String? memberCardDocument;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? citizenship;
 
   User({
     this.id,
@@ -96,6 +97,7 @@ class User {
     this.memberCardDocument,
     this.createdAt,
     this.updatedAt,
+    this.citizenship,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -134,6 +136,7 @@ class User {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        citizenship: json["citizenship"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -164,5 +167,6 @@ class User {
         "member-card-document_link": memberCardDocument,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+        "citizenship": citizenship,
       };
 }

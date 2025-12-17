@@ -10,7 +10,8 @@ class AnalyticCard extends StatelessWidget {
   const AnalyticCard({
     super.key,
     required this.title,
-    required this.value, required this.svgPath,
+    required this.value,
+    required this.svgPath,
   });
 
   @override
@@ -40,7 +41,7 @@ class AnalyticCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: mediumText12.copyWith(color: neutral04Color),
+                    style: mediumText16.copyWith(color: neutral04Color),
                   ),
                   SvgPicture.asset(
                     svgPath,
@@ -52,7 +53,7 @@ class AnalyticCard extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 value,
-                style: boldText24.copyWith(color: neutral04Color),
+                style: semiBoldText22.copyWith(color: neutral04Color),
               ),
             ],
           ),

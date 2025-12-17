@@ -22,14 +22,7 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-            child: Text(
-              'Profile',
-              style: semiBoldText28,
-            ),
-          ),
-          const Divider(height: 1),
+          const SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -85,29 +78,31 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Divider(
-                  color: neutral04Color,
-                  height: 1,
-                  indent: 5,
-                  endIndent: 5,
+          const SizedBox(height: 10),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Divider(
+                    color: neutral04Color,
+                    height: 1,
+                    indent: 5,
+                    endIndent: 5,
+                  ),
                 ),
-              ),
-              Text("version 1.0"),
-              Expanded(
-                child: Divider(
-                  color: neutral04Color,
-                  height: 1,
-                  indent: 5,
-                  endIndent: 5,
+                const Text("Version 1.0"),
+                Expanded(
+                  child: Divider(
+                    color: neutral04Color,
+                    height: 1,
+                    indent: 5,
+                    endIndent: 5,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         ],
       ),

@@ -126,16 +126,21 @@ class RegisterController extends GetxController {
   void register(RegisterRequest request) async {
     try {
       isLoading.value = true;
-      bool success = await AuthService().register(request);
-      if (success) {
+      int statusCode = await AuthService().register(request);
+      if (statusCode == 201) {
         Get.off(
           () => const RegisterSuccessView(),
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 100),
         );
+      } else if (statusCode == 422) {
+        customSnackbar(
+          "Register failed, The email has already been taken.",
+          secondaryRedColor,
+        );
       } else {
         customSnackbar(
-          "Register failed, please check your input field",
+          "Register failed, please check your input field.",
           secondaryRedColor,
         );
       }

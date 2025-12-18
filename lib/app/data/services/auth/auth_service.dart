@@ -56,18 +56,13 @@ class AuthService {
     }
   }
 
-  Future<bool> register(RegisterRequest request) async {
+  Future<int> register(RegisterRequest request) async {
     final response = await http.post(
       Uri.parse("$baseUrl/register"),
       headers: headersNoToken,
-      body: jsonEncode(request),
+      body: jsonEncode(request.toJson()),
     );
-
-    if (response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
-    }
+    return response.statusCode;
   }
 
   Future<bool> forgotPassword(String email) async {

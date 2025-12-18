@@ -47,6 +47,7 @@ class GeneralService {
     request.fields['permanent_address'] = requests.permanentAddress;
     request.fields['residence_address'] = requests.residenceAddress;
     request.fields['bio'] = requests.bio;
+    request.fields['citizenship'] = requests.citizenship;
 
     if (imagePhoto.path.isNotEmpty) {
       var photo = await http.MultipartFile.fromPath(

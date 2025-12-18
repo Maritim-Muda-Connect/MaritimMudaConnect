@@ -8,7 +8,7 @@ Map<String, String> expertiseOptions = {
   "53": "Bisnis Kelautan dan Perikanan",
   "4": "Ekonomi Sumber Daya Kelautan",
   "29": "Ekonomi Sumber Daya Kelautan",
-  "54": "Ekonomi Sumber Daya Kelautan",
+  "54": "-",
   "5": "Geologi Kelautan",
   "30": "Geologi Kelautan",
   "55": "Geologi Kelautan",

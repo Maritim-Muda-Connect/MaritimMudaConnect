@@ -6,6 +6,16 @@ import "package:maritimmuda_connect/app/data/models/response/login_response.dart
 import "package:maritimmuda_connect/app/data/services/config.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
+class RegisterResult {
+  final int statusCode;
+  final String? errorMessage;
+
+  RegisterResult({
+    required this.statusCode,
+    this.errorMessage,
+  });
+}
+
 class AuthService {
   Future<int> login(LoginRequest request) async {
     final response = await http.post(
@@ -56,18 +66,34 @@ class AuthService {
     }
   }
 
-  Future<bool> register(RegisterRequest request) async {
+  Future<RegisterResult> register(RegisterRequest request) async {
     final response = await http.post(
       Uri.parse("$baseUrl/register"),
       headers: headersNoToken,
-      body: jsonEncode(request),
+      body: jsonEncode(request.toJson()),
     );
+    if (response.statusCode == 422) {
+      final body = jsonDecode(response.body);
+      final errors = body["errors"] as Map<String, dynamic>;
 
-    if (response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
+      String message = "Validasi gagal";
+
+      if (errors != null) {
+        if (errors.containsKey("email")) {
+          message = errors["email"][0];
+        } else if (errors.containsKey("password")) {
+          message = errors["password"][0];
+        } 
+      }
+      return RegisterResult(
+        statusCode: 422,
+        errorMessage: message,
+      );
     }
+    return RegisterResult(
+      statusCode: response.statusCode,
+      errorMessage: '',
+    );
   }
 
   Future<bool> forgotPassword(String email) async {

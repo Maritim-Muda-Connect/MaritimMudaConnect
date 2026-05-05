@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:maritimmuda_connect/app/data/models/request/delete_account_request.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
+import 'package:maritimmuda_connect/app/data/models/response/delete_account_response.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
@@ -20,6 +23,19 @@ class GeneralService {
     } else {
       throw Exception('Failed to load general');
     }
+  }
+
+  Future<DeleteAccountResponse> deleteAccountRequest(
+      DeleteAccountRequest request) async {
+    String? token = await UserPreferences().getToken();
+
+    final response = await http.post(
+      Uri.parse("$baseUrl/user/delete-request"),
+      headers: headerWithToken(token!),
+      body: jsonEncode(request.toJson()),
+    );
+
+    return deleteAccountResponseFromJson(response.body);
   }
 
   Future<bool> updateGeneral(

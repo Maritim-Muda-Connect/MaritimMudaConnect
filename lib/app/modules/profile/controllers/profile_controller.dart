@@ -2,8 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:maritimmuda_connect/app/data/models/request/delete_account_request.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
+import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
+import 'package:maritimmuda_connect/app/routes/app_pages.dart';
 import 'package:maritimmuda_connect/app/data/services/profile/general_service.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 import 'package:maritimmuda_connect/app/data/utils/province.dart';
@@ -31,6 +34,9 @@ class ProfileController extends GetxController {
   final residenceAddressController = TextEditingController();
   final bioController = TextEditingController();
   final citizenshipController = TextEditingController();
+  final deleteReasonController = TextEditingController();
+  final deletePasswordController = TextEditingController();
+  final deleteConfirmInputController = TextEditingController();
   final ScrollController scrollController = ScrollController();
 
   final focusNodes = List.generate(7, (_) => FocusNode());
@@ -43,6 +49,9 @@ class ProfileController extends GetxController {
   final RxString studentImageName = ''.obs;
   final RxString paymentImagePath = ''.obs;
   final RxString paymentImageName = ''.obs;
+  final RxBool isDeleteConfirmValid = false.obs;
+  final RxBool isDeletePasswordFilled = false.obs;
+  final RxBool isDeletePasswordHidden = true.obs;
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   Rx<int?> selectedMonth = Rx<int?>(null);
   Rx<int?> selectedYear = Rx<int?>(null);
@@ -112,6 +121,111 @@ class ProfileController extends GetxController {
     if (picked != null && picked != selectedDate.value) {
       selectedDate.value = picked;
       dateOfBirthController.text = formattedDate;
+    }
+  }
+
+  void validateDeleteConfirm(String value) {
+    isDeleteConfirmValid.value = value == "DELETE";
+  }
+
+  void clearDeleteConfirm() {
+    deleteConfirmInputController.clear();
+    isDeleteConfirmValid.value = false;
+  }
+
+  void validateDeletePassword(String value) {
+    isDeletePasswordFilled.value = value.isNotEmpty;
+  }
+
+  void toggleDeletePasswordVisibility() {
+    isDeletePasswordHidden.value = !isDeletePasswordHidden.value;
+  }
+
+  void requestDeleteAccount({required VoidCallback onSuccess}) async {
+    if (deletePasswordController.text.isEmpty) {
+      customSnackbar("Please fill the password", secondaryRedColor);
+      return;
+    }
+
+    try {
+      isLoading(true);
+      final request = DeleteAccountRequest(
+        password: deletePasswordController.text,
+        confirmDelete: "",
+        reason: deleteReasonController.text,
+      );
+
+      final response = await GeneralService().deleteAccountRequest(request);
+
+      if (!response.success &&
+          (response.message.toLowerCase().contains("password tidak valid"))) {
+        customSnackbar(response.message, secondaryRedColor);
+      } else {
+        onSuccess();
+      }
+    } catch (e) {
+      customSnackbar("An error occurred", secondaryRedColor);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void confirmDeleteAccount() async {
+    try {
+      isLoading(true);
+      final request = DeleteAccountRequest(
+        password: deletePasswordController.text,
+        confirmDelete: "DELETE",
+        reason: deleteReasonController.text,
+      );
+
+      final response = await GeneralService().deleteAccountRequest(request);
+
+      if (response.success) {
+        Get.dialog(
+          AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            title: Text("Request Received",
+                style: boldText16, textAlign: TextAlign.center),
+            content: Text(
+              "Your account deletion request has been received and will be processed within a maximum of 5 working days. Thank you for being a part of Maritim Muda Connect.",
+              style: regulerText12,
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryDarkBlueColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await UserPreferences().logout();
+                    Get.offAllNamed(Routes.LOGIN);
+                  },
+                  child: Text("Understood",
+                      style: semiBoldText12.copyWith(color: Colors.white)),
+                ),
+              ),
+            ],
+          ),
+          barrierDismissible: false,
+        );
+      } else {
+        customSnackbar(response.message, secondaryRedColor);
+      }
+    } catch (e) {
+      customSnackbar("An error occurred", secondaryRedColor);
+    } finally {
+      isLoading(false);
+      deleteReasonController.clear();
+      deletePasswordController.clear();
+      deleteConfirmInputController.clear();
+      isDeleteConfirmValid.value = false;
+      isDeletePasswordFilled.value = false;
     }
   }
 
@@ -216,6 +330,9 @@ class ProfileController extends GetxController {
     residenceAddressController.dispose();
     bioController.dispose();
     citizenshipController.dispose();
+    deleteReasonController.dispose();
+    deletePasswordController.dispose();
+    deleteConfirmInputController.dispose();
     scrollController.dispose();
     super.onClose();
   }

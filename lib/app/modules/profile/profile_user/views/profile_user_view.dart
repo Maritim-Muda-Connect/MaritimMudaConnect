@@ -57,46 +57,51 @@ class ProfileUserView extends GetView<ProfileUserController> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          provinceOptions[controller
-                                  .generalData.value.user?.provinceId
-                                  .toString()] ??
-                              '',
-                          style: regulerText16,
-                        ),
-                        Builder(
-                          builder: (_) {
-                            final citizenship = controller
-                                    .generalData.value.user?.citizenship ??
-                                '';
-                            if (citizenship.isEmpty) {
-                              return const SizedBox.shrink();
-                            }
-                            return Row(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                  child: VerticalDivider(color: neutral04Color),
-                                ),
-                                Text(
-                                  citizenship,
-                                  style: regulerText16,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
+                    Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            provinceOptions[controller
+                                    .generalData.value.user?.provinceId
+                                    .toString()] ??
+                                '',
+                            style: regulerText16,
+                          ),
+                          Builder(
+                            builder: (_) {
+                              final citizenship = controller
+                                      .generalData.value.user?.citizenship ??
+                                  '';
+                              if (citizenship.isEmpty) {
+                                return const SizedBox.shrink();
+                              }
+                              return Row(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                    child: VerticalDivider(color: neutral04Color),
+                                  ),
+                                  Text(
+                                    citizenship,
+                                    style: regulerText16,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 6),
-                    Text(
-                      DateFormat("dd MMMM yyyy").format(
-                          controller.generalData.value.user?.dateOfBirth ??
-                              DateTime.now()),
-                      style: regulerText16,
+                    Obx(
+                      () => Text(
+                        controller.generalData.value.user?.dateOfBirth != null
+                            ? DateFormat("dd MMMM yyyy").format(
+                                controller.generalData.value.user!.dateOfBirth!)
+                            : '',
+                        style: regulerText16,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Padding(
@@ -128,31 +133,35 @@ class ProfileUserView extends GetView<ProfileUserController> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(200),
                               ),
-                              child: CircleAvatar(
-                                maxRadius: 180,
-                                foregroundImage: NetworkImage(
-                                    profileController.photoImage.value),
-                                backgroundImage: const AssetImage(
-                                    'assets/images/default_photo.jpg'),
+                              child: Obx(
+                                () => CircleAvatar(
+                                  maxRadius: 180,
+                                  foregroundImage: NetworkImage(
+                                      profileController.photoImage.value),
+                                  backgroundImage: const AssetImage(
+                                      'assets/images/default_photo.jpg'),
+                                ),
                               ),
                             ),
                           );
                         },
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: controller
-                                          .generalData.value.user?.photoLink !=
-                                      null
-                                  ? NetworkImage(
-                                      profileController.photoImage.value)
-                                  : const AssetImage(
-                                          'assets/images/default_photo.jpg')
-                                      as ImageProvider,
+                        child: Obx(
+                          () => Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: controller
+                                            .generalData.value.user?.photoLink !=
+                                        null
+                                    ? NetworkImage(
+                                        profileController.photoImage.value)
+                                    : const AssetImage(
+                                            'assets/images/default_photo.jpg')
+                                        as ImageProvider,
+                              ),
                             ),
                           ),
                         ),
@@ -164,7 +173,7 @@ class ProfileUserView extends GetView<ProfileUserController> {
             ),
           ),
           const SizedBox(height: 15),
-          _buildInfoSection(),
+          Obx(() => _buildInfoSection()),
           _buildAchievementSection(),
           const SizedBox(height: 30),
         ],
@@ -189,7 +198,8 @@ class ProfileUserView extends GetView<ProfileUserController> {
           const SizedBox(height: 21),
           Column(
             children: [
-              _buildInfoRow(Icons.email, "Email", controller.email.value),
+              _buildInfoRow(Icons.email, "Email",
+                  controller.generalData.value.user?.email ?? '-'),
               const SizedBox(height: 16),
               _buildInfoRow(
                   Icons.calendar_month, "Joined", controller.createdAt.value),

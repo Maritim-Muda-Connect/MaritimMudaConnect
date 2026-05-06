@@ -1,7 +1,9 @@
-import 'dart:developer';
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:maritimmuda_connect/app/data/models/request/delete_account_request.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
+import 'package:maritimmuda_connect/app/data/models/response/delete_account_response.dart';
 import 'package:maritimmuda_connect/app/data/models/response/general_response.dart';
 import 'package:maritimmuda_connect/app/data/services/config.dart';
 import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
@@ -21,6 +23,19 @@ class GeneralService {
     } else {
       throw Exception('Failed to load general');
     }
+  }
+
+  Future<DeleteAccountResponse> deleteAccountRequest(
+      DeleteAccountRequest request) async {
+    String? token = await UserPreferences().getToken();
+
+    final response = await http.post(
+      Uri.parse("$baseUrl/user/delete-request"),
+      headers: headerWithToken(token!),
+      body: jsonEncode(request.toJson()),
+    );
+
+    return deleteAccountResponseFromJson(response.body);
   }
 
   Future<bool> updateGeneral(
@@ -48,6 +63,7 @@ class GeneralService {
     request.fields['permanent_address'] = requests.permanentAddress;
     request.fields['residence_address'] = requests.residenceAddress;
     request.fields['bio'] = requests.bio;
+    request.fields['citizenship'] = requests.citizenship;
 
     if (imagePhoto.path.isNotEmpty) {
       var photo = await http.MultipartFile.fromPath(
@@ -74,39 +90,7 @@ class GeneralService {
       request.files.add(payment);
     }
 
-    log("Sending update profile request to: $url");
-    log("Request fields: ${request.fields}");
-    log("Request files: ${request.files.map((f) => f.filename).toList()}");
-
     var response = await request.send();
-    var responseData = await response.stream.bytesToString();
-
-    log("Update profile response status: ${response.statusCode}");
-    log("Update profile response body: $responseData");
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> notifyMemberCard() async {
-    String? token = await UserPreferences().getToken();
-
-    final url = Uri.parse("$baseUrl/profile/notify-member-card");
-    log("Sending notify member card request to: $url");
-
-    final response = await http.post(
-      url,
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Accept': 'application/json',
-      },
-    );
-
-    log("Notify member card response status: ${response.statusCode}");
-    log("Notify member card response body: ${response.body}");
 
     if (response.statusCode == 200) {
       return true;

@@ -14,6 +14,7 @@ class GeneralRequest {
   String permanentAddress;
   String residenceAddress;
   String bio;
+  String citizenship;
 
   GeneralRequest({
     required this.name,
@@ -27,6 +28,7 @@ class GeneralRequest {
     required this.permanentAddress,
     required this.residenceAddress,
     required this.bio,
+    required this.citizenship,
   });
 
   Map<String, dynamic> toJson() => {
@@ -41,5 +43,6 @@ class GeneralRequest {
         "permanent_address": permanentAddress,
         "residence_address": residenceAddress,
         "bio": bio,
+        "citizenship": citizenship,
       };
 }

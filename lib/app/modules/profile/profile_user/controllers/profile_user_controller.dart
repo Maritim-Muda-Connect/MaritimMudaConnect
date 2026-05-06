@@ -46,6 +46,10 @@ class ProfileUserController extends GetxController {
       isLoading(true);
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
+
+      if (data.user?.createdAt != null) {
+        createdAt.value = DateFormat("dd MMMM yyyy").format(data.user!.createdAt!);
+      }
     } finally {
       isLoading(false);
     }

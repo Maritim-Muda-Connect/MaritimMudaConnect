@@ -96,7 +96,9 @@ class MainDrawerController extends GetxController {
         Get.find<ProfileUserController>().scrollController.jumpTo(0.0);
         break;
       case 1:
-        Get.find<ProfileController>().scrollController.jumpTo(0.0);
+        final profileController = Get.find<ProfileController>();
+        profileController.scrollController.jumpTo(0.0);
+        profileController.setAllController();
         break;
       case 2:
         Get.find<EducationsController>().scrollController.jumpTo(0.0);
@@ -122,5 +124,9 @@ class MainDrawerController extends GetxController {
       default:
         break;
     }
+  }
+
+  void navigateToGeneral() {
+    onItemTapped(1);
   }
 }

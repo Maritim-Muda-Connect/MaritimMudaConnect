@@ -80,6 +80,7 @@ class ProfileController extends GetxController {
   var photoStudent = ''.obs;
   var qrCodeBase64 = ''.obs;
   var refreshKey = 0.obs;
+  var selectedCitizenship = ''.obs;
 
   String get formattedDate {
     return selectedDate.value != null
@@ -287,33 +288,13 @@ class ProfileController extends GetxController {
     isDeletePasswordHidden.value = !isDeletePasswordHidden.value;
   }
 
-  void requestDeleteAccount({required VoidCallback onSuccess}) async {
+  void requestDeleteAccount({required VoidCallback onSuccess}) {
     if (deletePasswordController.text.isEmpty) {
       customSnackbar("Please fill the password", secondaryRedColor);
       return;
     }
 
-    try {
-      isLoading(true);
-      final request = DeleteAccountRequest(
-        password: deletePasswordController.text,
-        confirmDelete: "",
-        reason: deleteReasonController.text,
-      );
-
-      final response = await GeneralService().deleteAccountRequest(request);
-
-      if (!response.success &&
-          (response.message.toLowerCase().contains("password tidak valid"))) {
-        customSnackbar(response.message, secondaryRedColor);
-      } else {
-        onSuccess();
-      }
-    } catch (e) {
-      customSnackbar("An error occurred", secondaryRedColor);
-    } finally {
-      isLoading(false);
-    }
+    onSuccess();
   }
 
   void confirmDeleteAccount() async {
@@ -365,7 +346,7 @@ class ProfileController extends GetxController {
         customSnackbar(response.message, secondaryRedColor);
       }
     } catch (e) {
-      customSnackbar("An error occurred", secondaryRedColor);
+      customSnackbar("An error occurred: ${e.toString()}", secondaryRedColor);
     } finally {
       isLoading(false);
       deleteReasonController.clear();
@@ -496,6 +477,7 @@ class ProfileController extends GetxController {
       linkedinProfile: linkedInController.text,
       instagramProfile: instagramController.text,
       gender: selectedGender.value,
+      citizenship: selectedCitizenship.value,
       placeOfBirth: placeOfBirthController.text,
       dateOfBirth: dateOfBirthController.text,
       firstExpertiseId: selectedFirstExpertise.value,
@@ -521,12 +503,12 @@ class ProfileController extends GetxController {
     if (isProfileValid && isIdentityValid && isPaymentValid) {
       try {
         isLoading(true);
-        bool success = await GeneralService().notifyMemberCard();
-        if (success) {
+        String? errorMsg = await GeneralService().notifyMemberCard();
+        if (errorMsg == null) {
           customSnackbar("Email Terkirim!");
         } else {
           customSnackbar(
-            "Failed to send email",
+            errorMsg,
             secondaryRedColor,
           );
         }

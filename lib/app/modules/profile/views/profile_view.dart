@@ -10,7 +10,6 @@ import 'package:maritimmuda_connect/themes.dart';
 import '../controllers/profile_controller.dart';
 import 'package:maritimmuda_connect/app/modules/widget/custom_button.dart';
 import 'package:maritimmuda_connect/app/data/utils/countries.dart';
-import 'package:maritimmuda_connect/app/modules/widget/profile_button.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
 import 'package:maritimmuda_connect/app/data/utils/expertise.dart';
 
@@ -559,15 +558,25 @@ class ProfileView extends GetView<ProfileController> {
                               fontStyle: FontStyle.italic),
                         ),
                         const SizedBox(height: 24),
-                        ProfileButton(
-                          icon:
-                              Icon(Icons.save_outlined, color: neutral01Color),
-                          text: 'Save',
-                          color: primaryDarkBlueColor,
-                          onTap: () {
-                            if (controller.validateForm()) {
-                              int firstExpertiseId =
-                                  controller.getFirstExpertiseId(
+                        SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryDarkBlueColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            icon: Icon(Icons.save_outlined, color: neutral01Color),
+                            label: Text(
+                              "Save",
+                              style: boldText14.copyWith(color: neutral01Color),
+                            ),
+                            onPressed: () {
+                              if (controller.validateForm()) {
+                                int firstExpertiseId =
+                                    controller.getFirstExpertiseId(
                                 controller.selectedFirstExpertise.value,
                               );
 
@@ -620,7 +629,26 @@ class ProfileView extends GetView<ProfileController> {
                                 paymentFile,
                               );
                             }
-                          },
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryBlueColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () => controller.submitKTA(),
+                            child: Text(
+                              "Create KTA",
+                              style: boldText14.copyWith(color: neutral01Color),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 16),
                         Divider(color: neutral02Color, thickness: 3),

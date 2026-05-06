@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/request/delete_account_request.dart';
@@ -29,13 +30,51 @@ class GeneralService {
       DeleteAccountRequest request) async {
     String? token = await UserPreferences().getToken();
 
+    final url = Uri.parse("$baseUrl/user/delete-request");
+    log("Sending delete account request to: $url");
+    log("Delete account request body: ${jsonEncode(request.toJson())}");
+
     final response = await http.post(
-      Uri.parse("$baseUrl/user/delete-request"),
+      url,
       headers: headerWithToken(token!),
       body: jsonEncode(request.toJson()),
     );
 
-    return deleteAccountResponseFromJson(response.body);
+    log("Delete account response status: ${response.statusCode}");
+    log("Delete account response body: ${response.body}");
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      try {
+        return deleteAccountResponseFromJson(response.body);
+      } catch (e) {
+        return DeleteAccountResponse(success: true, message: "Request processed");
+      }
+    } else {
+      if (response.statusCode == 429) {
+        return DeleteAccountResponse(
+          success: false,
+          message: 'Too Many Attempts. Please try again later.',
+        );
+      } else if (response.statusCode >= 500) {
+        return DeleteAccountResponse(
+          success: false,
+          message: 'Server error. Please try again later.',
+        );
+      }
+
+      try {
+        final data = jsonDecode(response.body);
+        return DeleteAccountResponse(
+          success: false,
+          message: data['message'] ?? 'An error occurred',
+        );
+      } catch (e) {
+        return DeleteAccountResponse(
+          success: false,
+          message: 'An error occurred',
+        );
+      }
+    }
   }
 
   Future<bool> updateGeneral(
@@ -96,6 +135,38 @@ class GeneralService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<String?> notifyMemberCard() async {
+    String? token = await UserPreferences().getToken();
+
+    final url = Uri.parse("$baseUrl/profile/notify-member-card");
+    log("Sending notify member card request to: $url");
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      },
+    );
+
+    log("Notify member card response status: ${response.statusCode}");
+    log("Notify member card response body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      return null;
+    } else {
+      try {
+        final data = jsonDecode(response.body);
+        if (data['message'] != null) {
+          return data['message'];
+        }
+      } catch (e) {
+        // ignore json decode error
+      }
+      return "Failed to send email";
     }
   }
 }

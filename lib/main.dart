@@ -13,22 +13,24 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (MediaQuery.of(context).size.width > 600) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Maritim Muda Connect",
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      builder: (context, child) {
+        final shortestSide = MediaQuery.of(context).size.shortestSide;
+        if (shortestSide >= 500) {
           SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
             DeviceOrientation.landscapeLeft,
             DeviceOrientation.landscapeRight,
           ]);
         } else {
           SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
         }
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: "Maritim Muda Connect",
-          initialRoute: AppPages.INITIAL,
-          getPages: AppPages.routes,
-        );
+        return child!;
       },
     );
   }

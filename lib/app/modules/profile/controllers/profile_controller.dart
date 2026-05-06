@@ -68,17 +68,19 @@ class ProfileController extends GetxController {
   final selectedYear = Rx<int?>(null);
   String svgString = '';
 
-  final generalData = GeneralResponse().obs;
-  final selectedFirstExpertise = 0.obs;
-  final selectedSecondExpertise = 0.obs;
-  final selectedGender = 0.obs;
-  final selectedCitizenship = ''.obs;
-  final photoImage = ''.obs;
-  final photoIdentity = ''.obs;
-  final photoPayment = ''.obs;
-  final isLoading = false.obs;
-  final photoStudent = ''.obs;
-  final qrCodeBase64 = ''.obs;
+  var generalData = GeneralResponse().obs;
+  var selectedFirstExpertise = 0.obs;
+  var selectedSecondExpertise = 0.obs;
+  var selectedGender = 0.obs;
+  var province = 1.obs;
+  var photoImage = ''.obs;
+  var photoIdentity = ''.obs;
+  var photoPayment = ''.obs;
+  var isLoading = false.obs;
+  var photoStudent = ''.obs;
+  var qrCodeBase64 = ''.obs;
+  var refreshKey = 0.obs;
+  var selectedCitizenship = ''.obs;
 
   String get formattedDate {
     return selectedDate.value != null
@@ -286,33 +288,13 @@ class ProfileController extends GetxController {
     isDeletePasswordHidden.value = !isDeletePasswordHidden.value;
   }
 
-  void requestDeleteAccount({required VoidCallback onSuccess}) async {
+  void requestDeleteAccount({required VoidCallback onSuccess}) {
     if (deletePasswordController.text.isEmpty) {
       customSnackbar("Please fill the password", secondaryRedColor);
       return;
     }
 
-    try {
-      isLoading(true);
-      final request = DeleteAccountRequest(
-        password: deletePasswordController.text,
-        confirmDelete: "",
-        reason: deleteReasonController.text,
-      );
-
-      final response = await GeneralService().deleteAccountRequest(request);
-
-      if (!response.success &&
-          (response.message.toLowerCase().contains("password tidak valid"))) {
-        customSnackbar(response.message, secondaryRedColor);
-      } else {
-        onSuccess();
-      }
-    } catch (e) {
-      customSnackbar("An error occurred", secondaryRedColor);
-    } finally {
-      isLoading(false);
-    }
+    onSuccess();
   }
 
   void confirmDeleteAccount() async {
@@ -364,7 +346,7 @@ class ProfileController extends GetxController {
         customSnackbar(response.message, secondaryRedColor);
       }
     } catch (e) {
-      customSnackbar("An error occurred", secondaryRedColor);
+      customSnackbar("An error occurred: ${e.toString()}", secondaryRedColor);
     } finally {
       isLoading(false);
       deleteReasonController.clear();
@@ -430,6 +412,8 @@ class ProfileController extends GetxController {
     try {
       isLoading(true);
       resetAllErrors();
+      PaintingBinding.instance.imageCache.clear();
+      refreshKey.value++;
       var data = await GeneralService().fetchGeneral();
       generalData.value = data;
 
@@ -456,11 +440,11 @@ class ProfileController extends GetxController {
 
       if (success) {
         await Future.delayed(const Duration(seconds: 2));
+        await fetchGeneral();
         photoImagePath.value = '';
         identityImagePath.value = '';
         paymentImagePath.value = '';
         customSnackbar("Profile updated successfully");
-        fetchGeneral();
         Get.put(HomeController());
         Get.put(ProfileUserController());
         Get.put(EKtaController());
@@ -485,6 +469,112 @@ class ProfileController extends GetxController {
     secondExpertiseError.value = '';
     identityCardError.value = '';
     studentCardError.value = '';
+  }
+
+  void submitUpdateProfile() {
+    var request = GeneralRequest(
+      name: nameController.text,
+      linkedinProfile: linkedInController.text,
+      instagramProfile: instagramController.text,
+      gender: selectedGender.value,
+      citizenship: selectedCitizenship.value,
+      placeOfBirth: placeOfBirthController.text,
+      dateOfBirth: dateOfBirthController.text,
+      firstExpertiseId: selectedFirstExpertise.value,
+      secondExpertiseId: selectedSecondExpertise.value,
+      permanentAddress: addressController.text,
+      residenceAddress: residenceAddressController.text,
+      bio: bioController.text,
+    );
+
+    updateGeneral(
+      request,
+      File(photoImagePath.value),
+      File(identityImagePath.value),
+      File(paymentImagePath.value),
+    );
+  }
+
+  void submitKTA() async {
+    bool isProfileValid = photoImagePath.value.isNotEmpty || (photoImage.value.isNotEmpty && !photoImage.value.contains("via") && !photoImage.value.contains("cloudinary") && !photoImage.value.contains("default"));
+    bool isIdentityValid = identityImagePath.value.isNotEmpty || (photoIdentity.value.isNotEmpty && !photoIdentity.value.contains("via") && !photoIdentity.value.contains("cloudinary"));
+    bool isPaymentValid = paymentImagePath.value.isNotEmpty || (photoPayment.value.isNotEmpty && !photoPayment.value.contains("via") && !photoPayment.value.contains("cloudinary"));
+
+    if (isProfileValid && isIdentityValid && isPaymentValid) {
+      try {
+        isLoading(true);
+        String? errorMsg = await GeneralService().notifyMemberCard();
+        if (errorMsg == null) {
+          customSnackbar("Email Terkirim!");
+        } else {
+          customSnackbar(
+            errorMsg,
+            secondaryRedColor,
+          );
+        }
+      } catch (e) {
+        customSnackbar(
+          "An error occurred: $e",
+          secondaryRedColor,
+        );
+      } finally {
+        isLoading(false);
+      }
+    } else {
+      Get.dialog(
+        Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFFF3B47D), width: 3),
+                  ),
+                  child: const Text(
+                    "!",
+                    style: TextStyle(
+                      fontSize: 48,
+                      color: Color(0xFFF3B47D),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  "To create a membership card, you must upload a Profile Photo,National Identity Card and Student Card/Business Card.",
+                  textAlign: TextAlign.center,
+                  style: regulerText14.copyWith(color: neutral04Color, fontSize: 16),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: 100,
+                  height: 40,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF5A728A),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                    onPressed: () => Get.back(),
+                    child: Text(
+                      "Close",
+                      style: regulerText14.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override

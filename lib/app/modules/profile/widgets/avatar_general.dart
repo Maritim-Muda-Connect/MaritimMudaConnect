@@ -29,20 +29,34 @@ class AvatarGeneral extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(200),
                       ),
-                      child: CircleAvatar(
-                        maxRadius: 180,
-                        foregroundImage:
-                            Image.network(controller.photoImage.value).image,
-                        backgroundImage:
-                            Image.network(controller.photoImage.value).image,
+                      child: ClipOval(
+                        child: SizedBox(
+                          width: 360,
+                          height: 360,
+                          child: Image.network(
+                            controller.photoImage.value,
+                            key: ValueKey(controller.refreshKey.value),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Center(child: Icon(Icons.person, size: 100, color: Colors.grey)),
+                          ),
+                        ),
                       ),
                     ),
                   );
                 },
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage:
-                      Image.network(controller.photoImage.value).image,
+                child: ClipOval(
+                  child: SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: Image.network(
+                      controller.photoImage.value,
+                      key: ValueKey(controller.refreshKey.value),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(color: Colors.grey[300], child: const Icon(Icons.person, size: 50, color: Colors.grey)),
+                    ),
+                  ),
                 ),
               );
             } else {

@@ -36,37 +36,34 @@ class HomeView extends GetView<HomeController> {
               }
               return false;
             },
-            child: SafeArea(
-              top: false,
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.zero,
-                children: [
-                  SizedBox(height: MediaQuery.of(context).padding.top + 8),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                                "assets/images/logo_maritim_muda_connect.png"),
-                            const SizedBox(width: 16),
-                            Image.asset("assets/images/logo_maritim.png"),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        _buildGreetingCard(),
-                      ],
-                    ),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                SizedBox(height: MediaQuery.of(context).padding.top + 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                              "assets/images/logo_maritim_muda_connect.png"),
+                          const SizedBox(width: 16),
+                          Image.asset("assets/images/logo_maritim.png"),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      _buildGreetingCard(),
+                    ],
                   ),
-                  const SizedBox(height: 32),
-                  _buildLatestEvents(),
-                  const SizedBox(height: 16),
-                  _buildMenuGrid(context),
-                  const SizedBox(height: 50),
-                ],
-              ),
+                ),
+                const SizedBox(height: 32),
+                _buildLatestEvents(),
+                const SizedBox(height: 16),
+                _buildMenuGrid(context),
+                const SizedBox(height: 120),
+              ],
             ),
           ),
           Positioned(
@@ -317,9 +314,13 @@ class HomeView extends GetView<HomeController> {
                 String? uid = await UserPreferences().getUid();
                 if (uid == null || uid.isEmpty) {
                   if (!SnackbarController.isSnackbarBeingShown) {
+                    debugPrint("Snackbar muncul");
+                    debugPrint("Snackbar Controller: ${SnackbarController.isSnackbarBeingShown}");
                     customSnackbar(
                         "This account doesn't have E-KTA", secondaryRedColor);
                   }
+                  debugPrint("Snackbar ga muncul");
+
                 } else {
                   Get.to(
                     () => const EventView(),

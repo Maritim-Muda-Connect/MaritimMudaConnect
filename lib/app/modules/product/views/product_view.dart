@@ -119,7 +119,7 @@ class ProductView extends GetView<ProductController> {
                       : const CatalogList();
                 }),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 120),
             ],
           ),
         ),

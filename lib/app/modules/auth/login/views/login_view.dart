@@ -15,10 +15,10 @@ class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: neutral02Color,
-        body: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: neutral02Color,
+      body: SafeArea(
+        child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Center(
             child: Column(

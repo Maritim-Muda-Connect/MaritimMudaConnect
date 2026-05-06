@@ -63,4 +63,4 @@ ios/.symlinks/
 ios/Flutter/Flutter.framework
 ios/Flutter/Flutter.podspec
 ios/ServiceDefinitions.json
-ios/Runner/GeneratedPluginRegistrant.*
+ios/Runner/GeneratedPluginRegistrant.**.hprof

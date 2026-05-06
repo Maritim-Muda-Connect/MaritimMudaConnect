@@ -245,6 +245,23 @@ class ProfileController extends GetxController {
       initialDate: selectedDate.value ?? DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: primaryDarkBlueColor,
+              onPrimary: neutral01Color,
+              onSurface: neutral04Color,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: primaryDarkBlueColor,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null && picked != selectedDate.value) {
       selectedDate.value = picked;

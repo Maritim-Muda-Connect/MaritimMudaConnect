@@ -623,7 +623,7 @@ class ProfileView extends GetView<ProfileController> {
                           },
                         ),
                         const SizedBox(height: 16),
-                        Divider(color: neutral02Color, thickness: 1),
+                        Divider(color: neutral02Color, thickness: 3),
                         const SizedBox(height: 16),
                         Text('Delete Account',
                             style:
@@ -662,7 +662,7 @@ class ProfileView extends GetView<ProfileController> {
                         const SizedBox(height: 24),
                         Obx(
                           () => Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.centerLeft,
                             child: CustomButton(
                               text: "Request Account Deletion",
                               height: 35,

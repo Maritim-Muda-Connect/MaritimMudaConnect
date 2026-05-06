@@ -84,8 +84,16 @@ class ProfileView extends GetView<ProfileController> {
                                             )
                                           : Image.network(
                                               controller.photoIdentity.value,
+                                              key: ValueKey(controller.refreshKey.value),
                                               fit: BoxFit.cover,
                                               width: double.infinity,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  "assets/images/process_identity.png",
+                                                  fit: BoxFit.cover,
+                                                  width: double.infinity,
+                                                );
+                                              },
                                             ),
                                     )
                                   : ClipRRect(
@@ -149,8 +157,24 @@ class ProfileView extends GetView<ProfileController> {
                                             )
                                           : Image.network(
                                               controller.photoPayment.value,
+                                              key: ValueKey(controller.refreshKey.value),
                                               fit: BoxFit.cover,
                                               width: double.infinity,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return Center(
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      const Icon(Icons.hourglass_empty, size: 32, color: Colors.grey),
+                                                      const SizedBox(height: 8),
+                                                      Text(
+                                                        "Processing Student/Business Card",
+                                                        style: semiBoldText12.copyWith(color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
                                             ),
                                     )
                                   : ClipRRect(
@@ -162,6 +186,42 @@ class ProfileView extends GetView<ProfileController> {
                                       ),
                                     ),
                             ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryDarkBlueColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () => controller.submitUpdateProfile(),
+                          child: Text(
+                            "Update Profile",
+                            style: boldText14.copyWith(color: neutral01Color),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryBlueColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () => controller.submitKTA(),
+                          child: Text(
+                            "Create KTA",
+                            style: boldText14.copyWith(color: neutral01Color),
                           ),
                         ),
                       ),

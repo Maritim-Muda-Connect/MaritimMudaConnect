@@ -40,9 +40,11 @@ class MainView extends StatelessWidget {
               notchMargin: 8,
               elevation: 4,
               child: Padding(
-                padding: MediaQuery.of(context).size.width > 600
-                    ? const EdgeInsets.symmetric(horizontal: 350)
-                    : const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width > 500
+                      ? (MediaQuery.of(context).size.width - 500) / 2
+                      : 20,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(

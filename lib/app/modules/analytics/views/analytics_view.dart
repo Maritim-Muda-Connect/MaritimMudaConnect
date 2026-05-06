@@ -50,7 +50,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 ],
               ),
             ),
-            // const SizedBox(height: 180),
+            const SizedBox(height: 120),
           ],
         ),
       ),

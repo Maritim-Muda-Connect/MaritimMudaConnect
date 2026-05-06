@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
@@ -73,7 +74,39 @@ class GeneralService {
       request.files.add(payment);
     }
 
+    log("Sending update profile request to: $url");
+    log("Request fields: ${request.fields}");
+    log("Request files: ${request.files.map((f) => f.filename).toList()}");
+
     var response = await request.send();
+    var responseData = await response.stream.bytesToString();
+
+    log("Update profile response status: ${response.statusCode}");
+    log("Update profile response body: $responseData");
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> notifyMemberCard() async {
+    String? token = await UserPreferences().getToken();
+
+    final url = Uri.parse("$baseUrl/profile/notify-member-card");
+    log("Sending notify member card request to: $url");
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      },
+    );
+
+    log("Notify member card response status: ${response.statusCode}");
+    log("Notify member card response body: ${response.body}");
 
     if (response.statusCode == 200) {
       return true;

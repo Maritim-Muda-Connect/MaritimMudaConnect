@@ -102,8 +102,13 @@ class MainView extends StatelessWidget {
               if (uid == null || uid.isEmpty) {
                 if (SnackbarController.isSnackbarBeingShown == false) {
                   customSnackbar(
-                      "This account doesn't have E-KTA", secondaryRedColor);
+                      "Please complete your profile first to access E-KTA",
+                      secondaryRedColor);
                 }
+                await Future.delayed(const Duration(milliseconds: 500));
+                controller.updateIndex(3);
+                controller.pageController.jumpToPage(3);
+                drawerController.navigateToGeneral();
               } else {
                 Get.to(
                   () => const EKtaView(),

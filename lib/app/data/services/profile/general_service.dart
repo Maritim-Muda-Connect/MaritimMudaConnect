@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:maritimmuda_connect/app/data/models/request/delete_account_request.dart';
 import 'package:maritimmuda_connect/app/data/models/request/general_request.dart';
@@ -12,11 +13,16 @@ import 'package:maritimmuda_connect/app/data/utils/user_preference.dart';
 class GeneralService {
   Future<GeneralResponse> fetchGeneral() async {
     String? token = await UserPreferences().getToken();
+    final url = Uri.parse("$baseUrl/profile/general");
+    _log("Fetching general profile from: $url");
 
     final response = await http.get(
-      Uri.parse("$baseUrl/profile/general"),
+      url,
       headers: headerWithToken(token!),
     );
+
+    _log("Fetch general profile response status: ${response.statusCode}");
+    _log("Fetch general profile response body: ${response.body}");
 
     if (response.statusCode == 200) {
       var data = generalResponseFromJson(response.body);
@@ -31,8 +37,8 @@ class GeneralService {
     String? token = await UserPreferences().getToken();
 
     final url = Uri.parse("$baseUrl/user/delete-request");
-    log("Sending delete account request to: $url");
-    log("Delete account request body: ${jsonEncode(request.toJson())}");
+    _log("Sending delete account request to: $url");
+    _log("Delete account request body: ${jsonEncode(request.toJson())}");
 
     final response = await http.post(
       url,
@@ -40,8 +46,8 @@ class GeneralService {
       body: jsonEncode(request.toJson()),
     );
 
-    log("Delete account response status: ${response.statusCode}");
-    log("Delete account response body: ${response.body}");
+    _log("Delete account response status: ${response.statusCode}");
+    _log("Delete account response body: ${response.body}");
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       try {
@@ -86,6 +92,9 @@ class GeneralService {
     String? token = await UserPreferences().getToken();
 
     final url = Uri.parse("$baseUrl/profile/general");
+    _log("Updating general profile at: $url");
+    _log("Request fields: ${requests.toJson()}");
+
     var request = http.MultipartRequest("POST", url);
 
     request.headers['Authorization'] = 'Bearer $token';
@@ -111,6 +120,7 @@ class GeneralService {
         filename: imagePhoto.path.split('/').last,
       );
       request.files.add(photo);
+      _log("Adding photo file: ${imagePhoto.path}");
     }
     if (imageIdentity.path.isNotEmpty) {
       var identity = await http.MultipartFile.fromPath(
@@ -119,6 +129,7 @@ class GeneralService {
         filename: imageIdentity.path.split('/').last,
       );
       request.files.add(identity);
+      _log("Adding identity card file: ${imageIdentity.path}");
     }
     if (imagePayment.path.isNotEmpty) {
       var payment = await http.MultipartFile.fromPath(
@@ -127,9 +138,13 @@ class GeneralService {
         filename: imagePayment.path.split('/').last,
       );
       request.files.add(payment);
+      _log("Adding payment file: ${imagePayment.path}");
     }
 
     var response = await request.send();
+    final responseBody = await response.stream.bytesToString();
+    _log("Update profile response status: ${response.statusCode}");
+    _log("Update profile response body: $responseBody");
 
     if (response.statusCode == 200) {
       return true;
@@ -142,7 +157,7 @@ class GeneralService {
     String? token = await UserPreferences().getToken();
 
     final url = Uri.parse("$baseUrl/profile/notify-member-card");
-    log("Sending notify member card request to: $url");
+    _log("Sending notify member card request to: $url");
 
     final response = await http.post(
       url,
@@ -152,8 +167,8 @@ class GeneralService {
       },
     );
 
-    log("Notify member card response status: ${response.statusCode}");
-    log("Notify member card response body: ${response.body}");
+    _log("Notify member card response status: ${response.statusCode}");
+    _log("Notify member card response body: ${response.body}");
 
     if (response.statusCode == 200) {
       return null;
@@ -167,6 +182,12 @@ class GeneralService {
         // ignore json decode error
       }
       return "Failed to send email";
+    }
+  }
+
+  void _log(String message) {
+    if (kDebugMode) {
+      log(message);
     }
   }
 }

@@ -174,11 +174,11 @@ class ProfileView extends GetView<ProfileController> {
                                 hintText: 'Choose your gender',
                                 options: controller.genderOptions,
                                 selectedOption:
-                                    controller.selectedGender.value >= 0 &&
-                                            controller.selectedGender.value <
+                                    controller.selectedGender.value >= 1 &&
+                                            controller.selectedGender.value <=
                                                 controller.genderOptions.length
                                         ? controller.genderOptions[
-                                            controller.selectedGender.value]
+                                            controller.selectedGender.value - 1]
                                         : '',
                                 onSelected: (String? value) {
                                   controller.setGender(value);
@@ -575,17 +575,7 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                             onPressed: () {
                               if (controller.validateForm()) {
-                                int firstExpertiseId =
-                                    controller.getFirstExpertiseId(
-                                controller.selectedFirstExpertise.value,
-                              );
-
-                              int secondExpertiseId =
-                                  controller.getSecondExpertiseId(
-                                controller.selectedSecondExpertise.value,
-                              );
-
-                              final request = GeneralRequest(
+                                final request = GeneralRequest(
                                 name: controller.nameController.text,
                                 linkedinProfile:
                                     controller.linkedInController.text,
@@ -596,8 +586,10 @@ class ProfileView extends GetView<ProfileController> {
                                     controller.placeOfBirthController.text,
                                 dateOfBirth:
                                     controller.dateOfBirthController.text,
-                                firstExpertiseId: firstExpertiseId,
-                                secondExpertiseId: secondExpertiseId,
+                                firstExpertiseId:
+                                    controller.selectedFirstExpertise.value,
+                                secondExpertiseId:
+                                    controller.selectedSecondExpertise.value,
                                 permanentAddress:
                                     controller.addressController.text,
                                 residenceAddress:

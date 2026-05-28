@@ -71,7 +71,7 @@ class ProfileController extends GetxController {
   var generalData = GeneralResponse().obs;
   var selectedFirstExpertise = 0.obs;
   var selectedSecondExpertise = 0.obs;
-  var selectedGender = 0.obs;
+  var selectedGender = (-1).obs;
   var province = 1.obs;
   var photoImage = ''.obs;
   var photoIdentity = ''.obs;
@@ -88,43 +88,6 @@ class ProfileController extends GetxController {
         : '';
   }
 
-  int mapExpertise(int value) {
-    if (value == 54) {
-      return 0;
-    }
-    if (value >= 1 && value <= 25) {
-      return value;
-    } else if (value >= 27 && value <= 50) {
-      return value - 26;
-    } else if (value >= 52 && value <= 53) {
-      return value - 51;
-    } else if (value >= 55 && value <= 75) {
-      return value - 54;
-    }
-    return 0;
-  }
-
-  int getFirstExpertiseId(int index) {
-    if (index == 0) return 1;
-    if (index >= 1 && index <= 25) {
-      return index;
-    }
-    return 1;
-  }
-
-  int getSecondExpertiseId(int index) {
-    if (index == 0) return 54;
-    if (index >= 1 && index <= 24) {
-      return index + 26;
-    }
-    if (index == 25) {
-      return 52;
-    }
-    if (index >= 26) {
-      return index + 29;
-    }
-    return 54;
-  }
 
   @override
   void onInit() {
@@ -149,10 +112,10 @@ class ProfileController extends GetxController {
       isValid = false;
     }
 
-    if (selectedGender.value >= 0 &&
-        selectedGender.value < genderOptions.length) {}
+    if (selectedGender.value >= 1 &&
+        selectedGender.value <= genderOptions.length) {}
 
-    if (selectedGender.value < 0) {
+    if (selectedGender.value <= 0) {
       genderError.value = 'Please select your gender';
       isValid = false;
     }
@@ -204,7 +167,7 @@ class ProfileController extends GetxController {
 
   void setGender(String? value) {
     if (value != null) {
-      selectedGender.value = genderOptions.indexOf(value);
+      selectedGender.value = genderOptions.indexOf(value) + 1;
       if (selectedFirstExpertise.value > 0 &&
           selectedFirstExpertise.value == selectedSecondExpertise.value) {
         secondExpertiseError.value =
@@ -381,19 +344,14 @@ class ProfileController extends GetxController {
     bioController.text = generalData.value.user?.bio ?? '';
 
     int genderFromApi = generalData.value.user?.gender ?? -1;
-    if (genderFromApi == 0) {
-      selectedGender.value = 0;
-    } else if (genderFromApi == 1) {
-      selectedGender.value = 1;
+    if (genderFromApi == 1 || genderFromApi == 2) {
+      selectedGender.value = genderFromApi;
     } else {
       selectedGender.value = -1;
     }
 
-    int firstExpertiseIdApi = generalData.value.user?.firstExpertiseId ?? 0;
-    int secondExpertiseIdApi = generalData.value.user?.secondExpertiseId ?? 0;
-
-    selectedFirstExpertise.value = mapExpertise(firstExpertiseIdApi);
-    selectedSecondExpertise.value = mapExpertise(secondExpertiseIdApi);
+    selectedFirstExpertise.value = generalData.value.user?.firstExpertiseId ?? 0;
+    selectedSecondExpertise.value = generalData.value.user?.secondExpertiseId ?? 0;
 
     photoImage.value = generalData.value.user?.photoLink ?? '';
     photoIdentity.value = generalData.value.user?.identityCardLink ?? '';
